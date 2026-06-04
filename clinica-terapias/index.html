@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clínica Florescer | Gestão Terapêutica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegação principal">
+      <div class="brand">
+        <div class="brand-mark">CF</div>
+        <div>
+          <strong>Clínica Florescer</strong>
+          <span>Terapias multidisciplinares</span>
+        </div>
+      </div>
+
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="dashboard" type="button"><span>Visão geral</span></button>
+        <button class="nav-item" data-view="agenda" type="button"><span>Agenda</span></button>
+        <button class="nav-item" data-view="sessions" type="button"><span>Sessões</span></button>
+        <button class="nav-item" data-view="finance" type="button"><span>Fluxo de caixa</span></button>
+        <button class="nav-item" data-view="patients" type="button"><span>Pacientes</span></button>
+        <button class="nav-item" data-view="team" type="button"><span>Profissionais</span></button>
+        <button class="nav-item" data-view="reports" type="button"><span>Relatórios</span></button>
+      </nav>
+
+      <div class="sidebar-panel">
+        <span>Saldo do mês</span>
+        <strong id="sidebarBalance">R$ 0,00</strong>
+        <small id="sidebarMonth">Junho 2026</small>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Operação clínica</p>
+          <h1 id="viewTitle">Visão geral</h1>
+        </div>
+        <div class="top-actions">
+          <button class="ghost-button compact" id="backupBtn" type="button" title="Exportar backup">Backup</button>
+          <label class="ghost-button compact file-button" title="Importar backup">
+            Importar
+            <input id="restoreInput" type="file" accept="application/json">
+          </label>
+          <button class="primary-button" id="quickSessionBtn" type="button">Registrar sessão</button>
+        </div>
+      </header>
+
+      <section class="view active" id="dashboard">
+        <div class="metric-grid">
+          <article class="metric-card">
+            <span>Entradas no mês</span>
+            <strong id="incomeMetric">R$ 0,00</strong>
+            <small id="incomeTrend">Recebimentos confirmados</small>
+          </article>
+          <article class="metric-card">
+            <span>Saídas no mês</span>
+            <strong id="expenseMetric">R$ 0,00</strong>
+            <small>Gastos, repasses e extras</small>
+          </article>
+          <article class="metric-card">
+            <span>Sessões realizadas</span>
+            <strong id="doneSessionsMetric">0</strong>
+            <small id="pendingSessionsMetric">0 pendentes</small>
+          </article>
+          <article class="metric-card">
+            <span>Repasses previstos</span>
+            <strong id="payoutMetric">R$ 0,00</strong>
+            <small>Baseado nas sessões realizadas</small>
+          </article>
+        </div>
+
+        <div class="dashboard-layout">
+          <section class="panel">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Hoje</p>
+                <h2>Agenda do dia</h2>
+              </div>
+              <button class="ghost-button" data-view-jump="agenda" type="button">Ver agenda</button>
+            </div>
+            <div class="timeline" id="todayTimeline"></div>
+          </section>
+
+          <section class="panel">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Financeiro</p>
+                <h2>Resumo por tipo</h2>
+              </div>
+            </div>
+            <div class="bars" id="financeBars"></div>
+          </section>
+        </div>
+
+        <section class="panel">
+          <div class="section-title">
+            <div>
+              <p class="eyebrow">Produtividade</p>
+              <h2>Sessões por profissional</h2>
+            </div>
+          </div>
+          <div class="professional-strip" id="professionalSummary"></div>
+        </section>
+      </section>
+
+      <section class="view" id="agenda">
+        <div class="toolbar">
+          <div class="filters">
+            <input id="scheduleDateFilter" type="date">
+            <select id="scheduleProfessionalFilter"></select>
+            <select id="scheduleStatusFilter">
+              <option value="all">Todos os status</option>
+              <option value="Agendado">Agendado</option>
+              <option value="Confirmado">Confirmado</option>
+              <option value="Realizado">Realizado</option>
+              <option value="Falta">Falta</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+          </div>
+          <button class="primary-button" data-open-modal="appointmentModal" type="button">Novo agendamento</button>
+        </div>
+        <div class="schedule-list" id="scheduleBoard"></div>
+      </section>
+
+      <section class="view" id="sessions">
+        <div class="toolbar">
+          <div class="filters">
+            <input id="sessionSearch" type="search" placeholder="Buscar paciente, profissional ou terapia">
+            <select id="sessionMonthFilter"></select>
+          </div>
+          <button class="primary-button" data-open-modal="sessionModal" type="button">Registrar sessão</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Paciente</th>
+                <th>Profissional</th>
+                <th>Terapia</th>
+                <th>Status</th>
+                <th>Valor</th>
+                <th>Pagamento</th>
+              </tr>
+            </thead>
+            <tbody id="sessionsTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="finance">
+        <div class="finance-layout">
+          <form class="panel form-grid" id="transactionForm">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Caixa</p>
+                <h2>Lançamento financeiro</h2>
+              </div>
+            </div>
+            <label>Tipo
+              <select name="type" required>
+                <option value="entrada">Entrada</option>
+                <option value="saida">Saída</option>
+              </select>
+            </label>
+            <label>Categoria
+              <select name="category" required>
+                <option>Mensalidade</option>
+                <option>Sessão avulsa</option>
+                <option>Convênio</option>
+                <option>Repasse profissional</option>
+                <option>Aluguel</option>
+                <option>Materiais terapêuticos</option>
+                <option>Folha de pagamento</option>
+                <option>Marketing</option>
+                <option>Manutenção</option>
+                <option>Gasto extra</option>
+              </select>
+            </label>
+            <label>Descrição
+              <input name="description" required placeholder="Ex.: pagamento João - fono">
+            </label>
+            <label>Valor
+              <input name="amount" type="number" min="0" step="0.01" required placeholder="0,00">
+            </label>
+            <label>Data
+              <input name="date" type="date" required>
+            </label>
+            <label>Status
+              <select name="status" required>
+                <option>Pago</option>
+                <option>Pendente</option>
+                <option>Atrasado</option>
+              </select>
+            </label>
+            <button class="primary-button" type="submit">Salvar lançamento</button>
+          </form>
+
+          <section class="panel">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Movimentações</p>
+                <h2>Entradas e saídas</h2>
+              </div>
+              <div class="top-actions">
+                <button class="ghost-button" id="generatePayoutsBtn" type="button">Gerar repasses</button>
+                <button class="ghost-button" id="exportFinanceBtn" type="button">Exportar CSV</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Tipo</th>
+                    <th>Categoria</th>
+                    <th>Descrição</th>
+                    <th>Status</th>
+                    <th>Valor</th>
+                  </tr>
+                </thead>
+                <tbody id="transactionsTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="patients">
+        <div class="toolbar">
+          <input id="patientSearch" type="search" placeholder="Buscar paciente ou responsável">
+          <button class="primary-button" data-open-modal="patientModal" type="button">Novo paciente</button>
+        </div>
+        <div class="card-grid" id="patientsGrid"></div>
+      </section>
+
+      <section class="view" id="team">
+        <div class="toolbar">
+          <input id="teamSearch" type="search" placeholder="Buscar profissional ou especialidade">
+          <button class="primary-button" data-open-modal="professionalModal" type="button">Novo profissional</button>
+        </div>
+        <div class="card-grid" id="teamGrid"></div>
+      </section>
+
+      <section class="view" id="reports">
+        <div class="report-grid">
+          <section class="panel">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Receita</p>
+                <h2>Receita por terapia</h2>
+              </div>
+            </div>
+            <div id="therapyReport" class="report-list"></div>
+          </section>
+          <section class="panel">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Controle</p>
+                <h2>Pacientes com pendências</h2>
+              </div>
+            </div>
+            <div id="pendingReport" class="report-list"></div>
+          </section>
+          <section class="panel wide">
+            <div class="section-title">
+              <div>
+                <p class="eyebrow">Decisão</p>
+                <h2>Indicadores gerenciais</h2>
+              </div>
+            </div>
+            <div class="insight-grid" id="insightGrid"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="appointmentModal">
+    <form method="dialog" class="modal-form" id="appointmentForm">
+      <div class="modal-head">
+        <h2>Novo agendamento</h2>
+        <button class="icon-button" value="cancel" type="button" data-close-modal>×</button>
+      </div>
+      <label>Paciente<select name="patientId" required></select></label>
+      <label>Profissional<select name="professionalId" required></select></label>
+      <label>Terapia
+        <select name="therapy" required>
+          <option value="">Selecione</option>
+          <option>Psicologia infantil</option>
+          <option>Terapia ocupacional</option>
+          <option>Fonoaudiologia</option>
+          <option>Psicopedagogia</option>
+          <option>Fisioterapia</option>
+          <option>Musicoterapia</option>
+          <option>ABA</option>
+          <option>Integração sensorial</option>
+          <option>Orientação parental</option>
+          <option>Avaliação multidisciplinar</option>
+        </select>
+      </label>
+      <div class="two-cols">
+        <label>Data<input name="date" type="date" required></label>
+        <label>Hora<input name="time" type="time" required></label>
+      </div>
+      <label>Duração
+        <select name="duration" required>
+          <option value="30">30 minutos</option>
+          <option value="45">45 minutos</option>
+          <option value="50" selected>50 minutos</option>
+          <option value="60">1 hora</option>
+          <option value="90">1h30</option>
+        </select>
+      </label>
+      <label>Status
+        <select name="status" required>
+          <option>Agendado</option>
+          <option>Confirmado</option>
+          <option>Realizado</option>
+          <option>Falta</option>
+          <option>Cancelado</option>
+        </select>
+      </label>
+      <label>Observações<textarea name="notes" rows="3" placeholder="Orientações, sala, materiais..."></textarea></label>
+      <button class="primary-button" type="submit">Salvar agendamento</button>
+    </form>
+  </dialog>
+
+  <dialog id="appointmentDetailsModal">
+    <div class="modal-form">
+      <div class="modal-head">
+        <h2>Detalhes do atendimento</h2>
+        <button class="icon-button" value="cancel" type="button" data-close-modal>×</button>
+      </div>
+      <div id="appointmentDetailsContent"></div>
+      <div class="detail-actions">
+        <button class="ghost-button" id="rescheduleAppointmentBtn" type="button">Remarcar</button>
+        <button class="ghost-button danger-action" id="cancelAppointmentBtn" type="button">Cancelar terapia</button>
+        <button class="primary-button" id="completeAppointmentBtn" type="button">Realizar sessão</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="sessionModal">
+    <form method="dialog" class="modal-form" id="sessionForm">
+      <div class="modal-head">
+        <h2>Registrar sessão</h2>
+        <button class="icon-button" value="cancel" type="button" data-close-modal>×</button>
+      </div>
+      <label>Paciente<select name="patientId" required></select></label>
+      <label>Profissional<select name="professionalId" required></select></label>
+      <label>Terapia
+        <select name="therapy" required>
+          <option value="">Selecione</option>
+          <option>Psicologia infantil</option>
+          <option>Terapia ocupacional</option>
+          <option>Fonoaudiologia</option>
+          <option>Psicopedagogia</option>
+          <option>Fisioterapia</option>
+          <option>Musicoterapia</option>
+          <option>ABA</option>
+          <option>Integração sensorial</option>
+          <option>Orientação parental</option>
+          <option>Avaliação multidisciplinar</option>
+        </select>
+      </label>
+      <div class="two-cols">
+        <label>Data<input name="date" type="date" required></label>
+        <label>Valor<input name="amount" type="number" min="0" step="0.01" required></label>
+      </div>
+      <div class="two-cols">
+        <label>Status
+          <select name="status" required>
+            <option>Realizada</option>
+            <option>Falta</option>
+            <option>Cancelada</option>
+            <option>Reposição</option>
+          </select>
+        </label>
+        <label>Pagamento
+          <select name="paymentStatus" required>
+            <option>Pago</option>
+            <option>Pendente</option>
+            <option>Convênio</option>
+          </select>
+        </label>
+      </div>
+      <label>Evolução/observações<textarea name="notes" rows="3" placeholder="Resumo administrativo da sessão"></textarea></label>
+      <button class="primary-button" type="submit">Registrar sessão</button>
+    </form>
+  </dialog>
+
+  <dialog id="patientModal">
+    <form method="dialog" class="modal-form" id="patientForm">
+      <div class="modal-head">
+        <h2>Novo paciente</h2>
+        <button class="icon-button" value="cancel" type="button" data-close-modal>×</button>
+      </div>
+      <label>Nome da criança<input name="name" required></label>
+      <label>Responsável<input name="guardian" required></label>
+      <div class="two-cols">
+        <label>Telefone<input name="phone" required></label>
+        <label>Diagnóstico/hipótese<input name="diagnosis" placeholder="TEA, TDAH..."></label>
+      </div>
+      <label>Plano terapêutico<textarea name="plan" rows="3" placeholder="Terapias, frequência, objetivos"></textarea></label>
+      <button class="primary-button" type="submit">Salvar paciente</button>
+    </form>
+  </dialog>
+
+  <dialog id="professionalModal">
+    <form method="dialog" class="modal-form" id="professionalForm">
+      <div class="modal-head">
+        <h2>Novo profissional</h2>
+        <button class="icon-button" value="cancel" type="button" data-close-modal>×</button>
+      </div>
+      <label>Nome<input name="name" required></label>
+      <label>Especialidade<input name="specialty" required placeholder="Psicologia, Fono, TO..."></label>
+      <div class="two-cols">
+        <label>Repasse %<input name="commission" type="number" min="0" max="100" step="1" required></label>
+        <label>Telefone<input name="phone"></label>
+      </div>
+      <label>Agenda base<textarea name="availability" rows="3" placeholder="Segunda a sexta, 08h às 18h"></textarea></label>
+      <button class="primary-button" type="submit">Salvar profissional</button>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

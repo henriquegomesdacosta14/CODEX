@@ -1,0 +1,4114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>21 Dias de Devocional para Casal</title>
+  <style>
+    :root {
+      --ink: #27312f;
+      --muted: #68716d;
+      --page: #f7f3ec;
+      --paper: #fffdf8;
+      --paper-2: #fbf6ef;
+      --line: #e7dacb;
+      --gold: #bd8b3f;
+      --gold-dark: #936829;
+      --sage: #6c8675;
+      --sage-dark: #435f51;
+      --rose: #b06b63;
+      --blue: #5d7d91;
+      --shadow: 0 24px 60px rgba(77, 61, 42, .16);
+      --radius: 8px;
+      --focus: 0 0 0 4px rgba(189, 139, 63, .22);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(189, 139, 63, .16), transparent 28rem),
+        radial-gradient(circle at 82% 0%, rgba(108, 134, 117, .20), transparent 25rem),
+        linear-gradient(135deg, #f9f5ee 0%, #f1eadf 48%, #f6efe6 100%);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(1160px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: clamp(520px, 84vh, 760px);
+      display: grid;
+      align-content: end;
+      border: 1px solid rgba(231, 218, 203, .82);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      background:
+        linear-gradient(180deg, rgba(39, 49, 47, .08), rgba(39, 49, 47, .70)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 900'%3E%3Cdefs%3E%3ClinearGradient id='sky' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23d9c6a7'/%3E%3Cstop offset='.42' stop-color='%23ece2d2'/%3E%3Cstop offset='1' stop-color='%23748b7a'/%3E%3C/linearGradient%3E%3ClinearGradient id='light' x1='0' x2='0' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%23fff8df' stop-opacity='.92'/%3E%3Cstop offset='1' stop-color='%23fff8df' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1400' height='900' fill='url(%23sky)'/%3E%3Cpath d='M0 650 C220 550 355 720 540 610 C725 500 860 570 1010 505 C1180 430 1295 440 1400 380 L1400 900 L0 900 Z' fill='%235d735f' opacity='.72'/%3E%3Cpath d='M0 725 C210 650 355 790 560 700 C730 625 885 640 1055 585 C1210 535 1310 550 1400 500 L1400 900 L0 900 Z' fill='%233e5548' opacity='.82'/%3E%3Cpath d='M704 160 L704 548' stroke='%23fff4cb' stroke-width='26' stroke-linecap='round' opacity='.9'/%3E%3Cpath d='M595 288 L813 288' stroke='%23fff4cb' stroke-width='24' stroke-linecap='round' opacity='.9'/%3E%3Cpath d='M704 160 L704 548' stroke='%23b27b38' stroke-width='7' stroke-linecap='round' opacity='.55'/%3E%3Cpath d='M595 288 L813 288' stroke='%23b27b38' stroke-width='7' stroke-linecap='round' opacity='.55'/%3E%3Cpath d='M705 120 L530 900 L880 900 Z' fill='url(%23light)' opacity='.42'/%3E%3Ccircle cx='255' cy='260' r='92' fill='%23fff5cc' opacity='.42'/%3E%3Cpath d='M190 505 C250 455 315 455 370 505 C430 455 495 455 555 505' stroke='%23fff8e5' stroke-width='18' stroke-linecap='round' fill='none' opacity='.55'/%3E%3Cpath d='M865 520 C940 450 1025 450 1092 520 C1152 472 1228 475 1290 526' stroke='%23fff8e5' stroke-width='18' stroke-linecap='round' fill='none' opacity='.45'/%3E%3C/svg%3E");
+      background-position: center;
+      background-size: cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(39, 49, 47, .62), transparent 55%),
+        linear-gradient(0deg, rgba(39, 49, 47, .46), transparent 46%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: min(760px, 100%);
+      padding: clamp(28px, 6vw, 72px);
+      color: #fffdf8;
+      text-shadow: 0 2px 18px rgba(0, 0, 0, .32);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: #fff0c9;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 36px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin-bottom: 18px;
+      font-size: clamp(2.25rem, 7vw, 5.5rem);
+      line-height: .98;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 660px;
+      margin-bottom: 30px;
+      color: rgba(255, 253, 248, .92);
+      font-size: clamp(1.05rem, 2.4vw, 1.45rem);
+      line-height: 1.55;
+    }
+
+    .hero-actions,
+    .top-actions,
+    .day-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 13px 18px;
+      color: #fffdf8;
+      background: var(--sage-dark);
+      box-shadow: 0 12px 24px rgba(39, 49, 47, .20);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(39, 49, 47, .24);
+      background: var(--sage);
+    }
+
+    .button:focus-visible,
+    .day-card:focus-visible {
+      outline: none;
+      box-shadow: var(--focus);
+    }
+
+    .button.secondary {
+      color: var(--ink);
+      background: rgba(255, 253, 248, .92);
+      box-shadow: 0 12px 24px rgba(39, 49, 47, .12);
+    }
+
+    .button.secondary:hover {
+      background: #fffdf8;
+    }
+
+    .button.completed {
+      background: var(--gold-dark);
+    }
+
+    .button svg {
+      width: 19px;
+      height: 19px;
+      flex: 0 0 auto;
+    }
+
+    .progress-panel {
+      margin: -34px auto 0;
+      position: relative;
+      z-index: 2;
+      width: min(1030px, calc(100% - 34px));
+      border: 1px solid rgba(231, 218, 203, .92);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      background: rgba(255, 253, 248, .97);
+      box-shadow: 0 18px 40px rgba(77, 61, 42, .14);
+      backdrop-filter: blur(12px);
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .progress-track {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #eadfce;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--sage), var(--gold));
+      transition: width .35s ease;
+    }
+
+    .content {
+      padding: 42px 0 24px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.05;
+    }
+
+    .section-title p {
+      max-width: 450px;
+      margin: 0;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .day-card {
+      min-height: 156px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      color: inherit;
+      background: rgba(255, 253, 248, .86);
+      box-shadow: 0 12px 28px rgba(77, 61, 42, .08);
+      text-align: left;
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .day-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(189, 139, 63, .55);
+      box-shadow: 0 18px 36px rgba(77, 61, 42, .13);
+    }
+
+    .day-card.done {
+      border-color: rgba(108, 134, 117, .55);
+      background: linear-gradient(180deg, rgba(255, 253, 248, .96), rgba(236, 243, 238, .92));
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+
+    .day-number {
+      color: var(--gold-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: transparent;
+      background: #fffaf0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .82rem;
+      font-weight: 900;
+    }
+
+    .done .status-dot {
+      border-color: rgba(108, 134, 117, .7);
+      color: #fff;
+      background: var(--sage);
+    }
+
+    .day-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.35rem;
+      line-height: 1.15;
+    }
+
+    .day-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .88rem;
+      line-height: 1.5;
+    }
+
+    .day-card.done h3 {
+      color: var(--sage-dark);
+    }
+
+    .detail {
+      display: none;
+    }
+
+    .detail.active {
+      display: block;
+    }
+
+    .home.hidden {
+      display: none;
+    }
+
+    .day-header {
+      overflow: hidden;
+      border: 1px solid rgba(231, 218, 203, .92);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .day-banner {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      min-height: 260px;
+      background:
+        linear-gradient(135deg, rgba(67, 95, 81, .95), rgba(68, 83, 78, .88)),
+        radial-gradient(circle at 80% 20%, rgba(255, 245, 204, .45), transparent 22rem);
+      color: #fffdf8;
+    }
+
+    .day-banner-copy {
+      padding: clamp(24px, 5vw, 48px);
+      align-self: end;
+    }
+
+    .day-banner-copy h2 {
+      margin-bottom: 14px;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 1;
+    }
+
+    .day-banner-copy p {
+      margin: 0;
+      color: rgba(255, 253, 248, .86);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+    }
+
+    .day-visual {
+      min-height: 260px;
+      background:
+        linear-gradient(180deg, transparent, rgba(39, 49, 47, .28)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 700'%3E%3Crect width='900' height='700' fill='%23d9c6a7'/%3E%3Cpath d='M0 470 C115 430 190 505 295 470 C395 435 470 370 590 420 C710 470 765 360 900 395 L900 700 L0 700 Z' fill='%236d846e'/%3E%3Cpath d='M0 548 C150 500 260 585 400 540 C520 500 615 515 750 480 C825 460 870 475 900 488 L900 700 L0 700 Z' fill='%23445f50'/%3E%3Ccircle cx='230' cy='170' r='72' fill='%23fff2c0' opacity='.7'/%3E%3Cpath d='M470 105 L470 430' stroke='%23fff7d8' stroke-width='28' stroke-linecap='round'/%3E%3Cpath d='M375 215 L565 215' stroke='%23fff7d8' stroke-width='26' stroke-linecap='round'/%3E%3Cpath d='M470 105 L470 430' stroke='%23a87531' stroke-width='8' stroke-linecap='round' opacity='.45'/%3E%3Cpath d='M375 215 L565 215' stroke='%23a87531' stroke-width='8' stroke-linecap='round' opacity='.45'/%3E%3Cpath d='M468 78 L315 700 L660 700 Z' fill='%23fff8dd' opacity='.28'/%3E%3C/svg%3E");
+      background-position: center;
+      background-size: cover;
+    }
+
+    .day-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+    }
+
+    .meta-item {
+      min-height: 90px;
+      padding: 18px;
+      background: var(--paper);
+    }
+
+    .meta-label {
+      margin-bottom: 8px;
+      color: var(--gold-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .meta-item p {
+      margin: 0;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
+    }
+
+    .day-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start;
+    }
+
+    .article,
+    .side-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 248, .92);
+      box-shadow: 0 14px 30px rgba(77, 61, 42, .09);
+    }
+
+    .article {
+      padding: clamp(24px, 5vw, 44px);
+    }
+
+    .article-section + .article-section {
+      margin-top: 32px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+    }
+
+    .article h3,
+    .side-panel h3 {
+      margin-bottom: 14px;
+      font-size: 1.55rem;
+      line-height: 1.15;
+    }
+
+    .article h3 {
+      padding-left: 14px;
+      border-left: 4px solid var(--sage);
+    }
+
+    .article p {
+      margin-bottom: 16px;
+      color: #34413e;
+      font-size: 1.08rem;
+      line-height: 1.82;
+    }
+
+    .article p:last-child {
+      margin-bottom: 0;
+    }
+
+    .scripture {
+      position: relative;
+      padding: 24px;
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      color: #34413e;
+      background: #f8efe2;
+      font-size: 1.14rem;
+      line-height: 1.72;
+    }
+
+    .scripture strong {
+      color: var(--gold-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .9rem;
+    }
+
+    .side-panel {
+      position: sticky;
+      top: 18px;
+      padding: 18px;
+    }
+
+    .side-panel h3 {
+      font-size: 1.25rem;
+    }
+
+    .side-panel p {
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+    }
+
+    .side-progress {
+      margin: 18px 0;
+      padding: 16px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(67, 95, 81, .08), rgba(189, 139, 63, .06));
+      border: 1px solid rgba(108, 134, 117, .22);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .side-progress strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--sage-dark);
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .small-list {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      margin-top: 16px;
+    }
+
+    .mini-day {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) - 2px);
+      color: var(--muted);
+      background: #fffaf0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .76rem;
+      font-weight: 800;
+      transition: background .2s ease, border-color .2s ease;
+    }
+
+    .mini-day.done {
+      color: #fff;
+      border-color: var(--sage);
+      background: var(--sage);
+    }
+
+    .mini-day.current {
+      border-color: var(--gold);
+      box-shadow: var(--focus);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      margin: 0 0 18px;
+    }
+
+    .top-bar .button {
+      box-shadow: 0 10px 22px rgba(77, 61, 42, .12);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .auth {
+      min-height: calc(100vh - 48px);
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(360px, 1.05fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .auth.hidden {
+      display: none;
+    }
+
+    .auth-intro,
+    .auth-card,
+    .couple-panel,
+    .settings-panel {
+      border: 1px solid rgba(231, 218, 203, .92);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 248, .92);
+      box-shadow: var(--shadow);
+    }
+
+    .auth-intro {
+      min-height: 640px;
+      display: grid;
+      align-content: end;
+      padding: clamp(28px, 6vw, 56px);
+      color: #fffdf8;
+      background:
+        linear-gradient(180deg, rgba(39, 49, 47, .10), rgba(39, 49, 47, .76)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 900'%3E%3Crect width='900' height='900' fill='%23d8c5aa'/%3E%3Cpath d='M0 620 C120 540 240 700 390 590 C530 488 650 520 900 430 L900 900 L0 900 Z' fill='%236b8372'/%3E%3Cpath d='M0 720 C130 640 260 780 430 670 C595 565 700 625 900 555 L900 900 L0 900 Z' fill='%233f594c'/%3E%3Cpath d='M455 145 L455 560' stroke='%23fff6d6' stroke-width='30' stroke-linecap='round'/%3E%3Cpath d='M340 285 L570 285' stroke='%23fff6d6' stroke-width='28' stroke-linecap='round'/%3E%3Ccircle cx='170' cy='180' r='78' fill='%23fff2bd' opacity='.62'/%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .auth-intro h1 {
+      font-size: clamp(2.35rem, 6vw, 4.8rem);
+    }
+
+    .auth-intro p {
+      max-width: 600px;
+      color: rgba(255, 253, 248, .9);
+      font-size: 1.08rem;
+      line-height: 1.65;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, .32);
+    }
+
+    .auth-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .access-switch {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid rgba(231, 218, 203, .92);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 248, .92);
+      box-shadow: 0 16px 36px rgba(77, 61, 42, .11);
+    }
+
+    .access-switch .button {
+      width: 100%;
+      box-shadow: none;
+    }
+
+    .access-switch .button:not(.active) {
+      color: var(--ink);
+      background: #fffaf0;
+    }
+
+    .auth-card {
+      padding: clamp(22px, 4vw, 34px);
+      box-shadow: 0 16px 36px rgba(77, 61, 42, .11);
+    }
+
+    .auth-card.hidden {
+      display: none;
+    }
+
+    .auth-card h2,
+    .couple-panel h2,
+    .settings-panel h2,
+    .notes-panel h3 {
+      margin-bottom: 10px;
+      font-size: clamp(1.55rem, 3vw, 2.15rem);
+      line-height: 1.12;
+    }
+
+    .auth-card p,
+    .couple-panel p,
+    .settings-panel p,
+    .notes-panel p {
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+    }
+
+    .form-grid,
+    .settings-grid,
+    .notes-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .form-grid.two,
+    .notes-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .9rem;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px 13px;
+      color: var(--ink);
+      background: #fffaf0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 500;
+      line-height: 1.45;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .field textarea {
+      min-height: 170px;
+      resize: vertical;
+    }
+
+    .note-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: -2px;
+    }
+
+    .tool-button {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 7px 10px;
+      color: var(--ink);
+      background: #fffaf0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .86rem;
+      font-weight: 800;
+      box-shadow: none;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .tool-button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(189, 139, 63, .6);
+      background: #fff6e6;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: var(--focus);
+    }
+
+    .check-field {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .check-field input {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--sage-dark);
+    }
+
+    .code-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 16px;
+      padding: 14px;
+      border: 1px dashed rgba(147, 104, 41, .55);
+      border-radius: var(--radius);
+      color: var(--gold-dark);
+      background: #fff6e6;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+    }
+
+    .code-box strong {
+      font-size: 1.25rem;
+      letter-spacing: .08em;
+    }
+
+    .notice {
+      margin-top: 12px;
+      color: var(--sage-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .92rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .couple-panel,
+    .settings-panel {
+      margin-top: 16px;
+      padding: clamp(18px, 3vw, 28px);
+      box-shadow: 0 14px 30px rgba(77, 61, 42, .09);
+    }
+
+    .couple-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .couple-code {
+      display: inline-flex;
+      align-items: center;
+      min-height: 46px;
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      color: #fffdf8;
+      background: var(--gold-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      letter-spacing: .08em;
+      white-space: nowrap;
+    }
+
+    .settings-grid {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+
+    .couple-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 248, .88);
+      box-shadow: 0 14px 30px rgba(77, 61, 42, .08);
+    }
+
+    .couple-tab-button {
+      flex: 1 1 170px;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      color: var(--sage-dark);
+      background: #fffaf0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .couple-tab-button.active {
+      border-color: var(--sage-dark);
+      color: #fffdf8;
+      background: var(--sage-dark);
+    }
+
+    .notify-dot {
+      display: none;
+      width: 9px;
+      height: 9px;
+      margin-left: 7px;
+      border-radius: 999px;
+      background: var(--rose);
+      box-shadow: 0 0 0 3px rgba(143, 69, 61, .16);
+      vertical-align: middle;
+    }
+
+    .notify-dot.active {
+      display: inline-block;
+    }
+
+    .home-tab-panel.hidden {
+      display: none;
+    }
+
+    .guidance-panel,
+    .journey-panel {
+      margin-top: 18px;
+      padding: clamp(18px, 3vw, 26px);
+      border: 1px solid rgba(231, 218, 203, .92);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 248, .92);
+      box-shadow: 0 14px 30px rgba(77, 61, 42, .09);
+    }
+
+    .guidance-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .guidance-card {
+      min-height: 120px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: #fffaf0;
+    }
+
+    .guidance-card.wide {
+      grid-column: 1 / -1;
+    }
+
+    .guidance-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .guidance-card p,
+    .guidance-content {
+      margin: 0;
+      color: #3a4440;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .92rem;
+      line-height: 1.65;
+      white-space: pre-wrap;
+    }
+
+    .guidance-content {
+      display: grid;
+      gap: 10px;
+    }
+
+    .guidance-topic {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: #fffdf8;
+    }
+
+    .guidance-topic strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+      font-size: .98rem;
+    }
+
+    .journey-panel .button {
+      margin-top: 14px;
+    }
+
+    .private-note-panel {
+      display: grid;
+      gap: 18px;
+      max-width: 920px;
+      margin: 0 auto;
+      padding-top: 8px;
+    }
+
+    .private-note-panel h2 {
+      margin: 0;
+      text-align: center;
+      font-size: clamp(1.55rem, 3vw, 2.15rem);
+    }
+
+    .private-chat-intro {
+      margin: -4px auto 4px;
+      max-width: 620px;
+      text-align: center;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .95rem;
+      line-height: 1.6;
+    }
+
+    .private-identity-selector {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .private-identity-label {
+      margin: 0 0 16px;
+      color: var(--sage-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .private-identity-subtitle {
+      margin: -8px 0 18px;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .9rem;
+    }
+
+    .private-identity-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .private-id-btn {
+      position: relative;
+      min-height: 54px;
+      padding: 14px 18px;
+      border-radius: calc(var(--radius) - 2px);
+      border: 1px solid var(--line);
+      background: #fffdf8;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform .2s, border-color .2s;
+    }
+
+    .private-id-btn:hover, .private-id-btn.selected {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .private-id-btn.has-unread::after {
+      content: "";
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #d92d20;
+      box-shadow: 0 0 0 2px #fffdf8;
+    }
+
+    .private-note-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .private-password-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow);
+    }
+    .private-note-who {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .private-note-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .private-replies {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .private-reply-card {
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .72);
+      padding: 12px 14px;
+    }
+
+    .private-reply-card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--accent);
+      font-size: .85rem;
+    }
+
+    .private-reply-card p {
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .private-chat-window {
+      min-height: 320px;
+      max-height: 520px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.72), rgba(248,242,232,.88));
+    }
+
+    .private-chat-empty {
+      margin: auto;
+      color: var(--muted);
+      text-align: center;
+      font-size: .95rem;
+    }
+
+    .private-chat-row {
+      display: flex;
+      width: 100%;
+    }
+
+    .private-chat-row.mine {
+      justify-content: flex-end;
+    }
+
+    .private-chat-row.theirs {
+      justify-content: flex-start;
+    }
+
+    .private-chat-bubble {
+      max-width: min(78%, 560px);
+      padding: 10px 12px 8px;
+      border-radius: 16px;
+      box-shadow: 0 8px 22px rgba(54, 41, 26, .08);
+      font-size: .96rem;
+      line-height: 1.45;
+    }
+
+    .private-chat-row.mine .private-chat-bubble {
+      border-bottom-right-radius: 4px;
+      background: #dfeedd;
+      color: var(--text);
+    }
+
+    .private-chat-row.theirs .private-chat-bubble {
+      border-bottom-left-radius: 4px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .private-chat-name {
+      display: block;
+      margin-bottom: 4px;
+      font-size: .72rem;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .private-chat-text {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .private-chat-meta {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .private-chat-delete {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+    }
+
+    .journey-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffaf0;
+    }
+
+    .journey-tab-button {
+      flex: 1 1 150px;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--sage-dark);
+      background: #fffdf8;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .journey-tab-button.active {
+      border-color: var(--sage-dark);
+      color: #fffdf8;
+      background: var(--sage-dark);
+    }
+
+    .journey-tab-panel.hidden {
+      display: none;
+    }
+
+    .dreams-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .journey-list-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      background: #fffaf0;
+    }
+
+    .journey-list-card h3 {
+      margin: 0 0 12px;
+      font-size: 1.18rem;
+    }
+
+    .dream-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .dream-arrow {
+      width: 28px;
+      height: 28px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .2s ease;
+      background: #fffdf8;
+    }
+
+    .dream-toggle.open .dream-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dream-body.hidden {
+      display: none;
+    }
+
+    .inline-add {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .inline-add input {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      background: #fffdf8;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .inline-add select {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      background: #fffdf8;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+    }
+
+    .journey-list-card textarea,
+    .bulk-topic-input {
+      width: 100%;
+      min-height: 120px;
+      margin-top: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: #fffdf8;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
+      resize: vertical;
+    }
+
+    .compact-button {
+      width: 100%;
+      margin-top: 8px;
+      min-height: 40px;
+    }
+
+    .check-list,
+    .preset-options,
+    .custom-topic-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .wide-card {
+      grid-column: 1 / -1;
+    }
+
+    .custom-topic-card {
+      border: 1px solid rgba(231, 218, 203, .88);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: rgba(255, 253, 248, .78);
+    }
+
+    .custom-topic-card input {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      background: #fffdf8;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 800;
+    }
+
+    .check-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid rgba(231, 218, 203, .88);
+      border-radius: var(--radius);
+      padding: 9px 10px;
+      background: rgba(255, 253, 248, .78);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+    }
+
+    .check-row input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--sage-dark);
+    }
+
+    .check-row.done span {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .remove-item {
+      min-height: 30px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 5px 9px;
+      color: var(--rose);
+      background: transparent;
+      box-shadow: none;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .notification-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .notification-button {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 253, 248, .92);
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+    }
+
+    .notification-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .notification-dot {
+      display: none;
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #dc2626;
+      border: 2px solid #fffdf8;
+    }
+
+    .notification-dot.active {
+      display: block;
+    }
+
+    .notification-popover {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: min(280px, 82vw);
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fffdf8;
+      box-shadow: var(--shadow);
+      z-index: 20;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .notification-popover.hidden {
+      display: none;
+    }
+
+    .notification-popover h3 {
+      margin: 0 0 8px;
+      font-size: .94rem;
+    }
+
+    .notification-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .notification-item {
+      border-left: 3px solid var(--gold);
+      padding: 6px 0 6px 9px;
+      line-height: 1.35;
+      color: var(--ink);
+      font-size: .9rem;
+    }
+
+    .notification-item small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: .78rem;
+    }
+
+    .muted-small {
+      margin: 0;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.35;
+    }
+
+    .day-card.locked {
+      cursor: not-allowed;
+      opacity: .72;
+      background: rgba(244, 237, 226, .84);
+    }
+
+    .day-card.locked h3 {
+      color: var(--muted);
+    }
+
+    .lock-label {
+      color: var(--rose);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .locked-message {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: var(--radius);
+      color: var(--sage-dark);
+      background: #edf3ee;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .note-status {
+      min-height: 22px;
+      margin-top: 10px;
+      color: var(--sage-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .9rem;
+      font-weight: 800;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 13px 22px;
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: #fffdf8;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .95rem;
+      font-weight: 700;
+      box-shadow: 0 8px 28px rgba(39, 49, 47, .32);
+      z-index: 200;
+      max-width: min(440px, calc(100vw - 32px));
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .toast.hidden {
+      display: none;
+    }
+
+    .notif-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .notif-head h3 {
+      margin: 0;
+    }
+
+    .notif-clear {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .82rem;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 2px 6px;
+      min-height: auto;
+      box-shadow: none;
+    }
+
+    .journey-autosave {
+      min-height: 18px;
+      margin-top: 6px;
+      color: var(--sage-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: .86rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .auth,
+      .couple-panel,
+      .settings-grid,
+      .form-grid.two,
+      .notes-grid,
+      .guidance-grid,
+      .dreams-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .private-identity-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .auth-intro {
+        min-height: 520px;
+      }
+
+      .days-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .day-banner,
+      .day-body {
+        grid-template-columns: 1fr;
+      }
+
+      .day-visual {
+        min-height: 220px;
+      }
+
+      .side-panel {
+        position: static;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title h2 {
+        margin-bottom: 12px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .app {
+        padding: 12px;
+      }
+
+      .hero {
+        min-height: 620px;
+        align-content: end;
+      }
+
+      .hero::after {
+        background:
+          linear-gradient(180deg, rgba(39, 49, 47, .12), rgba(39, 49, 47, .78)),
+          linear-gradient(90deg, rgba(39, 49, 47, .42), transparent 70%);
+      }
+
+      .hero-content {
+        padding: 24px;
+      }
+
+      .hero-actions,
+      .top-actions,
+      .day-actions,
+      .top-bar,
+      .couple-panel {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .progress-panel {
+        width: calc(100% - 14px);
+        margin-top: -26px;
+      }
+
+      .progress-head {
+        display: block;
+      }
+
+      .progress-head span {
+        display: block;
+      }
+
+      .progress-head span + span {
+        margin-top: 4px;
+      }
+
+      .days-grid,
+      .day-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .day-card {
+        min-height: 144px;
+      }
+
+      .content {
+        padding-top: 30px;
+      }
+
+      .article {
+        padding: 22px;
+      }
+
+      .article p {
+        font-size: 1.02rem;
+      }
+
+      .scripture {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="shell">
+      <section id="authView" class="auth">
+        <div class="auth-intro">
+          <div>
+            <p class="eyebrow">Plataforma para casais</p>
+            <h1>Devocional compartilhado por código</h1>
+            <p>Cadastre o casal, gere um código único e permita que os dois acessem a mesma jornada de 21 dias, com progresso, anotações individuais e bloqueio dos próximos dias para manter a experiência como uma surpresa diária.</p>
+          </div>
+        </div>
+
+        <div class="auth-stack">
+          <form class="auth-card" id="accessCoupleForm">
+            <h2>Entrar no devocional</h2>
+            <p>Digite o código recebido para acessar a jornada compartilhada do casal.</p>
+            <div class="form-grid">
+              <label class="field">
+                Código do casal
+                <input id="accessCodeInput" type="text" placeholder="Ex.: LAR-123456" required>
+              </label>
+              <button class="button secondary" type="submit">Acessar devocional</button>
+            </div>
+            <div class="notice" id="authMessage"></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="homeView" class="home hidden">
+        <header class="hero">
+          <div class="hero-content">
+            <p class="eyebrow">Propósito de 21 dias</p>
+            <h1>21 Dias de Devocional para Casal</h1>
+            <p class="subtitle">Um propósito de restauração, unidade e presença de Deus no relacionamento</p>
+            <div class="hero-actions">
+              <button class="button" id="startButton" type="button" aria-label="Iniciar o devocional">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Iniciar o devocional
+              </button>
+              <button class="button secondary" id="continueButton" type="button">
+                Continuar de onde parei
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <section class="progress-panel" aria-label="Progresso do devocional">
+          <div class="progress-head">
+            <span id="progressText">0 de 21 dias concluídos</span>
+            <span id="progressPercent">0%</span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </section>
+
+        <section class="couple-panel" aria-label="Dados do casal">
+          <div>
+            <p class="eyebrow">Acesso do casal</p>
+            <h2 id="couplePanelTitle">Casal cadastrado</h2>
+            <p id="couplePanelText">Compartilhe este código para os dois acessarem a mesma jornada.</p>
+          </div>
+          <div class="hero-actions">
+            <span class="couple-code" id="coupleCodeBadge">LAR-000000</span>
+            <div class="notification-wrap">
+              <button class="notification-button" id="notificationButton" type="button" aria-label="Ver notificações" aria-expanded="false">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M4 6h16v12H4V6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                  <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="notification-dot" id="notificationDot"></span>
+              </button>
+              <div class="notification-popover hidden" id="notificationPopover">
+                <div class="notif-head">
+                  <h3>Atualizações</h3>
+                  <button class="notif-clear" id="clearNotificationsButton" type="button">Limpar</button>
+                </div>
+                <div class="notification-list" id="notificationList"></div>
+              </div>
+            </div>
+            <button class="button secondary" id="logoutButton" type="button">Sair</button>
+          </div>
+        </section>
+
+        <nav class="couple-tabs" aria-label="Área do casal">
+          <button class="couple-tab-button active" type="button" data-home-tab-target="devocional" aria-selected="true">Devocional</button>
+          <button class="couple-tab-button" type="button" data-home-tab-target="orientacoes" aria-selected="false">Orientações</button>
+          <button class="couple-tab-button" type="button" data-home-tab-target="caminhada" aria-selected="false">Nossa Caminhada</button>
+          <button class="couple-tab-button" type="button" data-home-tab-target="privado" aria-selected="false">Mensagem privada</button>
+        </nav>
+
+        <div class="home-tab-panel" data-home-tab-panel="devocional">
+        <section class="settings-panel" aria-label="Configuração do propósito">
+          <h2>Configuração do propósito</h2>
+          <p>Controle se os próximos dias ficam bloqueados para o casal viver uma etapa por dia.</p>
+          <div class="settings-grid">
+            <div class="form-grid">
+              <label class="field">
+                Data de início
+                <input id="startDateInput" type="date">
+              </label>
+              <label class="check-field">
+                <input id="lockFutureDaysInput" type="checkbox">
+                Bloquear os próximos dias e liberar o próximo à meia-noite.
+              </label>
+            </div>
+            <button class="button" id="saveSettingsButton" type="button">Salvar bloqueio</button>
+          </div>
+          <div class="notice" id="settingsMessage"></div>
+        </section>
+
+        <section class="content" id="daysList">
+          <div class="section-title">
+            <h2>Lista dos 21 dias</h2>
+            <p>Cada dia foi preparado para conduzir o casal a uma conversa sincera, uma renúncia prática e uma oração juntos.</p>
+          </div>
+          <div class="days-grid" id="daysGrid"></div>
+        </section>
+        </div>
+
+        <section class="home-tab-panel guidance-panel hidden" data-home-tab-panel="orientacoes">
+          <p class="eyebrow">Terapeuta</p>
+          <h2>Orientações para a caminhada</h2>
+          <p>Direcionamentos preparados pela terapeuta para o casal viver o processo com mais clareza e intenção.</p>
+          <div class="guidance-grid">
+            <article class="guidance-card wide">
+              <h3>Orientação para o casal</h3>
+              <div class="guidance-content" id="guidanceCouple"></div>
+            </article>
+            <article class="guidance-card">
+              <h3 id="guidancePartnerOneTitle">Orientação individual</h3>
+              <div class="guidance-content" id="guidancePartnerOne"></div>
+            </article>
+            <article class="guidance-card">
+              <h3 id="guidancePartnerTwoTitle">Orientação individual</h3>
+              <div class="guidance-content" id="guidancePartnerTwo"></div>
+            </article>
+            <article class="guidance-card">
+              <h3>O que fazer</h3>
+              <div class="guidance-content" id="guidanceDo"></div>
+            </article>
+            <article class="guidance-card">
+              <h3>O que evitar</h3>
+              <div class="guidance-content" id="guidanceAvoid"></div>
+            </article>
+            <article class="guidance-card">
+              <h3>Exercício da semana</h3>
+              <div class="guidance-content" id="guidanceExercise"></div>
+            </article>
+            <article class="guidance-card">
+              <h3>Mensagem da terapeuta</h3>
+              <div class="guidance-content" id="guidanceMessage"></div>
+            </article>
+            <article class="guidance-card wide" id="guidanceCustomTopicsCard">
+              <h3>Outros tópicos da terapeuta</h3>
+              <div class="guidance-content" id="guidanceCustomTopics"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="home-tab-panel journey-panel hidden" data-home-tab-panel="caminhada">
+          <p class="eyebrow">Espaço compartilhado</p>
+          <h2>Nossa Caminhada</h2>
+          <p>Este espaço é preenchido pelo casal e pode ser visualizado pela terapeuta para acompanhar sonhos, expectativas e pontos de amadurecimento.</p>
+          <nav class="journey-tabs" aria-label="Abas da Nossa Caminhada">
+            <button class="journey-tab-button active" type="button" data-journey-tab-target="sonhos" aria-selected="true">Sonhos</button>
+            <button class="journey-tab-button" type="button" data-journey-tab-target="aperfeicoamentos" aria-selected="false">Aperfeiçoamentos</button>
+          </nav>
+
+          <div class="journey-tab-panel" data-journey-tab-panel="sonhos">
+            <div class="dreams-grid">
+              <section class="journey-list-card">
+                <button class="dream-toggle" type="button" data-dream-toggle="dreamsShortBody" aria-expanded="false">
+                  <span>Curto prazo</span>
+                  <span class="dream-arrow">v</span>
+                </button>
+                <div class="dream-body hidden" id="dreamsShortBody">
+                  <div class="inline-add">
+                    <input id="dreamsShortInput" type="text" placeholder="Adicionar sonho de curto prazo">
+                    <button class="button secondary" type="button" data-add-dream="dreamsShort">Adicionar</button>
+                  </div>
+                  <textarea class="bulk-topic-input" id="dreamsShortBulk" placeholder="Cole vários sonhos, um por linha..."></textarea>
+                  <button class="button secondary compact-button" type="button" data-bulk-dream="dreamsShort">Criar tópicos</button>
+                </div>
+                <div class="check-list" id="dreamsShortList"></div>
+              </section>
+              <section class="journey-list-card">
+                <button class="dream-toggle" type="button" data-dream-toggle="dreamsMediumBody" aria-expanded="false">
+                  <span>Médio prazo</span>
+                  <span class="dream-arrow">v</span>
+                </button>
+                <div class="dream-body hidden" id="dreamsMediumBody">
+                  <div class="inline-add">
+                    <input id="dreamsMediumInput" type="text" placeholder="Adicionar sonho de médio prazo">
+                    <button class="button secondary" type="button" data-add-dream="dreamsMedium">Adicionar</button>
+                  </div>
+                  <textarea class="bulk-topic-input" id="dreamsMediumBulk" placeholder="Cole vários sonhos, um por linha..."></textarea>
+                  <button class="button secondary compact-button" type="button" data-bulk-dream="dreamsMedium">Criar tópicos</button>
+                </div>
+                <div class="check-list" id="dreamsMediumList"></div>
+              </section>
+              <section class="journey-list-card">
+                <button class="dream-toggle" type="button" data-dream-toggle="dreamsLongBody" aria-expanded="false">
+                  <span>Longo prazo</span>
+                  <span class="dream-arrow">v</span>
+                </button>
+                <div class="dream-body hidden" id="dreamsLongBody">
+                  <div class="inline-add">
+                    <input id="dreamsLongInput" type="text" placeholder="Adicionar sonho de longo prazo">
+                    <button class="button secondary" type="button" data-add-dream="dreamsLong">Adicionar</button>
+                  </div>
+                  <textarea class="bulk-topic-input" id="dreamsLongBulk" placeholder="Cole vários sonhos, um por linha..."></textarea>
+                  <button class="button secondary compact-button" type="button" data-bulk-dream="dreamsLong">Criar tópicos</button>
+                </div>
+                <div class="check-list" id="dreamsLongList"></div>
+              </section>
+            </div>
+          </div>
+
+          <div class="journey-tab-panel hidden" data-journey-tab-panel="aperfeicoamentos">
+            <div class="dreams-grid">
+              <section class="journey-list-card">
+                <h3 id="improveOneTitle">Pontos a melhorar</h3>
+                <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyImproveOne" type="button">•</button></span>
+                <textarea id="journeyImproveOne" placeholder="Escrevam os pontos de melhoria dessa pessoa..."></textarea>
+              </section>
+              <section class="journey-list-card">
+                <h3 id="improveTwoTitle">Pontos a melhorar</h3>
+                <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyImproveTwo" type="button">•</button></span>
+                <textarea id="journeyImproveTwo" placeholder="Escrevam os pontos de melhoria dessa pessoa..."></textarea>
+              </section>
+              <section class="journey-list-card">
+                <h3 id="recognizeOneTitle">O que reconhecemos de bom</h3>
+                <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyRecognizeOne" type="button">•</button></span>
+                <textarea id="journeyRecognizeOne" placeholder="Virtudes, atitudes e gratidão..."></textarea>
+              </section>
+              <section class="journey-list-card">
+                <h3 id="recognizeTwoTitle">O que reconhecemos de bom</h3>
+                <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyRecognizeTwo" type="button">•</button></span>
+                <textarea id="journeyRecognizeTwo" placeholder="Virtudes, atitudes e gratidão..."></textarea>
+              </section>
+              <section class="journey-list-card wide-card">
+                <h3>Criar outro tópico</h3>
+                <div class="inline-add">
+                  <select id="topicTemplateSelect">
+                    <option value="Conversas importantes">Conversas importantes</option>
+                    <option value="Combinados do casal">Combinados do casal</option>
+                    <option value="Limites saudáveis">Limites saudáveis</option>
+                    <option value="Pedido de perdão">Pedido de perdão</option>
+                    <option value="Gratidão da semana">Gratidão da semana</option>
+                    <option value="Outro tópico">Outro tópico</option>
+                  </select>
+                  <button class="button secondary" id="addCustomTopicButton" type="button">Criar tópico</button>
+                </div>
+                <div class="custom-topic-list" id="customTopicsList"></div>
+              </section>
+            </div>
+          </div>
+
+          <div class="journey-tab-panel hidden" data-journey-tab-panel="outros">
+          <div class="form-grid two">
+            <label class="field">
+              Nossos sonhos
+              <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyDreams" type="button">•</button></span>
+              <textarea id="journeyDreams" placeholder="Quais sonhos queremos construir juntos?"></textarea>
+            </label>
+            <label class="field">
+              O que esperamos construir juntos
+              <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyBuilding" type="button">•</button></span>
+              <textarea id="journeyBuilding" placeholder="O que desejamos fortalecer como casal?"></textarea>
+            </label>
+            <label class="field">
+              Pontos que eu preciso melhorar
+              <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyImproveSelf" type="button">•</button></span>
+              <textarea id="journeyImproveSelf" placeholder="O que eu reconheco que preciso amadurecer?"></textarea>
+            </label>
+            <label class="field">
+              Pontos que esperamos que o outro melhore
+              <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyImproveOther" type="button">•</button></span>
+              <textarea id="journeyImproveOther" placeholder="Escrevam com respeito, sem acusacao."></textarea>
+            </label>
+            <label class="field">
+              O que ainda temos dificuldade de falar
+              <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyDifficultTalk" type="button">•</button></span>
+              <textarea id="journeyDifficultTalk" placeholder="Assuntos sensiveis que precisam de cuidado."></textarea>
+            </label>
+            <label class="field">
+              O que reconhecemos de bom um no outro
+              <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyRecognizeGood" type="button">•</button></span>
+              <textarea id="journeyRecognizeGood" placeholder="Registrem virtudes, atitudes e gratidão."></textarea>
+            </label>
+            <label class="field">
+              Pedido de oração do casal
+              <span class="note-tools"><button class="tool-button" data-text-tool="topic" data-text-target="journeyPrayerRequest" type="button">•</button></span>
+              <textarea id="journeyPrayerRequest" placeholder="Pelo que desejamos orar neste tempo?"></textarea>
+            </label>
+          </div>
+          </div>
+          <button class="button" id="saveJourneyButton" type="button">Salvar Nossa Caminhada</button>
+          <div class="notice" id="journeyMessage"></div>
+          <div class="journey-autosave" id="journeyAutoSaveStatus"></div>
+        </section>
+
+        <section class="home-tab-panel private-note-panel hidden" data-home-tab-panel="privado">
+          <h2>Mensagem para a terapeuta</h2>
+          <p class="private-chat-intro">Escolha seu nome para abrir o chat privado. Cada pessoa acessa somente a própria conversa.</p>
+
+          <div id="privateNoteIdentity" class="private-identity-selector">
+            <p class="private-identity-label">Escolha seu nome</p>
+            <p class="private-identity-subtitle">A senha será solicitada antes de abrir as mensagens.</p>
+            <div class="private-identity-buttons">
+              <button class="private-id-btn" type="button" data-member-id="1" id="selectMemberOne"></button>
+              <button class="private-id-btn" type="button" data-member-id="2" id="selectMemberTwo"></button>
+            </div>
+          </div>
+
+          <div id="privatePasswordPanel" class="private-password-panel hidden">
+            <div class="private-note-who" id="privatePasswordWho"></div>
+            <label class="field">
+              Senha privada
+              <input id="privatePasswordInput" type="password" placeholder="Digite sua senha privada">
+            </label>
+            <div class="private-note-actions">
+              <button class="button" id="unlockPrivateNoteButton" type="button">Confirmar senha</button>
+              <button class="button secondary" id="cancelPrivatePasswordButton" type="button">Voltar</button>
+            </div>
+            <div class="notice" id="privatePasswordMessage"></div>
+          </div>
+
+          <div id="privateNoteForm" class="private-note-form hidden">
+            <div class="private-note-who" id="privateNoteWho"></div>
+            <div class="private-chat-window" id="privateChatMessages"></div>
+            <label class="field">
+              Nova mensagem
+              <textarea id="privateNoteTextarea" rows="3" placeholder="Digite sua mensagem privada..."></textarea>
+            </label>
+            <div class="private-note-actions">
+              <button class="button" id="savePrivateNoteButton" type="button">Enviar mensagem</button>
+              <button class="button secondary" id="changePrivateIdentity" type="button">Trocar pessoa</button>
+            </div>
+            <div class="notice" id="privateNoteMessage"></div>
+          </div>
+        </section>
+      </section>
+
+      <section id="detailView" class="detail" aria-live="polite">
+        <div class="top-bar">
+          <button class="button secondary" id="backButton" type="button">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Voltar à lista de dias
+          </button>
+          <div class="top-actions">
+            <button class="button secondary" id="detailLogoutButton" type="button">Sair</button>
+            <button class="button" id="completeButton" type="button">Marcar como concluído</button>
+          </div>
+        </div>
+
+        <article class="day-header">
+          <div class="day-banner">
+            <div class="day-banner-copy">
+              <p class="eyebrow" id="detailDayNumber">Dia 1</p>
+              <h2 id="detailTitle">Tema do dia</h2>
+              <p id="detailIntro"></p>
+            </div>
+            <div class="day-visual" aria-hidden="true"></div>
+          </div>
+          <div class="day-meta">
+            <div class="meta-item">
+              <div class="meta-label">Texto bíblico</div>
+              <p id="detailReference"></p>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">Renúncia</div>
+              <p id="detailRenunciaShort"></p>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">Ação prática</div>
+              <p id="detailAcaoShort"></p>
+            </div>
+          </div>
+        </article>
+
+        <div class="day-body">
+          <div class="article">
+            <section class="article-section">
+              <h3>Texto bíblico</h3>
+              <div class="scripture" id="detailScripture"></div>
+            </section>
+            <section class="article-section">
+              <h3>Devocional profundo</h3>
+              <div id="detailDevotional"></div>
+            </section>
+            <section class="article-section">
+              <h3>Renúncia do dia</h3>
+              <div id="detailRenuncia"></div>
+            </section>
+            <section class="article-section">
+              <h3>Ação prática para o casal</h3>
+              <div id="detailAction"></div>
+            </section>
+            <section class="article-section">
+              <h3>Oração final</h3>
+              <div id="detailPrayer"></div>
+            </section>
+            <section class="article-section notes-panel">
+              <h3>Anotações do casal</h3>
+              <p>Cada pessoa pode registrar percepções, sentimentos e decisões do dia. As anotações ficam salvas no código do casal.</p>
+              <div class="notes-grid">
+                <label class="field">
+                  <span id="partnerOneNoteLabel">Nome 1</span>
+                  <span class="note-tools" aria-label="Ferramentas das anotações do nome 1">
+                    <button class="tool-button" data-note-tool="topic" data-note-target="one" type="button">•</button>
+                    <button class="tool-button" data-note-tool="check" data-note-target="one" type="button">☐</button>
+                  </span>
+                  <textarea id="partnerOneNote" placeholder="Escreva suas anotações deste dia..."></textarea>
+                </label>
+                <label class="field">
+                  <span id="partnerTwoNoteLabel">Nome 2</span>
+                  <span class="note-tools" aria-label="Ferramentas das anotações do nome 2">
+                    <button class="tool-button" data-note-tool="topic" data-note-target="two" type="button">•</button>
+                    <button class="tool-button" data-note-tool="check" data-note-target="two" type="button">☐</button>
+                  </span>
+                  <textarea id="partnerTwoNote" placeholder="Escreva suas anotações deste dia..."></textarea>
+                </label>
+              </div>
+              <div class="note-status" id="noteStatus"></div>
+              <button class="button secondary" id="refreshNotesButton" type="button">Atualizar anotações</button>
+            </section>
+          </div>
+
+          <aside class="side-panel" aria-label="Resumo do progresso">
+            <h3>Caminhada do casal</h3>
+            <p>Marque cada dia concluído após ler, conversar e orar juntos.</p>
+            <div class="side-progress">
+              <strong id="sidePercent">0%</strong>
+              <span id="sideText">0 de 21 dias concluídos</span>
+            </div>
+            <div class="small-list" id="miniDays"></div>
+          </aside>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div class="toast hidden" id="toast" role="alert" aria-live="polite"></div>
+
+  <script>
+    const COUPLES_KEY = "devocional_21_dias_casais";
+    const SESSION_KEY = "devocional_21_dias_casal_atual";
+    const API_URL = "api.php";
+
+    const devotionals = [
+      {
+        day: 1,
+        title: "O amor que escolhe permanecer",
+        intro: "O primeiro passo do propósito é recordar que o amor cristão não vive apenas de emoção, mas de decisão, cuidado e permanência.",
+        reference: "1 Coríntios 13:4-7",
+        scripture: "Paulo ensina que o amor é paciente, bondoso, não se alimenta de orgulho e tudo sofre, tudo crê, tudo espera e tudo suporta.",
+        devotional: [
+          "O amor no relacionamento é provado nos detalhes que ninguém aplaude: no tom de voz, na paciência depois de um dia pesado, na disposição de ouvir sem preparar uma defesa, no gesto de servir quando o coração queria ser servido. Deus não chama o casal para um amor decorativo, mas para um amor que carrega a marca de Cristo.",
+          "Muitos relacionamentos adoecem porque o amor foi reduzido a sentimento. Quando há entusiasmo, há carinho; quando há frustração, há distância. Mas o amor bíblico amadurece quando aprende a permanecer. Ele não ignora dores, não finge que feridas não existem e não romantiza o que precisa ser tratado. Ainda assim, escolhe não abandonar a aliança a cada dificuldade.",
+          "Hoje, Deus convida o casal a voltar ao fundamento: amar é decidir agir com graça antes que o outro mereça, é proteger o vínculo em vez de vencer a discussão, é lembrar que a relação não é campo de batalha, mas lugar de cuidado, cura e presença."
+        ],
+        renunciaShort: "Renunciar ao amor condicionado.",
+        renuncia: [
+          "Renunciem juntos ao amor que só aparece quando tudo está fácil. Entreguem a Deus cobranças silenciosas, frieza, comparações e a ideia de que carinho deve ser moeda de troca.",
+          "Declarem diante do Senhor: não queremos amar apenas quando somos compreendidos; queremos aprender o amor que Cristo derramou sobre nós."
+        ],
+        acaoShort: "Dizer uma atitude concreta de amor.",
+        action: [
+          "Cada pessoa deve dizer uma atitude simples que a faz se sentir amada no relacionamento. Depois, escolham uma dessas atitudes para praticar ainda hoje.",
+          "Terminem o momento com um abraço demorado, sem pressa, como sinal de recomeço."
+        ],
+        prayer: [
+          "Senhor Deus, ensina-nos a amar com o amor de Cristo. Cura em nós a dureza, a indiferença e o egoísmo. Que nosso relacionamento seja um lugar onde o amor não seja apenas dito, mas vivido com paciência, bondade e fidelidade. Restaura o carinho, reacende o cuidado e firma nossa aliança na Tua presença. Em nome de Jesus, amém."
+        ]
+      },
+      {
+        day: 2,
+        title: "Perdão que abre portas de cura",
+        intro: "Perdoar não apaga a história, mas impede que a dor governe o futuro do casal.",
+        reference: "Efésios 4:32",
+        scripture: "A Palavra nos chama a sermos bondosos, compassivos e prontos a perdoar, assim como Deus nos perdoou em Cristo.",
+        devotional: [
+          "O perdão é uma das maiores batalhas espirituais do relacionamento, porque a pessoa que mais amamos também pode ser a que mais nos fere. Pequenas decepções acumuladas viram paredes. Frases mal colocadas viram memórias. Silêncios longos viram distância. Quando o casal guarda tudo, o coração perde espaço para respirar.",
+          "Perdoar não significa dizer que a dor foi pequena. Também não significa liberar alguém de responsabilidade ou impedir conversas necessárias. O perdão bíblico é entregar a Deus o direito de vingança, abrir mão de punir o outro com frieza e permitir que a graça comece uma obra que a mágoa jamais conseguiria fazer.",
+          "Há casais que precisam reaprender a pedir perdão sem desculpas e a liberar perdão sem humilhação. Deus deseja entrar nesses lugares sensíveis. O Espírito Santo não trata apenas pecados públicos; Ele também alcança feridas escondidas no quarto, na mesa, no carro, nas mensagens e nos silêncios."
+        ],
+        renunciaShort: "Renunciar à mágoa cultivada.",
+        renuncia: [
+          "Renunciem ao hábito de guardar ofensas como prova contra o outro. Entreguem ao Senhor a necessidade de relembrar dores para manter controle emocional.",
+          "Peçam a Deus coragem para perdoar com verdade e maturidade, sem negar o que aconteceu, mas sem permitir que a ferida defina o relacionamento."
+        ],
+        acaoShort: "Pedir perdão por algo específico.",
+        action: [
+          "Cada pessoa deve dizer: \"Eu reconheço que te feri quando...\" e completar com uma situação concreta, sem justificar a atitude.",
+          "Depois, orem brevemente um pelo outro. Se houver dor profunda, combinem uma conversa calma em outro momento, com respeito e, se necessário, ajuda pastoral ou terapêutica."
+        ],
+        prayer: [
+          "Pai, nós recebemos o perdão que vem de Cristo e pedimos que esse perdão alcance nosso relacionamento. Remove amarguras, quebra acusações repetidas e cura memórias dolorosas. Dá-nos humildade para pedir perdão e graça para liberar perdão. Que nossa aliança não seja governada por feridas antigas, mas pela misericórdia do Senhor. Amém."
+        ]
+      },
+      {
+        day: 3,
+        title: "Aliança acima das fases",
+        intro: "A aliança é mais profunda que o humor do dia e mais firme que as estações difíceis.",
+        reference: "Eclesiastes 4:9-12",
+        scripture: "Dois são melhores que um, pois podem levantar um ao outro; e o cordão de três dobras não se rompe facilmente.",
+        devotional: [
+          "Todo casal atravessa fases: fases de alegria, aperto, cansaço, mudanças, sonhos, perdas e recomeços. Quem constrói a relação apenas sobre emoções vive à mercê dessas fases. Quem constrói sobre aliança aprende a atravessar as estações sem abandonar o chamado de Deus para o casamento.",
+          "Aliança é compromisso diante de Deus. É lembrar que o casamento não existe apenas para satisfazer desejos individuais, mas para revelar cuidado, fidelidade, serviço e testemunho. Quando Deus é a terceira dobra do cordão, a união deixa de depender apenas da força humana.",
+          "Hoje, o Senhor chama vocês a olharem novamente para a aliança. Não como peso, mas como proteção. Não como prisão, mas como jardim a ser cultivado. A aliança não impede tempestades, mas dá ao casal uma direção quando os ventos tentam confundir tudo."
+        ],
+        renunciaShort: "Renunciar à mentalidade descartável.",
+        renuncia: [
+          "Renunciem à ideia de que vínculos podem ser tratados como descartáveis quando ficam difíceis. Entreguem ao Senhor palavras como desistência, ameaça e indiferença.",
+          "Peçam a Deus que restaure o valor da promessa, da perseverança e do cuidado diário."
+        ],
+        acaoShort: "Relembrar promessas e marcos.",
+        action: [
+          "Conversem sobre um momento em que Deus sustentou o casal. Lembrem datas, livramentos, respostas de oração ou fases superadas.",
+          "Escrevam uma frase de aliança para o relacionamento, como: \"Nesta aliança, escolhemos permanecer em Deus\". Coloquem em um lugar visível."
+        ],
+        prayer: [
+          "Senhor, firma nossa aliança em Ti. Que nossas decisões não sejam guiadas por impulsos, orgulho ou cansaço, mas pela Tua vontade. Fortalece o cordão do nosso relacionamento e torna nossa aliança resistente às tempestades. Que Cristo esteja no centro do nosso compromisso. Amém."
+        ]
+      },
+      {
+        day: 4,
+        title: "Comunicação que cura",
+        intro: "Palavras podem abrir feridas ou preparar um ambiente onde a verdade encontra amor.",
+        reference: "Provérbios 15:1",
+        scripture: "A resposta branda afasta a ira, enquanto palavras duras aumentam o conflito.",
+        devotional: [
+          "A comunicação do casal revela muito sobre o estado do coração. Às vezes, o problema não é apenas o assunto, mas a forma como ele é colocado. Um pedido pode soar como acusação. Uma correção pode virar humilhação. Uma necessidade legítima pode se transformar em cobrança cruel quando sai de um coração cansado e desprotegido.",
+          "Deus se importa com as palavras do casal. Ele vê conversas íntimas, mensagens enviadas com irritação, respostas secas e também tentativas sinceras de reconciliação. A Bíblia não trata a língua como detalhe; ela mostra que palavras carregam vida ou morte, cura ou peso.",
+          "Comunicar-se de forma cristã não é evitar toda conversa difícil. É falar a verdade com amor, escolher o momento certo, ouvir até o fim e procurar entendimento antes de procurar vitória. Um casal restaurado aprende a conversar sem destruir."
+        ],
+        renunciaShort: "Renunciar à agressividade verbal.",
+        renuncia: [
+          "Renunciem a gritos, ironias, interrupções e respostas dadas para ferir. Peçam perdão por palavras que diminuíram, envergonharam ou apagaram o outro.",
+          "Entreguem ao Senhor o hábito de usar o silêncio como punição ou as palavras como arma."
+        ],
+        acaoShort: "Praticar escuta sem interrupção.",
+        action: [
+          "Separem dez minutos. Uma pessoa fala sobre algo que sente; a outra apenas escuta, sem corrigir, rebater ou explicar. Depois, invertam.",
+          "Ao final, cada um deve dizer: \"O que eu ouvi você dizer foi...\". Essa prática simples ensina o coração a buscar compreensão."
+        ],
+        prayer: [
+          "Deus, santifica nossas palavras. Que nossa boca seja instrumento de cura, não de ferida. Ensina-nos a ouvir com humildade, falar com sabedoria e conversar com amor. Que o Espírito Santo governe nosso tom, nossos silêncios e nossas respostas. Amém."
+        ]
+      },
+      {
+        day: 5,
+        title: "Paciência no processo",
+        intro: "Deus trabalha em pessoas reais, com histórias reais, em processos que exigem graça.",
+        reference: "Colossenses 3:12-13",
+        scripture: "Como povo amado de Deus, somos chamados a vestir compaixão, bondade, humildade, mansidão e paciência.",
+        devotional: [
+          "A impaciência nasce quando queremos que o outro mude no ritmo da nossa necessidade. Queremos maturidade imediata, cura instantânea, resposta perfeita, comportamento novo sem tropeços. Mas Deus costuma formar pessoas em processos, e o relacionamento é um dos lugares onde esses processos ficam mais visíveis.",
+          "Paciência não é passividade diante do erro. É a capacidade espiritual de tratar o outro como alguém em construção, sem desistir da verdade e sem abandonar a graça. Jesus foi firme, mas não foi cruel. Ele corrigiu, mas também restaurou. Ele viu fraquezas, mas chamou pessoas para perto.",
+          "No casamento, a paciência vira linguagem de amor. Ela diz: eu vejo sua luta, mas não vou reduzir você ao seu pior momento. Ela cria espaço para arrependimento, crescimento e cura. Quando a paciência entra na relação, a pressão diminui e a presença de Deus encontra lugar para trabalhar."
+        ],
+        renunciaShort: "Renunciar à pressa de controlar.",
+        renuncia: [
+          "Renunciem à exigência de que tudo mude no tempo de vocês. Entreguem a Deus a irritação constante, as cobranças repetidas e a sensação de que só a pressão resolve.",
+          "Peçam ao Senhor sabedoria para discernir o que precisa ser tratado com firmeza e o que precisa ser acompanhado com paciência."
+        ],
+        acaoShort: "Trocar cobrança por encorajamento.",
+        action: [
+          "Cada pessoa deve mencionar uma área em que percebe crescimento no outro, mesmo que ainda pequeno.",
+          "Durante o dia, substituam uma cobrança automática por uma frase de encorajamento específica."
+        ],
+        prayer: [
+          "Senhor, veste nosso relacionamento de paciência. Tira de nós a pressa ansiosa, o controle e a irritação que fere. Ajuda-nos a enxergar o processo um do outro com misericórdia. Que nossa aliança seja um ambiente onde a verdade e a graça caminham juntas. Amém."
+        ]
+      },
+      {
+        day: 6,
+        title: "Respeito que honra a imagem de Deus",
+        intro: "Antes de papéis, opiniões e diferenças, cada pessoa na aliança carrega dignidade diante do Senhor.",
+        reference: "Romanos 12:10",
+        scripture: "A Palavra orienta a amar com sinceridade e a preferir honrar uns aos outros.",
+        devotional: [
+          "O respeito é uma cerca de proteção para o amor. Sem respeito, até palavras bonitas perdem força. O casal pode falar de amor, mas se houver desprezo, exposição, sarcasmo e desvalorização, o ambiente vai adoecendo. A aliança precisa de honra para florescer.",
+          "Honrar não significa concordar com tudo. Significa reconhecer que o outro não é um obstáculo a ser vencido, mas uma pessoa feita à imagem de Deus. Significa não diminuir em público, não zombar de fragilidades, não usar erros antigos para destruir credibilidade e não tratar necessidades emocionais como exagero.",
+          "Deus deseja restaurar a honra entre marido e esposa. Na forma de discordar, pedir ajuda, tocar em assuntos difíceis e reconhecer limites, a honra abre espaço para a presença de Deus."
+        ],
+        renunciaShort: "Renunciar ao desprezo e à exposição.",
+        renuncia: [
+          "Renunciem a piadas que ferem, comparações, humilhações e comentários que expõem o outro. Peçam a Deus sensibilidade para perceber quando o respeito foi quebrado.",
+          "Entreguem ao Senhor toda postura de superioridade dentro do relacionamento."
+        ],
+        acaoShort: "Honrar o outro em voz alta.",
+        action: [
+          "Cada pessoa deve olhar para o outro e dizer uma qualidade real que reconhece nele.",
+          "Escolham uma regra de honra para o casal, como: não expor fraquezas do relacionamento em conversas com terceiros."
+        ],
+        prayer: [
+          "Pai, restaura a honra em nosso relacionamento. Que cada pessoa se sinta vista, respeitada e protegida. Remove o desprezo, a comparação e a dureza. Ensina-nos a tratar um ao outro como preciosos diante de Ti. Em nome de Jesus, amém."
+        ]
+      },
+      {
+        day: 7,
+        title: "Cura emocional no relacionamento",
+        intro: "Deus não deseja apenas um casal funcional; Ele deseja uma aliança emocionalmente curada.",
+        reference: "Salmo 147:3",
+        scripture: "O Senhor cura os quebrantados de coração e cuida das suas feridas.",
+        devotional: [
+          "Todo casal carrega histórias. Algumas são doces; outras, difíceis. Há dores que vieram antes do casamento, feridas da infância, perdas, rejeições, traições, medos e inseguranças que entram na relação sem pedir licença. Quando essas dores não são tratadas, elas começam a falar nas discussões, nas reações exageradas e nos afastamentos.",
+          "A cura emocional não é sinal de fraqueza; é obra de Deus em áreas que precisam de luz. Jesus não se assusta com lágrimas antigas. Ele não rejeita quem admite dor. Pelo contrário, Ele se aproxima dos quebrantados e oferece consolo, verdade e restauração.",
+          "Hoje é um dia para permitir que Deus toque lugares sensíveis. Nem tudo será resolvido em uma conversa, mas toda cura começa quando o casal para de fingir que está tudo bem e abre espaço para a graça."
+        ],
+        renunciaShort: "Renunciar à negação da dor.",
+        renuncia: [
+          "Renunciem à frase interna: \"Isso não me afeta mais\", quando ainda afeta. Entreguem a Deus a vergonha de admitir fragilidade.",
+          "Peçam ao Senhor coragem para buscar ajuda quando necessário e humildade para acolher a dor do outro sem julgamento."
+        ],
+        acaoShort: "Nomear uma dor com segurança.",
+        action: [
+          "Cada pessoa pode compartilhar uma dor ou medo que gostaria que o outro compreendesse melhor. Ninguém deve corrigir ou minimizar a fala do outro.",
+          "Depois, façam uma oração curta impondo as mãos, se todos se sentirem confortáveis, pedindo cura e consolo."
+        ],
+        prayer: [
+          "Senhor, visita as dores escondidas do nosso relacionamento. Cura memórias, medos, rejeições e marcas que ainda influenciam nossas reações. Dá-nos uma aliança segura para falar, chorar, reconhecer e recomeçar. Que a Tua presença seja bálsamo sobre nós. Amém."
+        ]
+      },
+      {
+        day: 8,
+        title: "Oração em casal",
+        intro: "O casal que ora junto aprende a levar suas batalhas para o lugar certo.",
+        reference: "Mateus 18:19-20",
+        scripture: "Jesus ensina que há poder quando pessoas concordam em oração e se reúnem em Seu nome.",
+        devotional: [
+          "Muitos casais conversam sobre problemas, discutem problemas e se cansam de problemas, mas oram pouco sobre eles. A oração muda a atmosfera porque tira o relacionamento do ciclo de acusação e o coloca diante de Deus. Quando um casal ora junto, algo se reposiciona: o outro deixa de ser inimigo e ambos passam a buscar o Senhor como fonte de direção.",
+          "Orar em casal não precisa começar com palavras perfeitas. Pode começar com frases simples, lágrimas honestas e silêncios reverentes. Deus não procura performance espiritual; Ele procura corações rendidos.",
+          "A oração cria memória espiritual na aliança. Casais que oram juntos lembram que não carregam tudo sozinhos. A presença de Jesus no meio do relacionamento transforma conversas, decisões e recomeços."
+        ],
+        renunciaShort: "Renunciar à autossuficiência.",
+        renuncia: [
+          "Renunciem à tentativa de resolver tudo apenas com força, controle ou lógica humana. Entreguem a Deus a independência espiritual que deixa a oração para o último recurso.",
+          "Peçam fome por momentos simples e constantes de oração."
+        ],
+        acaoShort: "Criar um altar diário simples.",
+        action: [
+          "Escolham um horário realista para orar juntos por cinco minutos durante os próximos dias. Pode ser antes de dormir, antes do café ou após o jantar.",
+          "Hoje, cada pessoa deve apresentar um pedido de oração e agradecer por uma resposta já recebida."
+        ],
+        prayer: [
+          "Jesus, queremos que nosso relacionamento seja lugar de oração. Ensina-nos a buscar Tua presença antes de reagir, decidir ou desistir. Une nossas vozes diante do Pai e fortalece nossa fé. Que a oração se torne parte natural da nossa rotina. Amém."
+        ]
+      },
+      {
+        day: 9,
+        title: "Unidade que vence divisões",
+        intro: "Unidade não é ausência de diferenças, mas decisão de caminhar na mesma direção diante de Deus.",
+        reference: "Salmo 133:1",
+        scripture: "É precioso e agradável quando irmãos vivem em união.",
+        devotional: [
+          "A divisão no relacionamento nem sempre começa com grandes conflitos. Às vezes começa com agendas separadas, prioridades concorrentes, decisões tomadas sem conversa e corações que passam a funcionar de maneira isolada. Com o tempo, o casal está junto, mas deixa de caminhar junto.",
+          "Deus ama unidade. Não uma unidade artificial, onde todos fingem concordar, mas uma unidade espiritual, onde o amor é maior que o orgulho e o propósito é maior que a preferência individual. A unidade exige conversa, renúncia e alinhamento.",
+          "Quando o casal se une, a aliança ganha força. Os dois respiram com mais confiança. As decisões ficam mais claras. A presença de Deus flui onde há disposição de reconciliar, servir e caminhar junto."
+        ],
+        renunciaShort: "Renunciar às pequenas divisões.",
+        renuncia: [
+          "Renunciem a acusações indiretas, competições silenciosas e decisões tomadas para provocar distância. Entreguem ao Senhor tudo o que tem separado o casal por dentro.",
+          "Peçam a Deus um coração que busque reconciliação antes de buscar razão."
+        ],
+        acaoShort: "Definir uma prioridade comum.",
+        action: [
+          "Conversem e escolham uma prioridade do casal para esta semana: mais tempo juntos, menos telas nas refeições, oração diária, diálogo honesto ou um momento de qualidade.",
+          "Escrevam essa prioridade e combinem uma atitude concreta para protegê-la."
+        ],
+        prayer: [
+          "Senhor, une nosso relacionamento. Que diferenças não se transformem em separação e que conflitos não roubem nosso propósito. Dá-nos humildade para ajustar rotas e amor para caminhar juntos. Que nossa aliança experimente a beleza da unidade no Teu nome. Amém."
+        ]
+      },
+      {
+        day: 10,
+        title: "Renúncia ao orgulho",
+        intro: "O orgulho levanta muros; a humildade abre portas para restauração.",
+        reference: "Tiago 4:6",
+        scripture: "Deus resiste aos orgulhosos, mas concede graça aos humildes.",
+        devotional: [
+          "O orgulho raramente se apresenta como orgulho. Ele aparece como necessidade de vencer toda conversa, dificuldade de pedir perdão, incapacidade de admitir erro, desprezo pela opinião do outro e resistência a mudar. Dentro do relacionamento, o orgulho é perigoso porque transforma a pessoa amada em adversária.",
+          "A humildade bíblica não é fraqueza. É força rendida a Deus. É conseguir dizer: eu errei. É perguntar: como posso melhorar? É ouvir uma correção sem preparar ataque. É reconhecer que a presença de Deus vale mais que estar sempre certo.",
+          "Muitas restaurações começam quando alguém decide quebrar o ciclo e se humilhar primeiro. O céu se aproxima de alianças onde há arrependimento sincero. Hoje, Deus pode usar uma frase humilde para destravar anos de tensão."
+        ],
+        renunciaShort: "Renunciar à necessidade de vencer.",
+        renuncia: [
+          "Renunciem ao orgulho que prefere perder a paz a perder uma discussão. Entreguem a Deus a necessidade de controlar narrativas, provar superioridade e justificar todo erro.",
+          "Peçam um coração quebrantado, capaz de se arrepender sem medo."
+        ],
+        acaoShort: "Fazer uma pergunta humilde.",
+        action: [
+          "Cada pessoa deve perguntar ao outro: \"Há algo em mim que tem te ferido e que eu preciso enxergar melhor?\"",
+          "A resposta deve ser recebida com silêncio, gratidão e compromisso de oração, sem debate imediato."
+        ],
+        prayer: [
+          "Pai, quebra nosso orgulho. Tira de nós a dureza que resiste à Tua voz e fere quem amamos. Ensina-nos a pedir perdão, ouvir correção e mudar com humildade. Que a graça encontre espaço em nossa aliança. Amém."
+        ]
+      },
+      {
+        day: 11,
+        title: "Restauração do relacionamento",
+        intro: "Deus é especialista em reconstruir alianças que pareciam cansadas, frias ou quebradas.",
+        reference: "Isaías 58:12",
+        scripture: "O Senhor chama Seu povo para reparar brechas e restaurar caminhos.",
+        devotional: [
+          "Há relacionamentos que continuam de pé por fora, mas por dentro precisam de restauração. A rotina funciona, as responsabilidades chegam, as tarefas acontecem, mas o afeto ficou enfraquecido, a conversa ficou mecânica e a presença de Deus foi empurrada para as margens. Restaurar é trazer vida novamente ao que foi desgastado.",
+          "Deus não despreza alianças em ruínas emocionais. Ele se aproxima de brechas. Ele toca relacionamentos cansados, reergue confiança ferida, devolve ternura, reorganiza prioridades e reacende altares apagados. A restauração começa quando o casal admite: precisamos do Senhor aqui.",
+          "Nem toda restauração acontece de uma vez. Algumas são passo por passo: uma conversa honesta, um pedido de perdão, uma oração antes esquecida, uma mesa compartilhada, uma decisão de proteger a aliança. Deus honra pequenos recomeços entregues a Ele."
+        ],
+        renunciaShort: "Renunciar à conformidade com a frieza.",
+        renuncia: [
+          "Renunciem à ideia de que o relacionamento precisa permanecer como está. Entreguem ao Senhor a acomodação, o desânimo e a frase: \"não tem mais jeito\".",
+          "Declarem fé sobre a aliança, crendo que Deus ainda restaura, cura e reconstrói."
+        ],
+        acaoShort: "Identificar uma brecha da relação.",
+        action: [
+          "Conversem sobre uma brecha que precisa ser restaurada: tempo, respeito, oração, finanças, perdão, afeto, disciplina ou diálogo.",
+          "Escolham uma atitude pequena para começar a fechar essa brecha ainda hoje."
+        ],
+        prayer: [
+          "Deus restaurador, entra em nosso relacionamento. Repara brechas, levanta o que caiu, cura o que doeu e reacende o que esfriou. Não queremos apenas sobreviver como casal; queremos florescer na Tua presença. Reconstrói nossa aliança para a Tua glória. Amém."
+        ]
+      },
+      {
+        day: 12,
+        title: "A presença de Deus no relacionamento",
+        intro: "A aliança se torna sagrada quando Deus deixa de ser visita e passa a ser centro.",
+        reference: "Josué 24:15",
+        scripture: "Josué declarou que ele e sua casa serviriam ao Senhor; hoje, o casal pode assumir juntos essa mesma direção.",
+        devotional: [
+          "A presença de Deus no relacionamento não se limita a símbolos religiosos, músicas ou frases bonitas. Ela se manifesta quando Cristo governa atitudes, prioridades, conversas, escolhas e reconciliações. Um casal cheio da presença de Deus não é perfeito, mas é rendido.",
+          "Servir ao Senhor como casal é uma decisão diária. É escolher como se fala, como se escuta, como se trata a dor do outro, que tipo de ambiente se cultiva e a quem se recorre nas crises. Deus deseja ser convidado para a rotina, não apenas para emergências.",
+          "Quando a presença de Deus encontra lugar, a relação muda de atmosfera. Há mais sensibilidade, mais arrependimento, mais paz, mais discernimento. O relacionamento deixa de ser apenas convivência e se torna aliança diante do Senhor."
+        ],
+        renunciaShort: "Renunciar a uma fé só de aparência.",
+        renuncia: [
+          "Renunciem a uma espiritualidade que aparece apenas fora da intimidade do casal. Entreguem a Deus incoerências, negligências e áreas da rotina onde Cristo ainda não governa.",
+          "Peçam que o Senhor transforme a cultura do relacionamento de dentro para fora."
+        ],
+        acaoShort: "Consagrar a relação ao Senhor.",
+        action: [
+          "Sentem-se juntos e orem consagrando o relacionamento ao Senhor. Se desejarem, façam isso no quarto do casal ou em um lugar onde costumam conversar.",
+          "Peçam que a relação seja marcada por paz, respeito, pureza, comunhão e alegria."
+        ],
+        prayer: [
+          "Senhor, nossa aliança pertence a Ti. Não queremos Tua presença apenas em palavras, mas em decisões, hábitos e atitudes. Governa nossa rotina, limpa nossa atmosfera e faz do nosso relacionamento um lugar onde Teu nome é honrado. Amém."
+        ]
+      },
+      {
+        day: 13,
+        title: "Entrega do controle",
+        intro: "A paz cresce quando o casal para de tentar controlar tudo e aprende a confiar no Senhor.",
+        reference: "Provérbios 3:5-6",
+        scripture: "Somos chamados a confiar no Senhor de todo o coração e reconhecê-lo em todos os caminhos.",
+        devotional: [
+          "O desejo de controlar nasce muitas vezes do medo. Medo de perder, de sofrer novamente, de ser decepcionado, de não dar conta, de ver a relação desmoronar. Mas o controle excessivo sufoca o amor. Ele transforma cuidado em pressão e proteção em prisão.",
+          "Deus não pede que sejamos irresponsáveis. Ele nos chama a confiar. Há uma diferença entre cuidar da relação com sabedoria e tentar ocupar o lugar de Deus. Quando reconhecemos o Senhor em nossos caminhos, aceitamos que Ele vê mais longe do que nós.",
+          "Entregar o controle não é abandonar o relacionamento; é colocar a aliança nas mãos certas. É orar antes de manipular. É conversar antes de impor. É obedecer antes de correr ansiosamente. A entrega devolve leveza ao casal."
+        ],
+        renunciaShort: "Renunciar ao controle ansioso.",
+        renuncia: [
+          "Renunciem à ansiedade que tenta prever e comandar tudo. Entreguem ao Senhor medos, inseguranças e a necessidade de ter sempre a última palavra.",
+          "Peçam fé para agir com responsabilidade sem carregar pesos que pertencem a Deus."
+        ],
+        acaoShort: "Entregar uma preocupação em oração.",
+        action: [
+          "Cada pessoa deve escrever ou falar uma preocupação que tem tentado controlar. Depois, orem entregando essa área ao Senhor.",
+          "Escolham uma atitude prática de confiança, como não insistir em uma cobrança hoje ou esperar o momento certo para uma conversa."
+        ],
+        prayer: [
+          "Pai, entregamos nosso relacionamento em Tuas mãos. Liberta-nos do controle ansioso e ensina-nos a confiar em Ti de todo o coração. Guia nossas decisões, acalma nossos medos e mostra-nos o caminho da obediência. Amém."
+        ]
+      },
+      {
+        day: 14,
+        title: "Serviço como expressão de amor",
+        intro: "No Reino de Deus, grandeza no casamento aparece em gestos de serviço.",
+        reference: "Marcos 10:45",
+        scripture: "Jesus ensinou pelo exemplo que veio para servir, não para ser servido.",
+        devotional: [
+          "A rotina do casal revela quem está disposto a servir. Contas, organização, atenção emocional, escuta, presença e pequenas tarefas podem virar motivo de disputa ou oportunidade de amor. Quando os dois só esperam ser servidos, a relação pesa. Quando os dois aprendem a servir, a relação respira.",
+          "Jesus lavou pés. Ele assumiu o lugar humilde. Isso confronta a lógica do orgulho, inclusive no casamento. Servir não é ser explorado; é escolher amor prático, com diálogo e equilíbrio, para que a aliança seja cuidada pelos dois.",
+          "Muitas vezes, o serviço abre portas onde discursos não entram. Uma atitude concreta de cuidado pode dizer: eu vejo você, eu me importo, eu participo desta relação. Deus usa gestos simples para restaurar ternura."
+        ],
+        renunciaShort: "Renunciar ao egoísmo doméstico.",
+        renuncia: [
+          "Renunciem à postura de apenas exigir, esperar ou reclamar. Entreguem a Deus o egoísmo que vê o relacionamento como responsabilidade do outro.",
+          "Peçam olhos atentos para perceber necessidades antes que virem cobranças."
+        ],
+        acaoShort: "Servir sem anunciar.",
+        action: [
+          "Cada pessoa deve fazer hoje uma atitude de serviço para o outro sem buscar reconhecimento.",
+          "Depois, conversem sobre como dividir melhor responsabilidades de forma justa e amorosa."
+        ],
+        prayer: [
+          "Jesus, ensina-nos a servir como Tu serviste. Tira de nós o egoísmo, a preguiça afetiva e a indiferença. Que nossas mãos sejam instrumentos de cuidado e que nossa relação seja marcada por cooperação, gratidão e amor prático. Amém."
+        ]
+      },
+      {
+        day: 15,
+        title: "Proteção espiritual do casal",
+        intro: "A aliança precisa de portas espirituais bem guardadas e corações atentos à voz de Deus.",
+        reference: "Efésios 6:11-12",
+        scripture: "A Palavra nos lembra que a batalha espiritual existe e que precisamos da armadura de Deus.",
+        devotional: [
+          "Nem toda tensão no relacionamento é apenas cansaço ou personalidade. Existem ambientes que vão sendo afetados por palavras, hábitos, pecados tolerados, influências constantes e falta de vigilância espiritual. O casal cristão precisa discernir que há batalhas que não serão vencidas apenas com organização.",
+          "Proteger espiritualmente a aliança não é viver com medo. É viver com sobriedade. É cuidar do que se consome, do que se normaliza, das conversas que alimentam divisão, das práticas que esfriam a fé e das portas que precisam ser fechadas.",
+          "Deus dá ao casal autoridade espiritual para orar, resistir ao mal, buscar santidade e declarar que a aliança pertence ao Senhor. A proteção começa com rendição, não com superstição. Um relacionamento protegido é um relacionamento alinhado com Cristo."
+        ],
+        renunciaShort: "Renunciar a portas abertas ao mal.",
+        renuncia: [
+          "Renunciem a hábitos, conteúdos, conversas e práticas que têm roubado paz, pureza e comunhão. Peçam ao Espírito Santo discernimento sem religiosidade vazia.",
+          "Entreguem ao Senhor tudo o que enfraquece a fé do casal."
+        ],
+        acaoShort: "Revisar uma porta de influência.",
+        action: [
+          "Escolham uma área para revisar: telas, músicas, conversas, amizades, rotina espiritual ou conflitos repetidos.",
+          "Tomem uma decisão prática de proteção, como limitar um conteúdo, restaurar o momento de oração ou encerrar uma conversa que alimenta divisão."
+        ],
+        prayer: [
+          "Senhor, guarda nosso relacionamento. Revestimos nossa aliança com a verdade de Cristo e fechamos portas que não honram Teu nome. Dá-nos discernimento, santidade e coragem para resistir ao mal. Que nossa relação seja coberta pela Tua paz. Amém."
+        ]
+      },
+      {
+        day: 16,
+        title: "Gratidão que muda a atmosfera",
+        intro: "A gratidão cura a visão cansada e ensina o casal a reconhecer a bondade de Deus.",
+        reference: "1 Tessalonicenses 5:18",
+        scripture: "Somos chamados a dar graças em todas as circunstâncias, pois essa é a vontade de Deus para nós em Cristo.",
+        devotional: [
+          "A reclamação constante pesa sobre o relacionamento. Quando os dois só enxergam o que falta, a convivência perde alegria. A gratidão não nega problemas, mas impede que eles sejam a única lente do casal. Ela reposiciona o coração diante da bondade de Deus.",
+          "Casais gratos percebem pequenos presentes: uma refeição, um livramento, uma conversa, saúde, trabalho, perdão, provisão, uma noite de descanso, uma porta aberta. A gratidão transforma rotina em altar.",
+          "Dentro do casamento, agradecer também cura. Quando reconhecemos o esforço do outro, diminuímos a sensação de invisibilidade. Muitas feridas nascem de dedicação não percebida. A gratidão devolve honra ao cotidiano."
+        ],
+        renunciaShort: "Renunciar à reclamação constante.",
+        renuncia: [
+          "Renunciem à murmuração que transforma tudo em peso. Entreguem a Deus a tendência de enxergar somente falhas, faltas e atrasos.",
+          "Peçam um coração sensível para perceber graça no comum."
+        ],
+        acaoShort: "Fazer uma roda de gratidão.",
+        action: [
+          "Cada pessoa deve citar três motivos de gratidão: um sobre Deus, um sobre o relacionamento e um sobre o outro.",
+          "Durante o dia, agradeçam verbalmente por pelo menos uma atitude simples feita por outra pessoa."
+        ],
+        prayer: [
+          "Pai, abre nossos olhos para a Tua bondade. Perdoa nossa murmuração e ensina-nos a reconhecer Tuas bênçãos no cotidiano. Que a gratidão mude a atmosfera do nosso relacionamento e cure a sensação de invisibilidade. Amém."
+        ]
+      },
+      {
+        day: 17,
+        title: "Intimidade e ternura no casamento",
+        intro: "O casamento precisa de presença afetiva, cuidado intencional e ternura protegida.",
+        reference: "Cantares 8:7",
+        scripture: "O amor verdadeiro é descrito como forte, precioso e impossível de ser comprado.",
+        devotional: [
+          "A ternura no casamento pode ser sufocada pela pressa, pelas responsabilidades, pelas mágoas e pela rotina. Muitos casais ainda vivem juntos, mas deixam de se procurar emocionalmente. O afeto vira exceção. O toque vira obrigação ou desaparece. A conversa fica limitada ao funcionamento da casa.",
+          "Deus se importa com a intimidade do casal. O casamento foi criado para parceria, amizade, desejo, cuidado e alegria. Restaurar ternura não é superficial; é espiritual, porque devolve ao casal um espaço de segurança e amor que reflete a aliança.",
+          "A intimidade saudável exige respeito, escuta, perdão e presença. Não se reconstrói ternura com pressão, mas com cuidado. Pequenos gestos podem reacender caminhos: olhar nos olhos, elogiar, segurar a mão, perguntar como o outro está, reservar tempo sem distrações."
+        ],
+        renunciaShort: "Renunciar à frieza afetiva.",
+        renuncia: [
+          "Renunciem à indiferença, ao descuido e à distância que foi normalizada. Entreguem ao Senhor mágoas que bloquearam carinho e presença.",
+          "Peçam restauração da amizade, do respeito e da ternura no casamento."
+        ],
+        acaoShort: "Reservar tempo de casal.",
+        action: [
+          "O casal deve separar pelo menos vinte minutos sem telas para conversar, caminhar, tomar café ou orar juntos.",
+          "Cada um deve dizer uma coisa que admira no outro e uma forma simples de se aproximar mais nesta semana."
+        ],
+        prayer: [
+          "Senhor, restaura a ternura do nosso casamento. Cura distâncias, reacende a amizade e ensina-nos a cuidar um do outro com respeito e carinho. Que nossa intimidade seja protegida, santa e cheia de amor. Em nome de Jesus, amém."
+        ]
+      },
+      {
+        day: 18,
+        title: "Sabedoria nas finanças do casal",
+        intro: "As finanças também podem ser lugar de unidade, honestidade e dependência de Deus.",
+        reference: "Mateus 6:21",
+        scripture: "Jesus ensinou que onde está o tesouro, ali também estará o coração.",
+        devotional: [
+          "Dinheiro revela prioridades, medos e acordos invisíveis. Em muitos relacionamentos, finanças são fonte de conflito porque há silêncio, desorganização, consumo impulsivo, culpa, comparação ou falta de planejamento. Deus deseja que essa área também seja governada por sabedoria.",
+          "Falar de finanças no casal não é falta de espiritualidade. É mordomia. O Senhor nos chama a administrar recursos com honestidade, generosidade, contentamento e responsabilidade. Quando o casal conversa com maturidade sobre dinheiro, muita ansiedade perde força.",
+          "A restauração financeira começa com luz. Luz sobre dívidas, gastos, prioridades, sonhos e limites. Um casal que busca Deus nessa área aprende a fugir da aparência e a escolher paz, simplicidade e fidelidade."
+        ],
+        renunciaShort: "Renunciar à desordem e ao segredo.",
+        renuncia: [
+          "Renunciem a gastos escondidos, mentiras financeiras, comparação e decisões impulsivas. Entreguem ao Senhor a ansiedade relacionada à provisão.",
+          "Peçam sabedoria para viver com responsabilidade, generosidade e contentamento."
+        ],
+        acaoShort: "Conversar sobre uma decisão financeira.",
+        action: [
+          "Escolham uma decisão financeira simples para alinhar: uma compra a adiar, uma dívida a organizar, uma oferta a planejar ou uma economia a iniciar.",
+          "Façam essa conversa sem acusação, buscando solução e unidade."
+        ],
+        prayer: [
+          "Deus provedor, governa nossas finanças. Dá-nos sabedoria, honestidade e equilíbrio. Livra-nos de dívidas desnecessárias, comparação e ansiedade. Ensina-nos a administrar o que recebemos com fidelidade e paz. Amém."
+        ]
+      },
+      {
+        day: 19,
+        title: "Sonhos alinhados em Deus",
+        intro: "Um casal amadurece quando aprende a sonhar junto, decidir junto e submeter o futuro ao Senhor.",
+        reference: "Amós 3:3",
+        scripture: "Duas pessoas caminham juntas quando há acordo, direção e disposição de seguir o mesmo caminho.",
+        devotional: [
+          "Muitos conflitos nascem quando cada um carrega um futuro separado dentro do coração. Um sonha com uma coisa, o outro teme outra, e ninguém conversa com profundidade. Aos poucos, o casal divide rotina, mas não divide direção.",
+          "Deus deseja alinhar sonhos, planos e decisões. Isso não significa que os dois terão sempre os mesmos desejos, mas que aprenderão a ouvir, ponderar, renunciar e construir um caminho em comum. Aliança também é discernir futuro juntos.",
+          "Quando o casal coloca seus sonhos diante de Deus, a ansiedade diminui e a competição perde força. O futuro deixa de ser disputa e se torna oração. A pergunta muda de \"o que eu quero?\" para \"Senhor, para onde queres nos conduzir?\"."
+        ],
+        renunciaShort: "Renunciar aos planos isolados.",
+        renuncia: [
+          "Renunciem à postura de decidir o futuro sozinho, sem diálogo, oração e consideração pelo outro.",
+          "Entreguem ao Senhor sonhos egoístas, medos escondidos e expectativas que nunca foram conversadas com maturidade."
+        ],
+        acaoShort: "Conversar sobre o futuro.",
+        action: [
+          "Cada um deve compartilhar um sonho, um medo e uma decisão que gostaria de alinhar melhor como casal.",
+          "Depois, escolham um próximo passo pequeno e realista para caminhar juntos nessa direção."
+        ],
+        prayer: [
+          "Senhor, alinha nossos sonhos com a Tua vontade. Ensina-nos a conversar sobre o futuro sem medo, orgulho ou imposição. Que nossos planos sejam colocados diante de Ti e que nossa aliança caminhe em unidade, sabedoria e fé. Amém."
+        ]
+      },
+      {
+        day: 20,
+        title: "Esperança para recomeçar",
+        intro: "Em Cristo, o fim de uma fase difícil pode se tornar o começo de uma história restaurada.",
+        reference: "Lamentações 3:22-23",
+        scripture: "As misericórdias do Senhor não se acabam; elas se renovam a cada manhã.",
+        devotional: [
+          "Todo casal precisa de esperança. Sem esperança, pequenos problemas parecem definitivos, conversas difíceis parecem inúteis e sonhos antigos parecem mortos. Mas a Palavra afirma que as misericórdias do Senhor se renovam. Isso significa que Deus ainda cria manhãs novas para relacionamentos cansados.",
+          "Recomeçar não é fingir que nada aconteceu. É decidir que a dor não terá a última palavra. É aceitar responsabilidade, buscar cura, mudar padrões e confiar que Deus pode fazer brotar vida em lugares secos.",
+          "O inimigo trabalha para convencer casais de que é tarde demais. Cristo anuncia outra realidade: enquanto há rendição, há caminho. Enquanto há graça, há reconstrução. Enquanto Deus está presente, ainda existe esperança."
+        ],
+        renunciaShort: "Renunciar ao desespero.",
+        renuncia: [
+          "Renunciem à sentença de que nada pode mudar. Entreguem ao Senhor o desânimo, o cansaço e as expectativas frustradas.",
+          "Peçam que a esperança bíblica substitua a resignação e a fé substitua o medo do futuro."
+        ],
+        acaoShort: "Declarar um recomeço.",
+        action: [
+          "Cada pessoa deve completar a frase: \"Com a ajuda de Deus, eu quero recomeçar em...\"",
+          "Façam um gesto simbólico: acendam uma luz, abram uma janela ou deem as mãos, declarando que o casal recebe um novo tempo em Cristo."
+        ],
+        prayer: [
+          "Senhor, renova nossa esperança. Que as dores do passado não aprisionem nosso futuro. Dá-nos coragem para recomeçar, humildade para mudar e fé para crer nas Tuas misericórdias. Que uma nova manhã nasça sobre nosso relacionamento. Amém."
+        ]
+      },
+      {
+        day: 21,
+        title: "Consagração da aliança ao Senhor",
+        intro: "O propósito termina como um envio: o casal consagrado continua caminhando com Deus todos os dias.",
+        reference: "Salmo 127:1",
+        scripture: "Se o Senhor não edificar a casa, o trabalho humano fica vazio; por isso, a aliança precisa ser construída com Deus no centro.",
+        devotional: [
+          "Chegar ao dia 21 não significa que todos os desafios acabaram. Significa que o casal escolheu parar, ouvir, renunciar, praticar e orar. Esse é um marco espiritual. Deus honra alianças que se voltam para Ele com sinceridade.",
+          "Consagrar a aliança ao Senhor é reconhecer que Ele é o verdadeiro edificador. Talentos, esforço, amor humano, planejamento e boas intenções são importantes, mas não substituem a presença de Deus. O relacionamento precisa ser construído sobre Cristo, dia após dia.",
+          "Agora, o chamado é continuar. Continuar pedindo perdão. Continuar orando. Continuar protegendo a unidade. Continuar cultivando amor. Continuar fazendo da relação um lugar onde Deus é honrado. O propósito de 21 dias pode terminar, mas o altar do casal deve permanecer aceso."
+        ],
+        renunciaShort: "Renunciar à aliança sem altar.",
+        renuncia: [
+          "Renunciem a uma rotina que deixa Deus de fora das decisões, conversas e prioridades do casal. Entreguem ao Senhor tudo o que ainda precisa ser transformado.",
+          "Declarem que a aliança pertence a Cristo e que o casal deseja caminhar sob Sua direção."
+        ],
+        acaoShort: "Fazer uma oração de consagração.",
+        action: [
+          "Sentem-se juntos. Leiam o Salmo 127:1 como referência e façam uma oração de consagração da aliança.",
+          "Depois, escolham uma prática para manter após o propósito: oração semanal do casal, devocional a dois, conversa mensal de alinhamento ou um tempo fixo sem telas."
+        ],
+        prayer: [
+          "Senhor, consagramos nossa aliança a Ti. Edifica nosso relacionamento, guarda nosso amor e mantém aceso o altar da oração. Que cada conversa, decisão e atitude honre o nome de Jesus. Obrigado por estes 21 dias. Continua a Tua obra em nós. Amém."
+        ]
+      }
+    ];
+
+    let couples = loadCouples();
+    let currentCoupleCode = localStorage.getItem(SESSION_KEY) || "";
+    let currentCouple = couples[currentCoupleCode] || null;
+    window._getCoupleRef = () => currentCouple;
+    let completed = currentCouple ? currentCouple.completed : [];
+    let currentDay = currentCouple ? currentCouple.lastDay : 1;
+    let currentServerDate = todayISO();
+    let lastUnlockDate = currentServerDate;
+
+    const authView = document.getElementById("authView");
+    const homeView = document.getElementById("homeView");
+    const detailView = document.getElementById("detailView");
+    const daysGrid = document.getElementById("daysGrid");
+    const miniDays = document.getElementById("miniDays");
+    const progressText = document.getElementById("progressText");
+    const progressPercent = document.getElementById("progressPercent");
+    const progressFill = document.getElementById("progressFill");
+    const sideText = document.getElementById("sideText");
+    const sidePercent = document.getElementById("sidePercent");
+    const completeButton = document.getElementById("completeButton");
+    const partnerOneNote = document.getElementById("partnerOneNote");
+    const partnerTwoNote = document.getElementById("partnerTwoNote");
+    const noteStatus = document.getElementById("noteStatus");
+    const refreshNotesButton = document.getElementById("refreshNotesButton");
+    const lockFutureDaysInput = document.getElementById("lockFutureDaysInput");
+    const startDateInput = document.getElementById("startDateInput");
+    const settingsMessage = document.getElementById("settingsMessage");
+    const authMessage = document.getElementById("authMessage");
+    const accessCoupleForm = document.getElementById("accessCoupleForm");
+    const homeTabButtons = Array.from(document.querySelectorAll("[data-home-tab-target]"));
+    const homeTabPanels = Array.from(document.querySelectorAll("[data-home-tab-panel]"));
+    const journeyFields = {
+      dreams: document.getElementById("journeyDreams"),
+      building: document.getElementById("journeyBuilding"),
+      improveSelf: document.getElementById("journeyImproveSelf"),
+      improveOther: document.getElementById("journeyImproveOther"),
+      difficultTalk: document.getElementById("journeyDifficultTalk"),
+      recognizeGood: document.getElementById("journeyRecognizeGood"),
+      prayerRequest: document.getElementById("journeyPrayerRequest"),
+      improveOne: document.getElementById("journeyImproveOne"),
+      improveTwo: document.getElementById("journeyImproveTwo"),
+      recognizeOne: document.getElementById("journeyRecognizeOne"),
+      recognizeTwo: document.getElementById("journeyRecognizeTwo")
+    };
+    const journeyMessage = document.getElementById("journeyMessage");
+    const notificationButton = document.getElementById("notificationButton");
+    const notificationDot = document.getElementById("notificationDot");
+    const notificationPopover = document.getElementById("notificationPopover");
+    const notificationList = document.getElementById("notificationList");
+    const journeyTabButtons = Array.from(document.querySelectorAll("[data-journey-tab-target]"));
+    const journeyTabPanels = Array.from(document.querySelectorAll("[data-journey-tab-panel]"));
+    const checklistState = {
+      dreamsShort: [],
+      dreamsMedium: [],
+      dreamsLong: []
+    };
+    const improvementPresets = [
+      "Comunicação",
+      "Paciência",
+      "Escuta",
+      "Perdão",
+      "Carinho",
+      "Tempo de qualidade",
+      "Organização",
+      "Vida espiritual",
+      "Controle das palavras",
+      "Demonstração de amor"
+    ];
+
+    let customTopicState = [];
+    let journeyDirty = false;
+    let journeyAutoSaveTimer = null;
+    let toastTimer = null;
+
+    function showToast(message, duration = 4000) {
+      const el = document.getElementById("toast");
+      el.textContent = message;
+      el.classList.remove("hidden");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.add("hidden"), duration);
+    }
+
+    function loadCouples() {
+      try {
+        return JSON.parse(localStorage.getItem(COUPLES_KEY) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    async function apiRequest(payload) {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const text = await response.text();
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch (error) {
+        throw new Error("O servidor não respondeu em JSON. Verifique se api.php e config.php foram enviados para a Hostinger.");
+      }
+      if (!result.ok) {
+        const detail = result.data && result.data.detail ? ` Detalhe: ${result.data.detail}` : "";
+        throw new Error(`${result.message || "Erro ao comunicar com o servidor."}${detail}`);
+      }
+      return result.data;
+    }
+
+    function saveCouples() {
+      if (currentCouple) {
+        currentCouple.completed = completed;
+        currentCouple.lastDay = currentDay;
+        currentCouple.updatedAt = new Date().toISOString();
+        couples[currentCouple.code] = currentCouple;
+      }
+      localStorage.setItem(COUPLES_KEY, JSON.stringify(couples));
+    }
+
+    function isCompleted(day) {
+      return completed.includes(day);
+    }
+
+    function todayISO() {
+      const date = new Date();
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return date.toISOString().slice(0, 10);
+    }
+
+    function daysBetween(startISO, endISO) {
+      const start = new Date(`${startISO}T00:00:00`);
+      const end = new Date(`${endISO}T00:00:00`);
+      return Math.floor((end - start) / 86400000);
+    }
+
+    function getUnlockedLimit() {
+      if (!currentCouple || !currentCouple.settings.lockFutureDays) {
+        return devotionals.length;
+      }
+      const manualUnlockedUntil = Math.min(
+        devotionals.length,
+        Math.max(1, Number(currentCouple.settings.manualUnlockedUntil || 1))
+      );
+      const completedDays = Array.isArray(currentCouple.completed) ? currentCouple.completed : [];
+      if (completedDays.length === 0) return manualUnlockedUntil;
+
+      const maxCompleted = Math.max(...completedDays);
+      const completedDates = currentCouple.completedDates || {};
+      const completedDate = completedDates[maxCompleted] || null;
+      let automaticLimit = maxCompleted;
+
+      // Next day unlocks only after midnight following completion
+      if (completedDate && completedDate < currentServerDate) {
+        automaticLimit = Math.min(devotionals.length, maxCompleted + 1);
+      }
+      // Completed today — next day not yet unlocked
+      return Math.max(automaticLimit, manualUnlockedUntil);
+    }
+
+    function isLocked(day) {
+      return day > getUnlockedLimit();
+    }
+
+    function formatParagraphs(paragraphs) {
+      return paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("");
+    }
+
+    function defaultGuidance() {
+      return {
+        couple: "",
+        partnerOne: "",
+        partnerTwo: "",
+        doList: "",
+        avoidList: "",
+        exercise: "",
+        message: "",
+        customTopics: []
+      };
+    }
+
+    function defaultJourneyShared() {
+      return {
+        dreams: "",
+        building: "",
+        improveSelf: "",
+        improveOther: "",
+        difficultTalk: "",
+        recognizeGood: "",
+        prayerRequest: "",
+        dreamsShort: [],
+        dreamsMedium: [],
+        dreamsLong: [],
+        improvementsOne: [],
+        improvementsTwo: [],
+        improveOne: "",
+        improveTwo: "",
+        recognizeOne: "",
+        recognizeTwo: "",
+        customTopics: []
+      };
+    }
+
+    function showHomeTab(target) {
+      homeTabButtons.forEach((button) => {
+        const active = button.dataset.homeTabTarget === target;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      homeTabPanels.forEach((panel) => {
+        panel.classList.toggle("hidden", panel.dataset.homeTabPanel !== target);
+      });
+    }
+
+    function showJourneyTab(target) {
+      journeyTabButtons.forEach((button) => {
+        const active = button.dataset.journeyTabTarget === target;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      journeyTabPanels.forEach((panel) => {
+        panel.classList.toggle("hidden", panel.dataset.journeyTabPanel !== target);
+      });
+    }
+
+    function displayText(value) {
+      return value && value.trim() ? value : "";
+    }
+
+    function renderGuidanceText(elementId, value) {
+      const element = document.getElementById(elementId);
+      element.textContent = displayText(value);
+    }
+
+    function renderGuidanceCustomTopics(topics) {
+      const card = document.getElementById("guidanceCustomTopicsCard");
+      const element = document.getElementById("guidanceCustomTopics");
+      const cleanTopics = Array.isArray(topics) ? topics.filter((topic) => topic.title || topic.text) : [];
+      card.style.display = cleanTopics.length ? "" : "none";
+      element.innerHTML = cleanTopics.map((topic) => `
+        <article class="guidance-topic">
+          ${topic.title ? `<strong>${escapeHtml(topic.title)}</strong>` : ""}
+          <p>${escapeHtml(topic.text || "")}</p>
+        </article>
+      `).join("");
+    }
+
+    function renderGuidance() {
+      if (!currentCouple) return;
+      const guidance = { ...defaultGuidance(), ...(currentCouple.guidance || {}) };
+      document.getElementById("guidancePartnerOneTitle").textContent = `Orientação para ${currentCouple.partnerOne}`;
+      document.getElementById("guidancePartnerTwoTitle").textContent = `Orientação para ${currentCouple.partnerTwo}`;
+      renderGuidanceText("guidanceCouple", guidance.couple);
+      renderGuidanceText("guidancePartnerOne", guidance.partnerOne);
+      renderGuidanceText("guidancePartnerTwo", guidance.partnerTwo);
+      renderGuidanceText("guidanceDo", guidance.doList);
+      renderGuidanceText("guidanceAvoid", guidance.avoidList);
+      renderGuidanceText("guidanceExercise", guidance.exercise);
+      renderGuidanceText("guidanceMessage", guidance.message);
+      renderGuidanceCustomTopics(guidance.customTopics);
+    }
+
+    function normalizeChecklist(items) {
+      return Array.isArray(items)
+        ? items
+            .map((item) => ({
+              text: typeof item === "string" ? item : String(item.text || ""),
+              done: Boolean(item.done)
+            }))
+            .filter((item) => item.text.trim())
+        : [];
+    }
+
+    function renderChecklist(key, containerId) {
+      const container = document.getElementById(containerId);
+      const items = checklistState[key] || [];
+      container.innerHTML = items.length
+        ? items.map((item, index) => `
+            <label class="check-row${item.done ? " done" : ""}">
+              <input type="checkbox" ${item.done ? "checked" : ""} data-list-key="${key}" data-list-index="${index}">
+              <span>${escapeHtml(item.text)}</span>
+              <button class="remove-item" type="button" data-remove-key="${key}" data-remove-index="${index}" aria-label="Remover item">x</button>
+            </label>
+          `).join("")
+        : "<p>Nenhum item criado ainda.</p>";
+    }
+
+    function renderPresetOptions(key, containerId) {
+      const container = document.getElementById(containerId);
+      const selected = new Set((checklistState[key] || []).map((item) => item.text));
+      container.innerHTML = improvementPresets.map((preset) => `
+        <label class="check-row">
+          <input type="checkbox" ${selected.has(preset) ? "checked" : ""} data-preset-key="${key}" data-preset-value="${escapeHtml(preset)}">
+          <span>${preset}</span>
+          <span></span>
+        </label>
+      `).join("");
+    }
+
+    function renderJourneyLists() {
+      renderChecklist("dreamsShort", "dreamsShortList");
+      renderChecklist("dreamsMedium", "dreamsMediumList");
+      renderChecklist("dreamsLong", "dreamsLongList");
+
+      if (currentCouple) {
+        document.getElementById("improveOneTitle").textContent = `Pontos a melhorar ${currentCouple.partnerOne}`;
+        document.getElementById("improveTwoTitle").textContent = `Pontos a melhorar ${currentCouple.partnerTwo}`;
+        document.getElementById("recognizeOneTitle").textContent = `O que reconhecemos de bom em ${currentCouple.partnerOne}`;
+        document.getElementById("recognizeTwoTitle").textContent = `O que reconhecemos de bom em ${currentCouple.partnerTwo}`;
+      }
+      renderCustomTopics();
+    }
+
+    function hideLegacyJourneyFields() {
+      ["journeyDreams", "journeyImproveSelf", "journeyImproveOther"].forEach((id) => {
+        const field = document.getElementById(id);
+        if (field && field.closest(".field")) {
+          field.closest(".field").style.display = "none";
+        }
+      });
+    }
+
+    function addChecklistItem(key, text) {
+      const value = text.trim();
+      if (!value) return;
+      checklistState[key] = checklistState[key] || [];
+      if (!checklistState[key].some((item) => item.text.toLowerCase() === value.toLowerCase())) {
+        checklistState[key].push({ text: value, done: false });
+      }
+      renderJourneyLists();
+    }
+
+    function removeChecklistItem(key, index) {
+      checklistState[key].splice(index, 1);
+      renderJourneyLists();
+    }
+
+    function toggleChecklistItem(key, index, done) {
+      if (!checklistState[key] || !checklistState[key][index]) return;
+      checklistState[key][index].done = done;
+      renderJourneyLists();
+    }
+
+    function togglePresetItem(key, value, checked) {
+      if (checked) {
+        addChecklistItem(key, value);
+      } else {
+        checklistState[key] = (checklistState[key] || []).filter((item) => item.text !== value);
+        renderJourneyLists();
+      }
+    }
+
+    function parseTopicLines(text) {
+      return text
+        .split(/\n|;/)
+        .map((line) => line.replace(/^[\s•\-*☐☑\d.)]+/, "").trim())
+        .filter(Boolean);
+    }
+
+    function markJourneyDirty() {
+      if (!currentCouple) return;
+      journeyDirty = true;
+      currentCouple.journeyShared = collectJourneyShared();
+      saveCouples();
+      const status = document.getElementById("journeyAutoSaveStatus");
+      if (status) status.textContent = "Alteração pendente...";
+      clearTimeout(journeyAutoSaveTimer);
+      journeyAutoSaveTimer = setTimeout(saveJourneyShared, 2500);
+    }
+
+    function addBulkDreams(key, text) {
+      parseTopicLines(text).forEach((line) => addChecklistItem(key, line, false));
+      markJourneyDirty();
+    }
+
+    function renderCustomTopics() {
+      const list = document.getElementById("customTopicsList");
+      if (!list) return;
+      list.innerHTML = customTopicState.length
+        ? customTopicState.map((topic, index) => `
+            <article class="custom-topic-card">
+              <input type="text" value="${escapeHtml(topic.title || "")}" data-custom-topic-title="${index}" placeholder="Título do tópico">
+              <textarea data-custom-topic-text="${index}" placeholder="Escrevam aqui...">${escapeHtml(topic.text || "")}</textarea>
+              <button class="remove-item" type="button" data-remove-custom-topic="${index}">Remover tópico</button>
+            </article>
+          `).join("")
+        : "<p>Nenhum tópico personalizado criado ainda.</p>";
+    }
+
+    function addCustomTopic() {
+      const select = document.getElementById("topicTemplateSelect");
+      const title = select.value || "Tópico personalizado";
+      customTopicState.push({ title, text: "" });
+      renderCustomTopics();
+      markJourneyDirty();
+    }
+
+    function renderJourneyShared() {
+      if (!currentCouple) return;
+      if (journeyDirty) return;
+      const journey = { ...defaultJourneyShared(), ...(currentCouple.journeyShared || {}) };
+      Object.keys(checklistState).forEach((key) => {
+        checklistState[key] = normalizeChecklist(journey[key]);
+      });
+      customTopicState = Array.isArray(journey.customTopics)
+        ? journey.customTopics.map((topic) => ({
+            title: String(topic.title || ""),
+            text: String(topic.text || "")
+          }))
+        : [];
+      Object.keys(journeyFields).forEach((key) => {
+        if (document.activeElement !== journeyFields[key]) {
+          journeyFields[key].value = journey[key] || "";
+        }
+      });
+      hideLegacyJourneyFields();
+      renderJourneyLists();
+    }
+
+    function collectJourneyShared() {
+      const journey = {};
+      Object.keys(journeyFields).forEach((key) => {
+        journey[key] = journeyFields[key].value.trim();
+      });
+      Object.keys(checklistState).forEach((key) => {
+        journey[key] = normalizeChecklist(checklistState[key]);
+      });
+      journey.customTopics = customTopicState
+        .map((topic) => ({
+          title: String(topic.title || "").trim(),
+          text: String(topic.text || "").trim()
+        }))
+        .filter((topic) => topic.title || topic.text);
+      return journey;
+    }
+
+    function formatUpdateDate(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function renderNotifications() {
+      if (!currentCouple) return;
+      const notifications = Array.isArray(currentCouple.notifications) ? currentCouple.notifications : [];
+      const recent = notifications.slice(0, 5);
+      const seen = currentCouple._notifSeenAt || 0;
+      const hasNew = recent.some((item) => new Date(item.createdAt).getTime() > seen);
+
+      notificationDot.classList.toggle("active", hasNew);
+      notificationList.innerHTML = recent.length
+        ? recent.map((item) => {
+            const field = item.target === "orientacoes"
+              ? "Orientações"
+              : item.target === "caminhada"
+                ? "Nossa Caminhada"
+                : (item.title || "Campo atualizado");
+            return `
+              <div class="notification-item">
+                <strong>${escapeHtml(field)}</strong>
+                <small>${escapeHtml(formatUpdateDate(item.createdAt))}</small>
+              </div>
+            `;
+          }).join("")
+        : '<p class="muted-small">Sem atualizações novas.</p>';
+    }
+
+    async function loadContentEdits() {
+      try {
+        const data = await apiRequest({ action: "get_content" });
+        const editedContent = data.content || {};
+
+        devotionals.forEach((item, index) => {
+          const edited = editedContent[String(item.day)];
+          if (edited) {
+            devotionals[index] = { ...item, ...edited, day: item.day };
+          }
+        });
+      } catch (error) {
+        // Se o servidor nao tiver edicoes ainda, usa o conteudo padrao do arquivo.
+      }
+    }
+
+    function normalizeCode(code) {
+      return code.trim().toUpperCase().replace(/\s+/g, "");
+    }
+
+    function generateCode() {
+      let code = "";
+      do {
+        code = `LAR-${Math.floor(100000 + Math.random() * 900000)}`;
+      } while (couples[code]);
+      return code;
+    }
+
+    function setSession(couple) {
+      currentCouple = couple;
+      currentCouple.settings = {
+        startDate: todayISO(),
+        lockFutureDays: true,
+        manualUnlockedUntil: 1,
+        ...(currentCouple.settings || {})
+      };
+      currentCoupleCode = couple.code;
+      completed = Array.isArray(couple.completed) ? couple.completed : [];
+      currentDay = Number(couple.lastDay) || 1;
+      localStorage.setItem(SESSION_KEY, currentCoupleCode);
+      couples[currentCoupleCode] = currentCouple;
+      saveCouples();
+      renderApp();
+    }
+
+    function showAuth(message = "") {
+      currentCouple = null;
+      currentCoupleCode = "";
+      completed = [];
+      currentDay = 1;
+      localStorage.removeItem(SESSION_KEY);
+      authView.classList.remove("hidden");
+      homeView.classList.add("hidden");
+      detailView.classList.remove("active");
+      authMessage.textContent = message;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateProgress() {
+      const count = completed.length;
+      const percent = Math.round((count / devotionals.length) * 100);
+      progressText.textContent = `${count} de ${devotionals.length} dias concluídos`;
+      progressPercent.textContent = `${percent}%`;
+      progressFill.style.width = `${percent}%`;
+      sideText.textContent = `${count} de ${devotionals.length} dias concluídos`;
+      sidePercent.textContent = `${percent}%`;
+    }
+
+    function updateCouplePanel() {
+      if (!currentCouple) {
+        return;
+      }
+      const therapist = currentCouple.therapist ? ` Acompanhamento: ${currentCouple.therapist}.` : "";
+      document.getElementById("couplePanelTitle").textContent = currentCouple.name;
+      document.getElementById("couplePanelText").textContent = `${currentCouple.partnerOne} e ${currentCouple.partnerTwo} compartilham este mesmo devocional.${therapist}`;
+      document.getElementById("coupleCodeBadge").textContent = currentCouple.code;
+      startDateInput.value = currentCouple.settings.startDate || todayISO();
+      lockFutureDaysInput.checked = Boolean(currentCouple.settings.lockFutureDays);
+      settingsMessage.textContent = currentCouple.settings.lockFutureDays
+        ? `Modo surpresa ativo: até o Dia ${getUnlockedLimit()} está liberado hoje. O próximo dia abre à meia-noite após concluir o atual.`
+        : "Todos os 21 dias estão liberados para visualização.";
+      renderGuidance();
+      renderJourneyShared();
+      renderNotifications();
+    }
+
+    function renderDays() {
+      daysGrid.innerHTML = devotionals.map((item) => {
+        const doneClass = isCompleted(item.day) ? " done" : "";
+        const lockedClass = isLocked(item.day) ? " locked" : "";
+        const label = isLocked(item.day) ? "Surpresa diária bloqueada" : item.reference;
+        const title = isLocked(item.day) ? `Dia ${item.day}` : item.title;
+        return `
+          <button class="day-card${doneClass}${lockedClass}" type="button" data-day="${item.day}" aria-label="Abrir Dia ${item.day}">
+            <span>
+              <span class="card-top">
+                <span class="day-number">Dia ${item.day}</span>
+                <span class="status-dot" aria-hidden="true">✓</span>
+              </span>
+              <h3>${title}</h3>
+            </span>
+            <p>${label}</p>
+            ${isLocked(item.day) ? '<span class="lock-label">Bloqueado para surpresa</span>' : ""}
+          </button>
+        `;
+      }).join("");
+
+      document.querySelectorAll(".day-card").forEach((button) => {
+        button.addEventListener("click", () => {
+          const day = Number(button.dataset.day);
+          if (isLocked(day)) {
+            showToast(`Dia ${day} bloqueado. O próximo dia libera à meia-noite. 🔒`);
+            return;
+          }
+          openDay(day);
+        });
+      });
+    }
+
+    function renderMiniDays() {
+      miniDays.innerHTML = devotionals.map((item) => {
+        const classes = [
+          "mini-day",
+          isCompleted(item.day) ? "done" : "",
+          isLocked(item.day) ? "locked" : "",
+          item.day === currentDay ? "current" : ""
+        ].filter(Boolean).join(" ");
+        return `<span class="${classes}" title="Dia ${item.day}">${isLocked(item.day) ? "•" : item.day}</span>`;
+      }).join("");
+    }
+
+    function getNotes(day) {
+      if (!currentCouple.notes) {
+        currentCouple.notes = {};
+      }
+      if (!currentCouple.notes[day]) {
+        currentCouple.notes[day] = { partnerOne: "", partnerTwo: "" };
+      }
+      return currentCouple.notes[day];
+    }
+
+    function renderNotes(day) {
+      const notes = getNotes(day);
+      const noteOne = currentCouple.memberOneId ? notes[currentCouple.memberOneId] : notes.partnerOne;
+      const noteTwo = currentCouple.memberTwoId ? notes[currentCouple.memberTwoId] : notes.partnerTwo;
+      document.getElementById("partnerOneNoteLabel").textContent = `Anotações de ${currentCouple.partnerOne}`;
+      document.getElementById("partnerTwoNoteLabel").textContent = `Anotações de ${currentCouple.partnerTwo}`;
+      partnerOneNote.value = noteOne || "";
+      partnerTwoNote.value = noteTwo || "";
+      noteStatus.textContent = "As anotações são salvas e sincronizadas automaticamente.";
+    }
+
+    function applyServerNotes(day) {
+      const notes = getNotes(day);
+      const noteOne = currentCouple.memberOneId ? notes[currentCouple.memberOneId] : notes.partnerOne;
+      const noteTwo = currentCouple.memberTwoId ? notes[currentCouple.memberTwoId] : notes.partnerTwo;
+
+      if (document.activeElement !== partnerOneNote) {
+        partnerOneNote.value = noteOne || "";
+      }
+      if (document.activeElement !== partnerTwoNote) {
+        partnerTwoNote.value = noteTwo || "";
+      }
+    }
+
+    const noteSaveTimers = {};
+
+    function scheduleSaveNote(memberKey) {
+      clearTimeout(noteSaveTimers[memberKey]);
+      noteSaveTimers[memberKey] = setTimeout(() => saveNote(memberKey), 500);
+    }
+
+    function getNoteTextarea(memberKey) {
+      return memberKey === "one" ? partnerOneNote : partnerTwoNote;
+    }
+
+    function insertAtCursor(textarea, text) {
+      const start = textarea.selectionStart || 0;
+      const end = textarea.selectionEnd || 0;
+      const before = textarea.value.slice(0, start);
+      const after = textarea.value.slice(end);
+      const prefix = before && !before.endsWith("\n") ? "\n" : "";
+      const insert = `${prefix}${text}`;
+      textarea.value = before + insert + after;
+      const cursor = before.length + insert.length;
+      textarea.focus();
+      textarea.setSelectionRange(cursor, cursor);
+    }
+
+    function insertTopic(memberKey) {
+      const textarea = getNoteTextarea(memberKey);
+      insertAtCursor(textarea, "• ");
+      scheduleSaveNote(memberKey);
+    }
+
+    function insertTopicInTextarea(targetId) {
+      const textarea = document.getElementById(targetId);
+      if (!textarea) return;
+      insertAtCursor(textarea, "• ");
+    }
+
+    function toggleChecklist(memberKey) {
+      const textarea = getNoteTextarea(memberKey);
+      const value = textarea.value;
+      const cursor = textarea.selectionStart || 0;
+      const lineStart = value.lastIndexOf("\n", Math.max(0, cursor - 1)) + 1;
+      const nextBreak = value.indexOf("\n", cursor);
+      const lineEnd = nextBreak === -1 ? value.length : nextBreak;
+      const line = value.slice(lineStart, lineEnd);
+      let nextLine;
+
+      if (line.trimStart().startsWith("☐")) {
+        nextLine = line.replace("☐", "☑");
+      } else if (line.trimStart().startsWith("☑")) {
+        nextLine = line.replace("☑", "☐");
+      } else if (line.trim() === "") {
+        nextLine = "☐ ";
+      } else {
+        nextLine = `☐ ${line}`;
+      }
+
+      textarea.value = value.slice(0, lineStart) + nextLine + value.slice(lineEnd);
+      const nextCursor = lineStart + nextLine.length;
+      textarea.focus();
+      textarea.setSelectionRange(nextCursor, nextCursor);
+      scheduleSaveNote(memberKey);
+    }
+
+    async function saveNote(memberKey) {
+      if (!currentCouple) {
+        return;
+      }
+
+      const isFirst = memberKey === "one";
+      const memberId = isFirst ? currentCouple.memberOneId : currentCouple.memberTwoId;
+      const textarea = isFirst ? partnerOneNote : partnerTwoNote;
+      const fallbackKey = isFirst ? "partnerOne" : "partnerTwo";
+
+      if (!memberId) {
+        return;
+      }
+
+      const notes = getNotes(currentDay);
+      notes[memberId] = textarea.value;
+      notes[fallbackKey] = textarea.value;
+      saveCouples();
+
+      noteStatus.textContent = "Salvando anotação...";
+      try {
+        await apiRequest({
+          action: "save_note",
+          access_code: currentCouple.code,
+          member_id: memberId,
+          day_number: currentDay,
+          note: textarea.value
+        });
+        noteStatus.textContent = "Anotação salva e pronta para o outro acesso.";
+      } catch (error) {
+        noteStatus.textContent = "Não consegui salvar online agora. Tente novamente em instantes.";
+      }
+    }
+
+    async function saveJourneyShared() {
+      if (!currentCouple) {
+        return;
+      }
+
+      currentCouple.journeyShared = collectJourneyShared();
+      saveCouples();
+      journeyMessage.textContent = "Salvando Nossa Caminhada...";
+      const autoStatus = document.getElementById("journeyAutoSaveStatus");
+      if (autoStatus) autoStatus.textContent = "";
+
+      try {
+        const data = await apiRequest({
+          action: "save_couple_journey",
+          access_code: currentCouple.code,
+          journey_shared: currentCouple.journeyShared
+        });
+        currentCouple = data.group;
+        saveCouples();
+        journeyDirty = false;
+        renderJourneyShared();
+        renderNotifications();
+        journeyMessage.textContent = "Nossa Caminhada foi salva e ficou visível para a terapeuta.";
+        showToast("Nossa Caminhada salva com sucesso.");
+      } catch (error) {
+        journeyMessage.textContent = "Não consegui salvar online agora. Tente novamente em instantes.";
+        if (autoStatus) autoStatus.textContent = "Salvo apenas localmente.";
+      }
+    }
+
+    async function syncCurrentCouple(showMessage = false) {
+      if (!currentCouple) {
+        return;
+      }
+
+      try {
+        const data = await apiRequest({
+          action: "access_group",
+          access_code: currentCouple.code
+        });
+        if (data.serverDate) {
+          currentServerDate = data.serverDate;
+        }
+        currentCouple = data.group;
+        completed = Array.isArray(currentCouple.completed) ? currentCouple.completed : [];
+        saveCouples();
+        updateProgress();
+        renderGuidance();
+        renderJourneyShared();
+        if (detailView.classList.contains("active")) {
+          renderMiniDays();
+          applyServerNotes(currentDay);
+        }
+        if (showMessage && detailView.classList.contains("active")) {
+          noteStatus.textContent = "Anotações atualizadas.";
+        }
+      } catch (error) {
+        if (showMessage && detailView.classList.contains("active")) {
+          noteStatus.textContent = "Não consegui atualizar agora. Tente novamente.";
+        }
+      }
+    }
+
+    async function refreshDailyUnlock() {
+      if (!currentCouple) {
+        return;
+      }
+
+      try {
+        const data = await apiRequest({
+          action: "access_group",
+          access_code: currentCouple.code
+        });
+        if (data.serverDate) {
+          currentServerDate = data.serverDate;
+        }
+        currentCouple = data.group;
+        completed = Array.isArray(currentCouple.completed) ? currentCouple.completed : [];
+        saveCouples();
+      } catch (error) {
+        currentServerDate = todayISO();
+      }
+
+      if (currentServerDate === lastUnlockDate) {
+        return;
+      }
+
+      lastUnlockDate = currentServerDate;
+      updateCouplePanel();
+      renderDays();
+      renderMiniDays();
+
+      if (detailView.classList.contains("active")) {
+        noteStatus.textContent = "Novo dia liberado à meia-noite.";
+      }
+    }
+
+    function openDay(day) {
+      if (!currentCouple) {
+        showAuth("Entre com um código para acessar o devocional.");
+        return;
+      }
+      if (isLocked(day)) {
+        showHome();
+        showToast(`Dia ${day} bloqueado. O próximo dia libera à meia-noite. 🔒`);
+        return;
+      }
+      const item = devotionals.find((devotional) => devotional.day === day) || devotionals[0];
+      currentDay = item.day;
+      saveCouples();
+
+      document.getElementById("detailDayNumber").textContent = `Dia ${item.day}`;
+      document.getElementById("detailTitle").textContent = item.title;
+      document.getElementById("detailIntro").textContent = item.intro;
+      document.getElementById("detailReference").textContent = item.reference;
+      document.getElementById("detailRenunciaShort").textContent = item.renunciaShort;
+      document.getElementById("detailAcaoShort").textContent = item.acaoShort;
+      document.getElementById("detailScripture").innerHTML = `<strong>${item.reference}</strong><br>${item.scripture}`;
+      document.getElementById("detailDevotional").innerHTML = formatParagraphs(item.devotional);
+      document.getElementById("detailRenuncia").innerHTML = formatParagraphs(item.renuncia);
+      document.getElementById("detailAction").innerHTML = formatParagraphs(item.action);
+      document.getElementById("detailPrayer").innerHTML = formatParagraphs(item.prayer);
+
+      completeButton.textContent = isCompleted(item.day) ? "Marcar como não concluído" : "Marcar como concluído";
+      completeButton.classList.toggle("completed", isCompleted(item.day));
+      completeButton.dataset.day = String(item.day);
+      renderNotes(item.day);
+
+      authView.classList.add("hidden");
+      homeView.classList.add("hidden");
+      detailView.classList.add("active");
+      updateProgress();
+      renderMiniDays();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showHome() {
+      if (!currentCouple) {
+        showAuth();
+        return;
+      }
+      authView.classList.add("hidden");
+      detailView.classList.remove("active");
+      homeView.classList.remove("hidden");
+      showHomeTab("devocional");
+      updateCouplePanel();
+      renderDays();
+      renderMiniDays();
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderApp() {
+      if (!currentCouple) {
+        showAuth();
+        return;
+      }
+      showHome();
+    }
+
+    completeButton.addEventListener("click", async () => {
+      const day = Number(completeButton.dataset.day);
+      if (isCompleted(day)) {
+        completed = completed.filter((item) => item !== day);
+      } else {
+        completed = [...completed, day].sort((a, b) => a - b);
+      }
+      saveCouples();
+      try {
+        const data = await apiRequest({
+          action: "toggle_progress",
+          access_code: currentCouple.code,
+          day_number: day,
+          completed: isCompleted(day)
+        });
+        if (data.serverDate) {
+          currentServerDate = data.serverDate;
+        }
+        currentCouple = data.group;
+        completed = currentCouple.completed;
+        saveCouples();
+      } catch (error) {
+        noteStatus.textContent = "Progresso salvo neste navegador. Configure a Hostinger para salvar online.";
+      }
+      renderDays();
+      openDay(day);
+    });
+
+    accessCoupleForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const code = normalizeCode(document.getElementById("accessCodeInput").value);
+      authMessage.textContent = "Buscando código na sua hospedagem...";
+      try {
+        const data = await apiRequest({
+          action: "access_group",
+          access_code: code
+        });
+        if (data.serverDate) {
+          currentServerDate = data.serverDate;
+        }
+        setSession(data.group);
+      } catch (error) {
+        authMessage.textContent = error.message;
+      }
+    });
+
+    document.getElementById("saveSettingsButton").addEventListener("click", async () => {
+      currentCouple.settings.startDate = startDateInput.value || todayISO();
+      currentCouple.settings.lockFutureDays = lockFutureDaysInput.checked;
+      saveCouples();
+      try {
+        const data = await apiRequest({
+          action: "save_settings",
+          access_code: currentCouple.code,
+          start_date: currentCouple.settings.startDate,
+          daily_unlock_enabled: currentCouple.settings.lockFutureDays
+        });
+        if (data.serverDate) {
+          currentServerDate = data.serverDate;
+        }
+        currentCouple = data.group;
+        completed = currentCouple.completed;
+        saveCouples();
+      } catch (error) {
+        settingsMessage.textContent = "Configuração salva neste navegador. Configure a Hostinger para salvar online.";
+      }
+      updateCouplePanel();
+      renderDays();
+      renderMiniDays();
+      settingsMessage.textContent = currentCouple.settings.lockFutureDays
+        ? `Bloqueio salvo. Hoje o casal pode acessar até o Dia ${getUnlockedLimit()}. O próximo dia libera à meia-noite.`
+        : "Bloqueio removido. Todos os dias estão liberados.";
+    });
+
+    notificationButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const open = notificationPopover.classList.toggle("hidden") === false;
+      notificationButton.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!notificationPopover.classList.contains("hidden") && !event.target.closest(".notification-wrap")) {
+        notificationPopover.classList.add("hidden");
+        notificationButton.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    partnerOneNote.addEventListener("input", () => scheduleSaveNote("one"));
+    partnerTwoNote.addEventListener("input", () => scheduleSaveNote("two"));
+    homeTabButtons.forEach((button) => {
+      button.addEventListener("click", () => showHomeTab(button.dataset.homeTabTarget));
+    });
+    journeyTabButtons.forEach((button) => {
+      button.addEventListener("click", () => showJourneyTab(button.dataset.journeyTabTarget));
+    });
+    document.querySelectorAll("[data-dream-toggle]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const body = document.getElementById(button.dataset.dreamToggle);
+        if (!body) return;
+        const open = body.classList.toggle("hidden") === false;
+        button.classList.toggle("open", open);
+        button.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    });
+    document.querySelectorAll("[data-add-dream]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.addDream;
+        const input = document.getElementById(`${key}Input`);
+        addChecklistItem(key, input.value);
+        markJourneyDirty();
+        input.value = "";
+      });
+    });
+    document.querySelectorAll("[data-bulk-dream]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.bulkDream;
+        const input = document.getElementById(`${key}Bulk`);
+        addBulkDreams(key, input.value);
+        input.value = "";
+      });
+    });
+    document.getElementById("addCustomTopicButton").addEventListener("click", addCustomTopic);
+    document.querySelectorAll(".journey-panel textarea").forEach((textarea) => {
+      textarea.addEventListener("input", markJourneyDirty);
+    });
+    document.getElementById("customTopicsList").addEventListener("input", (event) => {
+      const target = event.target;
+      if (target.dataset.customTopicTitle !== undefined) {
+        customTopicState[Number(target.dataset.customTopicTitle)].title = target.value;
+        markJourneyDirty();
+      }
+      if (target.dataset.customTopicText !== undefined) {
+        customTopicState[Number(target.dataset.customTopicText)].text = target.value;
+        markJourneyDirty();
+      }
+    });
+    document.getElementById("customTopicsList").addEventListener("click", (event) => {
+      const target = event.target;
+      if (target.dataset.removeCustomTopic !== undefined) {
+        customTopicState.splice(Number(target.dataset.removeCustomTopic), 1);
+        renderCustomTopics();
+        markJourneyDirty();
+      }
+    });
+    document.querySelectorAll(".journey-panel .check-list, .journey-panel .preset-options").forEach((container) => {
+      container.addEventListener("change", (event) => {
+        const target = event.target;
+        if (target.dataset.listKey) {
+          toggleChecklistItem(target.dataset.listKey, Number(target.dataset.listIndex), target.checked);
+          markJourneyDirty();
+        }
+        if (target.dataset.presetKey) {
+          togglePresetItem(target.dataset.presetKey, target.dataset.presetValue, target.checked);
+          markJourneyDirty();
+        }
+      });
+      container.addEventListener("click", (event) => {
+        const target = event.target;
+        if (target.dataset.removeKey) {
+          removeChecklistItem(target.dataset.removeKey, Number(target.dataset.removeIndex));
+          markJourneyDirty();
+        }
+      });
+    });
+    document.getElementById("saveJourneyButton").addEventListener("click", saveJourneyShared);
+
+    // Private chat feature
+    (function () {
+      let selectedMemberId = null;
+      let selectedMemberPassword = "";
+      let selectedMemberHasPassword = true;
+      let privateChatRefreshBusy = false;
+
+      function getCouple() { return window._getCoupleRef ? window._getCoupleRef() : null; }
+      function apiOk(data) { return Boolean(data && (data.ok || data.success)); }
+      function readApiResponse(response) {
+        return response.text().then((text) => {
+          try {
+            return JSON.parse(text);
+          } catch (error) {
+            return { ok: false, message: "O servidor não respondeu corretamente. Confira se o api.php atualizado foi enviado." };
+          }
+        });
+      }
+      function privateChatDate(value) {
+        if (!value) return "";
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "";
+        return date.toLocaleString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+      }
+      function memberName(id) {
+        const couple = getCouple();
+        return id === 1 ? (couple && couple.partnerOne || "Nome 1") : (couple && couple.partnerTwo || "Nome 2");
+      }
+      function legacyChatFrom(data) {
+        const list = [];
+        if (data && data.note) {
+          list.push({ id: "legacy_note", author: "participante", text: data.note, createdAt: "" });
+        }
+        const replies = data && Array.isArray(data.replies) ? data.replies.slice().reverse() : [];
+        replies.forEach((reply) => {
+          list.push({ id: reply.id || "legacy_reply", author: "terapeuta", text: reply.text || "", createdAt: reply.createdAt || "" });
+        });
+        return list;
+      }
+      function renderPrivateChat(chat) {
+        const container = document.getElementById("privateChatMessages");
+        const messages = Array.isArray(chat) ? chat : [];
+        container.innerHTML = messages.length
+          ? messages.map((message) => {
+              const mine = message.author !== "terapeuta";
+              const authorName = mine ? memberName(selectedMemberId) : "Terapeuta";
+              const when = message.createdAt ? escapeHtml(privateChatDate(message.createdAt)) : "";
+              const deleteButton = mine && message.id
+                ? '<button class="private-chat-delete" type="button" data-delete-private-message="' + escapeHtml(message.id) + '">apagar</button>'
+                : "";
+              return '<div class="private-chat-row ' + (mine ? "mine" : "theirs") + '">' +
+                '<article class="private-chat-bubble">' +
+                  '<span class="private-chat-name">' + escapeHtml(authorName) + '</span>' +
+                  '<div class="private-chat-text">' + escapeHtml(message.text || "") + '</div>' +
+                  '<div class="private-chat-meta">' + (when ? '<span>' + when + '</span>' : '') + deleteButton + '</div>' +
+                '</article>' +
+              '</div>';
+            }).join("")
+          : '<p class="private-chat-empty">Nenhuma mensagem ainda. Escreva abaixo para iniciar a conversa privada.</p>';
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function privateChatOpen() {
+        const form = document.getElementById("privateNoteForm");
+        return selectedMemberId && selectedMemberPassword && form && !form.classList.contains("hidden");
+      }
+
+      function privateTabVisible() {
+        const panel = document.querySelector("[data-home-tab-panel='privado']");
+        return panel && !panel.classList.contains("hidden");
+      }
+
+      function initPrivateNoteTab() {
+        const couple = getCouple();
+        if (!couple) return;
+        document.getElementById("selectMemberOne").textContent = couple.partnerOne || "Nome 1";
+        document.getElementById("selectMemberTwo").textContent = couple.partnerTwo || "Nome 2";
+        updatePrivateMemberStatus(1);
+        updatePrivateMemberStatus(2);
+      }
+
+      function updatePrivateMemberStatus(id) {
+        const couple = getCouple();
+        if (!couple) return Promise.resolve(null);
+        return fetch("api.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "private_note_status", access_code: couple.code, member_id: id })
+        })
+          .then(readApiResponse)
+          .then(data => {
+            const button = document.querySelector(`[data-member-id="${id}"]`);
+            if (button) button.classList.toggle("has-unread", Boolean(apiOk(data) && data.data && data.data.hasUnread));
+            return data;
+          })
+          .catch(() => null);
+      }
+
+      function selectMember(id) {
+        const couple = getCouple();
+        if (!couple) return;
+        selectedMemberId = id;
+        selectedMemberPassword = "";
+        document.getElementById("privateNoteIdentity").classList.add("hidden");
+        document.getElementById("privatePasswordPanel").classList.remove("hidden");
+        document.getElementById("privateNoteForm").classList.add("hidden");
+        document.getElementById("privatePasswordWho").textContent = "Acessando como: " + memberName(id);
+        document.getElementById("privatePasswordInput").value = "";
+        document.getElementById("privatePasswordMessage").textContent = "Verificando senha...";
+        document.getElementById("unlockPrivateNoteButton").textContent = "Confirmar senha";
+        document.getElementById("privateNoteTextarea").value = "";
+        renderPrivateChat([]);
+        document.querySelectorAll(".private-id-btn").forEach(b => b.classList.toggle("selected", parseInt(b.dataset.memberId, 10) === id));
+
+        updatePrivateMemberStatus(id)
+          .then(data => {
+            selectedMemberHasPassword = Boolean(apiOk(data) && data.data && data.data.hasPassword);
+            document.getElementById("unlockPrivateNoteButton").textContent = selectedMemberHasPassword ? "Confirmar senha" : "Criar senha";
+            document.getElementById("privatePasswordMessage").textContent = selectedMemberHasPassword
+              ? "Digite sua senha privada para abrir o chat."
+              : "Crie sua senha privada para abrir este chat pela primeira vez.";
+          })
+          .catch((error) => {
+            document.getElementById("privatePasswordMessage").textContent = "Não consegui verificar agora: " + (error.message || "falha inesperada.");
+          });
+      }
+
+      function unlockPrivateNote() {
+        const couple = getCouple();
+        if (!couple || !selectedMemberId) return;
+        const password = document.getElementById("privatePasswordInput").value;
+        const msg = document.getElementById("privatePasswordMessage");
+        msg.textContent = selectedMemberHasPassword ? "Abrindo chat..." : "Criando senha...";
+
+        fetch("api.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "unlock_private_note", access_code: couple.code, member_id: selectedMemberId, password })
+        })
+          .then(readApiResponse)
+          .then(data => {
+            if (apiOk(data)) {
+              selectedMemberPassword = password;
+              const selectedButton = document.querySelector(`[data-member-id="${selectedMemberId}"]`);
+              if (selectedButton) selectedButton.classList.remove("has-unread");
+              document.getElementById("privatePasswordPanel").classList.add("hidden");
+              document.getElementById("privateNoteForm").classList.remove("hidden");
+              document.getElementById("privateNoteWho").textContent = "Chat privado de " + memberName(selectedMemberId) + " com a terapeuta";
+              document.getElementById("privateNoteTextarea").value = "";
+              const chat = data.data && Array.isArray(data.data.chat) ? data.data.chat : legacyChatFrom(data.data || {});
+              renderPrivateChat(chat);
+              document.getElementById("privateNoteMessage").textContent = "";
+            } else {
+              msg.textContent = data.message || "Não foi possível abrir.";
+            }
+          })
+          .catch((error) => { msg.textContent = "Erro ao abrir o chat: " + (error.message || "falha inesperada."); });
+      }
+
+      function savePrivateNote() {
+        const couple = getCouple();
+        if (!couple || !selectedMemberId) return;
+        const text = document.getElementById("privateNoteTextarea").value.trim();
+        const msg = document.getElementById("privateNoteMessage");
+        if (!text) {
+          msg.textContent = "Digite uma mensagem antes de enviar.";
+          msg.className = "notice error";
+          return;
+        }
+        msg.textContent = "Enviando...";
+        msg.className = "notice";
+        fetch("api.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "send_private_message", access_code: couple.code, member_id: selectedMemberId, password: selectedMemberPassword, text })
+        })
+          .then(readApiResponse)
+          .then(data => {
+            if (apiOk(data)) {
+              document.getElementById("privateNoteTextarea").value = "";
+              renderPrivateChat(data.data && data.data.chat ? data.data.chat : []);
+              msg.textContent = "Mensagem enviada.";
+              msg.className = "notice success";
+            } else {
+              msg.textContent = data.message || "Erro ao enviar.";
+              msg.className = "notice error";
+            }
+          })
+          .catch((error) => { msg.textContent = "Erro ao enviar: " + (error.message || "falha inesperada."); msg.className = "notice error"; });
+      }
+
+      function refreshPrivateChat(silent = true) {
+        const couple = getCouple();
+        if (!couple || !privateChatOpen() || privateChatRefreshBusy) return;
+        if (document.activeElement === document.getElementById("privateNoteTextarea")) return;
+
+        const msg = document.getElementById("privateNoteMessage");
+        privateChatRefreshBusy = true;
+
+        fetch("api.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "get_private_note", access_code: couple.code, member_id: selectedMemberId, password: selectedMemberPassword })
+        })
+          .then(readApiResponse)
+          .then(data => {
+            if (apiOk(data)) {
+              const chat = data.data && Array.isArray(data.data.chat) ? data.data.chat : legacyChatFrom(data.data || {});
+              renderPrivateChat(chat);
+              if (!silent) {
+                msg.textContent = "Mensagens atualizadas.";
+                msg.className = "notice success";
+              }
+            } else if (!silent) {
+              msg.textContent = data.message || "Erro ao atualizar.";
+              msg.className = "notice error";
+            }
+          })
+          .catch((error) => {
+            if (!silent) {
+              msg.textContent = "Erro ao atualizar: " + (error.message || "falha inesperada.");
+              msg.className = "notice error";
+            }
+          })
+          .finally(() => {
+            privateChatRefreshBusy = false;
+          });
+      }
+
+      function deletePrivateMessage(messageId) {
+        const couple = getCouple();
+        if (!couple || !selectedMemberId || !messageId) return;
+        const confirmed = window.confirm("Deseja apagar esta mensagem enviada?");
+        if (!confirmed) return;
+        const msg = document.getElementById("privateNoteMessage");
+        msg.textContent = "Apagando mensagem...";
+        msg.className = "notice";
+        fetch("api.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "delete_private_message", access_code: couple.code, member_id: selectedMemberId, password: selectedMemberPassword, message_id: messageId })
+        })
+          .then(readApiResponse)
+          .then(data => {
+            if (apiOk(data)) {
+              renderPrivateChat(data.data && data.data.chat ? data.data.chat : []);
+              msg.textContent = "Mensagem apagada.";
+              msg.className = "notice success";
+            } else {
+              msg.textContent = data.message || "Erro ao apagar.";
+              msg.className = "notice error";
+            }
+          })
+          .catch((error) => { msg.textContent = "Erro ao apagar: " + (error.message || "falha inesperada."); msg.className = "notice error"; });
+      }
+
+      function resetPrivateNoteView() {
+        selectedMemberId = null;
+        selectedMemberPassword = "";
+        document.getElementById("privateNoteIdentity").classList.remove("hidden");
+        document.getElementById("privatePasswordPanel").classList.add("hidden");
+        document.getElementById("privateNoteForm").classList.add("hidden");
+        document.getElementById("privateNoteTextarea").value = "";
+        renderPrivateChat([]);
+        document.getElementById("privatePasswordInput").value = "";
+      }
+
+      document.getElementById("selectMemberOne").addEventListener("click", () => selectMember(1));
+      document.getElementById("selectMemberTwo").addEventListener("click", () => selectMember(2));
+      document.getElementById("unlockPrivateNoteButton").addEventListener("click", unlockPrivateNote);
+      document.getElementById("cancelPrivatePasswordButton").addEventListener("click", resetPrivateNoteView);
+      document.getElementById("savePrivateNoteButton").addEventListener("click", savePrivateNote);
+      document.getElementById("changePrivateIdentity").addEventListener("click", resetPrivateNoteView);
+      document.getElementById("privateChatMessages").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-delete-private-message]");
+        if (button) deletePrivateMessage(button.dataset.deletePrivateMessage);
+      });
+
+      const privadoBtn = document.querySelector("[data-home-tab-target='privado']");
+      if (privadoBtn) {
+        privadoBtn.addEventListener("click", () => {
+          setTimeout(initPrivateNoteTab, 50);
+        });
+      }
+      setInterval(() => {
+        if (!privateTabVisible()) return;
+        if (privateChatOpen()) {
+          refreshPrivateChat(true);
+        } else {
+          updatePrivateMemberStatus(1);
+          updatePrivateMemberStatus(2);
+        }
+      }, 15000);
+    })();
+    document.querySelectorAll("[data-text-tool='topic']").forEach((button) => {
+      button.addEventListener("click", () => insertTopicInTextarea(button.dataset.textTarget));
+    });
+    document.querySelectorAll("[data-note-tool]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const memberKey = button.dataset.noteTarget;
+        if (button.dataset.noteTool === "topic") {
+          insertTopic(memberKey);
+        } else {
+          toggleChecklist(memberKey);
+        }
+      });
+    });
+    refreshNotesButton.addEventListener("click", () => syncCurrentCouple(true));
+
+    document.getElementById("logoutButton").addEventListener("click", () => showAuth("Você saiu do cadastro atual. Entre com outro código."));
+    document.getElementById("detailLogoutButton").addEventListener("click", () => showAuth("Você saiu do cadastro atual. Entre com outro código."));
+    document.getElementById("backButton").addEventListener("click", showHome);
+    document.getElementById("startButton").addEventListener("click", () => openDay(1));
+    document.getElementById("continueButton").addEventListener("click", () => {
+      const next = devotionals.find((item) => !isCompleted(item.day) && !isLocked(item.day));
+      openDay(next ? next.day : currentDay);
+    });
+
+    setInterval(syncCurrentCouple, 30000);
+    setInterval(refreshDailyUnlock, 60000);
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && currentCouple) {
+        syncCurrentCouple();
+        refreshDailyUnlock();
+      }
+    });
+
+    document.getElementById("clearNotificationsButton").addEventListener("click", () => {
+      if (!currentCouple) return;
+      currentCouple._notifSeenAt = Date.now();
+      saveCouples();
+      notificationDot.classList.remove("active");
+      notificationPopover.classList.add("hidden");
+      notificationButton.setAttribute("aria-expanded", "false");
+    });
+
+    loadContentEdits().finally(renderApp);
+  </script>
+</body>
+</html>
