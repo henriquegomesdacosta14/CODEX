@@ -4,19 +4,44 @@ Esta versao nao usa banco MySQL.
 
 Ela salva os codigos, progresso e anotacoes em um arquivo JSON dentro da propria Hostinger.
 
-## Enviar para public_html
+## Deploy pela Hostinger
 
-Envie estes itens para `public_html`:
+Este repositorio deve ser implantado diretamente em `public_html`.
+
+No hPanel da Hostinger, use:
+
+```text
+Repositorio: https://github.com/henriquegomesdacosta14/CODEX.git
+Branch: main
+Diretorio raiz: public_html
+```
+
+Depois do deploy, confirme que estes itens ficaram dentro de `public_html`:
 
 ```text
 index.html
 admin.html
 api.php
-config.php
 data
 ```
 
 A pasta `data` precisa ir junto. Ela tem um arquivo `.htaccess` para bloquear acesso direto aos dados.
+
+## Criar config.php na Hostinger
+
+Por seguranca, `config.php` nao fica no GitHub.
+
+Crie manualmente em `public_html/config.php`:
+
+```php
+<?php
+
+return [
+    'admin_password' => 'troque-esta-senha',
+];
+```
+
+Troque `troque-esta-senha` pela senha real do ADM.
 
 ## Links
 
@@ -32,10 +57,10 @@ Pagina ADM:
 https://educaonine.shop/admin.html
 ```
 
-Senha ADM configurada:
+Senha ADM configurada no servidor:
 
 ```text
-Devo135
+definida em public_html/config.php
 ```
 
 ## Se der erro
