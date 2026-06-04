@@ -2417,6 +2417,11 @@
         </label>
 
         <label>
+          Código personalizado
+          <input id="customAccessCode" type="text" placeholder="Opcional. Ex: LAR-262644">
+        </label>
+
+        <label>
           Data de início
           <input id="startDate" type="date" required>
         </label>
@@ -3841,6 +3846,7 @@
           partner_one: document.getElementById("partnerOne").value.trim(),
           partner_two: document.getElementById("partnerTwo").value.trim(),
           facilitator_name: document.getElementById("facilitatorName").value.trim(),
+          access_code: document.getElementById("customAccessCode").value.trim(),
           start_date: document.getElementById("startDate").value,
           daily_unlock_enabled: document.getElementById("dailyUnlock").checked
         });

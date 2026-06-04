@@ -119,6 +119,7 @@ function createGroup($input, $config, $storageDir, $storageFile)
     $facilitator = cleanText(isset($input['facilitator_name']) ? $input['facilitator_name'] : '');
     $startDate = cleanDate(isset($input['start_date']) ? $input['start_date'] : date('Y-m-d'));
     $dailyUnlock = !empty($input['daily_unlock_enabled']);
+    $requestedCode = normalizeCode(isset($input['access_code']) ? $input['access_code'] : '');
 
     if ($groupName === '' || $partnerOne === '' || $partnerTwo === '') {
         respond(false, 'Preencha o nome do casal e os dois participantes.', null, 422);
@@ -126,8 +127,12 @@ function createGroup($input, $config, $storageDir, $storageFile)
 
     $created = null;
 
-    updateStore($storageDir, $storageFile, function (&$store) use ($groupName, $partnerOne, $partnerTwo, $facilitator, $startDate, $dailyUnlock, &$created) {
-        $code = generateCode($store);
+    updateStore($storageDir, $storageFile, function (&$store) use ($groupName, $partnerOne, $partnerTwo, $facilitator, $startDate, $dailyUnlock, $requestedCode, &$created) {
+        $code = $requestedCode !== '' ? $requestedCode : generateCode($store);
+        if (isset($store['groups'][$code])) {
+            respond(false, 'Este codigo ja existe. Use outro codigo ou acesse o cadastro existente.', null, 409);
+        }
+
         $now = date('c');
 
         $created = array(
