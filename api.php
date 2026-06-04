@@ -29,7 +29,7 @@ try {
             createGroup($input, $config, $storageDir, $storageFile);
             break;
         case 'verify_admin':
-            verifyAdmin($input, $config);
+            verifyAdmin($input, $config, $storageDir, $storageFile);
             break;
         case 'access_group':
             accessGroup($input, $storageDir, $storageFile);
@@ -101,9 +101,10 @@ try {
     respond(false, 'Erro no servidor.', array('detail' => $error->getMessage()), 500);
 }
 
-function verifyAdmin($input, $config)
+function verifyAdmin($input, $config, $storageDir, $storageFile)
 {
-    assertAdmin($input, $config, __DIR__ . '/data');
+    assertAdmin($input, $config, $storageDir);
+    activatePendingGroups($storageDir, $storageFile);
 
     respond(true, 'Acesso administrativo liberado.', array('verified' => true));
 }
@@ -595,6 +596,26 @@ function assertAdmin($input, $config, $storageDir)
     if ($hash === '' || !password_verify($sentPassword, $hash)) {
         respond(false, 'Senha de administrador invalida.', null, 403);
     }
+}
+
+function activatePendingGroups($storageDir, $storageFile)
+{
+    updateStore($storageDir, $storageFile, function (&$store) {
+        if (!isset($store['groups']) || !is_array($store['groups'])) {
+            return;
+        }
+
+        foreach ($store['groups'] as &$group) {
+            if (!is_array($group) || !empty($group['activatedAt'])) {
+                continue;
+            }
+
+            $now = date('c');
+            $group['activatedAt'] = !empty($group['createdAt']) ? $group['createdAt'] : $now;
+            $group['updatedAt'] = $now;
+        }
+        unset($group);
+    });
 }
 
 function readStore($storageDir, $storageFile)
