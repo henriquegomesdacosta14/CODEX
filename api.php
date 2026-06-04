@@ -150,7 +150,7 @@ function createGroup($input, $config, $storageDir, $storageFile)
                 'manualUnlockedUntil' => 1,
             ),
             'createdAt' => $now,
-            'activatedAt' => null,
+            'activatedAt' => $now,
             'updatedAt' => $now,
         );
 
