@@ -11,11 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $configPath = __DIR__ . '/config.php';
-if (!file_exists($configPath)) {
-    respond(false, 'Arquivo config.php nao encontrado.', null, 500);
-}
-
-$config = require $configPath;
+$config = file_exists($configPath) ? require $configPath : array();
 $storageDir = __DIR__ . '/data';
 $storageFile = $storageDir . '/store.json';
 $contentFile = $storageDir . '/content.json';
@@ -107,24 +103,14 @@ try {
 
 function verifyAdmin($input, $config)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, __DIR__ . '/data');
 
     respond(true, 'Acesso administrativo liberado.', array('verified' => true));
 }
 
 function createGroup($input, $config, $storageDir, $storageFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
 
     $groupName = cleanText(isset($input['group_name']) ? $input['group_name'] : '');
     $partnerOne = cleanText(isset($input['partner_one']) ? $input['partner_one'] : '');
@@ -396,12 +382,7 @@ function getContent($storageDir, $contentFile)
 
 function saveDayContent($input, $config, $storageDir, $contentFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
 
     $day = cleanDay(isset($input['day_number']) ? $input['day_number'] : 0);
     $content = isset($input['content']) && is_array($input['content']) ? $input['content'] : array();
@@ -433,12 +414,7 @@ function saveDayContent($input, $config, $storageDir, $contentFile)
 
 function adminStats($input, $config, $storageDir, $storageFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
 
     $store = readStore($storageDir, $storageFile);
     $groups = isset($store['groups']) && is_array($store['groups']) ? $store['groups'] : array();
@@ -475,12 +451,7 @@ function adminStats($input, $config, $storageDir, $storageFile)
 
 function adminGetGroup($input, $config, $storageDir, $storageFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
 
     $code = normalizeCode(isset($input['access_code']) ? $input['access_code'] : '');
     $store = readStore($storageDir, $storageFile);
@@ -494,12 +465,7 @@ function adminGetGroup($input, $config, $storageDir, $storageFile)
 
 function adminUnlockDays($input, $config, $storageDir, $storageFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
 
     $code = normalizeCode(isset($input['access_code']) ? $input['access_code'] : '');
     $unlockUntilDay = cleanUnlockedDay(isset($input['unlock_until_day']) ? $input['unlock_until_day'] : 1);
@@ -527,12 +493,7 @@ function adminUnlockDays($input, $config, $storageDir, $storageFile)
 
 function saveGuidance($input, $config, $storageDir, $storageFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
 
     $code = normalizeCode(isset($input['access_code']) ? $input['access_code'] : '');
     $guidance = isset($input['guidance']) && is_array($input['guidance']) ? $input['guidance'] : array();
@@ -593,6 +554,46 @@ function ensureContentStorage($storageDir, $contentFile)
         if (file_put_contents($contentFile, json_encode(new stdClass(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)) === false) {
             respond(false, 'Nao foi possivel criar o arquivo de conteudo.', null, 500);
         }
+    }
+}
+
+function assertAdmin($input, $config, $storageDir)
+{
+    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
+    if (strlen($sentPassword) < 4) {
+        respond(false, 'Senha de administrador invalida.', null, 403);
+    }
+
+    $configPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
+    if ($configPassword !== '') {
+        if (!hash_equals($configPassword, $sentPassword)) {
+            respond(false, 'Senha de administrador invalida.', null, 403);
+        }
+        return;
+    }
+
+    if (!is_dir($storageDir)) {
+        if (!mkdir($storageDir, 0755, true)) {
+            respond(false, 'Nao foi possivel criar a pasta data no servidor.', null, 500);
+        }
+    }
+
+    $adminFile = $storageDir . '/admin.json';
+    if (!file_exists($adminFile)) {
+        $payload = array(
+            'passwordHash' => password_hash($sentPassword, PASSWORD_DEFAULT),
+            'createdAt' => date('c'),
+        );
+        if (file_put_contents($adminFile, json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX) === false) {
+            respond(false, 'Nao foi possivel criar a senha administrativa no servidor.', null, 500);
+        }
+        return;
+    }
+
+    $payload = json_decode(file_get_contents($adminFile), true);
+    $hash = is_array($payload) && isset($payload['passwordHash']) ? (string)$payload['passwordHash'] : '';
+    if ($hash === '' || !password_verify($sentPassword, $hash)) {
+        respond(false, 'Senha de administrador invalida.', null, 403);
     }
 }
 
@@ -1085,12 +1086,7 @@ function deletePrivateMessage($input, $storageDir, $storageFile)
 
 function adminDeletePrivateMessage($input, $config, $storageDir, $storageFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
 
     $code = normalizeCode(isset($input['access_code']) ? $input['access_code'] : '');
     $memberId = isset($input['member_id']) ? (int)$input['member_id'] : 0;
@@ -1179,11 +1175,7 @@ function markPrivateChatRead($input, $config, $storageDir, $storageFile)
     }
 
     if ($reader === 'therapist') {
-        $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-        $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-        if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-            respond(false, 'Senha de administrador invalida.', null, 403);
-        }
+        assertAdmin($input, $config, $storageDir);
     } elseif ($reader === 'participant') {
         $password = isset($input['password']) ? (string)$input['password'] : '';
     } else {
@@ -1308,12 +1300,7 @@ function getPrivateNote($input, $storageDir, $storageFile)
 
 function savePrivateReply($input, $config, $storageDir, $storageFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
 
     $code = normalizeCode(isset($input['access_code']) ? $input['access_code'] : '');
     $memberId = isset($input['member_id']) ? (int)$input['member_id'] : 0;
@@ -1535,11 +1522,7 @@ function verifyPrivatePassword($group, $memberId, $password)
 
 function adminResetPrivatePassword($input, $config, $storageDir, $storageFile)
 {
-    $adminPassword = isset($config['admin_password']) ? (string)$config['admin_password'] : '';
-    $sentPassword = isset($input['admin_password']) ? (string)$input['admin_password'] : '';
-    if ($adminPassword === '' || !hash_equals($adminPassword, $sentPassword)) {
-        respond(false, 'Senha de administrador invalida.', null, 403);
-    }
+    assertAdmin($input, $config, $storageDir);
     $code = normalizeCode(isset($input['access_code']) ? $input['access_code'] : '');
     $memberId = isset($input['member_id']) ? (int)$input['member_id'] : 0;
     if ($memberId !== 1 && $memberId !== 2) {

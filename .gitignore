@@ -1,5 +1,7 @@
 config.php
 **/data/store.json
+**/data/admin.json
+**/data/content.json
 
 BACKUP_*/
 * - Copia/
