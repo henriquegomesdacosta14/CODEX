@@ -3894,7 +3894,7 @@
     ];
 
     let couples = loadCouples();
-    let currentCoupleCode = localStorage.getItem(SESSION_KEY) || "";
+    let currentCoupleCode = codeFromUrl() || localStorage.getItem(SESSION_KEY) || "";
     let currentCouple = couples[currentCoupleCode] || null;
     window._getCoupleRef = () => currentCouple;
     let completed = currentCouple ? currentCouple.completed : [];
@@ -4414,6 +4414,11 @@
       return code.trim().toUpperCase().replace(/\s+/g, "");
     }
 
+    function codeFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return normalizeCode(params.get("codigo") || params.get("code") || params.get("cod") || "");
+    }
+
     function generateCode() {
       let code = "";
       do {
@@ -4817,6 +4822,27 @@
       }
       scheduleTextareaResize();
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function restoreServerSession() {
+      if (!currentCoupleCode) {
+        return false;
+      }
+
+      try {
+        const data = await apiRequest({
+          action: "access_group",
+          access_code: currentCoupleCode
+        });
+        if (data.serverDate) {
+          currentServerDate = data.serverDate;
+        }
+        setSession(data.group);
+        return true;
+      } catch (error) {
+        showAuth("Entre com o codigo do casal para sincronizar novamente.");
+        return false;
+      }
     }
 
     function renderApp() {
@@ -5395,8 +5421,16 @@
       }
     });
 
-    loadContentEdits().finally(() => {
-      renderApp();
+    loadContentEdits().finally(async () => {
+      if (currentCoupleCode) {
+        const restored = await restoreServerSession();
+        if (!restored) {
+          scheduleTextareaResize();
+          return;
+        }
+      } else {
+        renderApp();
+      }
       scheduleTextareaResize();
     });
   </script>
