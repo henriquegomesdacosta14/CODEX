@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recuperar dados do casal</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #f6f7fb; color: #172033; }
+    main { max-width: 720px; margin: 0 auto; padding: 32px 18px; }
+    section { background: #fff; border: 1px solid #dde3ef; border-radius: 8px; padding: 22px; box-shadow: 0 10px 24px rgba(20,30,50,.08); }
+    h1 { font-size: 1.45rem; margin: 0 0 10px; }
+    p { line-height: 1.5; color: #475569; }
+    label { display: block; margin: 16px 0 8px; font-weight: 700; }
+    input, textarea { width: 100%; box-sizing: border-box; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; font: inherit; }
+    textarea { min-height: 180px; }
+    button { margin-top: 14px; border: 0; border-radius: 6px; padding: 12px 16px; background: #1d4ed8; color: white; font-weight: 700; cursor: pointer; }
+    button.secondary { background: #334155; }
+    .status { margin-top: 14px; font-weight: 700; }
+    .found { background: #eef6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px; margin-top: 12px; }
+    code { background: #eef2f7; padding: 2px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <h1>Recuperar dados salvos neste navegador</h1>
+      <p>Esta pagina procura dados antigos do devocional no navegador atual e envia para a Hostinger. Use no mesmo celular/computador onde voce escreveu os sonhos e aperfeicoamentos.</p>
+
+      <div id="found" class="found">Procurando dados locais...</div>
+
+      <label for="adminPassword">Senha do admin</label>
+      <input id="adminPassword" type="password" placeholder="Senha do admin">
+
+      <button id="recoverButton" type="button">Restaurar para a Hostinger</button>
+      <button id="showButton" class="secondary" type="button">Mostrar JSON encontrado</button>
+
+      <label for="rawData">Dados encontrados</label>
+      <textarea id="rawData" readonly></textarea>
+
+      <div id="status" class="status"></div>
+    </section>
+  </main>
+
+  <script>
+    const KEY = "devocional_21_dias_casais";
+    const found = document.getElementById("found");
+    const rawData = document.getElementById("rawData");
+    const statusEl = document.getElementById("status");
+
+    function readLocalStore() {
+      try {
+        const couples = JSON.parse(localStorage.getItem(KEY) || "{}");
+        return { groups: couples };
+      } catch (error) {
+        return { groups: {} };
+      }
+    }
+
+    function summarize(store) {
+      const groups = store.groups && typeof store.groups === "object" ? store.groups : {};
+      const codes = Object.keys(groups);
+      if (!codes.length) {
+        found.textContent = "Nenhum cadastro antigo foi encontrado neste navegador.";
+        return;
+      }
+
+      found.innerHTML = "Encontrado: " + codes.map((code) => {
+        const group = groups[code] || {};
+        return `<code>${code}</code> ${group.name ? " - " + group.name : ""}`;
+      }).join("<br>");
+    }
+
+    let store = readLocalStore();
+    summarize(store);
+
+    document.getElementById("showButton").addEventListener("click", () => {
+      store = readLocalStore();
+      rawData.value = JSON.stringify(store, null, 2);
+      summarize(store);
+    });
+
+    document.getElementById("recoverButton").addEventListener("click", async () => {
+      store = readLocalStore();
+      summarize(store);
+
+      const adminPassword = document.getElementById("adminPassword").value;
+      if (!adminPassword) {
+        statusEl.textContent = "Digite a senha do admin.";
+        return;
+      }
+
+      statusEl.textContent = "Enviando dados para a Hostinger...";
+      try {
+        const response = await fetch("api.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "admin_import_store",
+            admin_password: adminPassword,
+            store
+          })
+        });
+        const result = await response.json();
+        if (!result.ok) {
+          throw new Error(result.message || "Falha ao restaurar.");
+        }
+        statusEl.textContent = "Restaurado com sucesso. Cadastros importados: " + result.data.imported;
+      } catch (error) {
+        statusEl.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>
