@@ -55,6 +55,9 @@ try {
         case 'admin_stats':
             adminStats($input, $config, $storageDir, $storageFile);
             break;
+        case 'admin_import_store':
+            adminImportStore($input, $config, $storageDir, $storageFile);
+            break;
         case 'admin_get_group':
             adminGetGroup($input, $config, $storageDir, $storageFile);
             break;
@@ -453,6 +456,54 @@ function adminStats($input, $config, $storageDir, $storageFile)
         'waitingCodes' => max(0, $total - $activated),
         'recent' => $recent,
     ));
+}
+
+function adminImportStore($input, $config, $storageDir, $storageFile)
+{
+    assertAdmin($input, $config, $storageDir);
+
+    $incoming = null;
+    if (isset($input['store']) && is_array($input['store'])) {
+        $incoming = $input['store'];
+    } elseif (isset($input['store_json'])) {
+        $decoded = json_decode((string)$input['store_json'], true);
+        if (is_array($decoded)) {
+            $incoming = $decoded;
+        }
+    }
+
+    if (!is_array($incoming) || !isset($incoming['groups']) || !is_array($incoming['groups'])) {
+        respond(false, 'Arquivo de dados invalido para importacao.', null, 422);
+    }
+
+    $imported = 0;
+    updateStore($storageDir, $storageFile, function (&$store) use ($incoming, &$imported) {
+        if (!isset($store['groups']) || !is_array($store['groups'])) {
+            $store['groups'] = array();
+        }
+
+        foreach ($incoming['groups'] as $code => $group) {
+            if (!is_array($group)) {
+                continue;
+            }
+
+            $normalizedCode = normalizeCode(isset($group['code']) ? $group['code'] : $code);
+            if ($normalizedCode === '') {
+                continue;
+            }
+
+            $group['code'] = $normalizedCode;
+            if (empty($group['activatedAt'])) {
+                $group['activatedAt'] = !empty($group['createdAt']) ? $group['createdAt'] : date('c');
+            }
+            $group['updatedAt'] = date('c');
+
+            $store['groups'][$normalizedCode] = $group;
+            $imported++;
+        }
+    });
+
+    respond(true, 'Dados importados com sucesso.', array('imported' => $imported));
 }
 
 function adminGetGroup($input, $config, $storageDir, $storageFile)
