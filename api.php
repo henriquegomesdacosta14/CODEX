@@ -12,9 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $configPath = __DIR__ . '/config.php';
 $config = file_exists($configPath) ? require $configPath : array();
-$storageDir = __DIR__ . '/data';
+$legacyStorageDir = __DIR__ . '/data';
+$storageDir = __DIR__ . '/../devocional-data';
 $storageFile = $storageDir . '/store.json';
 $contentFile = $storageDir . '/content.json';
+migrateLegacyStorage($legacyStorageDir, $storageDir);
 
 $input = json_decode(file_get_contents('php://input'), true);
 if (!is_array($input)) {
@@ -595,6 +597,27 @@ function ensureStorage($storageDir, $storageFile)
         $initial = json_encode(array('groups' => new stdClass()), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         if (file_put_contents($storageFile, $initial) === false) {
             respond(false, 'Nao foi possivel criar o arquivo de dados.', null, 500);
+        }
+    }
+}
+
+function migrateLegacyStorage($legacyStorageDir, $storageDir)
+{
+    if (!is_dir($legacyStorageDir)) {
+        return;
+    }
+    if (!is_dir($storageDir)) {
+        @mkdir($storageDir, 0755, true);
+    }
+    if (!is_dir($storageDir)) {
+        return;
+    }
+
+    foreach (array('store.json', 'admin.json', 'content.json') as $fileName) {
+        $from = $legacyStorageDir . '/' . $fileName;
+        $to = $storageDir . '/' . $fileName;
+        if (file_exists($from) && !file_exists($to)) {
+            @copy($from, $to);
         }
     }
 }
