@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masaniello Pro – Gestão de Banca</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<style>
+/* ===== VARIÁVEIS DE TEMA ===== */
+:root {
+  --bg: #0f1117;
+  --bg2: #1a1d27;
+  --bg3: #232636;
+  --border: #2e3147;
+  --text: #e8eaf0;
+  --text2: #9ea3b8;
+  --accent: #6c63ff;
+  --accent2: #4ecdc4;
+  --win: #2ecc71;
+  --loss: #e74c3c;
+  --warn: #f39c12;
+  --card: #1e2130;
+  --shadow: rgba(0,0,0,0.4);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.2s ease;
+}
+[data-theme="light"] {
+  --bg: #f0f2f8;
+  --bg2: #ffffff;
+  --bg3: #e8eaf0;
+  --border: #d0d4e8;
+  --text: #1a1d27;
+  --text2: #5a5f7a;
+  --card: #ffffff;
+  --shadow: rgba(0,0,0,0.1);
+}
+
+/* ===== RESET E BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--transition),color var(--transition);font-size:15px}
+button{cursor:pointer;border:none;outline:none;font-family:inherit}
+input,select{font-family:inherit;outline:none}
+a{color:var(--accent);text-decoration:none}
+
+/* ===== LAYOUT ===== */
+.app{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;align-items:center;gap:12px;height:56px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px var(--shadow)}
+.topbar-logo{font-weight:700;font-size:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.topbar-spacer{flex:1}
+.btn-icon{background:var(--bg3);border:1px solid var(--border);color:var(--text2);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all var(--transition)}
+.btn-icon:hover{background:var(--border);color:var(--text)}
+
+/* ===== TABS ===== */
+.tabs-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 20px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tab-btn{background:none;color:var(--text2);padding:12px 16px;border-bottom:2px solid transparent;font-size:13px;font-weight:600;white-space:nowrap;transition:all var(--transition);letter-spacing:.3px}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ===== CONTAINER ===== */
+.main{flex:1;padding:20px;max-width:1200px;margin:0 auto;width:100%}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ===== CARDS ===== */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:0 2px 12px var(--shadow)}
+.card-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gap-16{gap:16px}
+
+/* ===== STAT CARDS ===== */
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;transition:transform var(--transition)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.stat-card:hover{transform:translateY(-2px)}
+.stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2)}
+.stat-value{font-size:24px;font-weight:800;color:var(--text)}
+.stat-sub{font-size:12px;color:var(--text2)}
+.stat-card.win-card::before{background:var(--win)}
+.stat-card.loss-card::before{background:var(--loss)}
+.stat-card.warn-card::before{background:var(--warn)}
+.stat-card.accent-card::before{background:var(--accent)}
+
+/* ===== FORMULÁRIO ===== */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.form-input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);font-size:14px;width:100%;transition:border-color var(--transition)}
+.form-input:focus{border-color:var(--accent)}
+.form-input::placeholder{color:var(--text2);opacity:.6}
+select.form-input option{background:var(--bg2)}
+.form-help{font-size:11px;color:var(--text2)}
+
+/* ===== BOTÕES ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;letter-spacing:.3px;transition:all var(--transition);white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#5a52e0;transform:translateY(-1px);box-shadow:0 4px 16px rgba(108,99,255,.4)}
+.btn-success{background:var(--win);color:#fff}
+.btn-success:hover{background:#27ae60;transform:translateY(-1px)}
+.btn-danger{background:var(--loss);color:#fff}
+.btn-danger:hover{background:#c0392b;transform:translateY(-1px)}
+.btn-warn{background:var(--warn);color:#fff}
+.btn-warn:hover{background:#d68910}
+.btn-ghost{background:var(--bg3);border:1px solid var(--border);color:var(--text2)}
+.btn-ghost:hover{background:var(--border);color:var(--text)}
+.btn-sm{padding:7px 14px;font-size:12px}
+.btn-lg{padding:14px 28px;font-size:15px}
+.btn-full{width:100%}
+.btn-group{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ===== PROGRESS ===== */
+.progress-wrap{background:var(--bg3);border-radius:50px;height:10px;overflow:hidden;position:relative}
+.progress-bar{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .5s ease}
+.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:6px}
+
+/* ===== TABELA ===== */
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--bg3);color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:10px 14px;text-align:left;font-size:11px;white-space:nowrap;border-bottom:1px solid var(--border)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg3)}
+.row-current td{background:rgba(108,99,255,.08);border-left:3px solid var(--accent)}
+.row-win td{background:rgba(46,204,113,.06)}
+.row-loss td{background:rgba(231,76,60,.06)}
+
+/* ===== STATUS BADGES ===== */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.badge-wait{background:rgba(108,99,255,.15);color:var(--accent)}
+.badge-win{background:rgba(46,204,113,.15);color:var(--win)}
+.badge-loss{background:rgba(231,76,60,.15);color:var(--loss)}
+.badge-skip{background:rgba(158,163,184,.15);color:var(--text2)}
+
+/* ===== ALERTS ===== */
+.alert{border-radius:var(--radius-sm);padding:14px 18px;font-size:13px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:10px;animation:slideIn .3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.alert-success{background:rgba(46,204,113,.15);border:1px solid rgba(46,204,113,.3);color:var(--win)}
+.alert-danger{background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.3);color:var(--loss)}
+.alert-warn{background:rgba(243,156,18,.15);border:1px solid rgba(243,156,18,.3);color:var(--warn)}
+.alert-info{background:rgba(108,99,255,.15);border:1px solid rgba(108,99,255,.3);color:var(--accent)}
+
+/* ===== MODAL ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity var(--transition)}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;transform:scale(.95);transition:transform var(--transition)}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-size:18px;font-weight:800}
+.modal-close{background:none;color:var(--text2);font-size:20px;padding:4px 8px;border-radius:6px}
+.modal-close:hover{background:var(--bg3);color:var(--text)}
+
+/* ===== TOOLTIP ===== */
+.tooltip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:var(--border);border-radius:50%;font-size:10px;color:var(--text2);cursor:help;font-weight:700}
+.tooltip::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg);border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:6px;font-size:11px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;z-index:50;box-shadow:0 4px 12px var(--shadow);font-weight:400}
+.tooltip:hover::after{opacity:1}
+
+/* ===== CHART ===== */
+.chart-container{position:relative;height:260px}
+
+/* ===== TOGGLE ===== */
+.toggle-wrap{display:flex;align-items:center;gap:10px}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--border);border-radius:50px;transition:background .2s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s}
+.toggle input:checked + .toggle-slider{background:var(--accent)}
+.toggle input:checked + .toggle-slider::before{transform:translateX(20px)}
+.toggle-label{font-size:13px;color:var(--text2)}
+
+/* ===== HISTORY LIST ===== */
+.history-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;transition:border-color var(--transition)}
+.history-item:hover{border-color:var(--accent)}
+.history-num{width:36px;height:36px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.history-info{flex:1}
+.history-title{font-weight:700;font-size:14px}
+.history-sub{font-size:12px;color:var(--text2);margin-top:3px}
+.history-result{text-align:right}
+.history-profit{font-weight:800;font-size:15px}
+.history-profit.pos{color:var(--win)}
+.history-profit.neg{color:var(--loss)}
+
+/* ===== COMPARISON TABLE ===== */
+.comp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
+.comp-name{font-weight:700;font-size:13px;margin-bottom:8px;color:var(--accent)}
+.comp-val{font-size:22px;font-weight:800}
+.comp-sub{font-size:11px;color:var(--text2);margin-top:4px}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  .topbar{padding:0 12px}
+  .main{padding:12px}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr}
+  .grid-4{grid-template-columns:1fr 1fr}
+  .form-grid{grid-template-columns:1fr 1fr}
+  .stat-value{font-size:20px}
+}
+@media(max-width:480px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .btn-group{flex-direction:column}
+  .tab-btn{padding:10px 12px;font-size:12px}
+}
+
+/* ===== MISC ===== */
+.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.text-win{color:var(--win)}
+.text-loss{color:var(--loss)}
+.text-warn{color:var(--warn)}
+.text-accent{color:var(--accent)}
+.text-muted{color:var(--text2)}
+.fw-bold{font-weight:700}
+.mb-16{margin-bottom:16px}
+.mb-12{margin-bottom:12px}
+.mt-16{margin-top:16px}
+.flex{display:flex;align-items:center}
+.flex-between{display:flex;align-items:center;justify-content:space-between}
+.gap-8{gap:8px}
+.gap-12{gap:12px}
+.hidden{display:none!important}
+.op-input-row{display:flex;align-items:center;gap:8px}
+.pulse{animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+#alert-area>*+*{margin-top:8px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.section-title{font-size:18px;font-weight:800}
+</style>
+</head>
+<body>
+
+<!-- ===== TOPBAR ===== -->
+<header class="topbar">
+  <div class="topbar-logo">⚡ Masaniello Pro</div>
+  <div class="topbar-spacer"></div>
+  <button class="btn-icon" onclick="openBackup()" title="Backup / Restaurar">💾</button>
+  <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Alternar Tema">🌙</button>
+</header>
+
+<!-- ===== TABS ===== -->
+<nav class="tabs-bar" id="tabsBar">
+  <button class="tab-btn active" data-tab="dashboard">📊 Dashboard</button>
+  <button class="tab-btn" data-tab="ciclo">🎯 Ciclo Atual</button>
+  <button class="tab-btn" data-tab="simulador">🔮 Simulador</button>
+  <button class="tab-btn" data-tab="comparacao">⚖️ Comparação</button>
+  <button class="tab-btn" data-tab="historico">📋 Histórico</button>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main class="main">
+
+<!-- ===== ALERTS ===== -->
+<div id="alert-area"></div>
+
+<!-- ==================== TAB: DASHBOARD ==================== -->
+<div class="tab-panel active" id="tab-dashboard">
+
+  <div class="section-header">
+    <div class="section-title">Dashboard</div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="openSetup()">⚙️ Novo Ciclo</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportExcel()">📥 Excel</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportPDF()">📄 PDF</button>
+    </div>
+  </div>
+
+  <!-- Stats grid -->
+  <div class="grid-4 mb-16" id="statsGrid">
+    <div class="stat-card accent-card">
+      <div class="stat-label">Banca Atual</div>
+      <div class="stat-value" id="s-banca">R$ 0,00</div>
+      <div class="stat-sub" id="s-banca-sub">Banca inicial: –</div>
+    </div>
+    <div class="stat-card win-card">
+      <div class="stat-label">Lucro / Prejuízo</div>
+      <div class="stat-value" id="s-lucro">R$ 0,00</div>
+      <div class="stat-sub" id="s-roi">ROI: 0,00%</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Acertos / Erros</div>
+      <div class="stat-value" id="s-acertos">0 / 0</div>
+      <div class="stat-sub" id="s-taxa">Taxa: –</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Meta do Ciclo</div>
+      <div class="stat-value" id="s-meta">R$ 0,00</div>
+      <div class="stat-sub" id="s-projecao">Projeção: –</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="card mb-16">
+    <div class="card-title"><span class="dot"></span>Progresso do Ciclo</div>
+    <div class="progress-label">
+      <span id="prog-label-left">Op 0 / 0</span>
+      <span id="prog-label-right">0%</span>
+    </div>
+    <div class="progress-wrap mb-12">
+      <div class="progress-bar" id="progBar" style="width:0%"></div>
+    </div>
+    <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:13px">
+      <span>🎯 Acertos necessários restantes: <strong id="prog-wins-needed">–</strong></span>
+      <span>📈 Operações restantes: <strong id="prog-ops-left">–</strong></span>
+      <span>💡 Próxima entrada: <strong id="prog-next-entry" class="text-accent">–</strong></span>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="card mb-16">
+    <div class="card-title"><span class="dot"></span>Evolução da Banca</div>
+    <div class="chart-container">
+      <canvas id="bancaChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Expectativa matemática -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Expectativa Matemática
+      <span class="tooltip" data-tip="EM = (Taxa de acerto × Payout) − Taxa de erro">?</span>
+    </div>
+    <div class="grid-3" id="emGrid">
+      <div class="comp-card">
+        <div class="comp-name">Expectativa Matemática</div>
+        <div class="comp-val" id="em-val">–</div>
+        <div class="comp-sub">por operação</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-name">Payout Mínimo p/ Lucrativo</div>
+        <div class="comp-val" id="em-min-pay">–</div>
+        <div class="comp-sub">break-even</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-name">Ciclos para Dobrar Banca</div>
+        <div class="comp-val" id="em-double">–</div>
+        <div class="comp-sub">na taxa atual</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB: CICLO ATUAL ==================== -->
+<div class="tab-panel" id="tab-ciclo">
+
+  <div class="section-header">
+    <div class="section-title">Ciclo Atual</div>
+    <div class="btn-group">
+      <button class="btn btn-warn btn-sm" onclick="changePayout()">💱 Alterar Payout</button>
+      <button class="btn btn-danger btn-sm" onclick="restartCycle()">🔄 Reiniciar</button>
+    </div>
+  </div>
+
+  <!-- Status message -->
+  <div id="cycle-status-msg"></div>
+
+  <!-- Win/Loss buttons for current op -->
+  <div class="card mb-16" id="winLossCard">
+    <div class="card-title"><span class="dot"></span>Registrar Resultado</div>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:160px">
+        <div class="stat-label">Operação Atual</div>
+        <div style="font-size:22px;font-weight:800;margin-top:4px" id="cur-op-num">–</div>
+      </div>
+      <div style="flex:1;min-width:160px">
+        <div class="stat-label">Entrada</div>
+        <div style="font-size:22px;font-weight:800;color:var(--accent);margin-top:4px" id="cur-entry">–</div>
+      </div>
+      <div style="flex:2;min-width:220px">
+        <div class="btn-group">
+          <button class="btn btn-success btn-lg" id="btnWin" onclick="recordResult('win')">✅ WIN</button>
+          <button class="btn btn-danger btn-lg" id="btnLoss" onclick="recordResult('loss')">❌ LOSS</button>
+          <button class="btn btn-ghost" id="btnUndo" onclick="undoLast()" title="Desfazer último">↩️ Desfazer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operations table -->
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Planilha Masaniello</div>
+    <div class="table-wrap">
+      <table id="opsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Entrada</th>
+            <th>Status</th>
+            <th>Saldo Pós</th>
+            <th>Acertos rest.</th>
+            <th>Ops rest.</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody id="opsBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB: SIMULADOR ==================== -->
+<div class="tab-panel" id="tab-simulador">
+
+  <div class="section-header">
+    <div class="section-title">Simulador de Cenários</div>
+  </div>
+
+  <div class="grid-2 mb-16">
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Configurar Simulação</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Banca Inicial (R$)</label>
+          <input class="form-input" id="sim-banca" type="number" value="1000" step="10">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Meta de Lucro (R$)</label>
+          <input class="form-input" id="sim-meta" type="number" value="100" step="10">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total de Operações</label>
+          <input class="form-input" id="sim-ops" type="number" value="8" min="2" max="50">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mínimo de Acertos</label>
+          <input class="form-input" id="sim-wins" type="number" value="5" min="1" max="50">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Payout (%)</label>
+          <input class="form-input" id="sim-payout" type="number" value="85" step="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Padrão de resultados</label>
+          <select class="form-input" id="sim-pattern">
+            <option value="random">Aleatório</option>
+            <option value="worst">Pior caso</option>
+            <option value="best">Melhor caso</option>
+            <option value="custom">Personalizado</option>
+          </select>
+        </div>
+      </div>
+      <div id="sim-custom-row" class="hidden mt-16">
+        <label class="form-label">Sequência (W/L, ex: WLWWLLWW)</label>
+        <input class="form-input" id="sim-custom" placeholder="WLWWLLWW" style="margin-top:6px">
+      </div>
+      <div class="mt-16">
+        <button class="btn btn-primary btn-full" onclick="runSimulation()">▶️ Simular</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="dot"></span>Resultado da Simulação</div>
+      <div id="sim-result-area">
+        <div style="color:var(--text2);font-size:13px;text-align:center;padding:20px 0">
+          Configure e execute uma simulação para ver os resultados.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>Tabela de Entradas Simuladas</div>
+    <div class="table-wrap">
+      <table id="simTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Entrada</th>
+            <th>Resultado</th>
+            <th>Saldo</th>
+            <th>Lucro/Prejuízo</th>
+          </tr>
+        </thead>
+        <tbody id="simBody"><tr><td colspan="5" style="text-align:center;color:var(--text2);padding:20px">–</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB: COMPARAÇÃO ==================== -->
+<div class="tab-panel" id="tab-comparacao">
+
+  <div class="section-header">
+    <div class="section-title">Comparação de Estratégias</div>
+  </div>
+
+  <div class="card mb-16">
+    <div class="card-title"><span class="dot"></span>Parâmetros</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Banca Inicial (R$)</label>
+        <input class="form-input" id="cmp-banca" type="number" value="1000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Entrada Base (R$)</label>
+        <input class="form-input" id="cmp-entry" type="number" value="50">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Payout (%)</label>
+        <input class="form-input" id="cmp-payout" type="number" value="85">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nº de Operações</label>
+        <input class="form-input" id="cmp-ops" type="number" value="20">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Padrão</label>
+        <select class="form-input" id="cmp-pattern">
+          <option value="random">Aleatório (50/50)</option>
+          <option value="good">Favorável (60% win)</option>
+          <option value="bad">Desfavorável (40% win)</option>
+        </select>
+      </div>
+    </div>
+    <div class="mt-16">
+      <button class="btn btn-primary" onclick="runComparison()">⚖️ Comparar</button>
+    </div>
+  </div>
+
+  <div class="grid-3 mb-16" id="cmpSummary">
+    <div class="comp-card" id="cmp-mas">
+      <div class="comp-name">Masaniello</div>
+      <div class="comp-val">–</div>
+      <div class="comp-sub">saldo final</div>
+    </div>
+    <div class="comp-card" id="cmp-sor">
+      <div class="comp-name">Soros</div>
+      <div class="comp-val">–</div>
+      <div class="comp-sub">saldo final</div>
+    </div>
+    <div class="comp-card" id="cmp-mar">
+      <div class="comp-name">Martingale</div>
+      <div class="comp-val">–</div>
+      <div class="comp-sub">saldo final</div>
+    </div>
+  </div>
+
+  <div class="card mb-16">
+    <div class="card-title"><span class="dot"></span>Gráfico Comparativo</div>
+    <div class="chart-container">
+      <canvas id="cmpChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Description cards -->
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title" style="color:var(--accent)">⚡ Masaniello</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.6">Calcula dinamicamente a entrada com base nas operações e acertos restantes. Garante atingir a meta se o mínimo de acertos for alcançado, em qualquer ordem.</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--accent2)">🌊 Soros (Paroli)</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.6">Aumenta a aposta após cada vitória (multiplica os lucros), e reseta após derrota. Aproveita sequências positivas e limita perdas em sequências negativas.</p>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--warn)">⚠️ Martingale</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.6">Dobra a aposta após cada derrota para recuperar perdas. Alto risco em sequências negativas — pode levar à perda total da banca rapidamente.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TAB: HISTÓRICO ==================== -->
+<div class="tab-panel" id="tab-historico">
+
+  <div class="section-header">
+    <div class="section-title">Histórico de Ciclos</div>
+    <button class="btn btn-danger btn-sm" onclick="clearHistory()">🗑️ Limpar histórico</button>
+  </div>
+
+  <div id="history-list">
+    <div style="text-align:center;color:var(--text2);padding:40px 0;font-size:14px">
+      Nenhum ciclo finalizado ainda.
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ==================== MODAL: SETUP ==================== -->
+<div class="modal-overlay" id="setupModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">⚙️ Configurar Novo Ciclo</div>
+      <button class="modal-close" onclick="closeSetup()">✕</button>
+    </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Banca Inicial (R$)
+          <span class="tooltip" data-tip="Valor total disponível para o ciclo">?</span>
+        </label>
+        <input class="form-input" id="cfg-banca" type="number" value="1000" min="1" step="10" placeholder="Ex: 1000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Meta de Lucro (R$)
+          <span class="tooltip" data-tip="Lucro desejado ao final do ciclo">?</span>
+        </label>
+        <input class="form-input" id="cfg-meta" type="number" value="100" min="1" step="10" placeholder="Ex: 100">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Total de Operações
+          <span class="tooltip" data-tip="Número total de operações no ciclo (N)">?</span>
+        </label>
+        <input class="form-input" id="cfg-ops" type="number" value="8" min="2" max="100" placeholder="Ex: 8">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mínimo de Acertos
+          <span class="tooltip" data-tip="Acertos mínimos para atingir a meta (K ≤ N)">?</span>
+        </label>
+        <input class="form-input" id="cfg-wins" type="number" value="5" min="1" max="100" placeholder="Ex: 5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Payout (%)
+          <span class="tooltip" data-tip="Retorno sobre a entrada em caso de acerto. Ex: 85 significa 85% de lucro sobre o valor apostado.">?</span>
+        </label>
+        <input class="form-input" id="cfg-payout" type="number" value="85" min="1" max="1000" step="1" placeholder="Ex: 85">
+      </div>
+    </div>
+    <div id="cfg-preview" class="mt-16" style="background:var(--bg3);border-radius:8px;padding:14px;font-size:13px"></div>
+    <div class="mt-16 btn-group">
+      <button class="btn btn-primary btn-full" onclick="startCycle()">🚀 Iniciar Ciclo</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODAL: PAYOUT ==================== -->
+<div class="modal-overlay" id="payoutModal">
+  <div class="modal" style="max-width:340px">
+    <div class="modal-header">
+      <div class="modal-title">💱 Alterar Payout</div>
+      <button class="modal-close" onclick="closeModal('payoutModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Novo Payout (%)</label>
+      <input class="form-input" id="new-payout" type="number" value="85" min="1" max="1000" step="1">
+      <div class="form-help mt-16" style="margin-top:8px">O payout será alterado a partir da próxima operação. As anteriores permanecem inalteradas.</div>
+    </div>
+    <div class="mt-16">
+      <button class="btn btn-primary btn-full" onclick="applyNewPayout()">✔️ Aplicar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODAL: BACKUP ==================== -->
+<div class="modal-overlay" id="backupModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-title">💾 Backup & Restaurar</div>
+      <button class="modal-close" onclick="closeModal('backupModal')">✕</button>
+    </div>
+    <div class="btn-group" style="flex-direction:column">
+      <button class="btn btn-primary" onclick="downloadBackup()">⬇️ Exportar Backup (JSON)</button>
+      <label class="btn btn-ghost" style="cursor:pointer">
+        ⬆️ Importar Backup (JSON)
+        <input type="file" accept=".json" onchange="importBackup(event)" style="display:none">
+      </label>
+    </div>
+    <hr class="divider">
+    <p style="font-size:12px;color:var(--text2)">O backup inclui o ciclo atual, histórico e configurações. A restauração substitui todos os dados presentes.</p>
+  </div>
+</div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+'use strict';
+
+/* ============================================================
+   ESTADO GLOBAL
+   ============================================================ */
+let state = {
+  // Configurações do ciclo atual
+  cfg: null,              // { banca, meta, totalOps, minWins, payout }
+  // Dados do ciclo em andamento
+  cycle: null,            // { ops:[], currentBalance, winsCount, lossCount, targetBalance, startedAt }
+  // Histórico de ciclos encerrados
+  history: [],
+  // Tema
+  theme: 'dark'
+};
+
+// Instâncias de gráficos
+let bancaChartInst = null;
+let cmpChartInst   = null;
+
+/* ============================================================
+   UTILITÁRIOS MATEMÁTICOS
+   ============================================================ */
+
+/**
+ * Logaritmo do coeficiente binomial C(n, k) usando soma de logaritmos.
+ * Evita overflow para n e k grandes.
+ */
+function logComb(n, k) {
+  if (k < 0 || k > n) return -Infinity;
+  if (k === 0 || k === n) return 0;
+  k = Math.min(k, n - k);
+  let lc = 0;
+  for (let i = 0; i < k; i++) lc += Math.log(n - i) - Math.log(i + 1);
+  return lc;
+}
+
+/**
+ * Calcula a entrada Masaniello para o estado corrente.
+ * @param {number} target     - Saldo-alvo (banca + meta)
+ * @param {number} balance    - Saldo atual
+ * @param {number} remOps     - Operações restantes (incluindo a atual)
+ * @param {number} remWins    - Acertos restantes necessários
+ * @param {number} payout     - Fração de lucro (ex: 0.85)
+ * @returns {number} Entrada recomendada (≥ 0)
+ */
+function masanielloStake(target, balance, remOps, remWins, payout) {
+  if (remWins <= 0) return 0;                    // Meta já atingida
+  if (remWins > remOps) return 0;               // Matematicamente impossível
+  const numerator = target - balance;
+  if (numerator <= 0) return 0;                 // Saldo >= target
+  // denominador = payout * C(remOps-1, remWins-1)
+  const logDen = Math.log(payout) + logComb(remOps - 1, remWins - 1);
+  const den = Math.exp(logDen);
+  return Math.max(0, numerator / den);
+}
+
+/**
+ * Arredonda para 2 casas decimais.
+ */
+const r2 = v => Math.round(v * 100) / 100;
+
+/**
+ * Formata valor monetário em Real.
+ */
+const fmt = v => 'R$ ' + r2(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/**
+ * Formata percentual.
+ */
+const fmtPct = v => (v * 100).toFixed(2) + '%';
+
+/* ============================================================
+   PERSISTÊNCIA – LOCAL STORAGE
+   ============================================================ */
+
+function saveState() {
+  try { localStorage.setItem('masaniello_v2', JSON.stringify(state)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem('masaniello_v2');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      state = { ...state, ...parsed };
+    }
+  } catch(e) {}
+}
+
+/* ============================================================
+   TEMA
+   ============================================================ */
+
+function toggleTheme() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  applyTheme();
+  saveState();
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', state.theme);
+  document.getElementById('themeBtn').textContent = state.theme === 'dark' ? '🌙' : '☀️';
+  // Atualiza cor dos gráficos se existirem
+  updateChartTheme();
+}
+
+function updateChartTheme() {
+  const color = state.theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+  const textColor = state.theme === 'dark' ? '#9ea3b8' : '#5a5f7a';
+  [bancaChartInst, cmpChartInst].forEach(ch => {
+    if (!ch) return;
+    ch.options.scales.x.grid.color = color;
+    ch.options.scales.y.grid.color = color;
+    ch.options.scales.x.ticks.color = textColor;
+    ch.options.scales.y.ticks.color = textColor;
+    ch.update('none');
+  });
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'dashboard') renderBancaChart();
+  });
+});
+
+/* ============================================================
+   MODAIS
+   ============================================================ */
+
+function openSetup() {
+  if (state.cfg) {
+    // Preenche com os valores atuais
+    document.getElementById('cfg-banca').value  = state.cfg.banca;
+    document.getElementById('cfg-meta').value   = state.cfg.meta;
+    document.getElementById('cfg-ops').value    = state.cfg.totalOps;
+    document.getElementById('cfg-wins').value   = state.cfg.minWins;
+    document.getElementById('cfg-payout').value = state.cfg.payout;
+  }
+  updateCfgPreview();
+  openModal('setupModal');
+}
+
+function closeSetup() { closeModal('setupModal'); }
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Fecha modal ao clicar no overlay
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+});
+
+// Preview em tempo real do setup
+['cfg-banca','cfg-meta','cfg-ops','cfg-wins','cfg-payout'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateCfgPreview);
+});
+
+function updateCfgPreview() {
+  const B = parseFloat(document.getElementById('cfg-banca').value) || 0;
+  const M = parseFloat(document.getElementById('cfg-meta').value)  || 0;
+  const N = parseInt(document.getElementById('cfg-ops').value)     || 0;
+  const K = parseInt(document.getElementById('cfg-wins').value)    || 0;
+  const P = parseFloat(document.getElementById('cfg-payout').value) / 100 || 0;
+  const div = document.getElementById('cfg-preview');
+  if (!B || !M || !N || !K || !P || K > N) {
+    div.innerHTML = '<span style="color:var(--loss)">⚠️ Parâmetros inválidos. Verifique que K ≤ N e todos os valores são positivos.</span>';
+    return;
+  }
+  const target = B + M;
+  const firstStake = masanielloStake(target, B, N, K, P);
+  const pctMeta  = (M / B * 100).toFixed(1);
+  const maxLoss  = N - K; // máximo de erros tolerados
+  div.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <span>🎯 Saldo-alvo: <strong>${fmt(target)}</strong></span>
+      <span>📈 Meta: <strong>+${pctMeta}%</strong> da banca</span>
+      <span>💡 1ª entrada: <strong>${fmt(firstStake)}</strong></span>
+      <span>❌ Erros tolerados: <strong>${maxLoss}</strong></span>
+      <span>📊 Taxa mín. acertos: <strong>${(K/N*100).toFixed(1)}%</strong></span>
+      <span>💰 Payout: <strong>${(P*100).toFixed(0)}%</strong></span>
+    </div>`;
+}
+
+/* ============================================================
+   INICIAR / REINICIAR CICLO
+   ============================================================ */
+
+function startCycle() {
+  const B = parseFloat(document.getElementById('cfg-banca').value);
+  const M = parseFloat(document.getElementById('cfg-meta').value);
+  const N = parseInt(document.getElementById('cfg-ops').value);
+  const K = parseInt(document.getElementById('cfg-wins').value);
+  const P = parseFloat(document.getElementById('cfg-payout').value) / 100;
+
+  if (!B || !M || !N || !K || !P || K > N || K < 1 || B <= 0 || M <= 0) {
+    showAlert('Parâmetros inválidos. Verifique que K ≤ N e todos os valores são positivos.', 'danger');
+    return;
+  }
+
+  // Encerra ciclo anterior se houver e se houver operações registradas
+  if (state.cycle && state.cycle.ops.some(o => o.status !== 'wait')) {
+    archiveCycle('Encerrado manualmente');
+  }
+
+  state.cfg = { banca: B, meta: M, totalOps: N, minWins: K, payout: P };
+
+  const target = B + M;
+  // Gera todas as operações com entrada inicial calculada para o estado inicial
+  const ops = [];
+  for (let i = 1; i <= N; i++) {
+    ops.push({
+      num: i,
+      entry: 0,            // será calculado dinamicamente
+      status: 'wait',      // 'wait' | 'win' | 'loss' | 'skip'
+      balanceAfter: null,
+      remWins: K,
+      remOps: N - i + 1,
+      payout: P            // permite alterar payout por operação
+    });
+  }
+
+  state.cycle = {
+    ops,
+    currentBalance: B,
+    winsCount: 0,
+    lossCount: 0,
+    targetBalance: target,
+    startedAt: new Date().toISOString(),
+    initialBanca: B
+  };
+
+  // Calcula a entrada da primeira operação
+  recalcFromCurrent();
+  closeSetup();
+  saveState();
+  renderAll();
+  showAlert('Ciclo iniciado! Boa sorte! 🚀', 'success');
+
+  // Vai para a aba do ciclo
+  document.querySelector('[data-tab="ciclo"]').click();
+}
+
+function restartCycle() {
+  if (!state.cfg) { showAlert('Nenhum ciclo configurado.', 'warn'); return; }
+  if (!confirm('Tem certeza que deseja reiniciar o ciclo? Os dados atuais serão perdidos.')) return;
+  if (state.cycle && state.cycle.ops.some(o => o.status !== 'wait')) {
+    archiveCycle('Reiniciado');
+  }
+  startFromConfig(state.cfg);
+}
+
+function startFromConfig(cfg) {
+  const { banca: B, meta: M, totalOps: N, minWins: K, payout: P } = cfg;
+  const target = B + M;
+  const ops = [];
+  for (let i = 1; i <= N; i++) {
+    ops.push({ num: i, entry: 0, status: 'wait', balanceAfter: null,
+               remWins: null, remOps: null, payout: P });
+  }
+  state.cycle = {
+    ops, currentBalance: B, winsCount: 0, lossCount: 0,
+    targetBalance: target, startedAt: new Date().toISOString(), initialBanca: B
+  };
+  recalcFromCurrent();
+  saveState();
+  renderAll();
+}
+
+/* ============================================================
+   CÁLCULO MASANIELLO – RECALCULA A PARTIR DA OP ATUAL
+   ============================================================ */
+
+function recalcFromCurrent() {
+  if (!state.cycle) return;
+  const { ops, currentBalance, winsCount, targetBalance, initialBanca } = state.cycle;
+  const cfg = state.cfg;
+
+  // Determina próxima operação pendente
+  const curIdx = ops.findIndex(o => o.status === 'wait');
+  if (curIdx === -1) return; // Todas registradas
+
+  const remOps  = ops.length - curIdx;            // ops restantes incluindo atual
+  const remWins = cfg.minWins - winsCount;        // acertos restantes necessários
+
+  // Calcula e atribui a entrada da operação atual
+  const payout = ops[curIdx].payout;
+  ops[curIdx].entry    = r2(masanielloStake(targetBalance, currentBalance, remOps, remWins, payout));
+  ops[curIdx].remWins  = remWins;
+  ops[curIdx].remOps   = remOps;
+}
+
+/* ============================================================
+   REGISTRAR RESULTADO (WIN / LOSS)
+   ============================================================ */
+
+function recordResult(type) {
+  if (!state.cycle) { showAlert('Inicie um ciclo primeiro.', 'warn'); return; }
+
+  const { ops, targetBalance } = state.cycle;
+  const curIdx = ops.findIndex(o => o.status === 'wait');
+  if (curIdx === -1) { showAlert('Ciclo já encerrado.', 'info'); return; }
+
+  const op = ops[curIdx];
+  if (op.status !== 'wait') return;
+
+  op.status = type;
+
+  if (type === 'win') {
+    state.cycle.winsCount++;
+    state.cycle.currentBalance = r2(state.cycle.currentBalance + op.entry * op.payout);
+  } else {
+    state.cycle.lossCount++;
+    state.cycle.currentBalance = r2(state.cycle.currentBalance - op.entry);
+  }
+
+  op.balanceAfter = state.cycle.currentBalance;
+
+  // Verifica condições de encerramento
+  const remWins = state.cfg.minWins - state.cycle.winsCount;
+  const remOps  = ops.length - curIdx - 1; // ops restantes após esta
+
+  if (state.cycle.currentBalance >= targetBalance) {
+    // META ATINGIDA
+    markRemaining('skip');
+    finalizeCycle('Meta atingida! 🎉');
+  } else if (remWins > remOps) {
+    // MATEMATICAMENTE IMPOSSÍVEL
+    markRemaining('skip');
+    finalizeCycle('Ciclo encerrado — não é mais possível recuperar matematicamente. ❌');
+  } else if (remOps === 0) {
+    // Última operação registrada
+    finalizeCycle('Ciclo finalizado.');
+  } else {
+    // Continua — recalcula próxima entrada
+    recalcFromCurrent();
+  }
+
+  saveState();
+  renderAll();
+}
+
+/**
+ * Desfaz o último resultado registrado.
+ */
+function undoLast() {
+  if (!state.cycle) return;
+  const { ops } = state.cycle;
+  // Encontra a última op registrada (win/loss/skip)
+  let lastIdx = -1;
+  for (let i = ops.length - 1; i >= 0; i--) {
+    if (ops[i].status !== 'wait') { lastIdx = i; break; }
+  }
+  if (lastIdx === -1) { showAlert('Nada a desfazer.', 'info'); return; }
+
+  // Restaura estado
+  const op = ops[lastIdx];
+  if (op.status === 'win') {
+    state.cycle.winsCount--;
+    state.cycle.currentBalance = r2(state.cycle.currentBalance - op.entry * op.payout);
+  } else if (op.status === 'loss') {
+    state.cycle.lossCount--;
+    state.cycle.currentBalance = r2(state.cycle.currentBalance + op.entry);
+  }
+
+  // Reseta esta e todas as subsequentes (incluindo skips)
+  for (let i = lastIdx; i < ops.length; i++) {
+    ops[i].status = 'wait';
+    ops[i].balanceAfter = null;
+    ops[i].entry = 0;
+  }
+
+  // Remove finalização se existia
+  state.cycle.finishedAt = null;
+  state.cycle.finishMsg  = null;
+
+  recalcFromCurrent();
+  saveState();
+  renderAll();
+}
+
+function markRemaining(status) {
+  state.cycle.ops.forEach(o => { if (o.status === 'wait') o.status = status; });
+}
+
+function finalizeCycle(msg) {
+  state.cycle.finishedAt = new Date().toISOString();
+  state.cycle.finishMsg  = msg;
+}
+
+/* ============================================================
+   ALTERAR PAYOUT DURANTE O CICLO
+   ============================================================ */
+
+function changePayout() {
+  if (!state.cycle) { showAlert('Inicie um ciclo primeiro.', 'warn'); return; }
+  const curIdx = state.cycle.ops.findIndex(o => o.status === 'wait');
+  if (curIdx === -1) { showAlert('Ciclo já encerrado.', 'info'); return; }
+  document.getElementById('new-payout').value = (state.cycle.ops[curIdx].payout * 100).toFixed(0);
+  openModal('payoutModal');
+}
+
+function applyNewPayout() {
+  const newP = parseFloat(document.getElementById('new-payout').value) / 100;
+  if (!newP || newP <= 0) { showAlert('Payout inválido.', 'danger'); return; }
+  // Aplica nas operações pendentes
+  state.cycle.ops.forEach(o => { if (o.status === 'wait') o.payout = newP; });
+  state.cfg.payout = newP;
+  recalcFromCurrent();
+  closeModal('payoutModal');
+  saveState();
+  renderAll();
+  showAlert(`Payout atualizado para ${(newP*100).toFixed(1)}%.`, 'success');
+}
+
+/* ============================================================
+   HISTÓRICO
+   ============================================================ */
+
+function archiveCycle(reason) {
+  if (!state.cycle) return;
+  const { ops, currentBalance, winsCount, lossCount, initialBanca, startedAt } = state.cycle;
+  const profit = r2(currentBalance - initialBanca);
+  state.history.unshift({
+    id: Date.now(),
+    cfg: { ...state.cfg },
+    finalBalance: currentBalance,
+    profit,
+    winsCount,
+    lossCount,
+    totalOps: ops.filter(o => o.status !== 'wait').length,
+    startedAt,
+    finishedAt: new Date().toISOString(),
+    reason,
+    ops: ops.map(o => ({ ...o }))
+  });
+}
+
+function clearHistory() {
+  if (!confirm('Apagar todo o histórico de ciclos?')) return;
+  state.history = [];
+  saveState();
+  renderHistory();
+}
+
+/* ============================================================
+   RENDERIZAÇÃO GERAL
+   ============================================================ */
+
+function renderAll() {
+  renderDashboard();
+  renderCycleTab();
+  renderHistory();
+}
+
+/* ===== DASHBOARD ===== */
+function renderDashboard() {
+  if (!state.cycle) {
+    clearDashboard();
+    return;
+  }
+  const { currentBalance, winsCount, lossCount, targetBalance, initialBanca, ops } = state.cycle;
+  const profit    = r2(currentBalance - initialBanca);
+  const roi       = initialBanca ? profit / initialBanca : 0;
+  const total     = winsCount + lossCount;
+  const winRate   = total > 0 ? winsCount / total : 0;
+  const payout    = state.cfg.payout;
+
+  // Estatísticas
+  document.getElementById('s-banca').textContent    = fmt(currentBalance);
+  document.getElementById('s-banca-sub').textContent = 'Inicial: ' + fmt(initialBanca);
+  document.getElementById('s-lucro').textContent    = fmt(profit);
+  document.getElementById('s-lucro').className      = 'stat-value ' + (profit >= 0 ? 'text-win' : 'text-loss');
+  document.getElementById('s-roi').textContent      = 'ROI: ' + (roi * 100).toFixed(2) + '%';
+  document.getElementById('s-acertos').textContent  = winsCount + ' / ' + lossCount;
+  document.getElementById('s-taxa').textContent     = 'Taxa: ' + (winRate * 100).toFixed(1) + '%';
+  document.getElementById('s-meta').textContent     = fmt(targetBalance);
+
+  // Projeção: se o usuário acertar exatamente o mínimo necessário restante
+  const remWins = state.cfg.minWins - winsCount;
+  const curIdx  = ops.findIndex(o => o.status === 'wait');
+  document.getElementById('s-projecao').textContent = remWins <= 0
+    ? 'Meta atingida! 🎉'
+    : `Precisa ${remWins} acerto${remWins > 1 ? 's' : ''} restante${remWins > 1 ? 's' : ''}`;
+
+  // Progresso
+  const done   = ops.filter(o => o.status !== 'wait').length;
+  const pct    = state.cfg.totalOps > 0 ? done / state.cfg.totalOps : 0;
+  document.getElementById('progBar').style.width      = (pct * 100) + '%';
+  document.getElementById('prog-label-left').textContent = `Op ${done} / ${state.cfg.totalOps}`;
+  document.getElementById('prog-label-right').textContent = (pct * 100).toFixed(1) + '%';
+
+  const remOps = curIdx === -1 ? 0 : ops.length - curIdx;
+  document.getElementById('prog-wins-needed').textContent = remWins > 0 ? remWins : '✅ Meta atingida!';
+  document.getElementById('prog-ops-left').textContent    = remOps;
+
+  // Próxima entrada
+  const nextEntry = curIdx !== -1 ? fmt(ops[curIdx].entry) : '–';
+  document.getElementById('prog-next-entry').textContent = nextEntry;
+
+  // Expectativa matemática
+  if (total > 0) {
+    const em = winRate * payout - (1 - winRate);
+    const minPayBreak = total > 0 ? (1 / (1 + payout)).toFixed(2) : '–';
+    const minPayPct = (1 / (1 + payout) * 100).toFixed(1) + '%';
+    document.getElementById('em-val').textContent   = (em * 100).toFixed(2) + '% ' + (em >= 0 ? '✅' : '❌');
+    document.getElementById('em-val').className     = 'comp-val ' + (em >= 0 ? 'text-win' : 'text-loss');
+    document.getElementById('em-min-pay').textContent = minPayPct + ' de taxa de acerto';
+    // Ciclos para dobrar: se ROI > 0
+    if (roi > 0 && profit > 0) {
+      const cyclesDouble = Math.ceil(Math.log(2) / Math.log(1 + roi));
+      document.getElementById('em-double').textContent = cyclesDouble + ' ciclos';
+    } else {
+      document.getElementById('em-double').textContent = '–';
+    }
+  }
+
+  renderBancaChart();
+}
+
+function clearDashboard() {
+  ['s-banca','s-lucro','s-acertos','s-meta'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = 'R$ –';
+  });
+  document.getElementById('progBar').style.width = '0%';
+}
+
+/* ===== BANCA CHART ===== */
+function renderBancaChart() {
+  const canvas = document.getElementById('bancaChart');
+  if (!canvas) return;
+
+  const labels = ['Início'];
+  const data   = [state.cycle ? state.cycle.initialBanca : 0];
+  const targetLine = [];
+
+  if (state.cycle) {
+    state.cycle.ops.forEach(op => {
+      if (op.balanceAfter !== null) {
+        labels.push('Op ' + op.num);
+        data.push(op.balanceAfter);
+        targetLine.push(state.cycle.targetBalance);
+      }
+    });
+    targetLine.unshift(state.cycle.targetBalance);
+  }
+
+  const gridColor = state.theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  const tickColor = state.theme === 'dark' ? '#9ea3b8' : '#5a5f7a';
+
+  if (bancaChartInst) { bancaChartInst.destroy(); bancaChartInst = null; }
+
+  bancaChartInst = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Banca',
+          data,
+          borderColor: '#6c63ff',
+          backgroundColor: 'rgba(108,99,255,0.1)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: data.map((v, i) => {
+            if (i === 0) return '#6c63ff';
+            const prev = data[i - 1];
+            return v > prev ? '#2ecc71' : v < prev ? '#e74c3c' : '#6c63ff';
+          })
+        },
+        {
+          label: 'Meta',
+          data: targetLine,
+          borderColor: '#f39c12',
+          borderDash: [6, 4],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: tickColor, font: { size: 12 } } } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 11 } } },
+        y: {
+          grid: { color: gridColor },
+          ticks: {
+            color: tickColor,
+            font: { size: 11 },
+            callback: v => 'R$' + v.toLocaleString('pt-BR')
+          }
+        }
+      }
+    }
+  });
+}
+
+/* ===== CICLO TAB ===== */
+function renderCycleTab() {
+  const statusEl = document.getElementById('cycle-status-msg');
+  const winLossCard = document.getElementById('winLossCard');
+
+  if (!state.cycle) {
+    statusEl.innerHTML = '<div class="alert alert-info">⚙️ Nenhum ciclo ativo. <button class="btn btn-primary btn-sm" onclick="openSetup()" style="margin-left:8px">Iniciar ciclo</button></div>';
+    document.getElementById('btnWin').disabled  = true;
+    document.getElementById('btnLoss').disabled = true;
+    document.getElementById('cur-op-num').textContent = '–';
+    document.getElementById('cur-entry').textContent  = '–';
+    document.getElementById('opsBody').innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text2);padding:20px">Nenhum ciclo ativo.</td></tr>';
+    return;
+  }
+
+  const { ops, currentBalance, winsCount, lossCount, targetBalance, finishMsg } = state.cycle;
+  const curIdx = ops.findIndex(o => o.status === 'wait');
+
+  // Mensagem de status
+  if (finishMsg) {
+    const isGoal = state.cycle.currentBalance >= targetBalance;
+    statusEl.innerHTML = `<div class="alert ${isGoal ? 'alert-success' : 'alert-danger'}">${finishMsg}</div>`;
+    winLossCard.classList.add('hidden');
+  } else if (curIdx !== -1) {
+    const remWins = state.cfg.minWins - winsCount;
+    const remOps  = ops.length - curIdx;
+    if (remWins > remOps) {
+      statusEl.innerHTML = '<div class="alert alert-danger">🚫 Ciclo matematicamente irrecuperável! Não é possível atingir o mínimo de acertos.</div>';
+    } else {
+      statusEl.innerHTML = '';
+    }
+    winLossCard.classList.remove('hidden');
+
+    const op = ops[curIdx];
+    document.getElementById('cur-op-num').textContent = `#${op.num} de ${ops.length}`;
+    document.getElementById('cur-entry').textContent  = fmt(op.entry);
+    document.getElementById('btnWin').disabled  = false;
+    document.getElementById('btnLoss').disabled = false;
+  } else {
+    statusEl.innerHTML = '<div class="alert alert-success">✅ Todas as operações foram registradas.</div>';
+    winLossCard.classList.add('hidden');
+  }
+
+  // Renderiza tabela
+  const tbody = document.getElementById('opsBody');
+  tbody.innerHTML = '';
+  ops.forEach((op, i) => {
+    const isCurrent = op.status === 'wait' && i === curIdx;
+    const tr = document.createElement('tr');
+    if (isCurrent) tr.className = 'row-current';
+    else if (op.status === 'win') tr.className = 'row-win';
+    else if (op.status === 'loss') tr.className = 'row-loss';
+
+    const statusBadge = {
+      wait:  '<span class="badge badge-wait">⏳ Aguardando</span>',
+      win:   '<span class="badge badge-win">✅ WIN</span>',
+      loss:  '<span class="badge badge-loss">❌ LOSS</span>',
+      skip:  '<span class="badge badge-skip">⏭ Skip</span>'
+    }[op.status];
+
+    const balanceStr   = op.balanceAfter !== null ? fmt(op.balanceAfter) : '–';
+    const remWinsStr   = op.remWins !== null ? op.remWins : '–';
+    const remOpsStr    = op.remOps  !== null ? op.remOps  : '–';
+    const resultStr    = op.status === 'win'
+      ? `<span class="text-win fw-bold">+${fmt(op.entry * op.payout)}</span>`
+      : op.status === 'loss'
+      ? `<span class="text-loss fw-bold">-${fmt(op.entry)}</span>`
+      : '–';
+
+    tr.innerHTML = `
+      <td><strong>#${op.num}</strong></td>
+      <td><strong>${op.status !== 'skip' && op.entry > 0 ? fmt(op.entry) : '–'}</strong></td>
+      <td>${statusBadge}</td>
+      <td>${balanceStr}</td>
+      <td>${remWinsStr}</td>
+      <td>${remOpsStr}</td>
+      <td>${resultStr}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ===== HISTÓRICO ===== */
+function renderHistory() {
+  const container = document.getElementById('history-list');
+  if (!state.history.length) {
+    container.innerHTML = '<div style="text-align:center;color:var(--text2);padding:40px 0;font-size:14px">Nenhum ciclo finalizado ainda.</div>';
+    return;
+  }
+  container.innerHTML = state.history.map((h, idx) => {
+    const total = h.winsCount + h.lossCount;
+    const rate  = total > 0 ? (h.winsCount / total * 100).toFixed(1) : '–';
+    const date  = new Date(h.finishedAt).toLocaleDateString('pt-BR');
+    const profitClass = h.profit >= 0 ? 'pos' : 'neg';
+    return `
+    <div class="history-item">
+      <div class="history-num">${state.history.length - idx}</div>
+      <div class="history-info">
+        <div class="history-title">Ciclo ${state.history.length - idx} — ${h.reason || 'Finalizado'}</div>
+        <div class="history-sub">${date} · ${h.cfg.totalOps} ops · Payout ${(h.cfg.payout*100).toFixed(0)}% · ${h.winsCount}W / ${h.lossCount}L (${rate}%) · ROI ${((h.profit / h.cfg.banca)*100).toFixed(2)}%</div>
+      </div>
+      <div class="history-result">
+        <div class="history-profit ${profitClass}">${h.profit >= 0 ? '+' : ''}${fmt(h.profit)}</div>
+        <div style="font-size:11px;color:var(--text2)">${fmt(h.finalBalance)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   SIMULADOR
+   ============================================================ */
+
+// Mostra/oculta input de sequência personalizada
+document.getElementById('sim-pattern').addEventListener('change', e => {
+  document.getElementById('sim-custom-row').classList.toggle('hidden', e.target.value !== 'custom');
+});
+
+function runSimulation() {
+  const B = parseFloat(document.getElementById('sim-banca').value)  || 1000;
+  const M = parseFloat(document.getElementById('sim-meta').value)   || 100;
+  const N = parseInt(document.getElementById('sim-ops').value)      || 8;
+  const K = parseInt(document.getElementById('sim-wins').value)     || 5;
+  const P = parseFloat(document.getElementById('sim-payout').value) / 100 || 0.85;
+  const pattern = document.getElementById('sim-pattern').value;
+
+  if (K > N) { showAlert('Mínimo de acertos não pode ser maior que o total de operações.', 'danger'); return; }
+
+  let seq = [];
+  if (pattern === 'custom') {
+    const raw = document.getElementById('sim-custom').value.toUpperCase();
+    seq = raw.split('').filter(c => c === 'W' || c === 'L').slice(0, N);
+    while (seq.length < N) seq.push('L'); // preenche com L se necessário
+  } else if (pattern === 'best') {
+    // Vitórias primeiro
+    seq = [...Array(K).fill('W'), ...Array(N - K).fill('L')];
+  } else if (pattern === 'worst') {
+    // Derrotas primeiro, depois vitórias
+    seq = [...Array(N - K).fill('L'), ...Array(K).fill('W')];
+  } else {
+    // Aleatório
+    seq = Array(N).fill(0).map(() => Math.random() < K / N ? 'W' : 'L');
+  }
+
+  // Simula
+  const target = B + M;
+  let balance  = B;
+  let wins = 0, losses = 0;
+  const rows = [];
+
+  for (let i = 0; i < N; i++) {
+    const remOps  = N - i;
+    const remWins = K - wins;
+    if (remWins <= 0) {
+      rows.push({ num: i + 1, entry: 0, result: 'skip', balance, profit: r2(balance - B) });
+      continue;
+    }
+    if (remWins > remOps) {
+      rows.push({ num: i + 1, entry: 0, result: 'broken', balance, profit: r2(balance - B) });
+      continue;
+    }
+    const stake = r2(masanielloStake(target, balance, remOps, remWins, P));
+    const result = seq[i];
+    if (result === 'W') {
+      wins++;
+      balance = r2(balance + stake * P);
+    } else {
+      losses++;
+      balance = r2(balance - stake);
+    }
+    rows.push({ num: i + 1, entry: stake, result, balance, profit: r2(balance - B) });
+    if (balance >= target) {
+      for (let j = i + 1; j < N; j++) {
+        rows.push({ num: j + 1, entry: 0, result: 'skip', balance, profit: r2(balance - B) });
+      }
+      break;
+    }
+  }
+
+  const finalProfit = r2(balance - B);
+  const hitGoal     = balance >= target;
+  const rate        = wins + losses > 0 ? (wins / (wins + losses) * 100).toFixed(1) : '–';
+
+  document.getElementById('sim-result-area').innerHTML = `
+    <div class="alert ${hitGoal ? 'alert-success' : 'alert-danger'}">
+      ${hitGoal ? '🎉 Meta atingida!' : '❌ Meta não atingida'} &nbsp;|&nbsp;
+      Saldo final: <strong>${fmt(balance)}</strong> &nbsp;|&nbsp;
+      Lucro: <strong>${finalProfit >= 0 ? '+' : ''}${fmt(finalProfit)}</strong>
+    </div>
+    <div class="grid-3" style="margin-top:12px">
+      <div class="comp-card"><div class="comp-name">Acertos</div><div class="comp-val text-win">${wins}</div></div>
+      <div class="comp-card"><div class="comp-name">Erros</div><div class="comp-val text-loss">${losses}</div></div>
+      <div class="comp-card"><div class="comp-name">Taxa</div><div class="comp-val">${rate}%</div></div>
+    </div>`;
+
+  const tbody = document.getElementById('simBody');
+  tbody.innerHTML = rows.map(r => {
+    const res = r.result === 'W' ? '<span class="badge badge-win">WIN</span>'
+              : r.result === 'L' ? '<span class="badge badge-loss">LOSS</span>'
+              : r.result === 'skip' ? '<span class="badge badge-skip">Skip</span>'
+              : '<span class="badge badge-loss">Quebrado</span>';
+    const profCls = r.profit >= 0 ? 'text-win' : 'text-loss';
+    return `<tr>
+      <td><strong>#${r.num}</strong></td>
+      <td>${r.entry > 0 ? fmt(r.entry) : '–'}</td>
+      <td>${res}</td>
+      <td>${fmt(r.balance)}</td>
+      <td class="${profCls}">${r.profit >= 0 ? '+' : ''}${fmt(r.profit)}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ============================================================
+   COMPARAÇÃO DE ESTRATÉGIAS
+   ============================================================ */
+
+function runComparison() {
+  const B   = parseFloat(document.getElementById('cmp-banca').value)  || 1000;
+  const E   = parseFloat(document.getElementById('cmp-entry').value)  || 50;
+  const P   = parseFloat(document.getElementById('cmp-payout').value) / 100 || 0.85;
+  const N   = parseInt(document.getElementById('cmp-ops').value)      || 20;
+  const pat = document.getElementById('cmp-pattern').value;
+
+  // Gera sequência baseada no padrão
+  const prob = pat === 'good' ? 0.6 : pat === 'bad' ? 0.4 : 0.5;
+  const seq  = Array(N).fill(0).map(() => Math.random() < prob ? 'W' : 'L');
+
+  // Simula cada estratégia
+  const masData = simMasaniello(B, B * 0.1, N, Math.ceil(N * 0.6), P, seq);
+  const sorData = simSoros(B, E, P, seq);
+  const marData = simMartingale(B, E, P, seq);
+
+  // Atualiza summary cards
+  updateCmpCard('cmp-mas', masData);
+  updateCmpCard('cmp-sor', sorData);
+  updateCmpCard('cmp-mar', marData);
+
+  // Gráfico
+  renderCmpChart(masData.history, sorData.history, marData.history);
+}
+
+function simMasaniello(B, M, N, K, P, seq) {
+  const target = B + M;
+  let balance  = B;
+  let wins = 0, losses = 0;
+  const history = [B];
+  for (let i = 0; i < N; i++) {
+    const remOps  = N - i;
+    const remWins = K - wins;
+    if (remWins <= 0 || remWins > remOps) { history.push(balance); continue; }
+    const stake = r2(masanielloStake(target, balance, remOps, remWins, P));
+    if (seq[i] === 'W') { wins++; balance = r2(balance + stake * P); }
+    else { losses++; balance = r2(Math.max(0, balance - stake)); }
+    history.push(balance);
+    if (balance >= target) {
+      while (history.length <= N) history.push(balance);
+      break;
+    }
+  }
+  return { finalBalance: balance, profit: r2(balance - B), initialBalance: B, wins, losses, history };
+}
+
+function simSoros(B, E, P, seq) {
+  let balance = B, streak = 0, currentStake = E;
+  let wins = 0, losses = 0;
+  const history = [B];
+  for (let i = 0; i < seq.length; i++) {
+    const stake = Math.min(currentStake, balance);
+    if (seq[i] === 'W') {
+      wins++;
+      const profit = stake * P;
+      balance = r2(balance + profit);
+      streak++;
+      // Soros: usa lucro como próxima aposta (compõe)
+      currentStake = streak <= 3 ? r2(stake + profit) : E; // reseta após 3 vitórias consecutivas
+      if (streak > 3) streak = 0;
+    } else {
+      losses++;
+      balance = r2(Math.max(0, balance - stake));
+      currentStake = E; // reseta após derrota
+      streak = 0;
+    }
+    history.push(balance);
+    if (balance <= 0) break;
+  }
+  return { finalBalance: balance, profit: r2(balance - B), initialBalance: B, wins, losses, history };
+}
+
+function simMartingale(B, E, P, seq) {
+  let balance = B, currentStake = E;
+  let wins = 0, losses = 0;
+  const history = [B];
+  for (let i = 0; i < seq.length; i++) {
+    const stake = Math.min(currentStake, balance);
+    if (seq[i] === 'W') {
+      wins++;
+      balance = r2(balance + stake * P);
+      currentStake = E; // reseta após vitória
+    } else {
+      losses++;
+      balance = r2(Math.max(0, balance - stake));
+      // Martingale: aumenta stake para recuperar perdas
+      currentStake = r2(currentStake * (1 + P) / P);
+    }
+    history.push(balance);
+    if (balance <= 0) { while (history.length <= seq.length) history.push(0); break; }
+  }
+  return { finalBalance: balance, profit: r2(balance - B), initialBalance: B, wins, losses, history };
+}
+
+function updateCmpCard(id, data) {
+  const card = document.getElementById(id);
+  const profCls = data.profit >= 0 ? 'text-win' : 'text-loss';
+  const nameMap = { 'cmp-mas': 'Masaniello', 'cmp-sor': 'Soros', 'cmp-mar': 'Martingale' };
+  const roi = data.initialBalance > 0 ? (data.profit / data.initialBalance * 100).toFixed(2) : '0.00';
+  card.innerHTML = `
+    <div class="comp-name">${nameMap[id]}</div>
+    <div class="comp-val ${profCls}">${fmt(data.finalBalance)}</div>
+    <div class="comp-sub">${data.profit >= 0 ? '+' : ''}${fmt(data.profit)} (ROI: ${roi}%)</div>
+    <div class="comp-sub">${data.wins}W / ${data.losses}L</div>`;
+}
+
+function renderCmpChart(masH, sorH, marH) {
+  const canvas = document.getElementById('cmpChart');
+  if (!canvas) return;
+  const maxLen = Math.max(masH.length, sorH.length, marH.length);
+  const labels = Array.from({ length: maxLen }, (_, i) => i === 0 ? 'Início' : 'Op ' + i);
+  const pad = (arr) => { const a = [...arr]; while (a.length < maxLen) a.push(a[a.length - 1] || 0); return a; };
+  const gridColor = state.theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+  const tickColor = state.theme === 'dark' ? '#9ea3b8' : '#5a5f7a';
+  if (cmpChartInst) { cmpChartInst.destroy(); cmpChartInst = null; }
+  cmpChartInst = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Masaniello', data: pad(masH), borderColor: '#6c63ff', backgroundColor: 'rgba(108,99,255,.1)', fill: false, tension: 0.3, pointRadius: 2 },
+        { label: 'Soros',      data: pad(sorH), borderColor: '#4ecdc4', backgroundColor: 'rgba(78,205,196,.1)',  fill: false, tension: 0.3, pointRadius: 2 },
+        { label: 'Martingale', data: pad(marH), borderColor: '#e74c3c', backgroundColor: 'rgba(231,76,60,.1)',   fill: false, tension: 0.3, pointRadius: 2 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: tickColor, font: { size: 12 } } } },
+      scales: {
+        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 11 } } },
+        y: {
+          grid: { color: gridColor },
+          ticks: { color: tickColor, font: { size: 11 }, callback: v => 'R$' + v.toLocaleString('pt-BR') }
+        }
+      }
+    }
+  });
+}
+
+/* ============================================================
+   EXPORTAR EXCEL
+   ============================================================ */
+
+function exportExcel() {
+  if (!state.cycle || !state.cycle.ops.length) { showAlert('Nenhum dado para exportar.', 'warn'); return; }
+
+  const wb = XLSX.utils.book_new();
+  const cfg = state.cfg;
+
+  /* Planilha: Configurações */
+  const cfgData = [
+    ['Configuração', 'Valor'],
+    ['Banca Inicial', cfg.banca],
+    ['Meta de Lucro', cfg.meta],
+    ['Total de Operações', cfg.totalOps],
+    ['Mínimo de Acertos', cfg.minWins],
+    ['Payout (%)', (cfg.payout * 100).toFixed(1)],
+    ['Saldo Atual', state.cycle.currentBalance],
+    ['Lucro/Prejuízo', r2(state.cycle.currentBalance - state.cycle.initialBanca)],
+    ['Acertos', state.cycle.winsCount],
+    ['Erros', state.cycle.lossCount],
+    ['Data de Início', new Date(state.cycle.startedAt).toLocaleString('pt-BR')]
+  ];
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(cfgData), 'Configurações');
+
+  /* Planilha: Operações */
+  const opHeaders = ['#', 'Entrada (R$)', 'Status', 'Saldo Após (R$)', 'Acertos Rest.', 'Ops Rest.', 'Resultado (R$)', 'Payout (%)'];
+  const opData = state.cycle.ops.map(op => [
+    op.num,
+    op.entry || 0,
+    op.status === 'wait' ? 'Aguardando' : op.status === 'win' ? 'WIN' : op.status === 'loss' ? 'LOSS' : 'Skip',
+    op.balanceAfter !== null ? op.balanceAfter : '',
+    op.remWins !== null ? op.remWins : '',
+    op.remOps  !== null ? op.remOps  : '',
+    op.status === 'win' ? r2(op.entry * op.payout) : op.status === 'loss' ? -op.entry : '',
+    (op.payout * 100).toFixed(1)
+  ]);
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([opHeaders, ...opData]), 'Operações');
+
+  /* Planilha: Histórico */
+  if (state.history.length) {
+    const hHeaders = ['Ciclo', 'Data', 'Banca Inicial', 'Saldo Final', 'Lucro/Prejuízo', 'ROI (%)', 'Acertos', 'Erros', 'Taxa (%)'];
+    const hData = state.history.map((h, i) => [
+      state.history.length - i,
+      new Date(h.finishedAt).toLocaleDateString('pt-BR'),
+      h.cfg.banca,
+      h.finalBalance,
+      h.profit,
+      r2(h.profit / h.cfg.banca * 100),
+      h.winsCount,
+      h.lossCount,
+      r2(h.winsCount / (h.winsCount + h.lossCount) * 100)
+    ]);
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([hHeaders, ...hData]), 'Histórico');
+  }
+
+  XLSX.writeFile(wb, 'masaniello_' + new Date().toISOString().slice(0, 10) + '.xlsx');
+}
+
+/* ============================================================
+   EXPORTAR PDF
+   ============================================================ */
+
+function exportPDF() {
+  if (!state.cycle) { showAlert('Nenhum dado para exportar.', 'warn'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const cfg = state.cfg;
+  const cy  = state.cycle;
+
+  // Cabeçalho
+  doc.setFillColor(108, 99, 255);
+  doc.rect(0, 0, 210, 28, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(18); doc.setFont('helvetica', 'bold');
+  doc.text('MASANIELLO PRO', 14, 14);
+  doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+  doc.text('Relatório de Ciclo — ' + new Date().toLocaleDateString('pt-BR'), 14, 22);
+
+  // Resumo
+  doc.setTextColor(40, 40, 40);
+  doc.setFontSize(13); doc.setFont('helvetica', 'bold');
+  doc.text('Resumo do Ciclo', 14, 38);
+  doc.setFontSize(10); doc.setFont('helvetica', 'normal');
+  const profit = r2(cy.currentBalance - cy.initialBanca);
+  const resumo = [
+    ['Banca Inicial', fmt(cfg.banca), 'Meta de Lucro', fmt(cfg.meta)],
+    ['Saldo Atual', fmt(cy.currentBalance), 'Lucro/Prejuízo', (profit >= 0 ? '+' : '') + fmt(profit)],
+    ['Total Operações', cfg.totalOps, 'Mínimo Acertos', cfg.minWins],
+    ['Acertos', cy.winsCount, 'Erros', cy.lossCount],
+    ['Payout', (cfg.payout * 100).toFixed(1) + '%', 'ROI', (profit / cfg.banca * 100).toFixed(2) + '%']
+  ];
+  doc.autoTable({
+    startY: 42,
+    body: resumo,
+    theme: 'grid',
+    styles: { fontSize: 9, cellPadding: 4 },
+    columnStyles: { 0: { fontStyle: 'bold', fillColor: [245, 245, 250] }, 2: { fontStyle: 'bold', fillColor: [245, 245, 250] } }
+  });
+
+  // Tabela de operações
+  doc.setFontSize(13); doc.setFont('helvetica', 'bold');
+  doc.text('Planilha Masaniello', 14, doc.lastAutoTable.finalY + 14);
+  const opRows = cy.ops.map(op => [
+    '#' + op.num,
+    op.entry > 0 ? 'R$' + op.entry.toFixed(2) : '–',
+    op.status === 'wait' ? 'Aguardando' : op.status === 'win' ? 'WIN' : op.status === 'loss' ? 'LOSS' : 'Skip',
+    op.balanceAfter !== null ? 'R$' + op.balanceAfter.toFixed(2) : '–',
+    op.remWins !== null ? op.remWins : '–',
+    op.remOps  !== null ? op.remOps  : '–'
+  ]);
+  doc.autoTable({
+    startY: doc.lastAutoTable.finalY + 18,
+    head: [['#', 'Entrada', 'Status', 'Saldo Após', 'Acertos Rest.', 'Ops Rest.']],
+    body: opRows,
+    theme: 'striped',
+    headStyles: { fillColor: [108, 99, 255], textColor: 255, fontStyle: 'bold', fontSize: 9 },
+    styles: { fontSize: 8, cellPadding: 3 },
+    didDrawCell: (data) => {
+      if (data.section === 'body' && data.column.index === 2) {
+        const val = data.cell.raw;
+        if (val === 'WIN')  { doc.setTextColor(46, 204, 113); }
+        else if (val === 'LOSS') { doc.setTextColor(231, 76, 60); }
+        else { doc.setTextColor(40, 40, 40); }
+      }
+    }
+  });
+
+  // Rodapé
+  const pageCount = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.setFontSize(8); doc.setTextColor(150);
+    doc.text('Masaniello Pro — Gerado em ' + new Date().toLocaleString('pt-BR'), 14, 290);
+    doc.text(`Página ${i}/${pageCount}`, 190, 290, { align: 'right' });
+  }
+
+  doc.save('masaniello_' + new Date().toISOString().slice(0, 10) + '.pdf');
+}
+
+/* ============================================================
+   BACKUP & RESTAURAR
+   ============================================================ */
+
+function openBackup() { openModal('backupModal'); }
+
+function downloadBackup() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'masaniello_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  closeModal('backupModal');
+}
+
+function importBackup(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (!confirm('Isso substituirá todos os dados atuais. Confirmar?')) return;
+      state = { ...state, ...parsed };
+      saveState();
+      renderAll();
+      applyTheme();
+      closeModal('backupModal');
+      showAlert('Backup restaurado com sucesso! 🎉', 'success');
+    } catch {
+      showAlert('Arquivo inválido.', 'danger');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ============================================================
+   ALERTAS
+   ============================================================ */
+
+function showAlert(msg, type = 'info', duration = 4000) {
+  const area = document.getElementById('alert-area');
+  const el   = document.createElement('div');
+  el.className = 'alert alert-' + type;
+  el.textContent = msg;
+  area.appendChild(el);
+  setTimeout(() => el.remove(), duration);
+}
+
+/* ============================================================
+   INICIALIZAÇÃO
+   ============================================================ */
+
+function init() {
+  loadState();
+  applyTheme();
+  renderAll();
+  updateCfgPreview();
+  // Se não há ciclo, abre setup automaticamente após 500ms
+  if (!state.cycle) {
+    setTimeout(openSetup, 500);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
