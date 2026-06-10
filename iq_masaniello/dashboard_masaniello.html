@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Masaniello Bot</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#e8eaf0;min-height:100vh;padding:12px}
+h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(135deg,#6c63ff,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.sub{text-align:center;font-size:11px;color:#9ea3b8;margin-bottom:14px}
+
+/* STATUS BAR */
+.status-bar{display:flex;align-items:center;justify-content:space-between;background:#1e2130;border:1px solid #2e3147;border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.status-dot{width:10px;height:10px;border-radius:50%;margin-right:8px;flex-shrink:0}
+.dot-online{background:#2ecc71;box-shadow:0 0 8px #2ecc71;animation:pulse 1.5s infinite}
+.dot-stopped{background:#e74c3c}
+.dot-unknown{background:#f39c12}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.status-text{font-size:13px;font-weight:700;display:flex;align-items:center}
+.ts{font-size:11px;color:#9ea3b8}
+
+/* BOTÕES */
+.btn-row{display:flex;gap:10px;margin-bottom:14px}
+.btn{flex:1;padding:12px;border-radius:10px;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:.2s}
+.btn-on{background:#2ecc71;color:#fff}
+.btn-on:active{background:#27ae60}
+.btn-off{background:#e74c3c;color:#fff}
+.btn-off:active{background:#c0392b}
+
+/* CARDS */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.card{background:#1e2130;border:1px solid #2e3147;border-radius:10px;padding:12px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.card.purple::before{background:#6c63ff}
+.card.green::before{background:#2ecc71}
+.card.red::before{background:#e74c3c}
+.card.yellow::before{background:#f39c12}
+.card.teal::before{background:#4ecdc4}
+.card.blue::before{background:#3498db}
+.lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#9ea3b8;margin-bottom:4px}
+.val{font-size:20px;font-weight:800}
+.val.pos{color:#2ecc71}
+.val.neg{color:#e74c3c}
+.sub-val{font-size:11px;color:#9ea3b8;margin-top:2px}
+
+/* CARD FULL */
+.card-full{background:#1e2130;border:1px solid #2e3147;border-radius:10px;padding:12px;margin-bottom:12px}
+.card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#9ea3b8;margin-bottom:10px}
+
+/* PROGRESS */
+.prog-wrap{background:#232636;border-radius:50px;height:8px;margin-bottom:6px}
+.prog-bar{height:8px;border-radius:50px;background:linear-gradient(90deg,#6c63ff,#4ecdc4);transition:width .5s}
+.prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:#9ea3b8}
+
+/* LOGS */
+.logs{background:#0f1117;border-radius:8px;padding:10px;height:180px;overflow-y:auto;font-size:11px;font-family:monospace;color:#9ea3b8}
+.logs .win{color:#2ecc71}
+.logs .loss{color:#e74c3c}
+.logs .info{color:#6c63ff}
+.logs .warn{color:#f39c12}
+
+/* HISTÓRICO */
+.hist-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #2e3147;font-size:12px}
+.hist-item:last-child{border-bottom:none}
+.hist-status.win{color:#2ecc71;font-weight:700}
+.hist-status.loss{color:#e74c3c;font-weight:700}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#232636;border:1px solid #2e3147;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<h1>⚡ Masaniello Bot</h1>
+<p class="sub" id="ts">–</p>
+
+<!-- STATUS -->
+<div class="status-bar">
+  <div class="status-text">
+    <div class="status-dot dot-unknown" id="statusDot"></div>
+    <span id="statusTxt">Verificando...</span>
+  </div>
+  <span class="ts" id="cycleStatus">–</span>
+</div>
+
+<!-- BOTÕES LIGAR/DESLIGAR -->
+<div class="btn-row">
+  <button class="btn btn-on" onclick="ligar()">▶ LIGAR</button>
+  <button class="btn btn-off" onclick="desligar()">■ DESLIGAR</button>
+</div>
+
+<!-- CARDS PRINCIPAIS -->
+<div class="grid">
+  <div class="card purple">
+    <div class="lbl">Saldo Atual</div>
+    <div class="val" id="saldo">R$ –</div>
+    <div class="sub-val" id="bancaIni">Inicial: –</div>
+  </div>
+  <div class="card" id="lucroCard">
+    <div class="lbl">Lucro / Prejuízo</div>
+    <div class="val" id="lucro">R$ –</div>
+    <div class="sub-val" id="roiVal">ROI: –</div>
+  </div>
+  <div class="card green">
+    <div class="lbl">Wins</div>
+    <div class="val pos" id="wins">–</div>
+    <div class="sub-val" id="taxa">Taxa: –</div>
+  </div>
+  <div class="card red">
+    <div class="lbl">Losses</div>
+    <div class="val neg" id="losses">–</div>
+    <div class="sub-val" id="opInfo">Op: –</div>
+  </div>
+  <div class="card teal">
+    <div class="lbl">Próxima Entrada</div>
+    <div class="val" id="proxima" style="color:#4ecdc4">R$ –</div>
+    <div class="sub-val" id="payoutInfo">Payout: –</div>
+  </div>
+  <div class="card yellow">
+    <div class="lbl">💰 Cofre</div>
+    <div class="val" id="cofre" style="color:#f39c12">R$ –</div>
+    <div class="sub-val" id="ciclosGanhos">Ciclos: –</div>
+  </div>
+</div>
+
+<!-- PROGRESSO -->
+<div class="card-full">
+  <div class="card-title">Progresso do Ciclo</div>
+  <div class="prog-lbl" style="margin-bottom:6px">
+    <span id="progLeft">Op 0 / 0</span>
+    <span id="progRight">0%</span>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-bar" id="progBar" style="width:0%"></div>
+  </div>
+</div>
+
+<!-- HISTÓRICO -->
+<div class="card-full">
+  <div class="card-title">Últimos Ciclos</div>
+  <div id="histList"><div style="color:#9ea3b8;font-size:12px;text-align:center;padding:10px">Nenhum ciclo ainda</div></div>
+</div>
+
+<!-- LOGS -->
+<div class="card-full">
+  <div class="card-title" style="display:flex;justify-content:space-between">
+    <span>Log em tempo real</span>
+    <span style="cursor:pointer;color:#6c63ff" onclick="carregarLogs()">↺ atualizar</span>
+  </div>
+  <div class="logs" id="logBox"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '';  // mesmo servidor
+
+async function fetchStatus() {
+  try {
+    const r = await fetch(API + '/api/status');
+    const d = await r.json();
+    atualizar(d);
+  } catch(e) {
+    document.getElementById('statusTxt').textContent = 'Sem conexão';
+    document.getElementById('statusDot').className = 'status-dot dot-unknown';
+  }
+}
+
+function atualizar(d) {
+  // Status dot
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusTxt');
+  if (d.bot_status === 'online') {
+    dot.className = 'status-dot dot-online';
+    txt.textContent = '🟢 Bot rodando';
+  } else {
+    dot.className = 'status-dot dot-stopped';
+    txt.textContent = '🔴 Bot parado';
+  }
+
+  document.getElementById('ts').textContent = 'Atualizado: ' + d.ts;
+  document.getElementById('cycleStatus').textContent = d.cycle_status || '–';
+
+  // Cards
+  document.getElementById('saldo').textContent = fmt(d.saldo);
+  document.getElementById('bancaIni').textContent = 'Inicial: ' + fmt(d.banca_ini);
+
+  const lucro = d.lucro || 0;
+  const lucroEl = document.getElementById('lucro');
+  lucroEl.textContent = (lucro >= 0 ? '+' : '') + fmt(lucro);
+  lucroEl.className = 'val ' + (lucro >= 0 ? 'pos' : 'neg');
+  document.getElementById('lucroCard').style.setProperty('--c', lucro >= 0 ? '#2ecc71' : '#e74c3c');
+  document.getElementById('lucroCard').querySelector('::before');
+
+  const roi = d.banca_ini > 0 ? (lucro / d.banca_ini * 100).toFixed(2) : '0.00';
+  document.getElementById('roiVal').textContent = 'ROI: ' + roi + '%';
+
+  document.getElementById('wins').textContent = d.wins;
+  document.getElementById('losses').textContent = d.losses;
+  document.getElementById('taxa').textContent = 'Taxa: ' + d.taxa + '%';
+  document.getElementById('opInfo').textContent = 'Op: ' + d.op_atual + '/' + d.total_ops;
+
+  document.getElementById('proxima').textContent = fmt(d.proxima);
+  document.getElementById('cofre').textContent = fmt(d.cofre);
+  document.getElementById('ciclosGanhos').textContent = d.ciclos_ganhos + ' ciclos ganhos';
+
+  // Progresso
+  const pct = d.total_ops > 0 ? Math.round((d.op_atual - 1) / d.total_ops * 100) : 0;
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progLeft').textContent = 'Op ' + (d.op_atual - 1) + ' / ' + d.total_ops;
+  document.getElementById('progRight').textContent = pct + '%';
+}
+
+async function carregarHistorico() {
+  try {
+    const r = await fetch(API + '/api/historico');
+    const hist = await r.json();
+    const el = document.getElementById('histList');
+    if (!hist.length) return;
+    el.innerHTML = hist.reverse().slice(0, 8).map(h => {
+      const win = h.status === 'meta_atingida';
+      const lucro = h.lucro || 0;
+      return `<div class="hist-item">
+        <span>Ciclo #${h.ciclo}</span>
+        <span class="hist-status ${win ? 'win' : 'loss'}">${win ? '✅' : '❌'} ${(lucro>=0?'+':'')}R$${Math.abs(lucro).toFixed(2)}</span>
+        <span style="color:#9ea3b8">${h.wins}W/${h.losses}L</span>
+      </div>`;
+    }).join('');
+  } catch(e) {}
+}
+
+async function carregarLogs() {
+  try {
+    const r = await fetch(API + '/api/logs');
+    const d = await r.json();
+    const box = document.getElementById('logBox');
+    box.innerHTML = d.logs.map(l => {
+      let cls = '';
+      if (l.includes('WIN')) cls = 'win';
+      else if (l.includes('LOSS')) cls = 'loss';
+      else if (l.includes('META') || l.includes('COFRE')) cls = 'info';
+      else if (l.includes('WARN') || l.includes('quebrado')) cls = 'warn';
+      return `<div class="${cls}">${l}</div>`;
+    }).join('');
+    box.scrollTop = box.scrollHeight;
+  } catch(e) {}
+}
+
+async function ligar() {
+  try {
+    const r = await fetch(API + '/api/ligar', {method:'POST'});
+    const d = await r.json();
+    toast(d.msg);
+    setTimeout(fetchStatus, 2000);
+  } catch(e) { toast('Erro ao ligar'); }
+}
+
+async function desligar() {
+  if (!confirm('Desligar o bot?')) return;
+  try {
+    const r = await fetch(API + '/api/desligar', {method:'POST'});
+    const d = await r.json();
+    toast(d.msg);
+    setTimeout(fetchStatus, 2000);
+  } catch(e) { toast('Erro ao desligar'); }
+}
+
+function fmt(v) {
+  if (v === undefined || v === null) return 'R$ –';
+  return 'R$ ' + parseFloat(v).toFixed(2).replace('.', ',');
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Atualiza a cada 5 segundos
+fetchStatus();
+carregarHistorico();
+carregarLogs();
+setInterval(fetchStatus, 5000);
+setInterval(carregarHistorico, 15000);
+setInterval(carregarLogs, 10000);
+</script>
+</body>
+</html>
