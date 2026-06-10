@@ -182,7 +182,12 @@ a{color:inherit;text-decoration:none}
     <div class="card">
       <div class="card-t">Cofre</div>
       <div class="big" id="cofre-t" style="color:#00e5a0">R$ 0,00</div>
-      <div class="small" id="ciclos-g">0 ciclos META</div>
+      <div style="display:flex;gap:10px;margin-top:8px;align-items:center">
+        <span style="font-size:15px;font-weight:bold;color:#00e5a0" id="ciclos-win">0 META</span>
+        <span style="color:#1e2a42">|</span>
+        <span style="font-size:15px;font-weight:bold;color:#ff3e6c" id="ciclos-loss">0 QBRD</span>
+      </div>
+      <div class="small" id="ciclos-taxa">Taxa ciclos: —</div>
     </div>
     <div class="card">
       <div class="card-t">Resultado</div>
@@ -510,7 +515,11 @@ function update(d) {
   var cv = fmt(d.cofre);
   document.getElementById('cofre-t').textContent = cv;
   document.getElementById('cofre2').textContent  = cv;
-  document.getElementById('ciclos-g').textContent = (d.ciclos_ganhos||0) + ' ciclos META';
+  var cg = d.ciclos_ganhos||0, cp = d.ciclos_perdidos||0, ct = cg+cp;
+  document.getElementById('ciclos-win').textContent  = cg + ' META';
+  document.getElementById('ciclos-loss').textContent = cp + ' QBRD';
+  document.getElementById('ciclos-taxa').textContent = ct ? 'Taxa ciclos: ' + Math.round(cg/ct*100) + '% (' + ct + ' total)' : 'Taxa ciclos: —';
+  document.getElementById('ciclos-g').textContent    = cg + ' ciclos META';
 
   // ganhos/perdas
   var g = d.ganhos||0, p = d.perdas||0, tot = g+p;

@@ -62,6 +62,7 @@ estado = {
     "proxima":            0.0,
     "cofre":              0.0,
     "ciclos_ganhos":      0,
+    "ciclos_perdidos":    0,
 
     # Params (ajustáveis pelo dashboard)
     "banca_trabalho": BANCA_TRABALHO,
@@ -180,6 +181,7 @@ async def _processar_fim_ciclo(status):
         if estado["ciclos_ganhos"] % 10 == 0:
             log(f"💰 {estado['ciclos_ganhos']} ciclos! Cofre total: ${estado['cofre']:.2f}")
     else:
+        estado["ciclos_perdidos"] += 1
         log(f"💔 CICLO #{estado['ciclo_num']} QUEBRADO | {lucro:+.2f}")
 
     await asyncio.sleep(8)
@@ -578,7 +580,8 @@ async def broadcast():
         "cycle_status": estado["cycle_status"],
         "proxima":      round(estado["proxima"], 2),
         "cofre":        round(estado["cofre"], 2),
-        "ciclos_ganhos":estado["ciclos_ganhos"],
+        "ciclos_ganhos":  estado["ciclos_ganhos"],
+        "ciclos_perdidos":estado["ciclos_perdidos"],
         "meta_ciclo":   estado["meta_ciclo"],
         "banca_trabalho":estado["banca_trabalho"],
         # Trade
