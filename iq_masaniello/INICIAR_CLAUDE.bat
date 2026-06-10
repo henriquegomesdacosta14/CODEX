@@ -23,12 +23,13 @@ timeout /t 6 /nobreak >nul
 start "IQBOT-HTTP" cmd /k "python -m http.server 3000"
 timeout /t 3 /nobreak >nul
 
-start http://localhost:3000/iqbot-claude-dashboard.html
+start http://localhost:3000/iqbot-active-dashboard.html
 
 echo.
 echo  IQBOT Claude M1 iniciado!
-echo  Dashboard: http://localhost:3000/iqbot-claude-dashboard.html
-echo  WebSocket:  ws://localhost:8775
+echo  Dashboard PC:     http://localhost:3000/iqbot-active-dashboard.html
+echo  Dashboard Mobile: http://localhost:3000/iqbot-active-dashboard-mobile.html
+echo  WebSocket:        ws://localhost:8775
 echo.
 echo  Nao feche as janelas do CMD
 echo.
