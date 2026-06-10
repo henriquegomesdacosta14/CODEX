@@ -153,6 +153,26 @@ a{color:inherit;text-decoration:none}
     <span id="banner-txt">Bot desconectado — rode <b>python bot.py</b> e clique <b>Ligar</b></span>
   </div>
 
+  <!-- MODO ATIVOS + CRONOMETROS -->
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+    <div style="display:flex;gap:6px;align-items:center">
+      <span style="font-size:11px;color:#6b7aa0;margin-right:4px">ATIVOS:</span>
+      <button class="btn bd modo-btn" id="modo-forex" onclick="setModo('forex')">Forex</button>
+      <button class="btn bd modo-btn" id="modo-otc"   onclick="setModo('otc')">OTC</button>
+      <button class="btn bb modo-btn" id="modo-auto"  onclick="setModo('auto')">Auto</button>
+    </div>
+    <div style="display:flex;gap:14px;align-items:center">
+      <div style="background:#111827;border:1px solid #1e2a42;border-radius:8px;padding:8px 14px;text-align:center">
+        <div style="font-size:10px;color:#6b7aa0">SESSAO</div>
+        <div style="font-size:18px;font-weight:bold;font-family:monospace;color:#dde4f8" id="crono-sess2">00:00:00</div>
+      </div>
+      <div style="background:#111827;border:1px solid #1e2a42;border-radius:8px;padding:8px 14px;text-align:center" id="crono-op-box">
+        <div style="font-size:10px;color:#6b7aa0">OPERACAO</div>
+        <div style="font-size:18px;font-weight:bold;font-family:monospace;color:#f7c948" id="crono-op2">--:--</div>
+      </div>
+    </div>
+  </div>
+
   <div class="g4" style="margin-bottom:14px">
     <div class="card">
       <div class="card-t">Banca Atual</div>
@@ -222,6 +242,14 @@ a{color:inherit;text-decoration:none}
       <div class="cofre">
         <span class="cofre-lbl">Cofre (lucros preservados)</span>
         <span class="cofre-val" id="cofre2">R$ 0,00</span>
+      </div>
+
+      <!-- EMA info -->
+      <div style="margin-top:10px;background:#060810;border-radius:8px;padding:10px 12px;font-size:11px;color:#6b7aa0;display:flex;gap:14px;flex-wrap:wrap">
+        <span>EMA3: <b id="ema3" style="color:#f7c948">—</b></span>
+        <span>EMA10: <b id="ema10" style="color:#ff8c42">—</b></span>
+        <span>SMA21: <b id="sma21" style="color:#4f8ef7">—</b></span>
+        <span id="ema-dir" style="font-weight:bold">—</span>
       </div>
     </div>
 
@@ -532,6 +560,48 @@ function update(d) {
   setTog('tog-3b',  d.inverter_three_black);
   setTog('tog-st',  d.so_tendencia);
 
+  // modo ativos buttons
+  var modo = d.modo_ativos || 'auto';
+  ['forex','otc','auto'].forEach(function(x) {
+    var el = document.getElementById('modo-'+x);
+    if (!el) return;
+    el.className = 'btn ' + (x === modo ? 'bg' : 'bd') + ' modo-btn';
+  });
+
+  // cronometro sessao
+  var cs2 = document.getElementById('crono-sess2');
+  if (cs2) cs2.textContent = tempo(d.crono_sessao);
+
+  // cronometro operacao
+  var co = document.getElementById('crono-op2');
+  var coBox = document.getElementById('crono-op-box');
+  if (co) {
+    if (d.trade_ativo) {
+      var s = d.crono_entrada||0;
+      var mm = ('0'+Math.floor(s/60)).slice(-2);
+      var ss2 = ('0'+(s%60)).slice(-2);
+      co.textContent = mm + ':' + ss2;
+      if (coBox) coBox.style.borderColor = '#ff8c42';
+    } else {
+      co.textContent = '--:--';
+      if (coBox) coBox.style.borderColor = '#1e2a42';
+    }
+  }
+
+  // EMA info
+  var e3 = document.getElementById('ema3');
+  var e10 = document.getElementById('ema10');
+  var s21 = document.getElementById('sma21');
+  var edir = document.getElementById('ema-dir');
+  if (e3 && d.ema3) e3.textContent = d.ema3;
+  if (e10 && d.ema10) e10.textContent = d.ema10;
+  if (s21 && d.sma21) s21.textContent = d.sma21;
+  if (edir && d.ema3 && d.ema10) {
+    if (d.ema3 > d.ema10) { edir.textContent = '▲ ALTA'; edir.style.color = '#00e5a0'; }
+    else if (d.ema3 < d.ema10) { edir.textContent = '▼ BAIXA'; edir.style.color = '#ff3e6c'; }
+    else { edir.textContent = '— LATERAL'; edir.style.color = '#6b7aa0'; }
+  }
+
   // config info
   if (!cfgLoaded && d.banca_trabalho) {
     cfgLoaded = true;
@@ -667,6 +737,16 @@ function saveConfig() {
 function saveCred() {
   var v = parseFloat(document.getElementById('inp-cred').value)||0;
   cmd('set_credito', { valor: v });
+}
+
+function setModo(m) {
+  cmd('set_modo', { modo: m });
+  // atualiza visual imediatamente
+  ['forex','otc','auto'].forEach(function(x) {
+    var el = document.getElementById('modo-'+x);
+    if (!el) return;
+    el.className = 'btn ' + (x === m ? 'bg' : 'bd') + ' modo-btn';
+  });
 }
 
 function saveWs() {

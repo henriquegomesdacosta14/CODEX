@@ -29,12 +29,13 @@ ENTRADA_MIN    = 2.0
 # Trading
 CONTA_DEMO      = True
 DASHBOARD_PORT  = 8765
-CANDLES_ANALISE = 20
+CANDLES_ANALISE = 30        # precisa de pelo menos 21 para SMA21
 CONFIANCA_MIN   = 75
 TIMEFRAMES      = [60, 120]
-STOP_SESSAO     = 100.0   # stop loss global da sessão (perda máxima)
+STOP_SESSAO     = 100.0
 SO_TENDENCIA    = False
 INVERTER_TUDO   = False
+MODO_ATIVOS     = "auto"    # "auto" | "forex" | "otc"
 PADROES_INVERTER = ['bearish engulfing','bearish engolfo','three black crows','três corvos negros']
 
 # ════════════════════════════════════
@@ -94,6 +95,12 @@ estado = {
     "inverter_tendencia":   False,
     "inverter_three_black": False,
     "so_tendencia":         False,
+    "modo_ativos":          "auto",   # auto | forex | otc
+
+    # EMA info (último filtro)
+    "ema3":  0.0,
+    "ema10": 0.0,
+    "sma21": 0.0,
 }
 
 clientes_ws = set()
@@ -368,6 +375,52 @@ def filtro_local(candles):
     return False, ""
 
 # ════════════════════════════════════
+#  FILTRO EMA 3 / EMA 10 / SMA 21
+# ════════════════════════════════════
+def _ema(prices, period):
+    k = 2.0 / (period + 1)
+    e = prices[0]
+    for p in prices[1:]:
+        e = p * k + e * (1 - k)
+    return e
+
+def filtro_ema(candles):
+    """
+    Confirma tendência usando EMA3, EMA10, SMA21.
+    Sinal forte: EMA3 diverge de EMA10 e ambas confirmam SMA21.
+    Retorna (passou, direcao_sugerida, descricao)
+    """
+    if len(candles) < 21:
+        return False, "", "candles insuficientes"
+
+    prices = [c['close'] for c in candles]
+
+    ema3  = _ema(prices[-10:],  3)
+    ema10 = _ema(prices[-21:], 10)
+    sma21 = sum(prices[-21:]) / 21
+
+    estado["ema3"]  = round(ema3,  5)
+    estado["ema10"] = round(ema10, 5)
+    estado["sma21"] = round(sma21, 5)
+
+    dist_pct = abs(ema3 - ema10) / ema10 if ema10 > 0 else 0
+
+    # Sem distância suficiente = mercado lateral, não entrar
+    if dist_pct < 0.0003:
+        return False, "", "lateralizacao_ema"
+
+    if ema3 > ema10:
+        # Alta: EMA3 acima de EMA10, EMA10 acima de SMA21
+        if ema10 >= sma21 * 0.9998:
+            return True, "CALL", f"EMA3>EMA10>SMA21 (+{dist_pct*100:.3f}%)"
+        return False, "", "EMA alta mas contra SMA21"
+    else:
+        # Baixa: EMA3 abaixo de EMA10, EMA10 abaixo de SMA21
+        if ema10 <= sma21 * 1.0002:
+            return True, "PUT", f"EMA3<EMA10<SMA21 (-{dist_pct*100:.3f}%)"
+        return False, "", "EMA baixa mas contra SMA21"
+
+# ════════════════════════════════════
 #  VARREDURA
 # ════════════════════════════════════
 async def varrer_ativos(iq):
@@ -380,6 +433,8 @@ async def varrer_ativos(iq):
     log("🔍 Iniciando varredura...")
     melhores = []
 
+    modo = estado.get("modo_ativos", "auto")
+
     try:
         todos = await asyncio.get_event_loop().run_in_executor(None, iq.get_all_open_time)
         disponiveis = []
@@ -387,13 +442,25 @@ async def varrer_ativos(iq):
             for nome, info in todos.get(tipo, {}).items():
                 if info.get("open") and nome not in disponiveis:
                     disponiveis.append(nome)
-        # Prioriza reais → OTC
         reais = [a for a in disponiveis if re.match(r'^[A-Z]{6}$', a)]
         otcs  = [a for a in disponiveis if re.match(r'^[A-Z]{6}-OTC$', a)]
-        lista = (reais + otcs) if reais else otcs
-        if not lista:
-            lista = ["EURUSD-OTC","GBPUSD-OTC","USDJPY-OTC","EURUSD","GBPUSD"]
-        log(f"📋 {len(lista)} ativos | {len(reais)} reais + {len(otcs)} OTC")
+
+        if modo == "forex":
+            lista = reais
+            if not lista:
+                log("⏸ Modo FOREX: nenhum ativo real aberto — aguardando mercado")
+                estado["varrendo"] = False
+                estado["status"]   = "Aguardando mercado Forex..."
+                await broadcast()
+                return None
+        elif modo == "otc":
+            lista = otcs if otcs else ["EURUSD-OTC","GBPUSD-OTC","USDJPY-OTC"]
+        else:  # auto
+            lista = (reais + otcs) if reais else otcs
+            if not lista:
+                lista = ["EURUSD-OTC","GBPUSD-OTC","USDJPY-OTC"]
+
+        log(f"📋 Modo {modo.upper()} | {len(lista)} ativos ({len(reais)} reais + {len(otcs)} OTC)")
     except Exception as e:
         log(f"⚠️ Erro ativos: {e}")
         lista = ["EURUSD-OTC","GBPUSD-OTC","USDJPY-OTC"]
@@ -425,7 +492,15 @@ async def varrer_ativos(iq):
                     await broadcast()
                     continue
 
-                log(f"🔎 {ativo} M{tf//60} passou ({motivo}) → Claude...")
+                # Filtro EMA 3/10/SMA21
+                ema_ok, ema_dir, ema_desc = filtro_ema(candles[:-1])
+                if not ema_ok:
+                    linha = f"{ativo} M{tf//60} | EMA-SKIP | 0% | {ema_desc}"
+                    estado["varredura_log"].append(linha)
+                    await broadcast()
+                    continue
+
+                log(f"🔎 {ativo} M{tf//60} | {motivo} | {ema_desc} → Claude...")
                 try:
                     r = await asyncio.wait_for(analisar_ativo(candles[:-1], ativo, tf), timeout=30)
                 except asyncio.TimeoutError:
@@ -529,6 +604,11 @@ async def broadcast():
         "inverter_tendencia":   estado["inverter_tendencia"],
         "inverter_three_black": estado["inverter_three_black"],
         "so_tendencia":         estado["so_tendencia"],
+        "modo_ativos":          estado["modo_ativos"],
+        # EMA
+        "ema3":  estado["ema3"],
+        "ema10": estado["ema10"],
+        "sma21": estado["sma21"],
     })
     mortos = set()
     for ws in clientes_ws:
@@ -585,6 +665,12 @@ async def handler_ws(websocket):
                 estado["api_gasto"]   = 0.0
                 estado["api_alerta"]  = False
                 log(f"💳 Crédito API: ${estado['api_credito']:.2f}")
+
+            elif cmd == "set_modo":
+                modo = data.get("modo", "auto")
+                if modo in ("auto", "forex", "otc"):
+                    estado["modo_ativos"] = modo
+                    log(f"📡 Modo ativos: {modo.upper()}")
 
             elif cmd == "inverter":
                 estado["inverter_tudo"] = data.get("ativo", False)
