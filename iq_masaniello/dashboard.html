@@ -549,7 +549,7 @@ function update(d) {
   bEl.textContent  = cs;
   bEl.className    = 'badge ' + ({ANDAMENTO:'b-and',META:'b-meta',QUEBRADO:'b-qbr',AGUARDANDO:'b-agu'}[cs]||'b-agu');
 
-  renderDots(op, tops, wc, d.losses_ciclo||0);
+  renderDots(op, tops, d.ciclo_resultados||[]);
 
   document.getElementById('proxima').textContent = fmt(d.proxima);
   document.getElementById('stake').textContent   = fmt(d.stake);
@@ -649,11 +649,12 @@ function setTog(id, val) {
   if (el) el.checked = !!val;
 }
 
-function renderDots(op, tot, wins, losses) {
-  var done = op - 1;
+function renderDots(op, tot, resultados) {
+  // resultados = ["W","L","L","W",...] sequência real do ciclo
   var html = '';
   for (var i = 1; i <= tot; i++) {
-    var cls = i <= wins ? 'win' : i <= done ? 'loss' : i === op ? 'curr' : '';
+    var r = resultados && resultados[i-1];
+    var cls = r === 'W' ? 'win' : r === 'L' ? 'loss' : i === op ? 'curr' : '';
     html += '<div class="dot-op ' + cls + '">' + i + '</div>';
   }
   document.getElementById('op-dots').innerHTML = html;

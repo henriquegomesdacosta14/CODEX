@@ -57,6 +57,7 @@ estado = {
     "op_atual":           1,
     "wins_ciclo":         0,
     "losses_ciclo":       0,
+    "ciclo_resultados":   [],   # sequência real: ["W","L","L","W",...]
     "banca_inicio_ciclo": BANCA_TRABALHO,
     "cycle_status":       "AGUARDANDO",
     "proxima":            0.0,
@@ -149,6 +150,7 @@ def _status_ciclo():
     return "ANDAMENTO"
 
 def on_win(lucro_op=0):
+    estado["ciclo_resultados"].append("W")
     estado["ganhos"]     += 1
     estado["wins_ciclo"] += 1
     estado["op_atual"]   += 1
@@ -161,6 +163,7 @@ def on_win(lucro_op=0):
     log(f"✅ WIN {estado['wins_ciclo']}W/{estado['losses_ciclo']}L | Próx: ${estado['proxima']:.2f}")
 
 def on_loss():
+    estado["ciclo_resultados"].append("L")
     estado["perdas"]       += 1
     estado["losses_ciclo"] += 1
     estado["op_atual"]     += 1
@@ -189,6 +192,7 @@ async def _processar_fim_ciclo(status):
     estado["op_atual"]            = 1
     estado["wins_ciclo"]          = 0
     estado["losses_ciclo"]        = 0
+    estado["ciclo_resultados"]    = []
     estado["banca_inicio_ciclo"]  = estado["banca_atual"]
     estado["cycle_status"]        = "ANDAMENTO"
     estado["proxima"]             = calcular_proxima()
@@ -580,8 +584,9 @@ async def broadcast():
         "cycle_status": estado["cycle_status"],
         "proxima":      round(estado["proxima"], 2),
         "cofre":        round(estado["cofre"], 2),
-        "ciclos_ganhos":  estado["ciclos_ganhos"],
-        "ciclos_perdidos":estado["ciclos_perdidos"],
+        "ciclos_ganhos":    estado["ciclos_ganhos"],
+        "ciclos_perdidos":  estado["ciclos_perdidos"],
+        "ciclo_resultados": estado["ciclo_resultados"],
         "meta_ciclo":   estado["meta_ciclo"],
         "banca_trabalho":estado["banca_trabalho"],
         # Trade
@@ -745,6 +750,7 @@ async def loop_bot():
         estado["op_atual"]           = 1
         estado["wins_ciclo"]         = 0
         estado["losses_ciclo"]       = 0
+        estado["ciclo_resultados"]   = []
         estado["cycle_status"]       = "ANDAMENTO"
         estado["proxima"]            = calcular_proxima()
         log(f"💰 Banca: ${banca:.2f} | Ciclo 1 | Meta: +${estado['meta_ciclo']:.2f} | Próx: ${estado['proxima']:.2f}")
@@ -908,7 +914,7 @@ async def loop_bot():
                             "dir":       sinal,  "stake": stake,
                             "resultado": resultado, "lucro": lucro_op,
                             "padrao":    padrao,
-                            "op":        f"{estado['op_atual']-1}/{estado['total_ops']}",
+                            "op":        f"{estado['op_atual']}/{estado['total_ops']}",
                         })
 
                         if lucro_op > 0:
