@@ -1,617 +1,766 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IQBOT Claude M1</title>
-  <style>
-    :root {
-      --bg: #070914;
-      --panel: #10162a;
-      --panel2: #151d35;
-      --line: #273153;
-      --text: #eef3ff;
-      --muted: #8f9bc4;
-      --green: #00d084;
-      --red: #ff4b6a;
-      --blue: #4f7cff;
-      --yellow: #ffd166;
-      --purple: #a46cff;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-    }
-    header {
-      height: 54px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 0 18px;
-      background: #0b1020;
-      border-bottom: 1px solid var(--line);
-      position: sticky;
-      top: 0;
-      z-index: 5;
-    }
-    .brand { font-weight: 900; letter-spacing: 1.8px; font-size: 14px; }
-    .brand span { color: var(--blue); }
-    .top-status { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px currentColor; }
-    .dot.ok { background: var(--green); }
-    main {
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 14px;
-      display: grid;
-      grid-template-columns: 320px minmax(420px, 1fr) 360px;
-      gap: 14px;
-    }
-    section, .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-    section { overflow: hidden; }
-    .block { padding: 14px; border-bottom: 1px solid var(--line); }
-    .block:last-child { border-bottom: 0; }
-    h2 {
-      margin: 0 0 12px;
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
-    label { display: block; margin: 9px 0 5px; color: #b6c1ea; font-size: 12px; font-weight: 700; }
-    input, select {
-      width: 100%;
-      min-height: 38px;
-      padding: 0 10px;
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      background: #0c1224;
-      color: var(--text);
-      outline: none;
-      font-size: 13px;
-    }
-    input:focus, select:focus { border-color: var(--blue); }
-    button {
-      width: 100%;
-      min-height: 40px;
-      border: 0;
-      border-radius: 6px;
-      padding: 0 12px;
-      color: white;
-      background: var(--blue);
-      font-weight: 900;
-      cursor: pointer;
-    }
-    button:disabled { opacity: .45; cursor: not-allowed; }
-    .btn-green { background: var(--green); color: #04130d; }
-    .btn-red { background: var(--red); }
-    .btn-dark { background: var(--panel2); color: var(--text); border: 1px solid var(--line); }
-    .btn-purple { background: var(--purple); }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 10px;
-      padding: 14px;
-    }
-    .metric {
-      min-height: 82px;
-      padding: 12px;
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-    .metric small { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
-    .metric strong { display: block; margin-top: 8px; font-size: 22px; line-height: 1.1; }
-    .green { color: var(--green); }
-    .red { color: var(--red); }
-    .blue { color: var(--blue); }
-    .yellow { color: var(--yellow); }
-    .purple { color: var(--purple); }
-    .status-card {
-      padding: 18px;
-      margin: 14px;
-      background: linear-gradient(135deg, rgba(79,124,255,.16), rgba(0,208,132,.08));
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-    .asset-name { font-size: 24px; font-weight: 900; margin-bottom: 4px; }
-    .sub { color: var(--muted); font-size: 12px; line-height: 1.5; }
-    .signal {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      padding: 0 14px 14px;
-    }
-    .signal-box {
-      min-height: 150px;
-      padding: 16px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-    .signal-title { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1.3px; margin-bottom: 10px; }
-    .signal-main { font-size: 34px; font-weight: 950; margin: 4px 0; }
-    .bar { height: 6px; background: #222a47; border-radius: 99px; overflow: hidden; margin: 8px 0; }
-    .bar > div { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue), var(--green)); }
-    .log, .history {
-      height: calc(100vh - 220px);
-      min-height: 420px;
-      overflow: auto;
-      padding: 10px;
-    }
-    .log-line, .hist-item {
-      padding: 8px 10px;
-      margin-bottom: 7px;
-      background: #0c1224;
-      border: 1px solid rgba(39,49,83,.75);
-      border-radius: 6px;
-      font-family: Consolas, "JetBrains Mono", monospace;
-      font-size: 11px;
-      line-height: 1.35;
-    }
-    .hist-item {
-      display: grid;
-      grid-template-columns: 44px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      font-family: inherit;
-    }
-    .dir {
-      width: 34px;
-      height: 34px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 950;
-    }
-    .dir.call { background: rgba(0,208,132,.14); color: var(--green); }
-    .dir.put { background: rgba(255,75,106,.14); color: var(--red); }
-    .pill {
-      display: inline-block;
-      padding: 3px 7px;
-      border-radius: 4px;
-      background: var(--panel2);
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 800;
-    }
-    .toast {
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      background: #111a31;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 11px 14px;
-      color: var(--text);
-      opacity: 0;
-      transition: opacity .2s;
-      z-index: 10;
-    }
-    @media (max-width: 1100px) {
-      main { grid-template-columns: 1fr; }
-      .metrics { grid-template-columns: repeat(2, 1fr); }
-      .signal { grid-template-columns: 1fr; }
-      .log, .history { height: auto; max-height: 420px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IQBOT Claude M1 — PC</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+[data-theme="dark"]{--bg:#07080f;--bg2:#0e1020;--bg3:#141728;--bg4:#1a1f35;--border:#1f2640;--text:#e2e8ff;--text2:#5a6890;--shadow:rgba(0,0,0,.5);}
+[data-theme="light"]{--bg:#f2f4fb;--bg2:#ffffff;--bg3:#e8eaf5;--bg4:#dde0f0;--border:#c5c9e0;--text:#111827;--text2:#6b7aa0;--shadow:rgba(0,0,0,.08);}
+:root{--green:#00d68f;--green2:rgba(0,214,143,.12);--red:#ff4060;--red2:rgba(255,64,96,.12);--blue:#4d7fff;--blue2:rgba(77,127,255,.12);--yellow:#ffb830;--purple:#9b6dff;--orange:#ff7c3a;--sans:'Space Grotesk',sans-serif;--mono:'DM Mono',monospace;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;min-height:100vh;}
+
+header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px var(--shadow);}
+.logo{font-weight:800;font-size:18px;display:flex;align-items:center;gap:10px;}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--green));display:flex;align-items:center;justify-content:center;font-size:16px;}
+.hright{display:flex;align-items:center;gap:8px;}
+.hbadge{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text2);background:var(--bg3);padding:4px 10px;border-radius:20px;border:1px solid var(--border);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--red);transition:background .3s;}
+.dot.ok{background:var(--green);box-shadow:0 0 5px var(--green);}
+.theme-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:4px;}
+
+.metrics-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:12px 20px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.mcard{background:var(--bg3);border-radius:10px;padding:10px 14px;border:1px solid var(--border);}
+.mcard-label{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px;}
+.mcard-val{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1;}
+.mcard-sub{font-size:10px;color:var(--text2);margin-top:3px;}
+.wr-strip{background:var(--bg4);border-radius:2px;height:3px;margin-top:5px;overflow:hidden;}
+.wr-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .5s;}
+
+.grid3{display:grid;grid-template-columns:320px 1fr 360px;gap:16px;padding:16px 20px;max-width:1800px;margin:0 auto;align-items:start;}
+.col{min-width:0;}
+
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px var(--shadow);}
+.card:last-child{margin-bottom:0;}
+.card-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+.field label{font-size:9px;color:var(--text2);letter-spacing:1px;text-transform:uppercase;font-weight:700;}
+.field input,.field select{background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:13px;padding:9px 12px;outline:none;transition:border-color .2s;width:100%;}
+.field input:focus,.field select:focus{border-color:var(--blue);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+.modo-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;}
+.modo-btn{padding:8px 6px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;}
+.modo-btn.full{grid-column:1/-1;}
+.modo-btn.ativo-mg{background:var(--blue2);color:var(--blue);border-color:var(--blue);}
+.modo-btn.ativo-soros{background:rgba(155,109,255,.15);color:var(--purple);border-color:var(--purple);}
+.modo-btn.ativo-mgsoros{background:var(--blue2);color:var(--blue);border-color:var(--blue);}
+.modo-btn.ativo-mgrec{background:rgba(255,184,48,.15);color:var(--yellow);border-color:var(--yellow);}
+
+.btn{width:100%;padding:12px;border-radius:10px;border:none;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:700;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:8px;}
+.btn:last-child{margin-bottom:0;}
+.btn-start{background:var(--green);color:#000;}
+.btn-start:disabled{opacity:.4;cursor:not-allowed;}
+.btn-stop{background:var(--red2);color:var(--red);border:1px solid var(--red);}
+.btn-stop:hover{background:var(--red);color:#fff;}
+.btn-stop:disabled{opacity:.4;cursor:not-allowed;}
+.btn-save{background:var(--blue2);color:var(--blue);border:1px solid var(--blue);}
+.btn-reset{background:rgba(255,124,58,.15);color:var(--orange);border:1px solid var(--orange);}
+.btn-sec{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
+.btn-inverter{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
+.btn-inverter.on{background:var(--red);color:#fff;border-color:var(--red);}
+
+.status-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,214,143,.5);}70%{box-shadow:0 0 0 8px rgba(0,214,143,0);}100%{box-shadow:0 0 0 0 rgba(0,214,143,0);}}
+
+.sessao-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:12px;}
+.sessao-val{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--yellow);}
+
+.crono-trade{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:none;flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.crono-val{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--yellow);}
+
+.op-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:none;margin-bottom:12px;}
+.op-dir{font-family:var(--mono);font-size:26px;font-weight:700;}
+.call{color:var(--green);}.put{color:var(--red);}
+.op-badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;}
+.win-b{background:var(--green2);color:var(--green);}
+.loss-b{background:var(--red2);color:var(--red);}
+.neutral-b{background:var(--bg4);color:var(--text2);}
+
+.mg-dots{display:flex;gap:5px;margin-top:6px;}
+.mg-dot{flex:1;height:5px;border-radius:3px;background:var(--border);transition:background .3s;}
+.mg-dot.on-mg{background:var(--red);}
+.mg-dot.on-soros{background:var(--purple);}
+
+.ativo-box{background:linear-gradient(135deg,var(--blue2),var(--green2));border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.ativo-nome{font-family:var(--mono);font-size:22px;font-weight:700;}
+.ativo-tf{font-size:11px;color:var(--blue);background:var(--blue2);padding:3px 10px;border-radius:6px;font-weight:700;}
+
+.analise-sinal{font-family:var(--mono);font-size:36px;font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.conf-wrap{background:var(--bg4);border-radius:4px;height:6px;overflow:hidden;margin:6px 0;}
+.conf-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .5s;}
+.analise-motivo{font-size:12px;color:var(--text2);line-height:1.5;margin-top:6px;}
+
+.scan-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:11px;}
+.scan-item:last-child{border-bottom:none;}
+.scan-dir.call{color:var(--green);font-weight:700;}
+.scan-dir.put{color:var(--red);font-weight:700;}
+.scan-dir.neutro{color:var(--text2);}
+.scan-spin{width:10px;height:10px;border-radius:50%;border:2px solid var(--blue);border-top-color:transparent;animation:spin .8s linear infinite;display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.hist-item{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.hist-item:last-child{border-bottom:none;}
+.hist-dir{font-family:var(--mono);font-size:14px;font-weight:700;text-align:center;}
+.hist-info{display:flex;flex-direction:column;gap:2px;}
+.hist-ativo{font-size:12px;font-weight:700;}
+.hist-meta{font-size:10px;color:var(--text2);}
+.hist-res{text-align:right;}
+.hist-lucro{font-family:var(--mono);font-size:12px;font-weight:700;}
+.hist-hora{font-size:9px;color:var(--text2);}
+
+.log-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.log-box::-webkit-scrollbar{width:3px;}
+.log-box::-webkit-scrollbar-thumb{background:var(--border);}
+.log-line{font-family:var(--mono);font-size:10px;line-height:1.6;color:var(--text2);padding:1px 0;border-bottom:1px solid rgba(128,128,128,.06);}
+.log-line.win{color:var(--green);}
+.log-line.loss{color:var(--red);}
+.log-line.info{color:var(--blue);}
+.log-line.warn{color:var(--yellow);}
+
+.hist-scroll{max-height:calc(100vh - 180px);overflow-y:auto;}
+.hist-scroll::-webkit-scrollbar{width:3px;}
+.hist-scroll::-webkit-scrollbar-thumb{background:var(--border);}
+
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.info-row:last-child{border-bottom:none;}
+.info-label{color:var(--text2);}
+.info-val{font-family:var(--mono);font-weight:700;}
+
+.ema-strip{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;font-size:10px;font-family:var(--mono);}
+.ema-chip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;}
+
+.banner-pausado{background:var(--red2);border:1px solid var(--red);border-radius:8px;padding:10px 14px;margin-bottom:12px;display:none;align-items:center;justify-content:space-between;gap:8px;}
+
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
+.popup-overlay.show{display:flex;}
+.popup-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px 28px;text-align:center;width:100%;max-width:380px;}
+.popup-icon{font-size:56px;margin-bottom:12px;}
+.popup-title{font-size:26px;font-weight:800;margin-bottom:6px;}
+.popup-sub{font-size:13px;color:var(--text2);margin-bottom:16px;}
+.popup-valor{font-family:var(--mono);font-size:36px;font-weight:700;margin-bottom:24px;}
+.popup-btn{width:100%;padding:13px;border-radius:10px;border:none;cursor:pointer;font-family:var(--sans);font-size:14px;font-weight:700;margin-bottom:8px;}
+.popup-btn-ok{background:var(--green);color:#000;}
+.popup-btn-stop{background:var(--red);color:#fff;}
+.popup-btn-fechar{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
+
+#toast{position:fixed;right:20px;bottom:20px;background:var(--bg2);border:1px solid var(--border);padding:10px 20px;border-radius:10px;font-size:12px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap;}
+
+@media(max-width:1100px){.grid3{grid-template-columns:280px 1fr 320px;}}
+@media(max-width:800px){.grid3{grid-template-columns:1fr;}.metrics-strip{grid-template-columns:repeat(3,1fr);}}
+</style>
 </head>
 <body>
-  <header>
-    <div class="brand">IQBOT <span>Claude M1</span></div>
-    <div class="top-status">
-      <span class="dot" id="dot-ws"></span>
-      <span id="txt-ws">Conectando dashboard...</span>
-      <span class="pill" id="clock">--:--:--</span>
-      <span class="pill" id="claude-pill" style="color:var(--muted)">Claude: --</span>
-    </div>
-  </header>
 
-  <main>
-    <section>
-      <div class="block">
-        <h2>Configuracoes</h2>
-        <div class="row2">
-          <div>
-            <label>Stake inicial</label>
-            <input id="cfg-stake" type="number" min="2" step="0.01" value="2">
-          </div>
-          <div>
-            <label>Conta</label>
-            <select id="cfg-conta">
-              <option value="demo">Demo</option>
-              <option value="real">Real</option>
-            </select>
-          </div>
+<header>
+  <div class="logo">
+    <div class="logo-icon">🤖</div>
+    IQBOT <span style="color:var(--blue);font-size:13px;margin-left:2px;font-weight:500">Claude M1</span>
+  </div>
+  <div class="hright">
+    <div class="hbadge"><div class="dot" id="dot-iq"></div><span id="txt-iq">IQ</span></div>
+    <div class="hbadge"><div class="dot" id="dot-ws"></div><span id="txt-ws">Conectando...</span></div>
+    <div class="hbadge" id="claude-badge" style="color:var(--text2)">🤖 --</div>
+    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn">🌙</button>
+  </div>
+</header>
+
+<div class="metrics-strip">
+  <div class="mcard" style="border-top:2px solid var(--blue)">
+    <div class="mcard-label">Banca</div>
+    <div class="mcard-val" id="m-banca" style="color:var(--blue)">$0.00</div>
+    <div class="mcard-sub" id="m-lucro">+$0.00</div>
+  </div>
+  <div class="mcard" style="border-top:2px solid var(--green)">
+    <div class="mcard-label">Ganhos</div>
+    <div class="mcard-val" id="m-ganhos" style="color:var(--green)">0</div>
+    <div class="mcard-sub" id="m-wr">—</div>
+    <div class="wr-strip"><div class="wr-fill" id="m-wr-bar" style="width:0%"></div></div>
+  </div>
+  <div class="mcard" style="border-top:2px solid var(--red)">
+    <div class="mcard-label">Perdas</div>
+    <div class="mcard-val" id="m-perdas" style="color:var(--red)">0</div>
+    <div class="mcard-sub" id="m-modo-sub">—</div>
+  </div>
+  <div class="mcard" style="border-top:2px solid var(--yellow)">
+    <div class="mcard-label">Stake Atual</div>
+    <div class="mcard-val" id="m-stake" style="color:var(--yellow)">$1.00</div>
+    <div class="mcard-sub" id="m-nivel">MG 0</div>
+  </div>
+  <div class="mcard" style="border-top:2px solid var(--purple)">
+    <div class="mcard-label">Operações</div>
+    <div class="mcard-val" id="m-ops" style="color:var(--purple)">0</div>
+    <div class="mcard-sub">total</div>
+  </div>
+  <div class="mcard" style="border-top:2px solid var(--orange)">
+    <div class="mcard-label">Sessão</div>
+    <div class="mcard-val" id="m-modo" style="color:var(--orange);font-size:14px">MG</div>
+    <div class="mcard-sub" id="h-sessao" style="font-family:var(--mono)">00:00:00</div>
+  </div>
+</div>
+
+<div class="grid3">
+
+  <!-- ═══════ COLUNA ESQUERDA: CONFIG + CONTROLES ═══════ -->
+  <div class="col">
+
+    <div class="card">
+      <div class="card-title">⚙️ Configurações</div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Stake ($)</label>
+          <input type="number" id="cfg-stake" value="1.00" min="0.35" step="0.01">
         </div>
-
-        <label>Modo de execucao</label>
-        <select id="cfg-modoexec">
-          <option value="classic">Classico validado - sem precheck</option>
-          <option value="precheck">Precheck - entrada no segundo 0</option>
-        </select>
-
-        <div class="row2">
-          <div>
-            <label>MG fator</label>
-            <input id="cfg-mgfator" type="number" min="1.5" step="0.05" value="2.25">
-          </div>
-          <div>
-            <label>MG niveis</label>
-            <input id="cfg-mgniveis" type="number" min="1" max="10" step="1" value="7">
-          </div>
+        <div class="field">
+          <label>Payout mín (%)</label>
+          <input type="number" id="cfg-payout" value="80" min="50" max="95" step="1">
         </div>
+      </div>
 
-        <div class="row2">
-          <div>
-            <label>Stop loss</label>
-            <input id="cfg-sl" type="number" min="1" step="1" value="700">
-          </div>
-          <div>
-            <label>Stop gain</label>
-            <input id="cfg-sg" type="number" min="1" step="1" value="1000">
-          </div>
+      <div class="field">
+        <label>Modo de Banca</label>
+        <div class="modo-grid">
+          <div class="modo-btn ativo-mg" id="btn-mg" onclick="setModo('mg')">📉 MG</div>
+          <div class="modo-btn" id="btn-soros" onclick="setModo('soros')">🔄 Soros</div>
+          <div class="modo-btn full" id="btn-mgsoros" onclick="setModo('mg_soros')">⚡ MG+Soros</div>
+          <div class="modo-btn full" id="btn-mgrec" onclick="setModo('mg_rec')">🧮 MG Recuperação</div>
         </div>
+      </div>
 
-        <label>Payout minimo (%)</label>
-        <input id="cfg-payout" type="number" min="50" max="95" step="1" value="80">
+      <div id="cfg-mg-wrap" class="row2">
+        <div class="field">
+          <label>MG Fator</label>
+          <input type="number" id="cfg-mgfator" value="2.25" min="1.5" step="0.05">
+        </div>
+        <div class="field">
+          <label>MG Níveis</label>
+          <input type="number" id="cfg-mgniveis" value="7" min="1" max="10">
+        </div>
+      </div>
 
+      <div id="cfg-soros-wrap" class="field" style="display:none">
+        <label>Níveis Soros</label>
+        <input type="number" id="cfg-sorosniveis" value="3" min="2" max="5">
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Stop Loss ($)</label>
+          <input type="number" id="cfg-sl" value="700" min="1">
+        </div>
+        <div class="field">
+          <label>Stop Gain ($)</label>
+          <input type="number" id="cfg-sg" value="1000" min="1">
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>Conta</label>
+          <select id="cfg-conta">
+            <option value="demo">Demo</option>
+            <option value="real">Real ⚠️</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Modo Execução</label>
+          <select id="cfg-modoexec">
+            <option value="classic">Clássico</option>
+            <option value="precheck">Precheck</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
         <label>Claude API Key</label>
-        <input id="cfg-claude-key" type="password" placeholder="sk-ant-api03-..." autocomplete="off">
+        <input type="password" id="cfg-claude-key" placeholder="sk-ant-api03-..." autocomplete="off">
+      </div>
 
-        <div class="row2">
-          <div>
-            <label>Pausa apos N losses</label>
-            <input id="cfg-maxloss" type="number" min="1" max="7" step="1" value="3">
+      <div class="row2">
+        <div class="field">
+          <label>Pausa após N losses</label>
+          <input type="number" id="cfg-maxloss" value="3" min="1" max="7">
+        </div>
+        <div class="field">
+          <label>Conf. mín Claude (%)</label>
+          <input type="number" id="cfg-conf" value="72" min="50" max="100">
+        </div>
+      </div>
+
+      <button class="btn btn-save" onclick="salvarConfig()">💾 Salvar Configuração</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎮 Controles</div>
+      <button class="btn btn-start" id="btn-start" onclick="startBot()">▶ Iniciar Bot</button>
+      <button class="btn btn-stop" id="btn-stop" onclick="stopBot()" disabled>■ Parar Bot</button>
+      <div class="row2" style="gap:8px;margin-bottom:8px">
+        <button class="btn btn-sec" onclick="pararTotal()" style="margin:0">⏹ Standby</button>
+        <button class="btn btn-sec" onclick="desconectarVds()" style="margin:0">🔌 VDS</button>
+      </div>
+      <div class="row2" style="gap:8px">
+        <button class="btn btn-reset" onclick="resetBot()" style="margin:0">🔄 Resetar</button>
+        <button class="btn btn-inverter" id="btn-inverter" onclick="toggleInverter()" style="margin:0">🔃 Inverter: OFF</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📡 Status &amp; Indicadores</div>
+
+      <div id="banner-pausado" class="banner-pausado">
+        <span style="color:var(--red);font-weight:700;font-size:12px">⏸ PAUSADO — aguardando setup limpo</span>
+        <button onclick="retomar()" style="background:var(--yellow);color:#1a1000;border:none;border-radius:6px;padding:6px 12px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap">Retomar</button>
+      </div>
+
+      <div class="ema-strip">
+        <span class="ema-chip" style="color:var(--yellow)">EMA3 <strong id="v-ema3">--</strong></span>
+        <span class="ema-chip" style="color:var(--red)">EMA10 <strong id="v-ema10">--</strong></span>
+        <span class="ema-chip" style="color:var(--blue)">SMA21 <strong id="v-sma21">--</strong></span>
+        <span class="ema-chip" style="color:var(--text2)">Loss <strong id="v-lossseq" style="color:var(--red)">0/3</strong></span>
+      </div>
+
+      <div class="status-box">
+        <div class="pulse" id="pulse" style="display:none"></div>
+        <span id="status-txt">Aguardando bot...</span>
+      </div>
+
+      <div class="sessao-row">
+        <span style="font-size:10px;color:var(--text2);font-weight:600">⏱ Sessão</span>
+        <span class="sessao-val" id="sessao-display">00:00:00</span>
+      </div>
+
+      <div class="crono-trade" id="crono-box">
+        <div>
+          <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700">⏱ Trade ativo</div>
+          <div class="crono-val" id="crono-val">00:00</div>
+        </div>
+        <div style="font-size:32px" id="crono-dir">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📈 MG / Soros</div>
+      <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px" id="dots-label">Martingale</div>
+      <div class="mg-dots" id="mg-dots"></div>
+      <div class="info-row" style="margin-top:10px">
+        <span class="info-label">Payout atual</span>
+        <span class="info-val" id="payout-val" style="color:var(--green)">—</span>
+      </div>
+      <div id="mgrec-row" class="info-row" style="display:none">
+        <span class="info-label">Acumulado perdas</span>
+        <span class="info-val" id="mgrec-val" style="color:var(--red)">$0.00</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════ COLUNA CENTRAL: ANÁLISE + LOG ═══════ -->
+  <div class="col">
+
+    <div class="card">
+      <div class="card-title">🎯 Ativo em Operação</div>
+      <div class="ativo-box">
+        <div>
+          <div class="ativo-nome" id="ativo-nome">—</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:3px" id="ativo-sub">Aguardando varredura</div>
+        </div>
+        <div class="ativo-tf" id="ativo-tf">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🤖 Análise Claude AI</div>
+      <div id="analise-box" style="display:none">
+        <div class="analise-sinal">
+          <span id="a-sinal">—</span>
+          <span id="a-forca" style="display:none;font-size:12px;font-weight:700;padding:3px 10px;border-radius:4px;background:rgba(255,184,48,.2);color:var(--yellow)">FORTE</span>
+          <span style="font-size:14px;color:var(--text2)" id="a-padrao"></span>
+        </div>
+        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700">Confiança</div>
+        <div class="conf-wrap"><div class="conf-bar" id="a-conf-bar" style="width:0%"></div></div>
+        <div style="font-size:13px;color:var(--text2)" id="a-conf-txt">0%</div>
+        <div class="analise-motivo" id="a-motivo"></div>
+      </div>
+      <div id="analise-ph" style="color:var(--text2);font-size:13px;text-align:center;padding:20px 0">
+        Aguardando varredura...
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        🔍 Varredura de Ativos
+        <div class="scan-spin" id="scan-spin"></div>
+      </div>
+      <div id="varredura-items">
+        <div style="color:var(--text2);font-size:12px;text-align:center;padding:10px 0">Aguardando...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💼 Última Operação</div>
+      <div class="op-card" id="op-card" style="display:block;background:none;border:none;padding:0;margin:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700">Resultado</span>
+          <span class="op-badge" id="op-resultado"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px">
+          <div class="op-dir" id="op-dir" style="font-size:32px">—</div>
+          <div style="color:var(--text2);font-size:12px;line-height:1.9">
+            <div id="op-ativo" style="color:var(--blue);font-weight:700">—</div>
+            <div id="op-padrao">—</div>
+            <div id="op-stake">$0.00</div>
+            <div id="op-hora">—</div>
           </div>
-          <div>
-            <label>Conf. min Claude (%)</label>
-            <input id="cfg-conf" type="number" min="50" max="100" step="1" value="72">
-          </div>
-        </div>
-
-        <div class="actions">
-          <button onclick="salvarConfig()">Salvar config</button>
-          <button class="btn-dark" onclick="resetBot()">Resetar</button>
-        </div>
-        <div class="actions">
-          <button id="btn-start" class="btn-green" onclick="startBot()">Iniciar</button>
-          <button id="btn-stop" class="btn-red" onclick="stopBot()" disabled>Parar</button>
-        </div>
-        <div class="actions">
-          <button class="btn-purple" id="btn-inverter" onclick="toggleInverter()">Inverter: OFF</button>
-          <button class="btn-dark" onclick="pararTotal()">Standby</button>
         </div>
       </div>
+    </div>
 
-      <div class="block">
-        <h2>Status</h2>
-        <div class="sub" id="status-txt">Aguardando dados...</div>
-        <div class="sub" style="margin-top:8px">
-          Sessao: <strong id="tempo-sessao">00:00:00</strong><br>
-          Payout: <strong id="payout-val">--%</strong><br>
-          Nivel atual: <strong id="nivel-atual">MG 0</strong><br>
-          Loss seq: <strong id="loss-seq-txt" style="color:var(--red)">0</strong><br>
-          <span style="color:var(--yellow)">EMA3:</span> <strong id="v-ema3">--</strong> &nbsp;
-          <span style="color:var(--red)">EMA10:</span> <strong id="v-ema10">--</strong> &nbsp;
-          <span style="color:var(--blue)">SMA21:</span> <strong id="v-sma21">--</strong>
-        </div>
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between">
+        <span>📋 Log em Tempo Real</span>
+        <button onclick="document.getElementById('log-geral').innerHTML=''" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:10px">limpar</button>
       </div>
-    </section>
+      <div class="log-box" id="log-geral"></div>
+    </div>
 
-    <section>
-      <div class="metrics">
-        <div class="metric"><small>Banca</small><strong id="m-banca" class="blue">$0.00</strong></div>
-        <div class="metric"><small>Lucro</small><strong id="m-lucro" class="green">+$0.00</strong></div>
-        <div class="metric"><small>Ganhos</small><strong id="m-ganhos" class="green">0</strong></div>
-        <div class="metric"><small>Perdas</small><strong id="m-perdas" class="red">0</strong></div>
-        <div class="metric"><small>Operacoes</small><strong id="m-ops">0</strong></div>
-        <div class="metric"><small>Stake</small><strong id="m-stake" class="yellow">$2.00</strong></div>
+  </div>
+
+  <!-- ═══════ COLUNA DIREITA: HISTÓRICO ═══════ -->
+  <div class="col">
+    <div class="card" style="position:sticky;top:140px">
+      <div class="card-title" style="justify-content:space-between">
+        <span>📊 Histórico de Operações</span>
+        <span id="hist-resumo" style="font-size:10px;color:var(--text2)"></span>
       </div>
-
-      <!-- Banner PAUSADO (aparece só quando bot estiver pausado) -->
-      <div id="banner-pausado" style="display:none;margin:0 14px 10px;padding:12px 16px;
-        background:rgba(255,75,106,.1);border:1px solid var(--red);border-radius:8px;
-        color:var(--red);font-weight:700;font-size:13px;
-        align-items:center;justify-content:space-between;gap:10px">
-        <span>⏸ PAUSADO — aguardando setup limpo (conf ≥ 80%)</span>
-        <button onclick="retomar()" style="background:var(--yellow);color:#1a1000;
-          border:none;border-radius:6px;padding:6px 14px;font-weight:700;
-          cursor:pointer;font-size:12px;min-height:auto;width:auto">Retomar</button>
+      <div class="hist-scroll" id="hist-box">
+        <div style="color:var(--text2);font-size:12px;text-align:center;padding:20px 0">Nenhuma operação ainda</div>
       </div>
+    </div>
+  </div>
 
-      <div class="status-card">
-        <div class="asset-name" id="ativo-nome">--</div>
-        <div class="sub">
-          <span id="ativo-tf">M1</span> |
-          <span id="modo-label">EMA</span> |
-          <span id="wr-label">0% WR</span>
-        </div>
+</div>
+
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup-box">
+    <div class="popup-icon" id="popup-icon">🏆</div>
+    <div class="popup-title" id="popup-title">Stop Gain!</div>
+    <div class="popup-sub" id="popup-sub">Meta atingida</div>
+    <div class="popup-valor" id="popup-valor">+$0.00</div>
+    <button class="popup-btn popup-btn-ok" onclick="reiniciarBot()">▶ Reiniciar Bot</button>
+    <button class="popup-btn popup-btn-stop" onclick="pararTotal()">Parar Total</button>
+    <button class="popup-btn popup-btn-fechar" onclick="fecharPopup()">Fechar</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+let ws = null;
+let modoAtual = 'mg';
+let popupFechado = false;
+let cfgCarregado = false;
+let temaAtual = localStorage.getItem('iqbot-tema') || 'dark';
+const HOST = location.hostname === 'localhost' || location.hostname === '127.0.0.1' ? 'localhost' : location.hostname;
+const WS_URL = `ws://${HOST}:8775`;
+
+document.documentElement.setAttribute('data-theme', temaAtual);
+document.getElementById('theme-btn').textContent = temaAtual === 'dark' ? '🌙' : '☀️';
+
+function toggleTheme() {
+  temaAtual = temaAtual === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', temaAtual);
+  document.getElementById('theme-btn').textContent = temaAtual === 'dark' ? '🌙' : '☀️';
+  localStorage.setItem('iqbot-tema', temaAtual);
+}
+
+function conectar() {
+  ws = new WebSocket(WS_URL);
+  ws.onopen  = () => { setDot('dot-ws',true);  setText('txt-ws','✓ Conectado'); };
+  ws.onclose = () => { setDot('dot-ws',false); setText('txt-ws','Reconectando...'); setTimeout(conectar,3000); };
+  ws.onerror = () => {};
+  ws.onmessage = (e) => { try { atualizar(JSON.parse(e.data)); } catch(err) { console.error(err); } };
+}
+
+function enviar(obj) {
+  if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(obj));
+  else toast('⚠️ Bot não conectado');
+}
+
+function aplicarConfig(cfg) {
+  if (!cfg) return;
+  if (cfg.stake)              document.getElementById('cfg-stake').value    = cfg.stake;
+  if (cfg.mg_fator)           document.getElementById('cfg-mgfator').value  = cfg.mg_fator;
+  if (cfg.mg_niveis)          document.getElementById('cfg-mgniveis').value = cfg.mg_niveis;
+  if (cfg.stop_loss)          document.getElementById('cfg-sl').value       = cfg.stop_loss;
+  if (cfg.stop_gain)          document.getElementById('cfg-sg').value       = cfg.stop_gain;
+  if (cfg.payout_minimo)      document.getElementById('cfg-payout').value   = Math.round(cfg.payout_minimo * 100);
+  if (cfg.demo !== undefined) document.getElementById('cfg-conta').value    = cfg.demo ? 'demo' : 'real';
+  if (cfg.modo_execucao)      document.getElementById('cfg-modoexec').value = cfg.modo_execucao;
+  if (cfg.max_loss_seq)       document.getElementById('cfg-maxloss').value  = cfg.max_loss_seq;
+  if (cfg.confianca_min)      document.getElementById('cfg-conf').value     = cfg.confianca_min;
+  if (cfg.modo_banca)         setModo(cfg.modo_banca);
+  const cb = document.getElementById('claude-badge');
+  if (cb) {
+    cb.textContent = '🤖 ' + (cfg.claude_key_ok ? 'ON' : 'OFF');
+    cb.style.color = cfg.claude_key_ok ? 'var(--green)' : 'var(--text2)';
+  }
+}
+
+function atualizar(d) {
+  if (!cfgCarregado && d.config) { aplicarConfig(d.config); cfgCarregado = true; }
+
+  setText('m-banca', `$${d.banca.toFixed(2)}`);
+  const lEl = document.getElementById('m-lucro');
+  lEl.textContent = `${d.lucro>=0?'+':''}$${d.lucro.toFixed(2)}`;
+  lEl.style.color = d.lucro>=0 ? 'var(--green)' : 'var(--red)';
+  setText('m-ganhos', d.ganhos);
+  setText('m-perdas', d.perdas);
+  setText('m-stake',  `$${d.stake.toFixed(2)}`);
+  setText('m-ops',    d.ganhos + d.perdas);
+
+  const modo = d.modo_banca || 'mg';
+  const mLabel = {mg:'MG',soros:'S3',mg_soros:'MG+S',mg_rec:'REC'};
+  const mNome  = {mg:'Martingale',soros:'Soros 3',mg_soros:'MG+Soros',mg_rec:'MG Rec'};
+  setText('m-modo',     mLabel[modo] || 'MG');
+  setText('m-modo-sub', mNome[modo]  || 'Martingale');
+
+  const isSoros   = modo === 'soros';
+  const isMgSoros = modo === 'mg_soros';
+  const isMgRec   = modo === 'mg_rec';
+  const nivel = isSoros ? d.soros_nivel : d.mg_nivel;
+  setText('m-nivel', isSoros ? `S${d.soros_nivel}/3` : isMgRec ? `Rec ${d.mg_rec_nivel||0}` : isMgSoros ? `${d.mg_soros_fase==='soros'?'S':'MG'} ${nivel}` : `MG ${d.mg_nivel}`);
+
+  const total = d.ganhos + d.perdas;
+  const wr = total > 0 ? Math.round(d.ganhos / total * 100) : 0;
+  setText('m-wr', total > 0 ? `${wr}% WR` : '—');
+  document.getElementById('m-wr-bar').style.width = `${wr}%`;
+
+  if (d.crono_sessao > 0) {
+    const s = d.crono_sessao;
+    const ts = `${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    setText('h-sessao', ts);
+    setText('sessao-display', ts);
+  }
+
+  if (d.status === 'stop_gain' || d.status === 'stop_loss') {
+    setText('status-txt', d.status === 'stop_gain' ? 'Stop Gain!' : 'Stop Loss!');
+    if (!popupFechado) mostrarPopup(d.status, d.lucro);
+  } else {
+    popupFechado = false;
+    setText('status-txt', d.status || '—');
+  }
+
+  document.getElementById('pulse').style.display = d.rodando ? 'block' : 'none';
+  document.getElementById('btn-start').disabled  = d.rodando;
+  document.getElementById('btn-stop').disabled   = !d.rodando;
+  setDot('dot-iq', d.rodando);
+  setText('txt-iq', d.rodando ? '✓ IQ' : 'IQ');
+
+  const cb = document.getElementById('crono-box');
+  cb.style.display = d.trade_ativo ? 'flex' : 'none';
+  if (d.trade_ativo) {
+    const s = d.crono_entrada || 0;
+    setText('crono-val', `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`);
+    if (d.ultima_op) setText('crono-dir', d.ultima_op.dir === 'CALL' ? '📈' : '📉');
+  }
+
+  if (d.ultima_op) {
+    const dirEl = document.getElementById('op-dir');
+    dirEl.textContent = d.ultima_op.dir;
+    dirEl.className = 'op-dir ' + (d.ultima_op.dir === 'CALL' ? 'call' : 'put');
+    setText('op-ativo',  d.ultima_op.ativo  || '—');
+    setText('op-padrao', d.ultima_op.padrao || '—');
+    setText('op-stake',  `$${d.ultima_op.stake.toFixed(2)}`);
+    setText('op-hora',   d.ultima_op.hora);
+    if (d.ultima_op.resultado) {
+      const b = document.getElementById('op-resultado');
+      b.textContent = d.ultima_op.resultado;
+      b.className = 'op-badge ' + (d.ultima_op.resultado === 'WIN' ? 'win-b' : d.ultima_op.resultado === 'LOSS' ? 'loss-b' : 'neutral-b');
+    }
+  }
+
+  const maxN = isSoros ? parseInt(document.getElementById('cfg-sorosniveis').value)||3
+    : isMgSoros ? 3 : parseInt(document.getElementById('cfg-mgniveis').value)||7;
+  const mgEl = document.getElementById('mg-dots');
+  mgEl.innerHTML = '';
+  setText('dots-label', isSoros ? 'Soros' : isMgSoros ? (d.mg_soros_fase === 'soros' ? 'Soros' : 'MG Rec') : 'Martingale');
+  for (let i = 0; i < maxN; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'mg-dot' + (i < nivel ? (isSoros ? ' on-soros' : ' on-mg') : '');
+    mgEl.appendChild(dot);
+  }
+
+  if (d.payout_atual) setText('payout-val', Math.round(d.payout_atual * 100) + '%');
+  document.getElementById('mgrec-row').style.display = isMgRec ? 'flex' : 'none';
+  if (isMgRec && d.mg_rec_perdas !== undefined) setText('mgrec-val', `$${d.mg_rec_perdas.toFixed(2)}`);
+
+  if (d.ativo_atual && d.ativo_atual !== '—') {
+    setText('ativo-nome', d.ativo_atual);
+    setText('ativo-tf',   d.tf_atual || '—');
+    if (d.analise) {
+      const sub = document.getElementById('ativo-sub');
+      sub.textContent = `${d.analise.sinal} | ${d.analise.confianca}%`;
+      sub.style.color = d.analise.sinal === 'CALL' ? 'var(--green)' : d.analise.sinal === 'PUT' ? 'var(--red)' : 'var(--text2)';
+    }
+  }
+
+  document.getElementById('scan-spin').style.display = d.varrendo ? 'block' : 'none';
+  if (d.varredura_log && d.varredura_log.length) {
+    const vEl = document.getElementById('varredura-items');
+    vEl.innerHTML = '';
+    [...d.varredura_log].reverse().forEach(l => {
+      const parts = l.split('|');
+      const sinal = (parts[1] || '').trim();
+      const div = document.createElement('div');
+      div.className = 'scan-item';
+      div.innerHTML = `<span style="font-size:11px;font-weight:700">${(parts[0]||'').trim()}</span>
+        <span class="scan-dir ${sinal.toLowerCase()}">${sinal}</span>
+        <span style="color:var(--text2);font-size:10px">${(parts[2]||'').trim()}</span>`;
+      vEl.appendChild(div);
+    });
+  }
+
+  const bp = document.getElementById('banner-pausado');
+  if (bp) bp.style.display = d.gale_pausado ? 'flex' : 'none';
+  if (d.ema3)  setText('v-ema3',  Number(d.ema3).toFixed(5));
+  if (d.ema10) setText('v-ema10', Number(d.ema10).toFixed(5));
+  if (d.ema21) setText('v-sma21', Number(d.ema21).toFixed(5));
+  setText('v-lossseq', (d.loss_seq||0) + '/' + (d.max_loss_seq||3));
+
+  if (d.analise && d.analise.sinal) {
+    document.getElementById('analise-box').style.display = 'block';
+    document.getElementById('analise-ph').style.display  = 'none';
+    const sEl = document.getElementById('a-sinal');
+    sEl.textContent = d.analise.sinal;
+    sEl.style.color = d.analise.sinal === 'CALL' ? 'var(--green)' : d.analise.sinal === 'PUT' ? 'var(--red)' : 'var(--text2)';
+    setText('a-padrao',   d.analise.padrao  || '');
+    setText('a-conf-txt', `${d.analise.confianca}%`);
+    document.getElementById('a-conf-bar').style.width = `${d.analise.confianca}%`;
+    setText('a-motivo',   d.analise.motivo  || '');
+    const af = document.getElementById('a-forca');
+    if (af) af.style.display = d.analise.forca === 'FORTE' ? 'inline' : 'none';
+  }
+
+  if (d.historico) renderHist(d.historico, d.ganhos, d.perdas);
+
+  if (d.log && d.log.length) {
+    const box = document.getElementById('log-geral');
+    box.innerHTML = '';
+    d.log.forEach(l => appendLog(l, box));
+  }
+}
+
+function renderHist(hist, g, p) {
+  const total = g + p;
+  const wr = total > 0 ? Math.round(g / total * 100) : 0;
+  setText('hist-resumo', total > 0 ? `${g}W/${p}L/${wr}%` : '');
+  const box = document.getElementById('hist-box');
+  if (!hist || hist.length === 0) {
+    box.innerHTML = '<div style="color:var(--text2);font-size:12px;text-align:center;padding:20px 0">Nenhuma operação</div>';
+    return;
+  }
+  box.innerHTML = '';
+  [...hist].reverse().forEach(h => {
+    const isW = h.resultado === 'WIN', isL = h.resultado === 'LOSS';
+    const div = document.createElement('div');
+    div.className = 'hist-item';
+    div.innerHTML = `
+      <div class="hist-dir ${h.dir==='CALL'?'call':'put'}">${h.dir==='CALL'?'▲':'▼'}</div>
+      <div class="hist-info">
+        <div class="hist-ativo">${h.ativo} <span style="color:var(--blue);font-size:9px">${h.tf}</span></div>
+        <div class="hist-meta">${h.padrao||'—'} · $${h.stake.toFixed(2)} · MG${h.mg_nivel||0}${h.confianca?' · '+h.confianca+'%':''}${h.forca==='FORTE'?' 🔥':''}</div>
       </div>
+      <div class="hist-res">
+        <div class="hist-lucro" style="color:${isW?'var(--green)':isL?'var(--red)':'var(--text2)'}">${h.resultado||'?'}</div>
+        <div class="hist-hora">${h.hora}</div>
+      </div>`;
+    box.appendChild(div);
+  });
+}
 
-      <div class="signal">
-        <div class="signal-box">
-          <div class="signal-title">Analise Claude atual</div>
-          <div style="display:flex;align-items:baseline;gap:8px">
-            <div class="signal-main" id="a-sinal">--</div>
-            <span id="a-forca" style="display:none;padding:2px 7px;border-radius:4px;
-              background:rgba(255,209,102,.2);color:var(--yellow);font-size:11px;font-weight:800">FORTE</span>
-          </div>
-          <div class="sub" id="a-padrao">Aguardando sinal...</div>
-          <div class="bar"><div id="a-conf-bar"></div></div>
-          <div class="sub" id="a-conf-txt">0%</div>
-          <div class="sub" id="a-motivo" style="margin-top:8px"></div>
-        </div>
-        <div class="signal-box">
-          <div class="signal-title">Ultima operacao</div>
-          <div class="signal-main" id="op-dir">--</div>
-          <div class="sub" id="op-info">Nenhuma operacao ainda.</div>
-          <div class="sub" id="op-extra" style="margin-top:8px"></div>
-        </div>
-      </div>
+function appendLog(txt, box) {
+  const div = document.createElement('div');
+  div.className = 'log-line';
+  if (txt.includes('WIN')||txt.includes('GANHO')||txt.includes('✅')||txt.includes('COMPLETO')) div.classList.add('win');
+  else if (txt.includes('LOSS')||txt.includes('PERDA')||txt.includes('❌')) div.classList.add('loss');
+  else if (txt.includes('🔌')||txt.includes('💰')||txt.includes('🎯')||txt.includes('🟢')||txt.includes('🤖')) div.classList.add('info');
+  else if (txt.includes('⚠️')||txt.includes('🛑')||txt.includes('⏳')) div.classList.add('warn');
+  div.textContent = txt;
+  box.appendChild(div);
+}
 
-      <div class="block" style="border-top:1px solid var(--line)">
-        <h2>Log em tempo real</h2>
-      </div>
-      <div class="log" id="log-box"></div>
-    </section>
+function setModo(modo) {
+  modoAtual = modo;
+  document.getElementById('btn-mg').className      = 'modo-btn'      + (modo==='mg'      ? ' ativo-mg'     : '');
+  document.getElementById('btn-soros').className   = 'modo-btn'      + (modo==='soros'   ? ' ativo-soros'  : '');
+  document.getElementById('btn-mgsoros').className = 'modo-btn full' + (modo==='mg_soros'? ' ativo-mgsoros': '');
+  document.getElementById('btn-mgrec').className   = 'modo-btn full' + (modo==='mg_rec'  ? ' ativo-mgrec'  : '');
+  document.getElementById('cfg-mg-wrap').style.display    = (modo==='soros'||modo==='mg_rec') ? 'none' : 'grid';
+  document.getElementById('cfg-soros-wrap').style.display = modo==='mg' ? 'none' : 'flex';
+}
 
-    <section>
-      <div class="block">
-        <h2>Historico</h2>
-        <div class="sub" id="hist-resumo">Nenhuma operacao.</div>
-      </div>
-      <div class="history" id="hist-box"></div>
-    </section>
-  </main>
+function salvarConfig() {
+  const cfg = {
+    cmd:           'config',
+    stake:         parseFloat(document.getElementById('cfg-stake').value),
+    mg_fator:      parseFloat(document.getElementById('cfg-mgfator').value),
+    mg_niveis:     parseInt(document.getElementById('cfg-mgniveis').value),
+    soros_niveis:  parseInt(document.getElementById('cfg-sorosniveis').value),
+    stop_loss:     parseFloat(document.getElementById('cfg-sl').value),
+    stop_gain:     parseFloat(document.getElementById('cfg-sg').value),
+    payout_minimo: parseFloat(document.getElementById('cfg-payout').value) / 100,
+    demo:          document.getElementById('cfg-conta').value === 'demo',
+    modo_execucao: document.getElementById('cfg-modoexec').value,
+    modo_banca:    modoAtual,
+    confianca_min: parseInt(document.getElementById('cfg-conf').value),
+    max_loss_seq:  parseInt(document.getElementById('cfg-maxloss').value || '3'),
+  };
+  const ck = document.getElementById('cfg-claude-key').value.trim();
+  if (ck) cfg.claude_key = ck;
+  enviar(cfg);
+  toast('✅ Config salva!');
+}
 
-  <div class="toast" id="toast"></div>
+function retomar()          { enviar({cmd:'retomar'}); toast('▶ Retomando...'); }
+function startBot()         { enviar({cmd:'start'}); }
+function stopBot()          { enviar({cmd:'stop'}); }
+function pararTotal()       { fecharPopup(); enviar({cmd:'shutdown'}); toast('Sistema em standby'); }
+function desconectarVds()   { if(confirm('Desconectar o VDS agora?')){ fecharPopup(); enviar({cmd:'desconectar_vds'}); toast('Desconectando VDS...'); } }
+function reiniciarForcado() { if(confirm('Reiniciar o bot?')){ enviar({cmd:'reiniciar'}); toast('⚡ Reiniciando...'); } }
+function resetBot()         { if(confirm('Resetar contadores?')){ enviar({cmd:'reset'}); toast('🔄 Resetado!'); } }
+function reiniciarBot()     { fecharPopup(); enviar({cmd:'start'}); }
+function fecharPopup()      { document.getElementById('popup-overlay').classList.remove('show'); popupFechado = true; }
 
-  <script>
-    let ws = null;
-    let ultimoPacote = Date.now();
-    let inverterLigado = false;
-    const HOST = location.hostname === "localhost" || location.hostname === "127.0.0.1" ? "localhost" : location.hostname;
-    const WS_URL = `ws://${HOST}:8775`;
+function toggleInverter() {
+  const btn = document.getElementById('btn-inverter');
+  const on  = btn.classList.contains('on');
+  btn.classList.toggle('on', !on);
+  btn.textContent = '🔃 Inverter Sinal: ' + (on ? 'OFF' : 'ON');
+  enviar({cmd:'inverter', ativo:!on});
+  toast(!on ? '🔃 Invertido ON' : '🔃 Invertido OFF');
+}
 
-    const $ = (id) => document.getElementById(id);
-    const money = (v) => `$${Number(v || 0).toFixed(2)}`;
-    const setText = (id, value) => { const el = $(id); if (el) el.textContent = value; };
-    const setDot = (id, ok) => { const el = $(id); if (el) el.classList.toggle("ok", !!ok); };
+function mostrarPopup(tipo, lucro) {
+  const isG = tipo === 'stop_gain';
+  setText('popup-icon',  isG ? '🏆' : '🛑');
+  setText('popup-title', isG ? 'Stop Gain!' : 'Stop Loss!');
+  setText('popup-sub',   isG ? 'Meta de lucro atingida!' : 'Limite de perda atingido!');
+  const vEl = document.getElementById('popup-valor');
+  vEl.textContent = (lucro>=0?'+':'') + '$' + Math.abs(lucro).toFixed(2);
+  vEl.style.color = isG ? 'var(--green)' : 'var(--red)';
+  document.getElementById('popup-overlay').classList.add('show');
+}
 
-    function toast(msg) {
-      const el = $("toast");
-      el.textContent = msg;
-      el.style.opacity = "1";
-      setTimeout(() => el.style.opacity = "0", 2500);
-    }
+function setDot(id,ok){ const e=document.getElementById(id); ok?e.classList.add('ok'):e.classList.remove('ok'); }
+function setText(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
+function toast(msg){ const e=document.getElementById('toast'); e.textContent=msg; e.style.opacity='1'; setTimeout(()=>e.style.opacity='0',2500); }
 
-    function conectar() {
-      if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return;
-      ws = new WebSocket(WS_URL);
-      ws.onopen = () => {
-        ultimoPacote = Date.now();
-        setDot("dot-ws", true);
-        setText("txt-ws", "Dashboard conectado");
-      };
-      ws.onclose = () => {
-        setDot("dot-ws", false);
-        setText("txt-ws", "Reconectando...");
-        setTimeout(conectar, 2500);
-      };
-      ws.onerror = () => setText("txt-ws", "Erro de conexao");
-      ws.onmessage = (event) => {
-        try {
-          ultimoPacote = Date.now();
-          atualizar(JSON.parse(event.data));
-        } catch (err) {
-          console.error(err);
-          toast("Erro no painel: " + err.message);
-        }
-      };
-    }
-
-    function enviar(obj) {
-      if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(obj));
-      else toast("Dashboard sem conexao com o bot");
-    }
-
-    function lerConfigTela() {
-      const cfg = {
-        cmd: "config",
-        stake: parseFloat($("cfg-stake").value || "2"),
-        mg_fator: parseFloat($("cfg-mgfator").value || "2.25"),
-        mg_niveis: parseInt($("cfg-mgniveis").value || "7", 10),
-        stop_loss: parseFloat($("cfg-sl").value || "700"),
-        stop_gain: parseFloat($("cfg-sg").value || "1000"),
-        payout_minimo: (parseFloat($("cfg-payout").value || "80") / 100),
-        demo: $("cfg-conta").value === "demo",
-        modo_execucao: $("cfg-modoexec").value,
-        max_loss_seq: parseInt($("cfg-maxloss").value || "3", 10),
-        confianca_min: parseInt($("cfg-conf").value || "72", 10),
-      };
-      const ck = $("cfg-claude-key").value.trim();
-      if (ck) cfg.claude_key = ck;
-      return cfg;
-    }
-
-    function retomar() { enviar({ cmd: "retomar" }); toast("Retomando..."); }
-
-    function salvarConfig() {
-      const cfg = lerConfigTela();
-      localStorage.setItem("iqbot_ema_cfg", JSON.stringify(cfg));
-      enviar(cfg);
-      toast("Configuracao salva");
-    }
-
-    function aplicarConfig(cfg) {
-      if (!cfg) return;
-      if (cfg.stake) $("cfg-stake").value = cfg.stake;
-      if (cfg.mg_fator) $("cfg-mgfator").value = cfg.mg_fator;
-      if (cfg.mg_niveis) $("cfg-mgniveis").value = cfg.mg_niveis;
-      if (cfg.stop_loss) $("cfg-sl").value = cfg.stop_loss;
-      if (cfg.stop_gain) $("cfg-sg").value = cfg.stop_gain;
-      if (cfg.payout_minimo) $("cfg-payout").value = Math.round(cfg.payout_minimo * 100);
-      if (cfg.demo !== undefined) $("cfg-conta").value = cfg.demo ? "demo" : "real";
-      if (cfg.modo_execucao) $("cfg-modoexec").value = cfg.modo_execucao;
-      if (cfg.max_loss_seq) $("cfg-maxloss").value = cfg.max_loss_seq;
-      if (cfg.confianca_min) $("cfg-conf").value = cfg.confianca_min;
-      const pill = $("claude-pill");
-      if (pill) {
-        pill.textContent = cfg.claude_key_ok ? "Claude: ON" : "Claude: OFF";
-        pill.style.color = cfg.claude_key_ok ? "var(--green)" : "var(--muted)";
-      }
-    }
-
-    function carregarConfigLocal() {
-      try { aplicarConfig(JSON.parse(localStorage.getItem("iqbot_ema_cfg") || "{}")); } catch (_) {}
-    }
-
-    function startBot() { enviar({ cmd: "start" }); }
-    function stopBot() { enviar({ cmd: "stop" }); }
-    function pararTotal() { enviar({ cmd: "shutdown" }); toast("Bot em standby"); }
-    function resetBot() {
-      if (confirm("Resetar contadores e estado salvo?")) enviar({ cmd: "reset" });
-    }
-    function toggleInverter() {
-      inverterLigado = !inverterLigado;
-      $("btn-inverter").textContent = inverterLigado ? "Inverter: ON" : "Inverter: OFF";
-      enviar({ cmd: "inverter", ativo: inverterLigado });
-    }
-
-    function atualizar(d) {
-      aplicarConfig(d.config);
-      const banca = Number(d.banca || d.banca_atual || 0);
-      const lucro = Number(d.lucro || 0);
-      const ganhos = Number(d.ganhos || 0);
-      const perdas = Number(d.perdas || 0);
-      const total = ganhos + perdas;
-      const wr = total ? Math.round((ganhos / total) * 100) : 0;
-
-      setText("m-banca", money(banca));
-      setText("m-lucro", `${lucro >= 0 ? "+" : ""}${money(lucro)}`);
-      $("m-lucro").className = lucro >= 0 ? "green" : "red";
-      setText("m-ganhos", ganhos);
-      setText("m-perdas", perdas);
-      setText("m-ops", total);
-      setText("m-stake", money(d.stake || d.stake_atual || 0));
-      setText("status-txt", d.status || "Aguardando...");
-      setText("payout-val", d.payout_atual ? `${Math.round(d.payout_atual * 100)}%` : "--%");
-      setText("nivel-atual", `MG ${d.mg_nivel || 0}`);
-      setText("ativo-nome", d.ativo_atual || "--");
-      setText("ativo-tf", d.tf_atual || "M1");
-      setText("wr-label", `${wr}% WR`);
-
-      const modo = (d.config && d.config.modo_execucao) || "precheck";
-      setText("modo-label", modo === "classic" ? "Classico validado" : "Precheck");
-
-      $("btn-start").disabled = !!d.rodando;
-      $("btn-stop").disabled = !d.rodando;
-      setDot("dot-ws", true);
-
-      if (d.crono_sessao) {
-        const s = Number(d.crono_sessao);
-        setText("tempo-sessao", `${String(Math.floor(s / 3600)).padStart(2, "0")}:${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`);
-      }
-
-      // Banner pausado
-      const bp = $("banner-pausado");
-      if (bp) bp.style.display = d.gale_pausado ? "flex" : "none";
-
-      // EMA / loss_seq
-      if (d.ema3)  setText("v-ema3",  Number(d.ema3).toFixed(5));
-      if (d.ema10) setText("v-ema10", Number(d.ema10).toFixed(5));
-      if (d.ema21) setText("v-sma21", Number(d.ema21).toFixed(5));
-      setText("loss-seq-txt", (d.loss_seq || 0) + "/" + (d.max_loss_seq || 3));
-
-      if (d.analise && d.analise.sinal) {
-        setText("a-sinal", d.analise.sinal);
-        $("a-sinal").className = "signal-main " + (d.analise.sinal === "CALL" ? "green" : "red");
-        setText("a-padrao", d.analise.padrao || "");
-        setText("a-conf-txt", `${d.analise.confianca || 0}%`);
-        $("a-conf-bar").style.width = `${d.analise.confianca || 0}%`;
-        setText("a-motivo", d.analise.motivo || "");
-        const af = $("a-forca");
-        if (af) af.style.display = d.analise.forca === "FORTE" ? "inline" : "none";
-      }
-
-      if (d.ultima_op) {
-        const op = d.ultima_op;
-        setText("op-dir", op.dir || "--");
-        $("op-dir").className = "signal-main " + (op.dir === "CALL" ? "green" : "red");
-        setText("op-info", `${op.ativo || ""} | ${money(op.stake)} | ${op.hora || ""} | ${op.resultado || "aberta"}`);
-        const pre = op.resultado_provavel ? `Precheck: ${op.resultado_provavel} (${op.pontos_precheck || 0} pts)` : "";
-        setText("op-extra", pre);
-      }
-
-      renderHistorico(d.historico || [], ganhos, perdas);
-      renderLog(d.log || []);
-    }
-
-    function renderHistorico(hist, ganhos, perdas) {
-      const total = ganhos + perdas;
-      const wr = total ? Math.round((ganhos / total) * 100) : 0;
-      setText("hist-resumo", total ? `${ganhos}W / ${perdas}L / ${wr}% WR` : "Nenhuma operacao.");
-      const box = $("hist-box");
-      box.innerHTML = "";
-      [...hist].reverse().slice(0, 120).forEach((h) => {
-        const item = document.createElement("div");
-        item.className = "hist-item";
-        const dirClass = h.dir === "CALL" ? "call" : "put";
-        const color = h.resultado === "WIN" ? "green" : h.resultado === "LOSS" ? "red" : "muted";
-        const forteTag = h.forca === "FORTE" ? `<span class="pill" style="background:rgba(255,209,102,.2);color:var(--yellow)">FORTE</span> ` : "";
-        const confTag  = h.confianca ? `<span class="pill">${h.confianca}%</span>` : "";
-        item.innerHTML = `
-          <div class="dir ${dirClass}">${h.dir === "CALL" ? "UP" : "DN"}</div>
-          <div>
-            <strong>${h.ativo || "--"} <span class="pill">${h.tf || "M1"}</span> MG${h.mg_nivel||0} ${forteTag}${confTag}</strong>
-            <div class="sub">${h.padrao || ""} | ${money(h.stake)}</div>
-          </div>
-          <div style="text-align:right">
-            <strong class="${color}">${h.resultado || "?"}</strong>
-            <div class="sub">${h.hora || ""}</div>
-          </div>
-        `;
-        box.appendChild(item);
-      });
-    }
-
-    function renderLog(logs) {
-      const box = $("log-box");
-      box.innerHTML = "";
-      logs.slice(0, 160).forEach((line) => {
-        const div = document.createElement("div");
-        div.className = "log-line";
-        div.textContent = line;
-        box.appendChild(div);
-      });
-    }
-
-    setInterval(() => {
-      setText("clock", new Date().toLocaleTimeString("pt-BR"));
-      if (Date.now() - ultimoPacote > 12000) {
-        setDot("dot-ws", false);
-        setText("txt-ws", "Reconectando...");
-        try { if (ws) ws.close(); } catch (_) {}
-        ws = null;
-        conectar();
-      }
-    }, 1000);
-
-    carregarConfigLocal();
-    conectar();
-  </script>
+conectar();
+</script>
 </body>
 </html>
