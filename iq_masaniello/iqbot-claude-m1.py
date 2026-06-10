@@ -149,11 +149,24 @@ estado = {
     "ema10": 0.0,
     "ema21": 0.0,
     "direcao_ema": "—",
+    # Multi-timeframe
+    "mtf_dir15s": "—",
+    "mtf_dir30s": "—",
+    "mtf_conf":   "—",
 }
 
 clientes_ws          = set()
 bot_task             = None
 ultima_direcao_valida = None
+
+# ── Cache de análise pré-buscada em background ──────────────────
+# { "vela_id": int, "analise": dict, "em_busca": bool }
+_analise_cache: dict = {"vela_id": -1, "analise": None, "em_busca": False}
+
+# Timeframes auxiliares para MTF
+TF_15S = 15
+TF_30S = 30
+CANDLES_MTF = 12   # últimas 12 velas de 15s/30s para análise
 
 
 # ─────────────────────────────────────────────
@@ -278,6 +291,66 @@ def cor(candle):
     if candle["close"] < candle["open"]:
         return "VERMELHA"
     return "DOJI"
+
+
+def analisar_mtf(c15: list, c30: list) -> dict:
+    """Analisa velas de 15s e 30s para confirmar o comportamento da vela M1.
+
+    Retorna:
+        dir_15s, dir_30s   — "CALL" | "PUT" | "NEUTRO"
+        confluencia        — direção quando ambos concordam
+        forca              — pontuação 0..8 (mais = mais claro)
+        motivo_mtf         — texto curto para o dashboard
+    """
+    def tendencia(candles):
+        if len(candles) < 4:
+            return "NEUTRO", 0
+        recentes = candles[-6:]
+        closes = [c["close"] for c in recentes]
+        e3 = _ema(closes, 3)
+        e5 = _ema(closes, min(5, len(closes)))
+        if e3 is None or e5 is None:
+            return "NEUTRO", 0
+        bulls = sum(1 for c in recentes[-4:] if c["close"] > c["open"])
+        bears = sum(1 for c in recentes[-4:] if c["close"] < c["open"])
+        if e3 > e5 and bulls >= 3:
+            return "CALL", bulls
+        if e3 < e5 and bears >= 3:
+            return "PUT", bears
+        # Empate fraco — usa só EMA
+        if e3 > e5:
+            return "CALL", 1
+        if e3 < e5:
+            return "PUT", 1
+        return "NEUTRO", 0
+
+    dir15, f15 = tendencia(c15) if c15 else ("NEUTRO", 0)
+    dir30, f30 = tendencia(c30) if c30 else ("NEUTRO", 0)
+
+    if dir15 == dir30 and dir15 != "NEUTRO":
+        conf = dir15
+        forca = f15 + f30
+        motivo = f"MTF ✓ 15s:{dir15} 30s:{dir30} forca={forca}"
+    elif dir30 != "NEUTRO":
+        conf = dir30
+        forca = f30
+        motivo = f"MTF 30s:{dir30} (15s neutro)"
+    elif dir15 != "NEUTRO":
+        conf = dir15
+        forca = f15
+        motivo = f"MTF 15s:{dir15} (30s neutro)"
+    else:
+        conf = "NEUTRO"
+        forca = 0
+        motivo = "MTF neutro"
+
+    return {
+        "dir_15s":    dir15,
+        "dir_30s":    dir30,
+        "confluencia": conf,
+        "forca":      forca,
+        "motivo_mtf": motivo,
+    }
 
 
 # ─────────────────────────────────────────────
@@ -584,29 +657,134 @@ Retorne JSON puro sem markdown:
 
 
 # ─────────────────────────────────────────────
-#  BUSCA ANÁLISE — tenta Claude, fallback EMA
+#  BUSCA ANÁLISE — M1 + MTF (15s/30s) em paralelo
 # ─────────────────────────────────────────────
 
-async def buscar_analise(iq):
-    candles_raw = await asyncio.wait_for(
+async def _fetch_candles_tf(iq, tf, n):
+    """Busca candles de qualquer timeframe; retorna lista normalizada."""
+    raw = await asyncio.wait_for(
         asyncio.get_event_loop().run_in_executor(
-            None, lambda: iq.get_candles(ATIVO_FIXO, TIMEFRAME, CANDLES_ANALISE, time.time())
+            None, lambda: iq.get_candles(ATIVO_FIXO, tf, n, time.time())
         ),
-        timeout=12
+        timeout=10
     )
-    candles = normalizar_candles(candles_raw)
+    return normalizar_candles(raw)
 
+
+async def buscar_analise(iq):
+    """Busca análise M1 + confirma com velas 15s e 30s em paralelo."""
+    # Dispara as três buscas de candles ao mesmo tempo
+    try:
+        resultados = await asyncio.gather(
+            _fetch_candles_tf(iq, TIMEFRAME, CANDLES_ANALISE),
+            _fetch_candles_tf(iq, TF_30S, CANDLES_MTF),
+            _fetch_candles_tf(iq, TF_15S, CANDLES_MTF),
+            return_exceptions=True
+        )
+    except Exception as e:
+        log(f"Erro buscando candles MTF: {e}")
+        return None
+
+    candles_m1 = resultados[0] if not isinstance(resultados[0], Exception) else []
+    candles_30 = resultados[1] if not isinstance(resultados[1], Exception) else []
+    candles_15 = resultados[2] if not isinstance(resultados[2], Exception) else []
+
+    if not candles_m1:
+        return None
+
+    # Análise MTF rápida (pura EMA, sem Claude)
+    mtf = analisar_mtf(candles_15, candles_30)
+
+    # Análise principal M1
+    analise = None
     if CLAUDE_KEY and not CLAUDE_KEY.startswith("sk-ant-api03-SEU"):
-        resultado = await analisar_com_claude(candles)
-        if resultado:
-            return resultado
-        log("↩ Claude sem resultado — usando EMA20/50 como fallback")
+        analise = await analisar_com_claude(candles_m1)
+        if not analise:
+            log("↩ Claude sem resultado — usando EMA20/50 como fallback")
 
-    return analisar_ema(candles)
+    if not analise:
+        analise = analisar_ema(candles_m1)
+
+    if not analise:
+        return None
+
+    # Enriquece com dados MTF
+    analise["mtf"] = mtf
+    sinal = analise.get("sinal")
+
+    if mtf["confluencia"] != "NEUTRO":
+        if mtf["confluencia"] == sinal:
+            # MTF confirma → sobe confiança e registra no motivo
+            boost = min(8, mtf["forca"])
+            analise["confianca"] = min(99, analise.get("confianca", 0) + boost)
+            analise["motivo"] = f"[{mtf['motivo_mtf']}] " + analise.get("motivo", "")
+            log(f"MTF confirma {sinal}: {mtf['dir_15s']}/30s:{mtf['dir_30s']} +{boost}% conf")
+        elif sinal not in (None, "SKIP"):
+            # MTF contradiz → reduz confiança
+            analise["confianca"] = max(0, analise.get("confianca", 0) - 12)
+            analise["motivo"] = f"[MTF ✗ contra:{mtf['confluencia']}] " + analise.get("motivo", "")
+            log(f"MTF contradiz {sinal} ({mtf['confluencia']}) -12% conf")
+
+    # Atualiza indicadores MTF no estado
+    estado["mtf_dir15s"] = mtf["dir_15s"]
+    estado["mtf_dir30s"] = mtf["dir_30s"]
+    estado["mtf_conf"]   = mtf["confluencia"]
+
+    return analise
 
 
 # manter nome original para não quebrar referências internas
 buscar_analise_ema = buscar_analise
+
+
+# ─────────────────────────────────────────────
+#  LOOP DE ANÁLISE CONTÍNUA (background)
+#  Pré-busca a análise nos últimos 20s da vela
+#  para que esteja pronta no segundo 0 da próxima
+# ─────────────────────────────────────────────
+
+async def loop_analise_continua(iq):
+    """Corre em paralelo com loop_bot. Mantém _analise_cache sempre fresco."""
+    global _analise_cache
+    log("🔄 Loop análise contínua iniciado")
+    while estado["rodando"]:
+        await asyncio.sleep(2)
+        try:
+            agora = time.time()
+            segundos_da_vela   = int(agora) % TIMEFRAME
+            segundos_restantes = TIMEFRAME - segundos_da_vela
+            proxima_vela_id    = int(agora // TIMEFRAME) + 1
+
+            # Dispara pré-busca nos últimos 20s da vela atual
+            if segundos_restantes <= 20 and not _analise_cache["em_busca"]:
+                if _analise_cache["vela_id"] == proxima_vela_id:
+                    continue  # já temos análise para a próxima vela
+
+                _analise_cache["em_busca"] = True
+                estado["status"] = f"⚙ Pré-analisando ({segundos_restantes}s p/ vela)"
+                await broadcast()
+
+                try:
+                    resultado = await buscar_analise(iq)
+                    if resultado:
+                        _analise_cache = {
+                            "vela_id":  proxima_vela_id,
+                            "analise":  resultado,
+                            "em_busca": False,
+                        }
+                        estado["ultima_analise"] = resultado
+                        log(f"✓ Análise pré-carregada: {resultado['sinal']} {resultado.get('confianca',0)}% "
+                            f"| MTF 15s:{resultado.get('mtf',{}).get('dir_15s','?')} "
+                            f"30s:{resultado.get('mtf',{}).get('dir_30s','?')}")
+                        await broadcast()
+                    else:
+                        _analise_cache["em_busca"] = False
+                except Exception as e:
+                    log(f"Erro análise bg: {e}")
+                    _analise_cache["em_busca"] = False
+
+        except Exception as e:
+            log(f"loop_analise_continua erro: {e}")
 
 
 # ─────────────────────────────────────────────
@@ -982,7 +1160,9 @@ async def loop_bot():
         log(f"Conectado. Banca ${banca:.2f} | {'DEMO' if CONTA_DEMO else 'REAL'} | {ATIVO_FIXO}")
         salvar_estado_runtime()
 
-        analise_preparada = None
+        # Limpa cache e inicia loop de análise em background
+        _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
+        analise_bg_task = asyncio.create_task(loop_analise_continua(iq))
 
         while estado["rodando"]:
             estado["lucro"] = estado["banca_atual"] - estado["banca_inicial"]
@@ -1000,15 +1180,31 @@ async def loop_bot():
                 break
 
             vela_atual_id = int(time.time() // TIMEFRAME)
-            if analise_preparada and analise_preparada.get("vela_id") == vela_atual_id:
-                analise = analise_preparada["analise"]
-                analise_preparada = None
-                log("Analise da proxima vela ja estava pronta.")
+            if _analise_cache["vela_id"] == vela_atual_id and _analise_cache["analise"]:
+                analise = _analise_cache["analise"]
+                _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
+                log(f"✓ Análise pré-carregada usada: {analise['sinal']} {analise.get('confianca',0)}% "
+                    f"| MTF 15s:{analise.get('mtf',{}).get('dir_15s','?')} "
+                    f"30s:{analise.get('mtf',{}).get('dir_30s','?')}")
+            elif _analise_cache["em_busca"]:
+                # Análise ainda rodando em background — aguarda até 8s
+                log("⏳ Aguardando análise em andamento...")
+                for _ in range(16):
+                    await asyncio.sleep(0.5)
+                    if not _analise_cache["em_busca"]:
+                        break
+                if _analise_cache["vela_id"] == vela_atual_id and _analise_cache["analise"]:
+                    analise = _analise_cache["analise"]
+                    _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
+                else:
+                    analise = None
             else:
+                # Sem cache — busca agora (fallback, não deveria acontecer com frequência)
+                log("⚠ Sem cache — buscando análise agora")
                 try:
                     analise = await buscar_analise(iq)
                 except Exception as e:
-                    log(f"Erro buscando candles/analise: {e}")
+                    log(f"Erro buscando análise: {e}")
                     await asyncio.sleep(5)
                     continue
 
@@ -1136,26 +1332,7 @@ async def loop_bot():
                         except Exception as e:
                             log(f"Erro precheck resultado: {e}")
 
-                    # Prepara análise da próxima vela enquanto trade corre
-                    if (
-                        analise_preparada is None
-                        and vela_agora_id > vela_entrada_id
-                        and segundos_da_vela >= entrada_apos_segundos()
-                        and segundos_da_vela <= janela_entrada_segundos()
-                    ):
-                        try:
-                            proxima = await buscar_analise(iq)
-                            if proxima:
-                                analise_preparada = {
-                                    "vela_id": vela_agora_id,
-                                    "analise": proxima,
-                                }
-                                estado["ultima_analise"] = proxima
-                                estado["status"]         = f"Proxima vela preparada: {proxima['sinal']}"
-                                log(f"Proxima preparada: {proxima['sinal']} {proxima.get('confianca',0)}%")
-                                await broadcast()
-                        except Exception as e:
-                            log(f"Erro preparando proxima vela: {e}")
+                    # Preparação da próxima análise gerenciada por loop_analise_continua
 
                 if not estado["rodando"]:
                     break
@@ -1222,6 +1399,8 @@ async def loop_bot():
     finally:
         estado["rodando"]     = False
         estado["trade_ativo"] = False
+        if "analise_bg_task" in dir() and not analise_bg_task.done():
+            analise_bg_task.cancel()
         if estado["status"] not in ("stop_gain", "stop_loss") and not str(estado["status"]).startswith("Erro:"):
             estado["status"] = "parado"
         log("Bot Claude M1 encerrado.")

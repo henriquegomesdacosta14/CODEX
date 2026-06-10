@@ -323,6 +323,11 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
         <span class="ema-chip" style="color:var(--blue)">SMA21 <strong id="v-sma21">--</strong></span>
         <span class="ema-chip" style="color:var(--text2)">Loss <strong id="v-lossseq" style="color:var(--red)">0/3</strong></span>
       </div>
+      <div class="ema-strip" style="margin-top:-6px">
+        <span class="ema-chip" style="color:var(--purple)">15s <strong id="v-mtf15">--</strong></span>
+        <span class="ema-chip" style="color:var(--orange)">30s <strong id="v-mtf30">--</strong></span>
+        <span class="ema-chip" style="color:var(--green)">MTF <strong id="v-mtfconf">--</strong></span>
+      </div>
 
       <div class="status-box">
         <div class="pulse" id="pulse" style="display:none"></div>
@@ -631,6 +636,9 @@ function atualizar(d) {
   if (d.ema10) setText('v-ema10', Number(d.ema10).toFixed(5));
   if (d.ema21) setText('v-sma21', Number(d.ema21).toFixed(5));
   setText('v-lossseq', (d.loss_seq||0) + '/' + (d.max_loss_seq||3));
+  if (d.mtf_dir15s) { const el = document.getElementById('v-mtf15'); if(el){ el.textContent = d.mtf_dir15s; el.style.color = d.mtf_dir15s==='CALL'?'var(--green)':d.mtf_dir15s==='PUT'?'var(--red)':'var(--text2)'; } }
+  if (d.mtf_dir30s) { const el = document.getElementById('v-mtf30'); if(el){ el.textContent = d.mtf_dir30s; el.style.color = d.mtf_dir30s==='CALL'?'var(--green)':d.mtf_dir30s==='PUT'?'var(--red)':'var(--text2)'; } }
+  if (d.mtf_conf)   { const el = document.getElementById('v-mtfconf'); if(el){ el.textContent = d.mtf_conf; el.style.color = d.mtf_conf==='CALL'?'var(--green)':d.mtf_conf==='PUT'?'var(--red)':'var(--text2)'; } }
 
   if (d.analise && d.analise.sinal) {
     document.getElementById('analise-box').style.display = 'block';

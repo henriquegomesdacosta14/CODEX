@@ -313,6 +313,9 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);
     <span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--yellow)">EMA3 <strong id="v-ema3">--</strong></span>
     <span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--red)">EMA10 <strong id="v-ema10">--</strong></span>
     <span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--blue)">SMA21 <strong id="v-sma21">--</strong></span>
+    <span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--purple)">15s <strong id="v-mtf15">--</strong></span>
+    <span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--orange)">30s <strong id="v-mtf30">--</strong></span>
+    <span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--green)">MTF <strong id="v-mtfconf">--</strong></span>
     <span style="background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text2)">Loss <strong id="v-lossseq" style="color:var(--red)">0</strong></span>
   </div>
 
@@ -704,6 +707,10 @@ function atualizar(d) {
   if(d.ema10) setText('v-ema10', Number(d.ema10).toFixed(5));
   if(d.ema21) setText('v-sma21', Number(d.ema21).toFixed(5));
   setText('v-lossseq', (d.loss_seq||0)+'/'+(d.max_loss_seq||3));
+  const mtfColor = v => v==='CALL'?'var(--green)':v==='PUT'?'var(--red)':'var(--text2)';
+  if(d.mtf_dir15s){ const e=document.getElementById('v-mtf15'); if(e){e.textContent=d.mtf_dir15s;e.style.color=mtfColor(d.mtf_dir15s);} }
+  if(d.mtf_dir30s){ const e=document.getElementById('v-mtf30'); if(e){e.textContent=d.mtf_dir30s;e.style.color=mtfColor(d.mtf_dir30s);} }
+  if(d.mtf_conf)  { const e=document.getElementById('v-mtfconf'); if(e){e.textContent=d.mtf_conf;e.style.color=mtfColor(d.mtf_conf);} }
 
   // Claude badge
   const cb2=document.getElementById('claude-badge');
@@ -838,8 +845,24 @@ function salvarConfig(){
   };
   const ck = document.getElementById('cfg-claude-key').value.trim();
   if (ck) cfg.claude_key = ck;
+  localStorage.setItem('iqbot_cfg', JSON.stringify(cfg));
   enviar(cfg);
   toast('✅ Config salva!');
+}
+
+function carregarConfigLocal(){
+  try {
+    const saved = JSON.parse(localStorage.getItem('iqbot_cfg') || '{}');
+    if (saved.stake)        document.getElementById('cfg-stake').value    = saved.stake;
+    if (saved.mg_fator)     document.getElementById('cfg-mgfator').value  = saved.mg_fator;
+    if (saved.mg_niveis)    document.getElementById('cfg-mgniveis').value = saved.mg_niveis;
+    if (saved.stop_loss)    document.getElementById('cfg-sl').value       = saved.stop_loss;
+    if (saved.stop_gain)    document.getElementById('cfg-sg').value       = saved.stop_gain;
+    if (saved.demo !== undefined) document.getElementById('cfg-conta').value = saved.demo ? 'demo' : 'real';
+    if (saved.max_loss_seq) document.getElementById('cfg-maxloss').value  = saved.max_loss_seq;
+    if (saved.confianca_min)document.getElementById('cfg-conf').value     = saved.confianca_min;
+    if (saved.modo_banca)   setModo(saved.modo_banca);
+  } catch(_) {}
 }
 
 function retomar(){ enviar({cmd:'retomar'}); toast('▶ Retomando...'); }
@@ -859,6 +882,7 @@ function setDot(id,ok){ const e=document.getElementById(id); ok?e.classList.add(
 function setText(id,v){ const e=document.getElementById(id); if(e) e.textContent=v; }
 function toast(msg){ const e=document.getElementById('toast'); e.textContent=msg; e.style.opacity='1'; setTimeout(()=>e.style.opacity='0',2500); }
 
+carregarConfigLocal();
 conectar();
 </script>
 </body>
