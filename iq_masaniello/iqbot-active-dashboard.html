@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IQBOT Claude M1</title>
+  <style>
+    :root {
+      --bg: #070914;
+      --panel: #10162a;
+      --panel2: #151d35;
+      --line: #273153;
+      --text: #eef3ff;
+      --muted: #8f9bc4;
+      --green: #00d084;
+      --red: #ff4b6a;
+      --blue: #4f7cff;
+      --yellow: #ffd166;
+      --purple: #a46cff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+    }
+    header {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 18px;
+      background: #0b1020;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    .brand { font-weight: 900; letter-spacing: 1.8px; font-size: 14px; }
+    .brand span { color: var(--blue); }
+    .top-status { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: 0 0 10px currentColor; }
+    .dot.ok { background: var(--green); }
+    main {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 320px minmax(420px, 1fr) 360px;
+      gap: 14px;
+    }
+    section, .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    section { overflow: hidden; }
+    .block { padding: 14px; border-bottom: 1px solid var(--line); }
+    .block:last-child { border-bottom: 0; }
+    h2 {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    label { display: block; margin: 9px 0 5px; color: #b6c1ea; font-size: 12px; font-weight: 700; }
+    input, select {
+      width: 100%;
+      min-height: 38px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #0c1224;
+      color: var(--text);
+      outline: none;
+      font-size: 13px;
+    }
+    input:focus, select:focus { border-color: var(--blue); }
+    button {
+      width: 100%;
+      min-height: 40px;
+      border: 0;
+      border-radius: 6px;
+      padding: 0 12px;
+      color: white;
+      background: var(--blue);
+      font-weight: 900;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    .btn-green { background: var(--green); color: #04130d; }
+    .btn-red { background: var(--red); }
+    .btn-dark { background: var(--panel2); color: var(--text); border: 1px solid var(--line); }
+    .btn-purple { background: var(--purple); }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      padding: 14px;
+    }
+    .metric {
+      min-height: 82px;
+      padding: 12px;
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .metric small { display: block; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .metric strong { display: block; margin-top: 8px; font-size: 22px; line-height: 1.1; }
+    .green { color: var(--green); }
+    .red { color: var(--red); }
+    .blue { color: var(--blue); }
+    .yellow { color: var(--yellow); }
+    .purple { color: var(--purple); }
+    .status-card {
+      padding: 18px;
+      margin: 14px;
+      background: linear-gradient(135deg, rgba(79,124,255,.16), rgba(0,208,132,.08));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .asset-name { font-size: 24px; font-weight: 900; margin-bottom: 4px; }
+    .sub { color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .signal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 0 14px 14px;
+    }
+    .signal-box {
+      min-height: 150px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .signal-title { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1.3px; margin-bottom: 10px; }
+    .signal-main { font-size: 34px; font-weight: 950; margin: 4px 0; }
+    .bar { height: 6px; background: #222a47; border-radius: 99px; overflow: hidden; margin: 8px 0; }
+    .bar > div { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue), var(--green)); }
+    .log, .history {
+      height: calc(100vh - 220px);
+      min-height: 420px;
+      overflow: auto;
+      padding: 10px;
+    }
+    .log-line, .hist-item {
+      padding: 8px 10px;
+      margin-bottom: 7px;
+      background: #0c1224;
+      border: 1px solid rgba(39,49,83,.75);
+      border-radius: 6px;
+      font-family: Consolas, "JetBrains Mono", monospace;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .hist-item {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      font-family: inherit;
+    }
+    .dir {
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 950;
+    }
+    .dir.call { background: rgba(0,208,132,.14); color: var(--green); }
+    .dir.put { background: rgba(255,75,106,.14); color: var(--red); }
+    .pill {
+      display: inline-block;
+      padding: 3px 7px;
+      border-radius: 4px;
+      background: var(--panel2);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: #111a31;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px 14px;
+      color: var(--text);
+      opacity: 0;
+      transition: opacity .2s;
+      z-index: 10;
+    }
+    @media (max-width: 1100px) {
+      main { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .signal { grid-template-columns: 1fr; }
+      .log, .history { height: auto; max-height: 420px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">IQBOT <span>Claude M1</span></div>
+    <div class="top-status">
+      <span class="dot" id="dot-ws"></span>
+      <span id="txt-ws">Conectando dashboard...</span>
+      <span class="pill" id="clock">--:--:--</span>
+      <span class="pill" id="claude-pill" style="color:var(--muted)">Claude: --</span>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="block">
+        <h2>Configuracoes</h2>
+        <div class="row2">
+          <div>
+            <label>Stake inicial</label>
+            <input id="cfg-stake" type="number" min="2" step="0.01" value="2">
+          </div>
+          <div>
+            <label>Conta</label>
+            <select id="cfg-conta">
+              <option value="demo">Demo</option>
+              <option value="real">Real</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Modo de execucao</label>
+        <select id="cfg-modoexec">
+          <option value="classic">Classico validado - sem precheck</option>
+          <option value="precheck">Precheck - entrada no segundo 0</option>
+        </select>
+
+        <div class="row2">
+          <div>
+            <label>MG fator</label>
+            <input id="cfg-mgfator" type="number" min="1.5" step="0.05" value="2.25">
+          </div>
+          <div>
+            <label>MG niveis</label>
+            <input id="cfg-mgniveis" type="number" min="1" max="10" step="1" value="7">
+          </div>
+        </div>
+
+        <div class="row2">
+          <div>
+            <label>Stop loss</label>
+            <input id="cfg-sl" type="number" min="1" step="1" value="700">
+          </div>
+          <div>
+            <label>Stop gain</label>
+            <input id="cfg-sg" type="number" min="1" step="1" value="1000">
+          </div>
+        </div>
+
+        <label>Payout minimo (%)</label>
+        <input id="cfg-payout" type="number" min="50" max="95" step="1" value="80">
+
+        <label>Claude API Key</label>
+        <input id="cfg-claude-key" type="password" placeholder="sk-ant-api03-..." autocomplete="off">
+
+        <div class="row2">
+          <div>
+            <label>Pausa apos N losses</label>
+            <input id="cfg-maxloss" type="number" min="1" max="7" step="1" value="3">
+          </div>
+          <div>
+            <label>Conf. min Claude (%)</label>
+            <input id="cfg-conf" type="number" min="50" max="100" step="1" value="72">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button onclick="salvarConfig()">Salvar config</button>
+          <button class="btn-dark" onclick="resetBot()">Resetar</button>
+        </div>
+        <div class="actions">
+          <button id="btn-start" class="btn-green" onclick="startBot()">Iniciar</button>
+          <button id="btn-stop" class="btn-red" onclick="stopBot()" disabled>Parar</button>
+        </div>
+        <div class="actions">
+          <button class="btn-purple" id="btn-inverter" onclick="toggleInverter()">Inverter: OFF</button>
+          <button class="btn-dark" onclick="pararTotal()">Standby</button>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2>Status</h2>
+        <div class="sub" id="status-txt">Aguardando dados...</div>
+        <div class="sub" style="margin-top:8px">
+          Sessao: <strong id="tempo-sessao">00:00:00</strong><br>
+          Payout: <strong id="payout-val">--%</strong><br>
+          Nivel atual: <strong id="nivel-atual">MG 0</strong><br>
+          Loss seq: <strong id="loss-seq-txt" style="color:var(--red)">0</strong><br>
+          <span style="color:var(--yellow)">EMA3:</span> <strong id="v-ema3">--</strong> &nbsp;
+          <span style="color:var(--red)">EMA10:</span> <strong id="v-ema10">--</strong> &nbsp;
+          <span style="color:var(--blue)">SMA21:</span> <strong id="v-sma21">--</strong>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="metrics">
+        <div class="metric"><small>Banca</small><strong id="m-banca" class="blue">$0.00</strong></div>
+        <div class="metric"><small>Lucro</small><strong id="m-lucro" class="green">+$0.00</strong></div>
+        <div class="metric"><small>Ganhos</small><strong id="m-ganhos" class="green">0</strong></div>
+        <div class="metric"><small>Perdas</small><strong id="m-perdas" class="red">0</strong></div>
+        <div class="metric"><small>Operacoes</small><strong id="m-ops">0</strong></div>
+        <div class="metric"><small>Stake</small><strong id="m-stake" class="yellow">$2.00</strong></div>
+      </div>
+
+      <!-- Banner PAUSADO (aparece só quando bot estiver pausado) -->
+      <div id="banner-pausado" style="display:none;margin:0 14px 10px;padding:12px 16px;
+        background:rgba(255,75,106,.1);border:1px solid var(--red);border-radius:8px;
+        color:var(--red);font-weight:700;font-size:13px;
+        align-items:center;justify-content:space-between;gap:10px">
+        <span>⏸ PAUSADO — aguardando setup limpo (conf ≥ 80%)</span>
+        <button onclick="retomar()" style="background:var(--yellow);color:#1a1000;
+          border:none;border-radius:6px;padding:6px 14px;font-weight:700;
+          cursor:pointer;font-size:12px;min-height:auto;width:auto">Retomar</button>
+      </div>
+
+      <div class="status-card">
+        <div class="asset-name" id="ativo-nome">--</div>
+        <div class="sub">
+          <span id="ativo-tf">M1</span> |
+          <span id="modo-label">EMA</span> |
+          <span id="wr-label">0% WR</span>
+        </div>
+      </div>
+
+      <div class="signal">
+        <div class="signal-box">
+          <div class="signal-title">Analise Claude atual</div>
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <div class="signal-main" id="a-sinal">--</div>
+            <span id="a-forca" style="display:none;padding:2px 7px;border-radius:4px;
+              background:rgba(255,209,102,.2);color:var(--yellow);font-size:11px;font-weight:800">FORTE</span>
+          </div>
+          <div class="sub" id="a-padrao">Aguardando sinal...</div>
+          <div class="bar"><div id="a-conf-bar"></div></div>
+          <div class="sub" id="a-conf-txt">0%</div>
+          <div class="sub" id="a-motivo" style="margin-top:8px"></div>
+        </div>
+        <div class="signal-box">
+          <div class="signal-title">Ultima operacao</div>
+          <div class="signal-main" id="op-dir">--</div>
+          <div class="sub" id="op-info">Nenhuma operacao ainda.</div>
+          <div class="sub" id="op-extra" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+      <div class="block" style="border-top:1px solid var(--line)">
+        <h2>Log em tempo real</h2>
+      </div>
+      <div class="log" id="log-box"></div>
+    </section>
+
+    <section>
+      <div class="block">
+        <h2>Historico</h2>
+        <div class="sub" id="hist-resumo">Nenhuma operacao.</div>
+      </div>
+      <div class="history" id="hist-box"></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let ws = null;
+    let ultimoPacote = Date.now();
+    let inverterLigado = false;
+    const HOST = location.hostname === "localhost" || location.hostname === "127.0.0.1" ? "localhost" : location.hostname;
+    const WS_URL = `ws://${HOST}:8775`;
+
+    const $ = (id) => document.getElementById(id);
+    const money = (v) => `$${Number(v || 0).toFixed(2)}`;
+    const setText = (id, value) => { const el = $(id); if (el) el.textContent = value; };
+    const setDot = (id, ok) => { const el = $(id); if (el) el.classList.toggle("ok", !!ok); };
+
+    function toast(msg) {
+      const el = $("toast");
+      el.textContent = msg;
+      el.style.opacity = "1";
+      setTimeout(() => el.style.opacity = "0", 2500);
+    }
+
+    function conectar() {
+      if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return;
+      ws = new WebSocket(WS_URL);
+      ws.onopen = () => {
+        ultimoPacote = Date.now();
+        setDot("dot-ws", true);
+        setText("txt-ws", "Dashboard conectado");
+      };
+      ws.onclose = () => {
+        setDot("dot-ws", false);
+        setText("txt-ws", "Reconectando...");
+        setTimeout(conectar, 2500);
+      };
+      ws.onerror = () => setText("txt-ws", "Erro de conexao");
+      ws.onmessage = (event) => {
+        try {
+          ultimoPacote = Date.now();
+          atualizar(JSON.parse(event.data));
+        } catch (err) {
+          console.error(err);
+          toast("Erro no painel: " + err.message);
+        }
+      };
+    }
+
+    function enviar(obj) {
+      if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(obj));
+      else toast("Dashboard sem conexao com o bot");
+    }
+
+    function lerConfigTela() {
+      const cfg = {
+        cmd: "config",
+        stake: parseFloat($("cfg-stake").value || "2"),
+        mg_fator: parseFloat($("cfg-mgfator").value || "2.25"),
+        mg_niveis: parseInt($("cfg-mgniveis").value || "7", 10),
+        stop_loss: parseFloat($("cfg-sl").value || "700"),
+        stop_gain: parseFloat($("cfg-sg").value || "1000"),
+        payout_minimo: (parseFloat($("cfg-payout").value || "80") / 100),
+        demo: $("cfg-conta").value === "demo",
+        modo_execucao: $("cfg-modoexec").value,
+        max_loss_seq: parseInt($("cfg-maxloss").value || "3", 10),
+        confianca_min: parseInt($("cfg-conf").value || "72", 10),
+      };
+      const ck = $("cfg-claude-key").value.trim();
+      if (ck) cfg.claude_key = ck;
+      return cfg;
+    }
+
+    function retomar() { enviar({ cmd: "retomar" }); toast("Retomando..."); }
+
+    function salvarConfig() {
+      const cfg = lerConfigTela();
+      localStorage.setItem("iqbot_ema_cfg", JSON.stringify(cfg));
+      enviar(cfg);
+      toast("Configuracao salva");
+    }
+
+    function aplicarConfig(cfg) {
+      if (!cfg) return;
+      if (cfg.stake) $("cfg-stake").value = cfg.stake;
+      if (cfg.mg_fator) $("cfg-mgfator").value = cfg.mg_fator;
+      if (cfg.mg_niveis) $("cfg-mgniveis").value = cfg.mg_niveis;
+      if (cfg.stop_loss) $("cfg-sl").value = cfg.stop_loss;
+      if (cfg.stop_gain) $("cfg-sg").value = cfg.stop_gain;
+      if (cfg.payout_minimo) $("cfg-payout").value = Math.round(cfg.payout_minimo * 100);
+      if (cfg.demo !== undefined) $("cfg-conta").value = cfg.demo ? "demo" : "real";
+      if (cfg.modo_execucao) $("cfg-modoexec").value = cfg.modo_execucao;
+      if (cfg.max_loss_seq) $("cfg-maxloss").value = cfg.max_loss_seq;
+      if (cfg.confianca_min) $("cfg-conf").value = cfg.confianca_min;
+      const pill = $("claude-pill");
+      if (pill) {
+        pill.textContent = cfg.claude_key_ok ? "Claude: ON" : "Claude: OFF";
+        pill.style.color = cfg.claude_key_ok ? "var(--green)" : "var(--muted)";
+      }
+    }
+
+    function carregarConfigLocal() {
+      try { aplicarConfig(JSON.parse(localStorage.getItem("iqbot_ema_cfg") || "{}")); } catch (_) {}
+    }
+
+    function startBot() { enviar({ cmd: "start" }); }
+    function stopBot() { enviar({ cmd: "stop" }); }
+    function pararTotal() { enviar({ cmd: "shutdown" }); toast("Bot em standby"); }
+    function resetBot() {
+      if (confirm("Resetar contadores e estado salvo?")) enviar({ cmd: "reset" });
+    }
+    function toggleInverter() {
+      inverterLigado = !inverterLigado;
+      $("btn-inverter").textContent = inverterLigado ? "Inverter: ON" : "Inverter: OFF";
+      enviar({ cmd: "inverter", ativo: inverterLigado });
+    }
+
+    function atualizar(d) {
+      aplicarConfig(d.config);
+      const banca = Number(d.banca || d.banca_atual || 0);
+      const lucro = Number(d.lucro || 0);
+      const ganhos = Number(d.ganhos || 0);
+      const perdas = Number(d.perdas || 0);
+      const total = ganhos + perdas;
+      const wr = total ? Math.round((ganhos / total) * 100) : 0;
+
+      setText("m-banca", money(banca));
+      setText("m-lucro", `${lucro >= 0 ? "+" : ""}${money(lucro)}`);
+      $("m-lucro").className = lucro >= 0 ? "green" : "red";
+      setText("m-ganhos", ganhos);
+      setText("m-perdas", perdas);
+      setText("m-ops", total);
+      setText("m-stake", money(d.stake || d.stake_atual || 0));
+      setText("status-txt", d.status || "Aguardando...");
+      setText("payout-val", d.payout_atual ? `${Math.round(d.payout_atual * 100)}%` : "--%");
+      setText("nivel-atual", `MG ${d.mg_nivel || 0}`);
+      setText("ativo-nome", d.ativo_atual || "--");
+      setText("ativo-tf", d.tf_atual || "M1");
+      setText("wr-label", `${wr}% WR`);
+
+      const modo = (d.config && d.config.modo_execucao) || "precheck";
+      setText("modo-label", modo === "classic" ? "Classico validado" : "Precheck");
+
+      $("btn-start").disabled = !!d.rodando;
+      $("btn-stop").disabled = !d.rodando;
+      setDot("dot-ws", true);
+
+      if (d.crono_sessao) {
+        const s = Number(d.crono_sessao);
+        setText("tempo-sessao", `${String(Math.floor(s / 3600)).padStart(2, "0")}:${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`);
+      }
+
+      // Banner pausado
+      const bp = $("banner-pausado");
+      if (bp) bp.style.display = d.gale_pausado ? "flex" : "none";
+
+      // EMA / loss_seq
+      if (d.ema3)  setText("v-ema3",  Number(d.ema3).toFixed(5));
+      if (d.ema10) setText("v-ema10", Number(d.ema10).toFixed(5));
+      if (d.ema21) setText("v-sma21", Number(d.ema21).toFixed(5));
+      setText("loss-seq-txt", (d.loss_seq || 0) + "/" + (d.max_loss_seq || 3));
+
+      if (d.analise && d.analise.sinal) {
+        setText("a-sinal", d.analise.sinal);
+        $("a-sinal").className = "signal-main " + (d.analise.sinal === "CALL" ? "green" : "red");
+        setText("a-padrao", d.analise.padrao || "");
+        setText("a-conf-txt", `${d.analise.confianca || 0}%`);
+        $("a-conf-bar").style.width = `${d.analise.confianca || 0}%`;
+        setText("a-motivo", d.analise.motivo || "");
+        const af = $("a-forca");
+        if (af) af.style.display = d.analise.forca === "FORTE" ? "inline" : "none";
+      }
+
+      if (d.ultima_op) {
+        const op = d.ultima_op;
+        setText("op-dir", op.dir || "--");
+        $("op-dir").className = "signal-main " + (op.dir === "CALL" ? "green" : "red");
+        setText("op-info", `${op.ativo || ""} | ${money(op.stake)} | ${op.hora || ""} | ${op.resultado || "aberta"}`);
+        const pre = op.resultado_provavel ? `Precheck: ${op.resultado_provavel} (${op.pontos_precheck || 0} pts)` : "";
+        setText("op-extra", pre);
+      }
+
+      renderHistorico(d.historico || [], ganhos, perdas);
+      renderLog(d.log || []);
+    }
+
+    function renderHistorico(hist, ganhos, perdas) {
+      const total = ganhos + perdas;
+      const wr = total ? Math.round((ganhos / total) * 100) : 0;
+      setText("hist-resumo", total ? `${ganhos}W / ${perdas}L / ${wr}% WR` : "Nenhuma operacao.");
+      const box = $("hist-box");
+      box.innerHTML = "";
+      [...hist].reverse().slice(0, 120).forEach((h) => {
+        const item = document.createElement("div");
+        item.className = "hist-item";
+        const dirClass = h.dir === "CALL" ? "call" : "put";
+        const color = h.resultado === "WIN" ? "green" : h.resultado === "LOSS" ? "red" : "muted";
+        const forteTag = h.forca === "FORTE" ? `<span class="pill" style="background:rgba(255,209,102,.2);color:var(--yellow)">FORTE</span> ` : "";
+        const confTag  = h.confianca ? `<span class="pill">${h.confianca}%</span>` : "";
+        item.innerHTML = `
+          <div class="dir ${dirClass}">${h.dir === "CALL" ? "UP" : "DN"}</div>
+          <div>
+            <strong>${h.ativo || "--"} <span class="pill">${h.tf || "M1"}</span> MG${h.mg_nivel||0} ${forteTag}${confTag}</strong>
+            <div class="sub">${h.padrao || ""} | ${money(h.stake)}</div>
+          </div>
+          <div style="text-align:right">
+            <strong class="${color}">${h.resultado || "?"}</strong>
+            <div class="sub">${h.hora || ""}</div>
+          </div>
+        `;
+        box.appendChild(item);
+      });
+    }
+
+    function renderLog(logs) {
+      const box = $("log-box");
+      box.innerHTML = "";
+      logs.slice(0, 160).forEach((line) => {
+        const div = document.createElement("div");
+        div.className = "log-line";
+        div.textContent = line;
+        box.appendChild(div);
+      });
+    }
+
+    setInterval(() => {
+      setText("clock", new Date().toLocaleTimeString("pt-BR"));
+      if (Date.now() - ultimoPacote > 12000) {
+        setDot("dot-ws", false);
+        setText("txt-ws", "Reconectando...");
+        try { if (ws) ws.close(); } catch (_) {}
+        ws = null;
+        conectar();
+      }
+    }, 1000);
+
+    carregarConfigLocal();
+    conectar();
+  </script>
+</body>
+</html>
