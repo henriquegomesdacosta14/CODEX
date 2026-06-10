@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador Masaniello</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e8eaf0; min-height: 100vh; padding: 20px; }
+h1 { text-align: center; font-size: 22px; margin-bottom: 6px; background: linear-gradient(135deg,#6c63ff,#4ecdc4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sub { text-align: center; color: #9ea3b8; font-size: 13px; margin-bottom: 24px; }
+
+/* SETUP */
+.setup { background: #1e2130; border: 1px solid #2e3147; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+.setup h2 { font-size: 14px; color: #9ea3b8; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 16px; }
+.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.field label { display: block; font-size: 11px; font-weight: 700; color: #9ea3b8; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
+.field input { width: 100%; background: #232636; border: 1px solid #2e3147; border-radius: 8px; padding: 9px 12px; color: #e8eaf0; font-size: 14px; }
+.field input:focus { outline: none; border-color: #6c63ff; }
+.hint { background: #232636; border-radius: 8px; padding: 12px 14px; font-size: 13px; margin-bottom: 14px; display: none; }
+.hint b { color: #4ecdc4; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn { padding: 10px 22px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: .15s; }
+.btn-blue  { background: #6c63ff; color: #fff; }
+.btn-blue:hover  { background: #5a52e0; }
+.btn-gray  { background: #232636; color: #9ea3b8; border: 1px solid #2e3147; }
+.btn-gray:hover  { background: #2e3147; color: #e8eaf0; }
+
+/* INFO RÁPIDA */
+.info-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.info-card { background: #1e2130; border: 1px solid #2e3147; border-radius: 10px; padding: 14px; }
+.info-card .lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: #9ea3b8; margin-bottom: 4px; }
+.info-card .val { font-size: 20px; font-weight: 800; }
+
+/* CONTROLES */
+.controls { background: #1e2130; border: 1px solid #2e3147; border-radius: 12px; padding: 18px; margin-bottom: 20px; display: none; }
+.controls h2 { font-size: 14px; color: #9ea3b8; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 14px; }
+.op-info { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; font-size: 14px; }
+.op-info span strong { color: #6c63ff; }
+.btns-op { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-win  { background: #2ecc71; color: #fff; font-size: 16px; padding: 12px 32px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; transition: .15s; }
+.btn-win:hover  { background: #27ae60; }
+.btn-loss { background: #e74c3c; color: #fff; font-size: 16px; padding: 12px 32px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; transition: .15s; }
+.btn-loss:hover { background: #c0392b; }
+.btn-undo { background: #232636; color: #9ea3b8; border: 1px solid #2e3147; padding: 12px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; transition: .15s; }
+.btn-undo:hover { background: #2e3147; color: #e8eaf0; }
+.btn-auto { background: #f39c12; color: #fff; padding: 12px 22px; border-radius: 8px; font-weight: 700; cursor: pointer; border: none; font-size: 14px; transition: .15s; }
+.btn-auto:hover { background: #d68910; }
+
+/* STATUS */
+.status-msg { border-radius: 8px; padding: 12px 16px; font-size: 14px; font-weight: 700; margin-bottom: 16px; display: none; }
+.status-win  { background: rgba(46,204,113,.15); border: 1px solid rgba(46,204,113,.3); color: #2ecc71; }
+.status-loss { background: rgba(231,76,60,.15);  border: 1px solid rgba(231,76,60,.3);  color: #e74c3c; }
+
+/* PROGRESSO */
+.prog-wrap { background: #232636; border-radius: 50px; height: 8px; margin-bottom: 6px; }
+.prog-bar  { height: 8px; border-radius: 50px; background: linear-gradient(90deg,#6c63ff,#4ecdc4); transition: width .4s; }
+.prog-lbl  { font-size: 12px; color: #9ea3b8; margin-bottom: 14px; }
+
+/* TABELA */
+.tabela { background: #1e2130; border: 1px solid #2e3147; border-radius: 12px; overflow: hidden; display: none; }
+.tabela h2 { font-size: 14px; color: #9ea3b8; text-transform: uppercase; letter-spacing: .8px; padding: 16px 18px 0; margin-bottom: 12px; }
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #232636; color: #9ea3b8; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; padding: 9px 14px; text-align: left; }
+td { padding: 9px 14px; border-top: 1px solid #2e3147; }
+tr.atual td   { background: rgba(108,99,255,.1); font-weight: 700; }
+tr.win-row td { background: rgba(46,204,113,.06); }
+tr.loss-row td{ background: rgba(231,76,60,.06); }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 50px; font-size: 11px; font-weight: 700; }
+.b-wait  { background: rgba(108,99,255,.2); color: #6c63ff; }
+.b-win   { background: rgba(46,204,113,.2);  color: #2ecc71; }
+.b-loss  { background: rgba(231,76,60,.2);   color: #e74c3c; }
+.b-skip  { background: rgba(158,163,184,.15); color: #9ea3b8; }
+@media(max-width:480px){ .fields{ grid-template-columns: 1fr 1fr; } .info-row{ grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<h1>Simulador Masaniello</h1>
+<p class="sub">Informe sua banca e o sistema calcula tudo. Clique WIN ou LOSS após cada op.</p>
+
+<!-- SETUP -->
+<div class="setup">
+  <h2>Configuração</h2>
+  <div class="fields">
+    <div class="field">
+      <label>Banca (R$)</label>
+      <input type="number" id="banca" value="1000" min="1" step="10">
+    </div>
+    <div class="field">
+      <label>Meta de lucro (R$)</label>
+      <input type="number" id="meta" value="100" min="1" step="10">
+    </div>
+    <div class="field">
+      <label>Nº de operações</label>
+      <input type="number" id="nops" value="10" min="2" max="50">
+    </div>
+    <div class="field">
+      <label>Mínimo de gains <span id="lbl-k" style="color:#4ecdc4"></span></label>
+      <input type="number" id="kmin" value="6" min="1" max="50">
+    </div>
+    <div class="field">
+      <label>Payout (%)</label>
+      <input type="number" id="payout" value="85" min="1" step="1">
+    </div>
+  </div>
+
+  <!-- Dica automática de K mínimo -->
+  <div class="hint" id="hint"></div>
+
+  <div class="btn-row">
+    <button class="btn btn-blue" onclick="iniciar()">▶ Iniciar</button>
+    <button class="btn btn-gray" onclick="resetar()">↺ Resetar</button>
+  </div>
+</div>
+
+<!-- INFO RÁPIDA -->
+<div class="info-row" id="infoRow" style="display:none">
+  <div class="info-card">
+    <div class="lbl">Saldo atual</div>
+    <div class="val" id="inf-saldo">–</div>
+  </div>
+  <div class="info-card">
+    <div class="lbl">Lucro</div>
+    <div class="val" id="inf-lucro">–</div>
+  </div>
+  <div class="info-card">
+    <div class="lbl">Wins / Losses</div>
+    <div class="val" id="inf-wl">–</div>
+  </div>
+  <div class="info-card">
+    <div class="lbl">Próxima entrada</div>
+    <div class="val" id="inf-entrada" style="color:#6c63ff">–</div>
+  </div>
+</div>
+
+<!-- CONTROLES WIN/LOSS -->
+<div class="controls" id="controls">
+  <h2>Registrar resultado</h2>
+  <div class="status-msg" id="statusMsg"></div>
+  <div id="progWrap">
+    <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+    <div class="prog-lbl" id="progLbl"></div>
+  </div>
+  <div class="op-info" id="opInfo"></div>
+  <div class="btns-op">
+    <button class="btn-win"  id="btnW" onclick="resultado('win')">✅ WIN</button>
+    <button class="btn-loss" id="btnL" onclick="resultado('loss')">❌ LOSS</button>
+    <button class="btn-undo" onclick="desfazer()">↩ Desfazer</button>
+    <button class="btn-auto" onclick="simularAuto()">🎲 Simular automático (50/50)</button>
+  </div>
+</div>
+
+<!-- TABELA -->
+<div class="tabela" id="tabela">
+  <h2>Planilha de Operações</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Entrada</th>
+          <th>Status</th>
+          <th>Resultado</th>
+          <th>Saldo</th>
+          <th>Gains rest.</th>
+          <th>Ops rest.</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// ── Matemática ──────────────────────────────────────────────
+function logComb(n, k) {
+  if (k < 0 || k > n) return -Infinity;
+  if (k === 0 || k === n) return 0;
+  k = Math.min(k, n - k);
+  let lc = 0;
+  for (let i = 0; i < k; i++) lc += Math.log(n - i) - Math.log(i + 1);
+  return lc;
+}
+function entrada(target, saldo, remOps, remWins, payout) {
+  if (remWins <= 0 || remWins > remOps || target - saldo <= 0) return 0;
+  const den = Math.exp(Math.log(payout) + logComb(remOps - 1, remWins - 1));
+  return Math.max(0, Math.round((target - saldo) / den * 100) / 100);
+}
+const fmt = v => 'R$' + Math.abs(v).toFixed(2).replace('.', ',');
+
+// ── Estado ──────────────────────────────────────────────────
+let S = null; // estado do ciclo
+
+// ── Preview automático de K ──────────────────────────────────
+['nops','payout','banca','meta'].forEach(id =>
+  document.getElementById(id).addEventListener('input', atualizarHint)
+);
+document.getElementById('kmin').addEventListener('input', atualizarHint);
+
+function atualizarHint() {
+  const N = +document.getElementById('nops').value   || 0;
+  const P = +document.getElementById('payout').value / 100 || 0;
+  const B = +document.getElementById('banca').value   || 0;
+  const M = +document.getElementById('meta').value    || 0;
+  const K = +document.getElementById('kmin').value    || 0;
+
+  // K mínimo para que seja matematicamente lucrativo (break-even)
+  const kBreak = Math.ceil(N / (1 + P)); // K/N > 1/(1+P)
+
+  const hint = document.getElementById('hint');
+  if (!N || !P || !B || !M) { hint.style.display = 'none'; return; }
+
+  const pctK = K > 0 ? (K / N * 100).toFixed(1) : '–';
+  const pctBreak = (kBreak / N * 100).toFixed(1);
+
+  let txt = `Com payout de ${(P*100).toFixed(0)}% e ${N} operações: `;
+  txt += `<b>mínimo lucrativo = ${kBreak} gains (${pctBreak}%)</b>. `;
+  if (K > 0 && K < kBreak) txt += `⚠️ Com ${K} gains (${pctK}%) você perde dinheiro no longo prazo.`;
+  else if (K >= kBreak) txt += `✅ ${K} gains (${pctK}%) está acima do break-even.`;
+
+  // Mostra primeira entrada estimada
+  if (K >= 1 && K <= N) {
+    const e1 = entrada(B + M, B, N, K, P);
+    txt += ` | 1ª entrada estimada: <b>R$${e1.toFixed(2)}</b>`;
+    txt += ` | Máx. losses tolerados: <b>${N - K}</b>`;
+  }
+
+  document.getElementById('lbl-k').textContent = K > 0 ? `(${(K/N*100).toFixed(0)}%)` : '';
+  hint.innerHTML = txt;
+  hint.style.display = 'block';
+}
+atualizarHint();
+
+// ── Iniciar ciclo ────────────────────────────────────────────
+function iniciar() {
+  const B = +document.getElementById('banca').value;
+  const M = +document.getElementById('meta').value;
+  const N = +document.getElementById('nops').value;
+  const K = +document.getElementById('kmin').value;
+  const P = +document.getElementById('payout').value / 100;
+
+  if (!B || !M || !N || !K || !P || K > N || K < 1) {
+    alert('Verifique os valores. K deve ser ≤ N e todos positivos.');
+    return;
+  }
+
+  S = {
+    B, M, N, K, P,
+    target: B + M,
+    saldo:  B,
+    wins: 0, losses: 0,
+    opAtual: 1,
+    ops: Array.from({length: N}, (_, i) => ({
+      num: i + 1, entrada: 0, status: 'wait',
+      saldoPos: null, remWins: null, remOps: null, resultado: null
+    })),
+    encerrado: false
+  };
+
+  recalc();
+  document.getElementById('controls').style.display = 'block';
+  document.getElementById('tabela').style.display   = 'block';
+  document.getElementById('infoRow').style.display  = 'grid';
+  render();
+}
+
+function resetar() {
+  S = null;
+  document.getElementById('controls').style.display = 'none';
+  document.getElementById('tabela').style.display   = 'none';
+  document.getElementById('infoRow').style.display  = 'none';
+  document.getElementById('statusMsg').style.display = 'none';
+  document.getElementById('tbody').innerHTML = '';
+}
+
+// ── Cálculo ──────────────────────────────────────────────────
+function recalc() {
+  if (!S || S.encerrado) return;
+  const idx = S.opAtual - 1;
+  if (idx >= S.N) return;
+  const remOps  = S.N - idx;
+  const remWins = S.K - S.wins;
+  const op = S.ops[idx];
+  op.entrada  = entrada(S.target, S.saldo, remOps, remWins, S.P);
+  op.remWins  = remWins;
+  op.remOps   = remOps;
+}
+
+// ── Registrar resultado ───────────────────────────────────────
+function resultado(tipo) {
+  if (!S || S.encerrado) return;
+  const op = S.ops[S.opAtual - 1];
+  op.status = tipo;
+
+  if (tipo === 'win') {
+    const lucro = Math.round(op.entrada * S.P * 100) / 100;
+    S.saldo = Math.round((S.saldo + lucro) * 100) / 100;
+    S.wins++;
+    op.resultado = '+' + fmt(lucro);
+  } else {
+    S.saldo = Math.round((S.saldo - op.entrada) * 100) / 100;
+    S.losses++;
+    op.resultado = '-' + fmt(op.entrada);
+  }
+
+  op.saldoPos = S.saldo;
+  S.opAtual++;
+
+  // Verificar encerramento
+  const remWins = S.K - S.wins;
+  const remOps  = S.N - S.opAtual + 1;
+
+  if (S.saldo >= S.target) {
+    encerrar('meta');
+  } else if (remWins > remOps) {
+    encerrar('quebrado');
+  } else if (S.opAtual > S.N) {
+    encerrar('fim');
+  } else {
+    recalc();
+  }
+
+  render();
+}
+
+function encerrar(motivo) {
+  S.encerrado = true;
+  // Marca ops restantes como skip
+  S.ops.forEach(o => { if (o.status === 'wait') o.status = 'skip'; });
+  S.motivo = motivo;
+}
+
+// ── Desfazer ─────────────────────────────────────────────────
+function desfazer() {
+  if (!S) return;
+  // Encontra última op registrada
+  let last = -1;
+  for (let i = S.ops.length - 1; i >= 0; i--) {
+    if (S.ops[i].status !== 'wait') { last = i; break; }
+  }
+  if (last === -1) return;
+
+  const op = S.ops[last];
+  if (op.status === 'win') {
+    S.saldo = Math.round((S.saldo - op.entrada * S.P) * 100) / 100;
+    S.wins--;
+  } else if (op.status === 'loss') {
+    S.saldo = Math.round((S.saldo + op.entrada) * 100) / 100;
+    S.losses--;
+  }
+
+  // Reseta esta op e todas seguintes
+  for (let i = last; i < S.ops.length; i++) {
+    S.ops[i] = { num: i + 1, entrada: 0, status: 'wait',
+                 saldoPos: null, remWins: null, remOps: null, resultado: null };
+  }
+  S.opAtual    = last + 1;
+  S.encerrado  = false;
+  S.motivo     = null;
+  recalc();
+  render();
+}
+
+// ── Simulação automática 50/50 ────────────────────────────────
+function simularAuto() {
+  if (!S) return;
+  // Reseta para o início se já encerrado
+  if (S.encerrado || S.opAtual > 1) {
+    iniciar(); // reinicia com mesmos parâmetros
+  }
+
+  let passos = 0;
+  const tick = setInterval(() => {
+    if (!S || S.encerrado || S.opAtual > S.N) {
+      clearInterval(tick);
+      return;
+    }
+    resultado(Math.random() < 0.5 ? 'win' : 'loss');
+    passos++;
+    if (passos > S.N + 5) clearInterval(tick);
+  }, 300);
+}
+
+// ── Render ────────────────────────────────────────────────────
+function render() {
+  if (!S) return;
+
+  // Info cards
+  const lucro = Math.round((S.saldo - S.B) * 100) / 100;
+  document.getElementById('inf-saldo').textContent  = fmt(S.saldo);
+  document.getElementById('inf-lucro').textContent  = (lucro >= 0 ? '+' : '-') + fmt(lucro);
+  document.getElementById('inf-lucro').style.color  = lucro >= 0 ? '#2ecc71' : '#e74c3c';
+  document.getElementById('inf-wl').textContent     = S.wins + 'W / ' + S.losses + 'L';
+
+  const curOp = S.encerrado ? null : S.ops[S.opAtual - 1];
+  document.getElementById('inf-entrada').textContent = curOp ? fmt(curOp.entrada) : '–';
+
+  // Progresso
+  const done = S.ops.filter(o => o.status !== 'wait').length;
+  const pct  = Math.round(done / S.N * 100);
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progLbl').textContent =
+    `Op ${done} / ${S.N}  (${pct}%)  |  Gains necessários restantes: ${Math.max(0, S.K - S.wins)}  |  Losses tolerados restantes: ${Math.max(0, (S.N - S.K) - S.losses)}`;
+
+  // Info da op atual
+  if (!S.encerrado && curOp) {
+    document.getElementById('opInfo').innerHTML =
+      `Op <strong>#${curOp.num}</strong> de <strong>${S.N}</strong> &nbsp;|&nbsp;
+       Entrada: <strong style="color:#6c63ff">${fmt(curOp.entrada)}</strong> &nbsp;|&nbsp;
+       Ainda precisa: <strong>${curOp.remWins}</strong> gains &nbsp;|&nbsp;
+       Restam: <strong>${curOp.remOps}</strong> ops`;
+  }
+
+  // Status final
+  const msg = document.getElementById('statusMsg');
+  if (S.encerrado) {
+    document.getElementById('btnW').disabled = true;
+    document.getElementById('btnL').disabled = true;
+    if (S.motivo === 'meta') {
+      msg.className = 'status-msg status-win';
+      msg.textContent = '🎉 META ATINGIDA! Ciclo encerrado com sucesso.';
+    } else if (S.motivo === 'quebrado') {
+      msg.className = 'status-msg status-loss';
+      msg.textContent = '🚫 Ciclo encerrado — não é mais possível recuperar matematicamente.';
+    } else {
+      msg.className = 'status-msg status-loss';
+      msg.textContent = '⏹ Ciclo finalizado — todas as operações concluídas.';
+    }
+    msg.style.display = 'block';
+  } else {
+    msg.style.display = 'none';
+    document.getElementById('btnW').disabled = false;
+    document.getElementById('btnL').disabled = false;
+  }
+
+  // Tabela
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = '';
+  S.ops.forEach((op, i) => {
+    const isCur = !S.encerrado && i === S.opAtual - 1;
+    const tr = document.createElement('tr');
+    if (isCur) tr.className = 'atual';
+    else if (op.status === 'win')  tr.className = 'win-row';
+    else if (op.status === 'loss') tr.className = 'loss-row';
+
+    const badge = {
+      wait: '<span class="badge b-wait">⏳ Aguardando</span>',
+      win:  '<span class="badge b-win">✅ WIN</span>',
+      loss: '<span class="badge b-loss">❌ LOSS</span>',
+      skip: '<span class="badge b-skip">⏭ Skip</span>'
+    }[op.status];
+
+    tr.innerHTML = `
+      <td><b>#${op.num}</b></td>
+      <td>${op.entrada > 0 ? fmt(op.entrada) : '–'}</td>
+      <td>${badge}</td>
+      <td>${op.resultado || '–'}</td>
+      <td>${op.saldoPos !== null ? fmt(op.saldoPos) : '–'}</td>
+      <td>${op.remWins !== null ? op.remWins : '–'}</td>
+      <td>${op.remOps  !== null ? op.remOps  : '–'}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+</script>
+</body>
+</html>
