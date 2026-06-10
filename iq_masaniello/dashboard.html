@@ -188,10 +188,10 @@
 
 <!-- TABS -->
 <div class="tabs">
-  <div class="tab active" onclick="setTab('geral')">Geral</div>
-  <div class="tab" onclick="setTab('config')">Config</div>
-  <div class="tab" onclick="setTab('analise')">Análise</div>
-  <div class="tab" onclick="setTab('historico')">Histórico</div>
+  <div class="tab active" data-tab="geral"     onclick="setTab('geral')">Geral</div>
+  <div class="tab"        data-tab="config"    onclick="setTab('config')">Config</div>
+  <div class="tab"        data-tab="analise"   onclick="setTab('analise')">Análise</div>
+  <div class="tab"        data-tab="historico" onclick="setTab('historico')">Histórico</div>
 </div>
 
 <!-- ═══ GERAL ═══ -->
@@ -356,6 +356,17 @@
           <option value="false">REAL</option>
         </select>
       </div>
+      <div class="cfg-group" style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+        <label class="cfg-label">URL do WebSocket (Bot)</label>
+        <div class="credito-wrap">
+          <input class="cfg-input" id="inp-ws-url" type="text" placeholder="ws://localhost:8765" value="ws://localhost:8765" style="flex:1">
+          <button class="btn btn-blue" onclick="salvarWs()">Conectar</button>
+        </div>
+        <div style="font-size:11px;color:var(--dim);margin-top:5px">
+          Local: <code style="color:var(--green)">ws://localhost:8765</code> &nbsp;|&nbsp;
+          VDS: <code style="color:var(--yellow)">ws://IP_DO_VDS:8765</code>
+        </div>
+      </div>
       <button class="btn btn-green" style="width:100%;margin-top:6px" onclick="salvarConfig()">💾 Salvar Configurações</button>
     </div>
 
@@ -481,11 +492,15 @@
 
 <script>
 // ── WebSocket ──
-const WS_URL = 'ws://localhost:8765';
+function getWsUrl() {
+  return localStorage.getItem('iqbot_ws') || 'ws://localhost:8765';
+}
 let ws, reconnTimer;
 
 function conectar() {
-  ws = new WebSocket(WS_URL);
+  const url = getWsUrl();
+  document.getElementById('inp-ws-url').value = url;
+  ws = new WebSocket(url);
   ws.onopen = () => {
     clearTimeout(reconnTimer);
     document.getElementById('txt-status').textContent = 'Conectado';
@@ -528,7 +543,7 @@ function setTab(name) {
   document.querySelectorAll('.tab') .forEach(t => t.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   document.querySelectorAll('.tab').forEach(t => {
-    if (t.textContent.toLowerCase().startsWith(name.substring(0,4))) t.classList.add('active');
+    if (t.getAttribute('data-tab') === name) t.classList.add('active');
   });
 }
 
@@ -801,6 +816,17 @@ function salvarConfig() {
 function salvarCredito() {
   const v = parseFloat(document.getElementById('inp-credito').value)||0;
   enviarCmd('set_credito', { valor: v });
+}
+
+function salvarWs() {
+  const url = document.getElementById('inp-ws-url').value.trim();
+  if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
+    alert('URL inválida. Use ws://IP:8765 ou wss://IP:8765'); return;
+  }
+  localStorage.setItem('iqbot_ws', url);
+  clearTimeout(reconnTimer);
+  if (ws) try { ws.close(); } catch(e) {}
+  setTimeout(conectar, 500);
 }
 </script>
 </body>
