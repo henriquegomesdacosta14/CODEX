@@ -59,8 +59,19 @@ _DEFAULTS = {
     "password":     "SUA_SENHA",
     "account_type": "PRACTICE",
 
-    # -- Ativo
-    "asset":    "EURUSD-OTC",
+    # -- Ativos reais (mercado aberto, seg-sex) — prioridade
+    "assets_reais": [
+        "EURUSD", "GBPUSD", "USDJPY", "AUDUSD", "USDCAD",
+        "NZDUSD", "USDCHF", "EURGBP", "EURJPY", "GBPJPY",
+    ],
+
+    # -- OTC fallback (24/7, fins de semana)
+    "assets_otc": [
+        "EURUSD-OTC", "GBPUSD-OTC", "AUDUSD-OTC",
+        "NZDUSD-OTC", "USDCAD-OTC",
+    ],
+
+    # -- Duração das opções
     "duration": 1,
 
     # -- Masaniello
@@ -190,6 +201,9 @@ class BotConfluencia:
             filtrar_doji = cfg["filtrar_doji"]
         )
 
+        # Ativo atualmente selecionado pelo scanner
+        self.ativo_atual = (cfg.get("assets_reais") or cfg.get("assets_otc") or ["EURUSD-OTC"])[0]
+
         # Claude AI client (lazy init)
         self._claude = None
         if cfg.get("claude_enabled") and cfg.get("claude_key"):
@@ -282,7 +296,7 @@ class BotConfluencia:
 
     def _executar_ciclo(self):
         self.ciclo_num += 1
-        payout = self._payout_real() or self.cfg["payout"]
+        payout = self._payout_real(self.ativo_atual) or self.cfg["payout"]
 
         log.info(f"\n{'─'*58}")
         log.info(
@@ -310,8 +324,8 @@ class BotConfluencia:
         while mgr.status == StatusCiclo.ANDAMENTO and self.running:
             self._checar_conexao()
 
-            # Atualiza payout
-            p_real = self._payout_real()
+            # Atualiza payout do ativo atual
+            p_real = self._payout_real(self.ativo_atual)
             if p_real and abs(p_real - mgr.cfg["payout"]) > 0.02:
                 mgr.alterar_payout(p_real)
 
@@ -321,10 +335,10 @@ class BotConfluencia:
                 time.sleep(2)
                 continue
 
-            # ── BUSCA SINAL COM CONFLUÊNCIA ──────────────────
-            sinal, resultado_analise = self._buscar_sinal_confluencia()
+            # ── VARREDURA MULTI-ATIVO (real → OTC) ──────────
+            sinal, resultado_analise = self._varrer_ativos()
             if sinal is None:
-                continue   # aguardando sinal de qualidade
+                continue   # nenhum ativo com sinal de qualidade
             # ─────────────────────────────────────────────────
 
             # Log da análise antes de entrar
@@ -342,8 +356,8 @@ class BotConfluencia:
                 log.info(f"🤖 Claude: {decisao_claude} — confirmado.")
             # ─────────────────────────────────────────────────
 
-            # Executa o trade
-            win = self._executar_trade(sinal, entrada)
+            # Executa o trade no ativo selecionado pelo scanner
+            win = self._executar_trade(sinal, entrada, self.ativo_atual)
             if win is None:
                 time.sleep(5)
                 continue
@@ -359,46 +373,90 @@ class BotConfluencia:
         self._processar_resultado(r, inicio_ts)
 
     # --------------------------------------------------------
-    # Busca de sinal com confluência
+    # Varredura multi-ativo (real → OTC fallback)
     # --------------------------------------------------------
 
-    def _buscar_sinal_confluencia(self):
+    def _varrer_ativos(self):
         """
-        Aguarda até encontrar um sinal com score suficiente.
-        Retorna (sinal, SignalResult) ou (None, None) após timeout.
+        Varre ativos reais abertos e, se nenhum tiver sinal, varre OTC.
+        Seleciona o ativo com maior score de confluência acima do mínimo.
+        Atualiza self.ativo_atual com o ativo escolhido.
+        Retorna (sinal, SignalResult) ou (None, None).
         """
-        log.debug(f"Varrendo mercado... (score mínimo: {self.cfg['min_score']})")
+        try:
+            abertos = self.iq.get_all_open_time()
+        except Exception:
+            abertos = {}
 
-        # Busca candles
-        raw_m1 = self._buscar_candles(self.cfg["asset"], 60,  self.cfg["candles_m1_qtd"])
-        raw_m5 = self._buscar_candles(self.cfg["asset"], 300, self.cfg["candles_m5_qtd"]) \
+        def esta_aberto(asset):
+            for t in ("binary", "turbo"):
+                if abertos.get(t, {}).get(asset, {}).get("open"):
+                    return True
+            return False
+
+        # Prioridade: reais abertos → OTC disponíveis
+        reais_abertos = [a for a in self.cfg.get("assets_reais", []) if esta_aberto(a)]
+        otcs          = self.cfg.get("assets_otc", ["EURUSD-OTC"])
+
+        if reais_abertos:
+            modo = "REAL"
+            lista = reais_abertos
+        else:
+            modo = "OTC"
+            lista = [a for a in otcs if esta_aberto(a)] or otcs
+
+        log.info(f"Varrendo {len(lista)} ativo(s) [{modo}]: {', '.join(lista)}")
+
+        melhor_score    = -1
+        melhor_sinal    = None
+        melhor_resultado = None
+        melhor_ativo    = None
+
+        for asset in lista:
+            sinal, resultado = self._analisar_ativo(asset)
+            if sinal is not None and resultado.score > melhor_score:
+                melhor_score    = resultado.score
+                melhor_sinal    = sinal
+                melhor_resultado = resultado
+                melhor_ativo    = asset
+
+        if melhor_sinal is not None:
+            self.ativo_atual = melhor_ativo
+            self.stats["sinais_gerados"] += 1
+            log.info(
+                f"Melhor ativo: {melhor_ativo} | "
+                f"Score: {melhor_score}/10 | Sinal: {melhor_sinal.upper()}"
+            )
+            return melhor_sinal, melhor_resultado
+
+        log.debug(f"Nenhum ativo com score ≥ {self.cfg['min_score']}. Aguardando...")
+        self.stats["sinais_pulados"] += 1
+        time.sleep(self.cfg["scan_interval"])
+        return None, None
+
+    def _analisar_ativo(self, asset: str):
+        """
+        Analisa um único ativo e retorna (sinal, SignalResult) ou (None, None).
+        """
+        raw_m1 = self._buscar_candles(asset, 60,  self.cfg["candles_m1_qtd"])
+        raw_m5 = self._buscar_candles(asset, 300, self.cfg["candles_m5_qtd"]) \
                  if self.cfg["usar_m5"] else None
 
         if not raw_m1 or len(raw_m1) < 55:
-            log.warning("Candles insuficientes. Aguardando...")
-            time.sleep(self.cfg["scan_interval"])
             return None, None
 
-        # Verifica se o mercado não está lateral (ADX)
         df_m1 = self._raw_to_df(raw_m1)
+
         if not self._mercado_em_tendencia(df_m1):
-            log.debug("Mercado lateral (ADX baixo) — pulando.")
-            self.stats["sinais_pulados"] += 1
-            time.sleep(self.cfg["scan_interval"])
+            log.debug(f"{asset}: ADX baixo — lateral, ignorando.")
             return None, None
 
-        # Analisa confluência
-        df_m5 = self._raw_to_df(raw_m5) if raw_m5 else None
+        df_m5    = self._raw_to_df(raw_m5) if raw_m5 else None
         resultado = self.engine.analisar(df_m1, df_m5)
 
         if resultado.sinal is not None:
-            self.stats["sinais_gerados"] += 1
             return resultado.sinal, resultado
 
-        # Sem sinal de qualidade
-        log.debug(f"Score {resultado.score} insuficiente (mín {self.cfg['min_score']}). Aguardando...")
-        self.stats["sinais_pulados"] += 1
-        time.sleep(self.cfg["scan_interval"])
         return None, None
 
     def _consultar_claude(self, sinal: str, resultado) -> str:
@@ -415,7 +473,7 @@ class BotConfluencia:
             prompt = (
                 f"Você é um analista de opções binárias de alta frequência (M1). "
                 f"Avalie o seguinte sinal técnico e responda APENAS com: CALL, PUT ou SKIP.\n\n"
-                f"Ativo: {self.cfg['asset']}\n"
+                f"Ativo: {self.ativo_atual}\n"
                 f"Sinal confluence: {sinal.upper()}\n"
                 f"Score: {score}/10 indicadores alinhados\n"
                 f"ADX: {adx_val if adx_val else 'n/d'}\n"
@@ -475,8 +533,8 @@ class BotConfluencia:
     # Trade
     # --------------------------------------------------------
 
-    def _executar_trade(self, direcao: str, entrada: float):
-        asset    = self.cfg["asset"]
+    def _executar_trade(self, direcao: str, entrada: float, asset: str = None):
+        asset    = asset or self.ativo_atual
         duration = self.cfg["duration"]
 
         log.info(f"🔵 {asset} | {direcao.upper()} | R${entrada:.2f} | {duration}min")
@@ -573,13 +631,17 @@ class BotConfluencia:
         df.sort_index(inplace=True)
         return df[["open", "high", "low", "close"]]
 
-    def _payout_real(self):
+    def _payout_real(self, asset: str = None):
         try:
+            asset  = asset or self.ativo_atual
             profit = self.iq.get_all_profit()
             dur    = str(self.cfg["duration"]) + "min"
-            p = profit.get("binary", {}).get(self.cfg["asset"], {}).get(dur)
-            if p: return round(float(p), 4)
-        except Exception: pass
+            for tipo in ("binary", "turbo"):
+                p = profit.get(tipo, {}).get(asset, {}).get(dur)
+                if p:
+                    return round(float(p), 4)
+        except Exception:
+            pass
         return None
 
     def _ativo_aberto(self, asset: str) -> bool:
@@ -595,12 +657,21 @@ class BotConfluencia:
         r = mgr.resumo()
         taxa = self.stats["wins"] / max(1, self.stats["wins"] + self.stats["losses"]) * 100
         log.info(
-            f"  Op {r['op_atual']-1}/{r['total_ops']} | "
+            f"  [{self.ativo_atual}] Op {r['op_atual']-1}/{r['total_ops']} | "
             f"Saldo: R${r['saldo_atual']:.2f} | "
             f"{r['wins']}W/{r['losses']}L | "
             f"Taxa sessão: {taxa:.1f}% | "
             f"Próx: R${r['proxima_entrada']:.2f}"
         )
+        # Persiste ativo_atual no state file para o dashboard
+        try:
+            sf = Path(self.cfg["state_file"])
+            if sf.exists():
+                st = json.loads(sf.read_text())
+                st["ativo_atual"] = self.ativo_atual
+                sf.write_text(json.dumps(st, indent=2, ensure_ascii=False))
+        except Exception:
+            pass
 
     def _load_hist(self):
         try:
@@ -611,10 +682,11 @@ class BotConfluencia:
 
     def _save_hist(self, r, inicio_ts):
         self.historico.append({
-            "ciclo":    self.ciclo_num, "inicio": inicio_ts,
-            "fim":      datetime.now().isoformat(), "status": r["status"],
-            "lucro":    r["lucro"], "wins": r["wins"], "losses": r["losses"],
-            "cofre":    self.cofre.total
+            "ciclo":       self.ciclo_num, "inicio": inicio_ts,
+            "fim":         datetime.now().isoformat(), "status": r["status"],
+            "ativo":       self.ativo_atual,
+            "lucro":       r["lucro"], "wins": r["wins"], "losses": r["losses"],
+            "cofre":       self.cofre.total
         })
         try:
             Path(self.cfg["historico_file"]).write_text(
@@ -624,15 +696,17 @@ class BotConfluencia:
             log.error(f"Erro histórico: {e}")
 
     def _banner(self):
-        claude_info = (
-            f"Claude {self.cfg.get('claude_model','').split('-')[1] if self._claude else 'off'}"
-        )
+        claude_info = "on" if self._claude else "off"
+        reais = ", ".join(self.cfg.get("assets_reais", []))
+        otcs  = ", ".join(self.cfg.get("assets_otc",   []))
         log.info("=" * 58)
         log.info("  BOT CONFLUÊNCIA — Masaniello + 10 Indicadores")
-        log.info(f"  Ativo: {self.cfg['asset']} | M1 + {'M5' if self.cfg['usar_m5'] else 'off'}")
+        log.info(f"  Modo: REAL → OTC | M1 + {'M5' if self.cfg['usar_m5'] else 'off'}")
+        log.info(f"  Reais : {reais}")
+        log.info(f"  OTC   : {otcs}")
         log.info(f"  Score mínimo: {self.cfg['min_score']}/10 | ADX mín: {self.cfg['adx_minimo']}")
         log.info(f"  Banca: R${self.cfg['banca_trabalho']:.2f} | Meta: +R${self.cfg['meta_ciclo']:.2f}")
-        log.info(f"  Cofre atual: R${self.cofre.total:.2f} | AI: {claude_info}")
+        log.info(f"  Cofre: R${self.cofre.total:.2f} | Claude AI: {claude_info}")
         log.info("=" * 58)
 
     def _banner_fim(self):

@@ -117,6 +117,10 @@ def api_status():
     except Exception:
         proxima = 0
 
+    cfg_saved = ler_json(CONFIG_FILE)
+    ativo = state.get("ativo_atual", cfg_saved.get("assets_reais", ["EURUSD"])[0]
+                      if cfg_saved.get("assets_reais") else "EURUSD")
+
     return jsonify({
         "bot_status":    status,
         "saldo":         saldo,
@@ -132,6 +136,7 @@ def api_status():
         "ciclos_ganhos": cofre.get("ciclos_ganhos", 0),
         "total_ciclos":  len(hist) if isinstance(hist, list) else 0,
         "cycle_status":  state.get("status", "–"),
+        "ativo_atual":   ativo,
         "ts":            datetime.now().strftime("%H:%M:%S")
     })
 

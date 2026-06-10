@@ -111,7 +111,10 @@ h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(1
       <div class="status-dot dot-unknown" id="statusDot"></div>
       <span id="statusTxt">Verificando...</span>
     </div>
-    <span style="font-size:11px;color:#9ea3b8" id="cycleStatus">–</span>
+    <div style="text-align:right">
+      <div style="font-size:11px;color:#9ea3b8" id="cycleStatus">–</div>
+      <div style="font-size:11px;font-weight:700;color:#4ecdc4;margin-top:2px" id="ativoAtual">–</div>
+    </div>
   </div>
 
   <div class="btn-row">
@@ -245,10 +248,19 @@ h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(1
         <label class="form-label">Payout (%)</label>
         <input class="form-input" type="number" id="cfgPayout" placeholder="85">
       </div>
-      <div class="form-group">
-        <label class="form-label">Ativo</label>
-        <input class="form-input" type="text" id="cfgAsset" placeholder="EURUSD-OTC">
-      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">📈 Ativos Reais (separados por vírgula — prioridade)</label>
+      <input class="form-input" type="text" id="cfgAssetsReais"
+        placeholder="EURUSD, GBPUSD, USDJPY, AUDUSD, USDCAD">
+      <div style="font-size:10px;color:#9ea3b8;margin-top:4px">Usados quando o mercado está aberto (seg–sex)</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">🔄 Ativos OTC (fallback — fins de semana e mercado fechado)</label>
+      <input class="form-input" type="text" id="cfgAssetsOtc"
+        placeholder="EURUSD-OTC, GBPUSD-OTC, AUDUSD-OTC">
     </div>
 
     <button class="btn-save" onclick="salvarConfig()">💾 Salvar configurações</button>
@@ -348,6 +360,13 @@ function atualizar(d) {
   document.getElementById('cofre').textContent = fmt(d.cofre);
   document.getElementById('ciclosGanhos').textContent = d.ciclos_ganhos + ' ciclos ganhos';
 
+  // Ativo atual
+  if (d.ativo_atual) {
+    const isOTC = d.ativo_atual.includes('-OTC');
+    document.getElementById('ativoAtual').textContent =
+      (isOTC ? '🔄 OTC: ' : '📈 Real: ') + d.ativo_atual;
+  }
+
   // IA status
   if (d.ai_decisao) {
     const cor = d.ai_decisao === 'CALL' ? '#2ecc71' : d.ai_decisao === 'PUT' ? '#e74c3c' : '#9ea3b8';
@@ -370,8 +389,9 @@ async function carregarHistorico() {
     el.innerHTML = hist.reverse().slice(0, 8).map(h => {
       const win = h.status === 'meta_atingida';
       const lucro = h.lucro || 0;
+      const ativoLabel = h.ativo ? (h.ativo.includes('-OTC') ? '🔄' : '📈') + h.ativo : '';
       return `<div class="hist-item">
-        <span style="color:#9ea3b8">#${h.ciclo}</span>
+        <span style="color:#9ea3b8">#${h.ciclo} ${ativoLabel}</span>
         <span class="hist-status ${win ? 'win' : 'loss'}">${win ? '✅' : '❌'} ${(lucro>=0?'+':'')}$${Math.abs(lucro).toFixed(2)}</span>
         <span style="color:#9ea3b8">${h.wins}W/${h.losses}L</span>
       </div>`;
@@ -428,7 +448,8 @@ async function carregarConfigAtual() {
     if (d.total_ops)       document.getElementById('cfgOps').value    = d.total_ops;
     if (d.min_wins)        document.getElementById('cfgWins').value   = d.min_wins;
     if (d.payout)          document.getElementById('cfgPayout').value = (d.payout * 100).toFixed(0);
-    if (d.asset)           document.getElementById('cfgAsset').value  = d.asset;
+    if (d.assets_reais)    document.getElementById('cfgAssetsReais').value = Array.isArray(d.assets_reais) ? d.assets_reais.join(', ') : d.assets_reais;
+    if (d.assets_otc)      document.getElementById('cfgAssetsOtc').value   = Array.isArray(d.assets_otc)   ? d.assets_otc.join(', ')   : d.assets_otc;
     if (d.email)           document.getElementById('cfgEmail').value  = d.email;
     if (d.account_type)    document.getElementById('cfgConta').value  = d.account_type;
     if (d.claude_key)      document.getElementById('claudeKey').value = '••••••••';
@@ -441,13 +462,17 @@ async function carregarConfigAtual() {
 }
 
 async function salvarConfig() {
+  function parseLista(str) {
+    return str ? str.split(',').map(s => s.trim()).filter(Boolean) : undefined;
+  }
   const payload = {
     banca_trabalho:  parseFloat(document.getElementById('cfgBanca').value)  || undefined,
     meta_ciclo:      parseFloat(document.getElementById('cfgMeta').value)   || undefined,
     total_ops:       parseInt(document.getElementById('cfgOps').value)      || undefined,
     min_wins:        parseInt(document.getElementById('cfgWins').value)     || undefined,
     payout:          parseFloat(document.getElementById('cfgPayout').value) / 100 || undefined,
-    asset:           document.getElementById('cfgAsset').value  || undefined,
+    assets_reais:    parseLista(document.getElementById('cfgAssetsReais').value),
+    assets_otc:      parseLista(document.getElementById('cfgAssetsOtc').value),
     email:           document.getElementById('cfgEmail').value  || undefined,
     account_type:    document.getElementById('cfgConta').value  || undefined,
     claude_enabled:  document.getElementById('aiToggle').checked,
