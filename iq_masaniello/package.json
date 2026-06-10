@@ -1,0 +1,12 @@
+{
+  "name": "masaniello-iq-bot",
+  "version": "1.0.0",
+  "description": "Bot Masaniello para IQ Option",
+  "main": "bot_iq_node.js",
+  "scripts": {
+    "start": "node bot_iq_node.js"
+  },
+  "dependencies": {
+    "iq-option": "^1.0.0"
+  }
+}
