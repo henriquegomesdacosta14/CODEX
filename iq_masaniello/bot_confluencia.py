@@ -31,6 +31,8 @@ from iqoptionapi.stable_api import IQ_Option
 from masaniello_core import MasanielloManager, StatusCiclo
 from signal_engine import SignalEngine, SignalResult
 
+CONFIG_FILE = Path("/opt/masaniello/iq_masaniello/masaniello_config.json")
+
 # ============================================================
 # LOGGING
 # ============================================================
@@ -48,51 +50,78 @@ log = logging.getLogger(__name__)
 # ============================================================
 # CONFIGURAÇÃO
 # ============================================================
-CONFIG = {
+
+_CONFIG_BASE = Path("/opt/masaniello/iq_masaniello")
+
+_DEFAULTS = {
     # -- Credenciais
     "email":        "SEU_EMAIL@iqoption.com",
     "password":     "SUA_SENHA",
-    "account_type": "PRACTICE",       # "PRACTICE" ou "REAL"
+    "account_type": "PRACTICE",
 
     # -- Ativo
     "asset":    "EURUSD-OTC",
-    "duration": 1,                    # minutos
+    "duration": 1,
 
-    # -- Masaniello (ajustado para ~55% de win rate após filtragem)
+    # -- Masaniello
     "banca_trabalho": 1000.0,
-    "meta_ciclo":       80.0,         # 8% da banca
+    "meta_ciclo":       80.0,
     "total_ops":        10,
-    "min_wins":          5,           # 50% de 10
+    "min_wins":          5,
     "payout":           0.85,
 
-    # -- Confluência (Signal Engine)
-    "min_score":    5,                # mínimo de indicadores alinhados (5 de 10)
-    "sr_tolerance": 0.0005,           # tolerância para S/R (0.05%)
-    "usar_m5":      True,             # usar M5 como filtro de tendência
-    "filtrar_doji": True,             # bloquear entrada em doji
+    # -- Confluência
+    "min_score":    5,
+    "sr_tolerance": 0.0005,
+    "usar_m5":      True,
+    "filtrar_doji": True,
 
-    # -- Candles a buscar
-    "candles_m1_qtd": 100,            # quantidade de candles M1
-    "candles_m5_qtd":  50,            # quantidade de candles M5
+    # -- Candles
+    "candles_m1_qtd": 100,
+    "candles_m5_qtd":  50,
 
-    # -- Anti-lateralização: ADX mínimo para considerar tendência
-    "adx_minimo": 20,                 # abaixo disso = mercado lateral = não entra
+    # -- Anti-lateral (ADX)
+    "adx_minimo": 20,
 
-    # -- Espera entre varreduras quando não há sinal (segundos)
+    # -- Scan
     "scan_interval": 15,
 
     # -- Preservação de lucro
-    "meta_lucro_por_ciclo":    80.0,
-    "ciclos_para_saque":       10,
-    "banca_minima_trabalho":  200.0,
-    "ao_quebrar":             "continuar",
-    "pausa_ciclos":            5,
+    "meta_lucro_por_ciclo":   80.0,
+    "ciclos_para_saque":      10,
+    "banca_minima_trabalho": 200.0,
+    "banca_minima":          200.0,
+    "ao_quebrar":            "continuar",
+    "pausa_ciclos":           5,
 
-    # -- Arquivos
-    "cofre_file":     "cofre_confluencia.json",
-    "historico_file": "historico_confluencia.json",
-    "state_file":     "state_confluencia.json",
+    # -- Claude AI
+    "claude_key":     "",
+    "claude_model":   "claude-haiku-4-5-20251001",
+    "claude_enabled": False,
+
+    # -- Arquivos (relativos à base)
+    "cofre_file":     str(_CONFIG_BASE / "cofre_confluencia.json"),
+    "historico_file": str(_CONFIG_BASE / "historico_confluencia.json"),
+    "state_file":     str(_CONFIG_BASE / "state_confluencia.json"),
 }
+
+
+def _carregar_config() -> dict:
+    cfg = dict(_DEFAULTS)
+    try:
+        if CONFIG_FILE.exists():
+            salvo = json.loads(CONFIG_FILE.read_text())
+            cfg.update(salvo)
+            # Garante caminhos absolutos dos arquivos JSON de estado
+            for k in ("cofre_file", "historico_file", "state_file"):
+                if not Path(cfg[k]).is_absolute():
+                    cfg[k] = str(_CONFIG_BASE / cfg[k])
+    except Exception as e:
+        logging.warning(f"Config file error: {e} — using defaults")
+    return cfg
+
+
+CONFIG = _carregar_config()
 
 
 # ============================================================
@@ -161,10 +190,24 @@ class BotConfluencia:
             filtrar_doji = cfg["filtrar_doji"]
         )
 
+        # Claude AI client (lazy init)
+        self._claude = None
+        if cfg.get("claude_enabled") and cfg.get("claude_key"):
+            try:
+                import anthropic
+                self._claude = anthropic.Anthropic(api_key=cfg["claude_key"])
+                log.info(f"Claude AI ativado — modelo: {cfg['claude_model']}")
+            except ImportError:
+                log.warning("anthropic não instalado. pip install anthropic")
+            except Exception as e:
+                log.warning(f"Claude init error: {e}")
+
         # Estatísticas da sessão
         self.stats = {
             "sinais_gerados":  0,
-            "sinais_pulados":  0,  # score abaixo do mínimo
+            "sinais_pulados":  0,
+            "claude_aprovados": 0,
+            "claude_pulados":   0,
             "wins": 0, "losses": 0
         }
 
@@ -287,6 +330,18 @@ class BotConfluencia:
             # Log da análise antes de entrar
             log.info(f"\n{resultado_analise}")
 
+            # ── FILTRO CLAUDE AI (opcional) ──────────────────
+            if self._claude:
+                decisao_claude = self._consultar_claude(sinal, resultado_analise)
+                if decisao_claude == "SKIP":
+                    log.info("🤖 Claude: SKIP — entrada ignorada.")
+                    self.stats["claude_pulados"] += 1
+                    time.sleep(self.cfg["scan_interval"])
+                    continue
+                self.stats["claude_aprovados"] += 1
+                log.info(f"🤖 Claude: {decisao_claude} — confirmado.")
+            # ─────────────────────────────────────────────────
+
             # Executa o trade
             win = self._executar_trade(sinal, entrada)
             if win is None:
@@ -345,6 +400,45 @@ class BotConfluencia:
         self.stats["sinais_pulados"] += 1
         time.sleep(self.cfg["scan_interval"])
         return None, None
+
+    def _consultar_claude(self, sinal: str, resultado) -> str:
+        """
+        Envia a análise técnica para Claude e retorna CALL, PUT ou SKIP.
+        Em caso de erro, retorna o sinal original para não bloquear o bot.
+        """
+        try:
+            votos = getattr(resultado, "votos", {})
+            score = getattr(resultado, "score", 0)
+            motivos = getattr(resultado, "motivos", [])
+            adx_val = getattr(resultado, "adx", None)
+
+            prompt = (
+                f"Você é um analista de opções binárias de alta frequência (M1). "
+                f"Avalie o seguinte sinal técnico e responda APENAS com: CALL, PUT ou SKIP.\n\n"
+                f"Ativo: {self.cfg['asset']}\n"
+                f"Sinal confluence: {sinal.upper()}\n"
+                f"Score: {score}/10 indicadores alinhados\n"
+                f"ADX: {adx_val if adx_val else 'n/d'}\n"
+                f"Motivos: {', '.join(motivos) if motivos else 'n/d'}\n"
+                f"Votos por indicador: {json.dumps(votos)}\n\n"
+                f"Critérios para SKIP: score < 6, ADX < 22, votos contraditórios, "
+                f"padrões de reversão fortes contra a direção.\n"
+                f"Resposta (somente CALL, PUT ou SKIP):"
+            )
+
+            msg = self._claude.messages.create(
+                model      = self.cfg.get("claude_model", "claude-haiku-4-5-20251001"),
+                max_tokens = 10,
+                messages   = [{"role": "user", "content": prompt}]
+            )
+            resposta = msg.content[0].text.strip().upper()
+            for palavra in ("CALL", "PUT", "SKIP"):
+                if palavra in resposta:
+                    return palavra
+            return sinal.upper()  # fallback: confia no sinal original
+        except Exception as e:
+            log.warning(f"Claude error: {e} — usando sinal original")
+            return sinal.upper()
 
     def _mercado_em_tendencia(self, df: pd.DataFrame) -> bool:
         """
@@ -530,13 +624,15 @@ class BotConfluencia:
             log.error(f"Erro histórico: {e}")
 
     def _banner(self):
+        claude_info = (
+            f"Claude {self.cfg.get('claude_model','').split('-')[1] if self._claude else 'off'}"
+        )
         log.info("=" * 58)
         log.info("  BOT CONFLUÊNCIA — Masaniello + 10 Indicadores")
         log.info(f"  Ativo: {self.cfg['asset']} | M1 + {'M5' if self.cfg['usar_m5'] else 'off'}")
-        log.info(f"  Score mínimo: {self.cfg['min_score']}/10 indicadores")
-        log.info(f"  ADX mínimo: {self.cfg['adx_minimo']} (anti-lateral)")
+        log.info(f"  Score mínimo: {self.cfg['min_score']}/10 | ADX mín: {self.cfg['adx_minimo']}")
         log.info(f"  Banca: R${self.cfg['banca_trabalho']:.2f} | Meta: +R${self.cfg['meta_ciclo']:.2f}")
-        log.info(f"  Cofre atual: R${self.cofre.total:.2f}")
+        log.info(f"  Cofre atual: R${self.cofre.total:.2f} | AI: {claude_info}")
         log.info("=" * 58)
 
     def _banner_fim(self):
@@ -545,8 +641,11 @@ class BotConfluencia:
         log.info("=" * 58)
         log.info(f"  SESSÃO ENCERRADA | {self.ciclo_num} ciclos")
         log.info(f"  Taxa de acerto: {taxa:.1f}% ({self.stats['wins']}W/{self.stats['losses']}L)")
-        log.info(f"  Sinais gerados: {self.stats['sinais_gerados']}")
-        log.info(f"  Sinais pulados: {self.stats['sinais_pulados']}")
+        log.info(f"  Sinais gerados: {self.stats['sinais_gerados']} | "
+                 f"pulados: {self.stats['sinais_pulados']}")
+        if self._claude:
+            log.info(f"  Claude aprovados: {self.stats['claude_aprovados']} | "
+                     f"pulados: {self.stats['claude_pulados']}")
         log.info(f"  💰 COFRE: R${self.cofre.total:.2f}")
         log.info(f"  Banca de trabalho: R${self.banca_trabalho:.2f}")
         log.info("=" * 58)
@@ -557,6 +656,8 @@ class BotConfluencia:
 # ============================================================
 
 if __name__ == "__main__":
+    # Recarrega config do arquivo em disco antes de iniciar
+    CONFIG = _carregar_config()
     bot = BotConfluencia(CONFIG)
 
     def _sair(sig, frame):

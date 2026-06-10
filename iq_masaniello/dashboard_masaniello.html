@@ -6,9 +6,17 @@
 <title>Masaniello Bot</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#e8eaf0;min-height:100vh;padding:12px}
+body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#e8eaf0;min-height:100vh;padding:12px 12px 70px}
 h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(135deg,#6c63ff,#4ecdc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
 .sub{text-align:center;font-size:11px;color:#9ea3b8;margin-bottom:14px}
+
+/* TABS NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#1e2130;border-top:1px solid #2e3147;display:flex;z-index:100}
+.nav-btn{flex:1;padding:10px 0 8px;background:none;border:none;color:#9ea3b8;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;transition:.2s}
+.nav-btn .icon{font-size:18px}
+.nav-btn.active{color:#6c63ff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
 
 /* STATUS BAR */
 .status-bar{display:flex;align-items:center;justify-content:space-between;background:#1e2130;border:1px solid #2e3147;border-radius:10px;padding:10px 14px;margin-bottom:12px}
@@ -18,7 +26,6 @@ h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(1
 .dot-unknown{background:#f39c12}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .status-text{font-size:13px;font-weight:700;display:flex;align-items:center}
-.ts{font-size:11px;color:#9ea3b8}
 
 /* BOTÕES */
 .btn-row{display:flex;gap:10px;margin-bottom:14px}
@@ -27,6 +34,9 @@ h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(1
 .btn-on:active{background:#27ae60}
 .btn-off{background:#e74c3c;color:#fff}
 .btn-off:active{background:#c0392b}
+.btn-save{background:#6c63ff;color:#fff;width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:800;border:none;cursor:pointer;margin-top:10px}
+.btn-save:active{background:#5a52e0}
+.btn-test{background:#232636;color:#4ecdc4;border:1px solid #4ecdc4;width:100%;padding:11px;border-radius:10px;font-size:13px;font-weight:700;border-style:solid;cursor:pointer;margin-top:8px}
 
 /* CARDS */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
@@ -37,7 +47,6 @@ h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(1
 .card.red::before{background:#e74c3c}
 .card.yellow::before{background:#f39c12}
 .card.teal::before{background:#4ecdc4}
-.card.blue::before{background:#3498db}
 .lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#9ea3b8;margin-bottom:4px}
 .val{font-size:20px;font-weight:800}
 .val.pos{color:#2ecc71}
@@ -46,7 +55,7 @@ h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(1
 
 /* CARD FULL */
 .card-full{background:#1e2130;border:1px solid #2e3147;border-radius:10px;padding:12px;margin-bottom:12px}
-.card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#9ea3b8;margin-bottom:10px}
+.card-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#9ea3b8;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
 
 /* PROGRESS */
 .prog-wrap{background:#232636;border-radius:50px;height:8px;margin-bottom:6px}
@@ -54,20 +63,38 @@ h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(1
 .prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:#9ea3b8}
 
 /* LOGS */
-.logs{background:#0f1117;border-radius:8px;padding:10px;height:180px;overflow-y:auto;font-size:11px;font-family:monospace;color:#9ea3b8}
+.logs{background:#0f1117;border-radius:8px;padding:10px;height:200px;overflow-y:auto;font-size:11px;font-family:monospace;color:#9ea3b8}
 .logs .win{color:#2ecc71}
 .logs .loss{color:#e74c3c}
 .logs .info{color:#6c63ff}
 .logs .warn{color:#f39c12}
+.logs .ai{color:#4ecdc4}
 
-/* HISTÓRICO */
+/* CONFIG FORM */
+.form-group{margin-bottom:14px}
+.form-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#9ea3b8;margin-bottom:6px;display:block}
+.form-input{width:100%;background:#232636;border:1px solid #2e3147;border-radius:8px;padding:11px 12px;color:#e8eaf0;font-size:14px}
+.form-input:focus{outline:none;border-color:#6c63ff}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ai-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(78,205,196,.15);border:1px solid rgba(78,205,196,.3);color:#4ecdc4;padding:4px 10px;border-radius:50px;font-size:11px;font-weight:700}
+.ai-status{background:#1e2130;border:1px solid #2e3147;border-radius:8px;padding:12px;margin-top:10px;font-size:12px}
+.ai-status .lbl{margin-bottom:6px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.toggle{position:relative;width:44px;height:24px}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:#2e3147;border-radius:50px;transition:.2s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked+.toggle-slider{background:#6c63ff}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px)}
+
+/* HIST */
 .hist-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #2e3147;font-size:12px}
 .hist-item:last-child{border-bottom:none}
 .hist-status.win{color:#2ecc71;font-weight:700}
 .hist-status.loss{color:#e74c3c;font-weight:700}
 
 /* TOAST */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#232636;border:1px solid #2e3147;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:.3s;pointer-events:none}
+.toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#232636;border:1px solid #2e3147;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;z-index:999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
 </style>
 </head>
@@ -76,87 +103,209 @@ h1{text-align:center;font-size:18px;font-weight:800;background:linear-gradient(1
 <h1>⚡ Masaniello Bot</h1>
 <p class="sub" id="ts">–</p>
 
-<!-- STATUS -->
-<div class="status-bar">
-  <div class="status-text">
-    <div class="status-dot dot-unknown" id="statusDot"></div>
-    <span id="statusTxt">Verificando...</span>
+<!-- ===== TAB: PAINEL ===== -->
+<div class="tab-panel active" id="tab-painel">
+
+  <div class="status-bar">
+    <div class="status-text">
+      <div class="status-dot dot-unknown" id="statusDot"></div>
+      <span id="statusTxt">Verificando...</span>
+    </div>
+    <span style="font-size:11px;color:#9ea3b8" id="cycleStatus">–</span>
   </div>
-  <span class="ts" id="cycleStatus">–</span>
+
+  <div class="btn-row">
+    <button class="btn btn-on" onclick="ligar()">▶ LIGAR</button>
+    <button class="btn btn-off" onclick="desligar()">■ DESLIGAR</button>
+  </div>
+
+  <div class="grid">
+    <div class="card purple">
+      <div class="lbl">Saldo Atual</div>
+      <div class="val" id="saldo">R$ –</div>
+      <div class="sub-val" id="bancaIni">Inicial: –</div>
+    </div>
+    <div class="card" id="lucroCard">
+      <div class="lbl">Lucro / Prejuízo</div>
+      <div class="val" id="lucro">R$ –</div>
+      <div class="sub-val" id="roiVal">ROI: –</div>
+    </div>
+    <div class="card green">
+      <div class="lbl">Wins</div>
+      <div class="val pos" id="wins">–</div>
+      <div class="sub-val" id="taxa">Taxa: –</div>
+    </div>
+    <div class="card red">
+      <div class="lbl">Losses</div>
+      <div class="val neg" id="losses">–</div>
+      <div class="sub-val" id="opInfo">Op: –</div>
+    </div>
+    <div class="card teal">
+      <div class="lbl">Próxima Entrada</div>
+      <div class="val" id="proxima" style="color:#4ecdc4">R$ –</div>
+      <div class="sub-val" id="aiDecision">IA: –</div>
+    </div>
+    <div class="card yellow">
+      <div class="lbl">💰 Cofre</div>
+      <div class="val" id="cofre" style="color:#f39c12">R$ –</div>
+      <div class="sub-val" id="ciclosGanhos">Ciclos: –</div>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <div class="card-title">Progresso do Ciclo</div>
+    <div class="prog-lbl" style="margin-bottom:6px">
+      <span id="progLeft">Op 0 / 0</span>
+      <span id="progRight">0%</span>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-bar" id="progBar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="card-full">
+    <div class="card-title">Últimos Ciclos</div>
+    <div id="histList"><div style="color:#9ea3b8;font-size:12px;text-align:center;padding:10px">Nenhum ciclo ainda</div></div>
+  </div>
+
 </div>
 
-<!-- BOTÕES LIGAR/DESLIGAR -->
-<div class="btn-row">
-  <button class="btn btn-on" onclick="ligar()">▶ LIGAR</button>
-  <button class="btn btn-off" onclick="desligar()">■ DESLIGAR</button>
-</div>
-
-<!-- CARDS PRINCIPAIS -->
-<div class="grid">
-  <div class="card purple">
-    <div class="lbl">Saldo Atual</div>
-    <div class="val" id="saldo">R$ –</div>
-    <div class="sub-val" id="bancaIni">Inicial: –</div>
-  </div>
-  <div class="card" id="lucroCard">
-    <div class="lbl">Lucro / Prejuízo</div>
-    <div class="val" id="lucro">R$ –</div>
-    <div class="sub-val" id="roiVal">ROI: –</div>
-  </div>
-  <div class="card green">
-    <div class="lbl">Wins</div>
-    <div class="val pos" id="wins">–</div>
-    <div class="sub-val" id="taxa">Taxa: –</div>
-  </div>
-  <div class="card red">
-    <div class="lbl">Losses</div>
-    <div class="val neg" id="losses">–</div>
-    <div class="sub-val" id="opInfo">Op: –</div>
-  </div>
-  <div class="card teal">
-    <div class="lbl">Próxima Entrada</div>
-    <div class="val" id="proxima" style="color:#4ecdc4">R$ –</div>
-    <div class="sub-val" id="payoutInfo">Payout: –</div>
-  </div>
-  <div class="card yellow">
-    <div class="lbl">💰 Cofre</div>
-    <div class="val" id="cofre" style="color:#f39c12">R$ –</div>
-    <div class="sub-val" id="ciclosGanhos">Ciclos: –</div>
+<!-- ===== TAB: LOGS ===== -->
+<div class="tab-panel" id="tab-logs">
+  <div class="card-full">
+    <div class="card-title">
+      Log em tempo real
+      <span style="cursor:pointer;color:#6c63ff" onclick="carregarLogs()">↺</span>
+    </div>
+    <div class="logs" id="logBox"></div>
   </div>
 </div>
 
-<!-- PROGRESSO -->
-<div class="card-full">
-  <div class="card-title">Progresso do Ciclo</div>
-  <div class="prog-lbl" style="margin-bottom:6px">
-    <span id="progLeft">Op 0 / 0</span>
-    <span id="progRight">0%</span>
+<!-- ===== TAB: CONFIG ===== -->
+<div class="tab-panel" id="tab-config">
+
+  <!-- Claude AI -->
+  <div class="card-full">
+    <div class="card-title">
+      🤖 Claude AI
+      <span class="ai-badge" id="aiBadge">⬤ Desligada</span>
+    </div>
+
+    <div class="toggle-row">
+      <span style="font-size:13px">Usar Claude para análise final</span>
+      <label class="toggle">
+        <input type="checkbox" id="aiToggle" onchange="toggleAI()">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Chave API Claude (sk-ant-...)</label>
+      <input class="form-input" type="password" id="claudeKey" placeholder="sk-ant-api03-...">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Modelo</label>
+      <select class="form-input" id="claudeModel">
+        <option value="claude-haiku-4-5-20251001">Haiku (mais rápido, mais barato)</option>
+        <option value="claude-sonnet-4-6">Sonnet (mais preciso)</option>
+      </select>
+    </div>
+
+    <button class="btn-test" onclick="testarAI()">🧪 Testar conexão Claude</button>
+
+    <div class="ai-status" id="aiStatus" style="display:none">
+      <div class="lbl">Último resultado da IA</div>
+      <div id="aiStatusTxt">–</div>
+    </div>
   </div>
-  <div class="prog-wrap">
-    <div class="prog-bar" id="progBar" style="width:0%"></div>
+
+  <!-- Masaniello -->
+  <div class="card-full">
+    <div class="card-title">⚙️ Configurações Masaniello</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Banca ($)</label>
+        <input class="form-input" type="number" id="cfgBanca" placeholder="500">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Meta ($)</label>
+        <input class="form-input" type="number" id="cfgMeta" placeholder="250">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Total ops</label>
+        <input class="form-input" type="number" id="cfgOps" placeholder="10">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Min. gains</label>
+        <input class="form-input" type="number" id="cfgWins" placeholder="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Payout (%)</label>
+        <input class="form-input" type="number" id="cfgPayout" placeholder="85">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ativo</label>
+        <input class="form-input" type="text" id="cfgAsset" placeholder="EURUSD-OTC">
+      </div>
+    </div>
+
+    <button class="btn-save" onclick="salvarConfig()">💾 Salvar configurações</button>
   </div>
+
+  <!-- IQ Option -->
+  <div class="card-full">
+    <div class="card-title">🔐 IQ Option</div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" id="cfgEmail" placeholder="seu@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Senha</label>
+      <input class="form-input" type="password" id="cfgSenha" placeholder="••••••••">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Conta</label>
+      <select class="form-input" id="cfgConta">
+        <option value="PRACTICE">PRACTICE (demo)</option>
+        <option value="REAL">REAL</option>
+      </select>
+    </div>
+    <button class="btn-save" onclick="salvarConfig()">💾 Salvar e reiniciar bot</button>
+  </div>
+
 </div>
 
-<!-- HISTÓRICO -->
-<div class="card-full">
-  <div class="card-title">Últimos Ciclos</div>
-  <div id="histList"><div style="color:#9ea3b8;font-size:12px;text-align:center;padding:10px">Nenhum ciclo ainda</div></div>
-</div>
-
-<!-- LOGS -->
-<div class="card-full">
-  <div class="card-title" style="display:flex;justify-content:space-between">
-    <span>Log em tempo real</span>
-    <span style="cursor:pointer;color:#6c63ff" onclick="carregarLogs()">↺ atualizar</span>
-  </div>
-  <div class="logs" id="logBox"></div>
-</div>
+<!-- ===== BOTTOM NAV ===== -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="mudarTab('painel', this)">
+    <span class="icon">📊</span>Painel
+  </button>
+  <button class="nav-btn" onclick="mudarTab('logs', this)">
+    <span class="icon">📋</span>Logs
+  </button>
+  <button class="nav-btn" onclick="mudarTab('config', this)">
+    <span class="icon">⚙️</span>Config
+  </button>
+</nav>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const API = '';  // mesmo servidor
+const API = '';
 
+// ── Tabs ─────────────────────────────────────────────────
+function mudarTab(nome, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + nome).classList.add('active');
+  btn.classList.add('active');
+  if (nome === 'logs') carregarLogs();
+  if (nome === 'config') carregarConfigAtual();
+}
+
+// ── Status ───────────────────────────────────────────────
 async function fetchStatus() {
   try {
     const r = await fetch(API + '/api/status');
@@ -169,7 +318,6 @@ async function fetchStatus() {
 }
 
 function atualizar(d) {
-  // Status dot
   const dot = document.getElementById('statusDot');
   const txt = document.getElementById('statusTxt');
   if (d.bot_status === 'online') {
@@ -182,8 +330,6 @@ function atualizar(d) {
 
   document.getElementById('ts').textContent = 'Atualizado: ' + d.ts;
   document.getElementById('cycleStatus').textContent = d.cycle_status || '–';
-
-  // Cards
   document.getElementById('saldo').textContent = fmt(d.saldo);
   document.getElementById('bancaIni').textContent = 'Inicial: ' + fmt(d.banca_ini);
 
@@ -191,28 +337,30 @@ function atualizar(d) {
   const lucroEl = document.getElementById('lucro');
   lucroEl.textContent = (lucro >= 0 ? '+' : '') + fmt(lucro);
   lucroEl.className = 'val ' + (lucro >= 0 ? 'pos' : 'neg');
-  document.getElementById('lucroCard').style.setProperty('--c', lucro >= 0 ? '#2ecc71' : '#e74c3c');
-  document.getElementById('lucroCard').querySelector('::before');
 
   const roi = d.banca_ini > 0 ? (lucro / d.banca_ini * 100).toFixed(2) : '0.00';
   document.getElementById('roiVal').textContent = 'ROI: ' + roi + '%';
-
   document.getElementById('wins').textContent = d.wins;
   document.getElementById('losses').textContent = d.losses;
   document.getElementById('taxa').textContent = 'Taxa: ' + d.taxa + '%';
   document.getElementById('opInfo').textContent = 'Op: ' + d.op_atual + '/' + d.total_ops;
-
   document.getElementById('proxima').textContent = fmt(d.proxima);
   document.getElementById('cofre').textContent = fmt(d.cofre);
   document.getElementById('ciclosGanhos').textContent = d.ciclos_ganhos + ' ciclos ganhos';
 
-  // Progresso
+  // IA status
+  if (d.ai_decisao) {
+    const cor = d.ai_decisao === 'CALL' ? '#2ecc71' : d.ai_decisao === 'PUT' ? '#e74c3c' : '#9ea3b8';
+    document.getElementById('aiDecision').innerHTML = `IA: <strong style="color:${cor}">${d.ai_decisao}</strong>`;
+  }
+
   const pct = d.total_ops > 0 ? Math.round((d.op_atual - 1) / d.total_ops * 100) : 0;
   document.getElementById('progBar').style.width = pct + '%';
   document.getElementById('progLeft').textContent = 'Op ' + (d.op_atual - 1) + ' / ' + d.total_ops;
   document.getElementById('progRight').textContent = pct + '%';
 }
 
+// ── Histórico ────────────────────────────────────────────
 async function carregarHistorico() {
   try {
     const r = await fetch(API + '/api/historico');
@@ -223,14 +371,15 @@ async function carregarHistorico() {
       const win = h.status === 'meta_atingida';
       const lucro = h.lucro || 0;
       return `<div class="hist-item">
-        <span>Ciclo #${h.ciclo}</span>
-        <span class="hist-status ${win ? 'win' : 'loss'}">${win ? '✅' : '❌'} ${(lucro>=0?'+':'')}R$${Math.abs(lucro).toFixed(2)}</span>
+        <span style="color:#9ea3b8">#${h.ciclo}</span>
+        <span class="hist-status ${win ? 'win' : 'loss'}">${win ? '✅' : '❌'} ${(lucro>=0?'+':'')}$${Math.abs(lucro).toFixed(2)}</span>
         <span style="color:#9ea3b8">${h.wins}W/${h.losses}L</span>
       </div>`;
     }).join('');
   } catch(e) {}
 }
 
+// ── Logs ─────────────────────────────────────────────────
 async function carregarLogs() {
   try {
     const r = await fetch(API + '/api/logs');
@@ -238,16 +387,18 @@ async function carregarLogs() {
     const box = document.getElementById('logBox');
     box.innerHTML = d.logs.map(l => {
       let cls = '';
-      if (l.includes('WIN')) cls = 'win';
+      if (l.includes('WIN'))  cls = 'win';
       else if (l.includes('LOSS')) cls = 'loss';
       else if (l.includes('META') || l.includes('COFRE')) cls = 'info';
       else if (l.includes('WARN') || l.includes('quebrado')) cls = 'warn';
+      else if (l.includes('Claude') || l.includes('IA:') || l.includes('CALL') || l.includes('PUT')) cls = 'ai';
       return `<div class="${cls}">${l}</div>`;
     }).join('');
     box.scrollTop = box.scrollHeight;
   } catch(e) {}
 }
 
+// ── Ligar / Desligar ──────────────────────────────────────
 async function ligar() {
   try {
     const r = await fetch(API + '/api/ligar', {method:'POST'});
@@ -267,6 +418,89 @@ async function desligar() {
   } catch(e) { toast('Erro ao desligar'); }
 }
 
+// ── Config ───────────────────────────────────────────────
+async function carregarConfigAtual() {
+  try {
+    const r = await fetch(API + '/api/config');
+    const d = await r.json();
+    if (d.banca_trabalho)  document.getElementById('cfgBanca').value  = d.banca_trabalho;
+    if (d.meta_ciclo)      document.getElementById('cfgMeta').value   = d.meta_ciclo;
+    if (d.total_ops)       document.getElementById('cfgOps').value    = d.total_ops;
+    if (d.min_wins)        document.getElementById('cfgWins').value   = d.min_wins;
+    if (d.payout)          document.getElementById('cfgPayout').value = (d.payout * 100).toFixed(0);
+    if (d.asset)           document.getElementById('cfgAsset').value  = d.asset;
+    if (d.email)           document.getElementById('cfgEmail').value  = d.email;
+    if (d.account_type)    document.getElementById('cfgConta').value  = d.account_type;
+    if (d.claude_key)      document.getElementById('claudeKey').value = '••••••••';
+    if (d.claude_enabled) {
+      document.getElementById('aiToggle').checked = d.claude_enabled;
+      atualizarBadgeAI(d.claude_enabled);
+    }
+    if (d.claude_model)    document.getElementById('claudeModel').value = d.claude_model;
+  } catch(e) {}
+}
+
+async function salvarConfig() {
+  const payload = {
+    banca_trabalho:  parseFloat(document.getElementById('cfgBanca').value)  || undefined,
+    meta_ciclo:      parseFloat(document.getElementById('cfgMeta').value)   || undefined,
+    total_ops:       parseInt(document.getElementById('cfgOps').value)      || undefined,
+    min_wins:        parseInt(document.getElementById('cfgWins').value)     || undefined,
+    payout:          parseFloat(document.getElementById('cfgPayout').value) / 100 || undefined,
+    asset:           document.getElementById('cfgAsset').value  || undefined,
+    email:           document.getElementById('cfgEmail').value  || undefined,
+    account_type:    document.getElementById('cfgConta').value  || undefined,
+    claude_enabled:  document.getElementById('aiToggle').checked,
+    claude_model:    document.getElementById('claudeModel').value,
+  };
+  // Só envia a chave se foi preenchida (não é a máscara)
+  const chave = document.getElementById('claudeKey').value;
+  if (chave && chave !== '••••••••') payload.claude_key = chave;
+
+  try {
+    const r = await fetch(API + '/api/config', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const d = await r.json();
+    toast(d.ok ? '✅ ' + d.msg : '❌ ' + d.msg);
+  } catch(e) { toast('Erro ao salvar'); }
+}
+
+// ── Claude AI ─────────────────────────────────────────────
+function toggleAI() {
+  const on = document.getElementById('aiToggle').checked;
+  atualizarBadgeAI(on);
+}
+
+function atualizarBadgeAI(on) {
+  const badge = document.getElementById('aiBadge');
+  badge.textContent = on ? '⬤ Ativa' : '⬤ Desligada';
+  badge.style.color = on ? '#4ecdc4' : '#9ea3b8';
+}
+
+async function testarAI() {
+  const chave = document.getElementById('claudeKey').value;
+  if (!chave || chave === '••••••••') { toast('Cole a chave API primeiro'); return; }
+  toast('Testando Claude...');
+  try {
+    const r = await fetch(API + '/api/testar_claude', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ claude_key: chave, claude_model: document.getElementById('claudeModel').value })
+    });
+    const d = await r.json();
+    const el = document.getElementById('aiStatus');
+    el.style.display = 'block';
+    document.getElementById('aiStatusTxt').innerHTML = d.ok
+      ? `<span style="color:#2ecc71">✅ Conectada! Resposta: <strong>${d.resposta}</strong></span>`
+      : `<span style="color:#e74c3c">❌ Erro: ${d.msg}</span>`;
+    toast(d.ok ? '✅ Claude conectada!' : '❌ Erro na conexão');
+  } catch(e) { toast('Erro ao testar'); }
+}
+
+// ── Utils ─────────────────────────────────────────────────
 function fmt(v) {
   if (v === undefined || v === null) return 'R$ –';
   return 'R$ ' + parseFloat(v).toFixed(2).replace('.', ',');
@@ -279,13 +513,11 @@ function toast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// Atualiza a cada 5 segundos
+// ── Init ─────────────────────────────────────────────────
 fetchStatus();
 carregarHistorico();
-carregarLogs();
 setInterval(fetchStatus, 5000);
 setInterval(carregarHistorico, 15000);
-setInterval(carregarLogs, 10000);
 </script>
 </body>
 </html>

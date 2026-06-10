@@ -5,7 +5,7 @@ Servidor web do painel Masaniello.
 Acesse pelo navegador: http://IP:3000
 
 Dependências:
-    pip install flask flask-cors
+    pip install flask flask-cors anthropic
 """
 
 import json
@@ -18,11 +18,36 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-STATE_FILE  = Path("/opt/masaniello/iq_masaniello/masaniello_state.json")
-COFRE_FILE  = Path("/opt/masaniello/iq_masaniello/cofre_confluencia.json")
-HIST_FILE   = Path("/opt/masaniello/iq_masaniello/historico_confluencia.json")
-LOG_FILE    = Path("/opt/masaniello/iq_masaniello/bot_confluencia.log")
-DASHBOARD   = Path("/opt/masaniello/iq_masaniello/dashboard_masaniello.html")
+BASE        = Path("/opt/masaniello/iq_masaniello")
+STATE_FILE  = BASE / "masaniello_state.json"
+COFRE_FILE  = BASE / "cofre_confluencia.json"
+HIST_FILE   = BASE / "historico_confluencia.json"
+LOG_FILE    = BASE / "bot_confluencia.log"
+DASHBOARD   = BASE / "dashboard_masaniello.html"
+CONFIG_FILE = BASE / "masaniello_config.json"
+
+_CONFIG_DEFAULTS = {
+    "email":              "",
+    "password":           "",
+    "account_type":       "PRACTICE",
+    "asset":              "EURUSD-OTC",
+    "duration":           1,
+    "banca_trabalho":     1000.0,
+    "meta_ciclo":         80.0,
+    "total_ops":          10,
+    "min_wins":           5,
+    "payout":             0.85,
+    "min_score":          5,
+    "adx_minimo":         20,
+    "scan_interval":      15,
+    "banca_minima":       200.0,
+    "ao_quebrar":         "continuar",
+    "ciclos_para_saque":  10,
+    "claude_key":         "",
+    "claude_model":       "claude-haiku-4-5-20251001",
+    "claude_enabled":     False,
+}
+
 
 def ler_json(path):
     try:
@@ -31,6 +56,7 @@ def ler_json(path):
     except Exception:
         pass
     return {}
+
 
 def pm2_status():
     try:
@@ -42,6 +68,24 @@ def pm2_status():
     except Exception:
         pass
     return "unknown"
+
+
+def _ler_config() -> dict:
+    saved = ler_json(CONFIG_FILE)
+    cfg = {**_CONFIG_DEFAULTS, **saved}
+    return cfg
+
+
+def _salvar_config(data: dict):
+    current = _ler_config()
+    # Merge incoming fields; skip claude_key if sent as masked placeholder
+    for k, v in data.items():
+        if k == "claude_key" and v in ("", "••••••••"):
+            continue
+        current[k] = v
+    CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    CONFIG_FILE.write_text(json.dumps(current, indent=2, ensure_ascii=False))
+
 
 # ── API ─────────────────────────────────────────────────────
 
@@ -64,37 +108,42 @@ def api_status():
     payout     = state.get("cfg", {}).get("payout", 0.85)
 
     # Próxima entrada
-    from masaniello_core import calcular_entrada
-    target    = banca_ini + state.get("cfg", {}).get("meta", state.get("cfg", {}).get("metaLucro", 0))
-    rem_ops   = max(0, total_ops - op_atual + 1)
-    rem_wins  = max(0, state.get("cfg", {}).get("min_wins", state.get("cfg", {}).get("minWins", 0)) - wins)
-    proxima   = calcular_entrada(target, saldo, rem_ops, rem_wins, payout) if rem_ops > 0 else 0
+    try:
+        from masaniello_core import calcular_entrada
+        target    = banca_ini + state.get("cfg", {}).get("meta", state.get("cfg", {}).get("metaLucro", 0))
+        rem_ops   = max(0, total_ops - op_atual + 1)
+        rem_wins  = max(0, state.get("cfg", {}).get("min_wins", state.get("cfg", {}).get("minWins", 0)) - wins)
+        proxima   = calcular_entrada(target, saldo, rem_ops, rem_wins, payout) if rem_ops > 0 else 0
+    except Exception:
+        proxima = 0
 
     return jsonify({
-        "bot_status":   status,
-        "saldo":        saldo,
-        "banca_ini":    banca_ini,
-        "lucro":        lucro,
-        "wins":         wins,
-        "losses":       losses,
-        "taxa":         taxa,
-        "op_atual":     op_atual,
-        "total_ops":    total_ops,
-        "proxima":      round(proxima, 2),
-        "cofre":        cofre.get("total", 0),
-        "ciclos_ganhos":cofre.get("ciclos_ganhos", 0),
-        "total_ciclos": len(hist) if isinstance(hist, list) else 0,
-        "cycle_status": state.get("status", "–"),
-        "ts":           datetime.now().strftime("%H:%M:%S")
+        "bot_status":    status,
+        "saldo":         saldo,
+        "banca_ini":     banca_ini,
+        "lucro":         lucro,
+        "wins":          wins,
+        "losses":        losses,
+        "taxa":          taxa,
+        "op_atual":      op_atual,
+        "total_ops":     total_ops,
+        "proxima":       round(proxima, 2),
+        "cofre":         cofre.get("total", 0),
+        "ciclos_ganhos": cofre.get("ciclos_ganhos", 0),
+        "total_ciclos":  len(hist) if isinstance(hist, list) else 0,
+        "cycle_status":  state.get("status", "–"),
+        "ts":            datetime.now().strftime("%H:%M:%S")
     })
+
 
 @app.route("/api/logs")
 def api_logs():
     try:
         linhas = LOG_FILE.read_text(errors="ignore").splitlines()
-        return jsonify({"logs": linhas[-50:]})  # últimas 50 linhas
+        return jsonify({"logs": linhas[-50:]})
     except Exception:
         return jsonify({"logs": []})
+
 
 @app.route("/api/ligar", methods=["POST"])
 def api_ligar():
@@ -104,6 +153,7 @@ def api_ligar():
     except Exception as e:
         return jsonify({"ok": False, "msg": str(e)})
 
+
 @app.route("/api/desligar", methods=["POST"])
 def api_desligar():
     try:
@@ -112,14 +162,75 @@ def api_desligar():
     except Exception as e:
         return jsonify({"ok": False, "msg": str(e)})
 
+
 @app.route("/api/historico")
 def api_historico():
     hist = ler_json(HIST_FILE) if HIST_FILE.exists() else []
     return jsonify(hist[-20:] if isinstance(hist, list) else [])
 
+
+@app.route("/api/config", methods=["GET"])
+def api_config_get():
+    cfg = _ler_config()
+    # Mask the Claude key before sending to browser
+    if cfg.get("claude_key"):
+        cfg["claude_key"] = "••••••••"
+    return jsonify(cfg)
+
+
+@app.route("/api/config", methods=["POST"])
+def api_config_post():
+    try:
+        data = request.get_json(force=True) or {}
+        _salvar_config(data)
+        # Reload bot config if pm2 process is running
+        try:
+            subprocess.run(["pm2", "reload", "masaniello"], timeout=10, capture_output=True)
+        except Exception:
+            pass
+        return jsonify({"ok": True, "msg": "Configuração salva com sucesso!"})
+    except Exception as e:
+        return jsonify({"ok": False, "msg": str(e)})
+
+
+@app.route("/api/testar_claude", methods=["POST"])
+def api_testar_claude():
+    cfg = _ler_config()
+    key   = cfg.get("claude_key", "")
+    model = cfg.get("claude_model", "claude-haiku-4-5-20251001")
+
+    # Allow override key in the request body (when user just typed it)
+    body = request.get_json(force=True) or {}
+    if body.get("claude_key") and body["claude_key"] not in ("", "••••••••"):
+        key = body["claude_key"]
+
+    if not key:
+        return jsonify({"ok": False, "msg": "Chave API não configurada. Salve a chave primeiro."})
+
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=key)
+        msg = client.messages.create(
+            model=model,
+            max_tokens=64,
+            messages=[{
+                "role": "user",
+                "content": (
+                    "Você é um assistente de trading. Responda APENAS com: "
+                    "CONEXÃO OK — Claude disponível para análise de sinais."
+                )
+            }]
+        )
+        resposta = msg.content[0].text.strip()
+        return jsonify({"ok": True, "msg": resposta, "model": model})
+    except Exception as e:
+        return jsonify({"ok": False, "msg": f"Erro: {str(e)}"})
+
+
 @app.route("/")
 def index():
     return send_file(str(DASHBOARD))
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=3000, debug=False)

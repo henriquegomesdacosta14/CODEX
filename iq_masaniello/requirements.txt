@@ -1,1 +1,6 @@
 iqoptionapi
+pandas
+numpy
+flask
+flask-cors
+anthropic
