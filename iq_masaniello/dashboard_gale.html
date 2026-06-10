@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IQBOT Gale + Claude</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0b0e1a;color:#dde4f8;font-family:Arial,sans-serif;font-size:14px}
+
+#header{background:#0d1120;border-bottom:1px solid #1e2a42;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:16px;font-weight:bold}.logo span{color:#00e5a0}
+#dot{width:10px;height:10px;border-radius:50%;background:#ff3e6c;display:inline-block;margin-right:6px;transition:background .4s}
+#dot.on{background:#00e5a0;box-shadow:0 0 8px #00e5a0}
+
+#statusbar{background:#090c14;border-bottom:1px solid #1e2a42;padding:7px 20px;font-size:12px;color:#6b7aa0;display:flex;align-items:center;gap:8px}
+
+#tabs{display:flex;background:#0d1120;border-bottom:1px solid #1e2a42;padding:0 20px}
+.tab{padding:10px 18px;cursor:pointer;color:#6b7aa0;font-size:13px;font-weight:bold;border-bottom:3px solid transparent;transition:all .2s}
+.tab:hover{color:#dde4f8}
+.tab.active{color:#dde4f8;border-bottom-color:#00e5a0}
+
+.page{display:none;padding:18px 20px;max-width:1200px;margin:0 auto}
+.page.active{display:block}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:800px){.g4,.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
+@media(max-width:480px){.g4,.g3,.g2{grid-template-columns:1fr}}
+
+.card{background:#111827;border:1px solid #1e2a42;border-radius:10px;padding:16px}
+.card-t{font-size:11px;color:#6b7aa0;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.big{font-size:26px;font-weight:bold;line-height:1}
+.small{font-size:12px;color:#6b7aa0;margin-top:4px}
+
+/* GALE LEVELS */
+.gale-levels{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.gl{width:36px;height:36px;border-radius:8px;border:2px solid #1e2a42;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;font-weight:bold;transition:all .3s}
+.gl .gn{font-size:11px;font-weight:bold}
+.gl .gs{font-size:8px;color:#6b7aa0}
+.gl.active{border-color:#f7c948;background:#1a1500;color:#f7c948}
+.gl.active .gs{color:#f7c948}
+.gl.won{border-color:#00e5a0;background:#0d2218;color:#00e5a0}
+.gl.lost{border-color:#ff3e6c;background:#1a0d0d;color:#ff3e6c}
+
+/* LOSS SEQ BAR */
+.loss-bar{display:flex;gap:5px;margin-top:8px}
+.lb{width:20px;height:20px;border-radius:4px;border:2px solid #1e2a42;transition:all .3s}
+.lb.active{background:#ff3e6c;border-color:#ff3e6c;box-shadow:0 0 6px #ff3e6c44}
+
+/* TIMERS */
+.timer-box{background:#060810;border:1px solid #1e2a42;border-radius:8px;padding:8px 14px;text-align:center}
+.timer-lbl{font-size:10px;color:#6b7aa0}
+.timer-val{font-size:20px;font-weight:bold;font-family:monospace}
+
+/* EMA BOX */
+.ema-box{background:#060810;border:1px solid #1e2a42;border-radius:8px;padding:10px 14px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:12px}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{padding:9px 18px;border:none;border-radius:8px;font-size:13px;font-weight:bold;cursor:pointer;transition:opacity .2s}
+.btn:hover{opacity:.8}
+.btn:disabled{opacity:.35;cursor:default}
+.bg{background:#00e5a0;color:#000}
+.br{background:#ff3e6c;color:#fff}
+.bb{background:#4f8ef7;color:#fff}
+.bd{background:#1e2a42;color:#6b7aa0}
+.by{background:#f7c948;color:#000}
+
+/* PAUSADO BANNER */
+#pausa-banner{background:#1a1000;border:1px solid #f7c948;border-radius:8px;padding:12px 16px;display:none;align-items:center;gap:10px;font-size:13px;margin-bottom:14px}
+
+/* LOG */
+.logbox{background:#060810;border:1px solid #1e2a42;border-radius:8px;height:250px;overflow-y:auto;padding:10px;font-size:11.5px;font-family:monospace;line-height:1.7}
+.logbox::-webkit-scrollbar{width:4px}
+.logbox::-webkit-scrollbar-thumb{background:#1e2a42;border-radius:2px}
+.lw{color:#00e5a0}.ll{color:#ff3e6c}.li{color:#4f8ef7}.la{color:#f7c948}.ln{color:#6b7aa0}
+
+/* TABLES */
+.htbl{width:100%;border-collapse:collapse;font-size:12px}
+.htbl th{padding:8px;text-align:left;color:#6b7aa0;font-size:11px;text-transform:uppercase;border-bottom:1px solid #1e2a42}
+.htbl td{padding:7px 8px;border-bottom:1px solid #0d1120}
+.htbl tr:hover td{background:#0d1120}
+.rw{color:#00e5a0;font-weight:bold}.rl{color:#ff3e6c;font-weight:bold}
+
+/* CONFIG */
+.cfg-lbl{font-size:12px;color:#6b7aa0;margin-bottom:5px;display:block}
+.cfg-in{background:#060810;border:1px solid #1e2a42;border-radius:8px;padding:9px 12px;color:#dde4f8;font-size:13px;width:100%}
+.cfg-in:focus{outline:none;border-color:#4f8ef7}
+.cfg-g{margin-bottom:14px}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #1e2a42}
+.tog{position:relative;width:40px;height:22px}
+.tog input{opacity:0;width:0;height:0}
+.tog .sl{position:absolute;inset:0;background:#1e2a42;border-radius:22px;cursor:pointer;transition:.3s}
+.tog .sl:before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+.tog input:checked+.sl{background:#00e5a0}
+.tog input:checked+.sl:before{transform:translateX(18px)}
+
+.an-card{background:#060810;border:1px solid #1e2a42;border-radius:10px;padding:14px}
+
+/* CONN BANNER */
+#conn-banner{background:#1a0d0d;border:1px solid #ff3e6c;border-radius:8px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:13px}
+#conn-banner.ok{display:none}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div class="logo">IQ<span>BOT</span> — Gale + <span>Claude</span> Vision</div>
+  <div style="display:flex;align-items:center;gap:14px">
+    <span id="crono-sess" style="font-size:12px;color:#6b7aa0;font-family:monospace">00:00:00</span>
+    <span><span id="dot"></span><span id="txt-ws">Desconectado</span></span>
+  </div>
+</div>
+
+<div id="statusbar">⚪ <span id="status-txt">Aguardando bot...</span></div>
+
+<div id="tabs">
+  <div class="tab active" id="tab-geral"     onclick="setTab('geral')">Geral</div>
+  <div class="tab"        id="tab-config"    onclick="setTab('config')">Config</div>
+  <div class="tab"        id="tab-analise"   onclick="setTab('analise')">Analise</div>
+  <div class="tab"        id="tab-historico" onclick="setTab('historico')">Historico</div>
+</div>
+
+<!-- ══ GERAL ══ -->
+<div class="page active" id="page-geral">
+
+  <div id="conn-banner">
+    <span>🔴</span>
+    <span>Bot desconectado — rode <b>python bot_gale.py</b> e clique <b>Ligar</b></span>
+  </div>
+
+  <div id="pausa-banner">
+    <span>⏸</span>
+    <span id="pausa-txt">Bot pausado por losses consecutivos — aguardando setup limpo</span>
+    <button class="btn by" style="margin-left:auto;padding:6px 14px" onclick="cmd('retomar')">Retomar Agora</button>
+  </div>
+
+  <!-- TIMERS + STATS -->
+  <div class="g4" style="margin-bottom:14px">
+    <div class="card">
+      <div class="card-t">Banca</div>
+      <div class="big" id="banca">R$ 0,00</div>
+      <div class="small" id="lucro-s">Sessao: —</div>
+    </div>
+    <div class="card">
+      <div class="card-t">Resultado</div>
+      <div style="display:flex;gap:10px;align-items:baseline;margin-top:4px">
+        <span id="ganhos" style="font-size:22px;font-weight:bold;color:#00e5a0">0W</span>
+        <span id="perdas" style="font-size:22px;font-weight:bold;color:#ff3e6c">0L</span>
+      </div>
+      <div class="small" id="taxa">Taxa: —</div>
+    </div>
+    <div class="timer-box" style="border:1px solid #1e2a42;border-radius:10px;padding:16px">
+      <div class="timer-lbl">SESSAO</div>
+      <div class="timer-val" id="t-sess" style="color:#dde4f8">00:00:00</div>
+    </div>
+    <div class="timer-box" style="border:1px solid #1e2a42;border-radius:10px;padding:16px" id="t-op-box">
+      <div class="timer-lbl" id="t-op-lbl">PROXIMA VELA</div>
+      <div class="timer-val" id="t-op" style="color:#f7c948">00:00</div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:14px">
+
+    <!-- GALE CARD -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div class="card-t">Gale — Níveis</div>
+        <div id="gale-info" style="font-size:12px;color:#6b7aa0">N0 | R$ 2,00</div>
+      </div>
+
+      <div class="gale-levels" id="gale-levels"></div>
+
+      <!-- Loss seq -->
+      <div style="display:flex;align-items:center;gap:10px;margin-top:14px">
+        <span style="font-size:11px;color:#6b7aa0">Losses seq:</span>
+        <div class="loss-bar" id="loss-bar"></div>
+        <span id="loss-seq-txt" style="font-size:12px;color:#ff3e6c;font-weight:bold">0</span>
+      </div>
+
+      <!-- Stake atual -->
+      <div style="background:#0d1120;border-radius:8px;padding:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;color:#6b7aa0">Próxima Stake</div>
+          <div style="font-size:24px;font-weight:bold;color:#f7c948" id="gale-stake">R$ 2,00</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:#6b7aa0">Ativo / TF</div>
+          <div style="font-size:16px;font-weight:bold" id="ativo-tf">—</div>
+          <div style="font-size:11px;color:#6b7aa0" id="payout">Payout: —</div>
+        </div>
+      </div>
+
+      <!-- EMA -->
+      <div class="ema-box">
+        <span style="color:#6b7aa0">EMA3: <b id="ema3" style="color:#f7c948">—</b></span>
+        <span style="color:#6b7aa0">EMA10: <b id="ema10" style="color:#ff8c42">—</b></span>
+        <span style="color:#6b7aa0">SMA21: <b id="ema21" style="color:#4f8ef7">—</b></span>
+        <span id="dir-ema" style="font-weight:bold;color:#6b7aa0">—</span>
+        <span id="frac-info" style="font-size:11px;color:#6b7aa0"></span>
+      </div>
+    </div>
+
+    <!-- CONTROLE -->
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-t">Controle</div>
+        <div class="btn-row">
+          <button class="btn bg"  id="btn-on"  onclick="cmd('start')">&#9654; LIGAR</button>
+          <button class="btn br"  id="btn-off" onclick="cmd('stop')" disabled>&#9632; PARAR</button>
+          <button class="btn by"               onclick="cmd('retomar')">&#9654; Retomar</button>
+          <button class="btn bd"               onclick="cmd('reset')">Resetar</button>
+        </div>
+        <div class="tog-row" style="margin-top:8px">
+          <div><div style="font-size:13px">Pausa Manual</div></div>
+          <label class="tog"><input type="checkbox" id="tog-pausa" onchange="cmd('set_pausa',{ativo:this.checked})"><span class="sl"></span></label>
+        </div>
+        <div class="tog-row" style="border:none">
+          <div><div style="font-size:13px">Inverter Sinais</div></div>
+          <label class="tog"><input type="checkbox" id="tog-inv" onchange="cmd('inverter',{ativo:this.checked})"><span class="sl"></span></label>
+        </div>
+        <div style="margin-top:10px">
+          <div style="font-size:11px;color:#6b7aa0;margin-bottom:5px">Credito API ($)</div>
+          <div style="display:flex;gap:6px">
+            <input class="cfg-in" id="inp-cred" type="number" step="0.5" min="0" placeholder="ex: 7.00" style="flex:1">
+            <button class="btn bb" onclick="saveCred()">OK</button>
+          </div>
+          <div style="font-size:11px;color:#6b7aa0;margin-top:5px">
+            Gasto: <b id="gasto" style="color:#dde4f8">$0.000</b>
+            &nbsp; Chamadas: <b id="calls" style="color:#dde4f8">0</b>
+            <span id="api-alr" style="color:#ff3e6c;display:none"> &#9888; Credito baixo!</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-t">Stats Gale</div>
+        <div style="display:flex;gap:20px;font-size:13px;flex-wrap:wrap">
+          <div>Ciclos totais: <b id="g-ciclos" style="color:#dde4f8">0</b></div>
+          <div>Wins (reset): <b id="g-wins" style="color:#00e5a0">0</b></div>
+        </div>
+        <div style="font-size:11px;color:#6b7aa0;margin-top:8px">
+          Com R$2 inicial: 7 losses para quebrar ciclo<br>
+          Total exposto por ciclo: <b style="color:#f7c948">R$254</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOG -->
+  <div class="card">
+    <div class="card-t">Log</div>
+    <div class="logbox" id="logbox"></div>
+  </div>
+</div>
+
+<!-- ══ CONFIG ══ -->
+<div class="page" id="page-config">
+  <div class="g2">
+    <div class="card">
+      <div class="card-t">Configuracoes do Bot</div>
+      <div class="cfg-g">
+        <label class="cfg-lbl">Ativo Foco</label>
+        <input class="cfg-in" id="c-ativo" type="text" value="EURUSD-OTC" placeholder="ex: EURUSD-OTC">
+      </div>
+      <div class="g2">
+        <div class="cfg-g">
+          <label class="cfg-lbl">Timeframe (segundos)</label>
+          <select class="cfg-in" id="c-tf">
+            <option value="60">M1 (60s)</option>
+            <option value="120">M2 (120s)</option>
+            <option value="300">M5 (300s)</option>
+          </select>
+        </div>
+        <div class="cfg-g">
+          <label class="cfg-lbl">Confianca Minima (%)</label>
+          <input class="cfg-in" id="c-conf" type="number" value="72" min="50" max="100">
+        </div>
+      </div>
+      <div class="g2">
+        <div class="cfg-g">
+          <label class="cfg-lbl">Stake Inicial Gale (R$)</label>
+          <input class="cfg-in" id="c-gale-ini" type="number" value="2" min="0.5" step="0.5" placeholder="ex: 2.00">
+        </div>
+        <div class="cfg-g">
+          <label class="cfg-lbl">Pausa apos N losses seguidos</label>
+          <input class="cfg-in" id="c-maxloss" type="number" value="3" min="1" max="7">
+        </div>
+      </div>
+      <div class="cfg-g">
+        <label class="cfg-lbl">Conta</label>
+        <select class="cfg-in" id="c-demo">
+          <option value="true">DEMO (pratica)</option>
+          <option value="false">REAL</option>
+        </select>
+      </div>
+      <button class="btn bg" style="width:100%;margin-top:6px" onclick="saveConfig()">Salvar</button>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #1e2a42">
+        <label class="cfg-lbl">URL WebSocket</label>
+        <div style="display:flex;gap:6px">
+          <input class="cfg-in" id="c-ws" type="text" placeholder="ws://localhost:8765" style="flex:1">
+          <button class="btn bb" onclick="saveWs()">Conectar</button>
+        </div>
+        <div style="font-size:11px;color:#6b7aa0;margin-top:4px">
+          Local: ws://localhost:8765 &nbsp;|&nbsp; VDS: ws://IP:8765
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-t">Como funciona</div>
+      <div style="font-size:12px;line-height:2;color:#6b7aa0">
+        <div>1. Bot foca em <b style="color:#dde4f8">1 ativo</b> e analisa vela a vela</div>
+        <div>2. Claude analisa <b style="color:#dde4f8">EMA3/10/SMA21 + Fractal + fluxo</b></div>
+        <div>3. Entra no <b style="color:#00e5a0">instante zero</b> da nova vela</div>
+        <div>4. Loss → <b style="color:#f7c948">Gale</b> (dobra stake)</div>
+        <div>5. Win → <b style="color:#00e5a0">reseta</b> para stake inicial</div>
+        <div>6. N losses seguidos → <b style="color:#ff3e6c">pausa</b> ate setup limpo</div>
+        <br>
+        <div style="color:#dde4f8">Stakes Gale (7 niveis):</div>
+        <div id="stakes-info" style="color:#f7c948">R$2 → R$4 → R$8 → R$16 → R$32 → R$64 → R$128</div>
+        <div>Total maximo por ciclo: <b id="stakes-total" style="color:#ff3e6c">R$254</b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ANALISE ══ -->
+<div class="page" id="page-analise">
+  <div class="g2">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-t">Ultima Analise Claude Vision</div>
+        <div id="an-empty" style="color:#6b7aa0;font-size:13px;padding:8px 0">Aguardando analise...</div>
+        <div id="an-card" class="an-card" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+            <div>
+              <div id="an-ativo" style="font-size:16px;font-weight:bold">—</div>
+              <div id="an-padrao" style="font-size:12px;color:#6b7aa0;margin-top:2px">—</div>
+            </div>
+            <div style="text-align:right">
+              <div id="an-conf" style="font-size:24px;font-weight:bold">—</div>
+              <div id="an-sinal" style="font-size:20px;font-weight:bold">—</div>
+              <div id="an-forca" style="font-size:11px;color:#6b7aa0">—</div>
+            </div>
+          </div>
+          <div id="an-motivo" style="font-size:12px;border-left:3px solid #4f8ef7;padding-left:8px;line-height:1.6">—</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-t">Ultima Operacao</div>
+        <div id="op-empty" style="color:#6b7aa0;font-size:13px;padding:8px 0">Nenhuma operacao ainda</div>
+        <div id="op-card" style="display:none">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+            <div>
+              <div id="op-dir" style="font-size:22px;font-weight:bold">—</div>
+              <div id="op-pad" style="font-size:12px;color:#6b7aa0">—</div>
+            </div>
+            <div style="text-align:right">
+              <div id="op-res" style="font-size:20px;font-weight:bold">—</div>
+              <div id="op-luc" style="font-size:12px;color:#6b7aa0">—</div>
+            </div>
+          </div>
+          <div style="font-size:12px;color:#6b7aa0;display:flex;gap:14px;flex-wrap:wrap">
+            <span id="op-at">—</span>
+            <span id="op-sk">—</span>
+            <span id="op-gn">—</span>
+            <span id="op-hr">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-t">Log em Tempo Real</div>
+      <div class="logbox" id="log2" style="height:380px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HISTORICO ══ -->
+<div class="page" id="page-historico">
+  <div class="card">
+    <div class="card-t">Historico de Operacoes</div>
+    <div style="overflow-x:auto">
+      <table class="htbl">
+        <thead><tr>
+          <th>Hora</th><th>Ativo</th><th>TF</th><th>Dir</th>
+          <th>Padrao</th><th>Conf</th><th>Gale N</th><th>Stake</th><th>Resultado</th><th>Lucro</th>
+        </tr></thead>
+        <tbody id="hist-tb"></tbody>
+      </table>
+      <div id="hist-empty" style="text-align:center;color:#6b7aa0;padding:28px;font-size:13px">Nenhuma operacao ainda</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── TABS ──
+function setTab(n) {
+  ['geral','config','analise','historico'].forEach(function(x){
+    document.getElementById('page-'+x).classList.remove('active');
+    document.getElementById('tab-'+x).classList.remove('active');
+  });
+  document.getElementById('page-'+n).classList.add('active');
+  document.getElementById('tab-'+n).classList.add('active');
+}
+
+// ── WS ──
+var ws, rt;
+function wsUrl(){ return localStorage.getItem('iqbot_ws')||'ws://localhost:8765'; }
+
+function connect(){
+  var u=wsUrl(); var i=document.getElementById('c-ws'); if(i) i.value=u;
+  try{ ws=new WebSocket(u); } catch(e){ sched(); return; }
+  ws.onopen    = function(){ clearTimeout(rt); setBanner(true); };
+  ws.onmessage = function(e){ try{ upd(JSON.parse(e.data)); } catch(x){ console.error(x); } };
+  ws.onclose   = function(){ setBanner(false); sched(); };
+  ws.onerror   = function(){ ws.close(); };
+}
+function sched(){ clearTimeout(rt); rt=setTimeout(connect,3000); }
+connect();
+
+function setBanner(ok){
+  document.getElementById('conn-banner').className = ok?'ok':'';
+  document.getElementById('dot').className = ok?'on':'';
+  document.getElementById('txt-ws').textContent = ok?'Conectado':'Desconectado';
+}
+
+function cmd(c, extra){
+  if(!ws||ws.readyState!==1){ alert('Bot desconectado.'); return; }
+  var o={cmd:c}; if(extra) Object.assign(o,extra);
+  ws.send(JSON.stringify(o));
+}
+
+// ── HELPERS ──
+function fmt(v){ return 'R$ '+Number(v||0).toFixed(2).replace('.',','); }
+function tempo(s){ s=s||0; return [Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(function(x){return('0'+x).slice(-2);}).join(':'); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function lc(t){
+  if(/WIN|✅/.test(t)) return 'lw';
+  if(/LOSS|❌/.test(t)) return 'll';
+  if(/⚠️|🛑|⏸/.test(t)) return 'la';
+  if(/🚀|✅ Con/.test(t)) return 'li';
+  return 'ln';
+}
+
+var lastLog0='', cfgLoaded=false;
+
+function upd(d){
+  // banner
+  setBanner(true);
+  var run = !!d.rodando;
+  var icon = run ? (d.trade_ativo?'🎯':'🔍') : '⚪';
+  document.getElementById('status-txt').textContent = icon+' '+(d.status||'—');
+
+  // pausa banner
+  var pb = document.getElementById('pausa-banner');
+  if(d.gale_pausado){ pb.style.display='flex'; document.getElementById('pausa-txt').textContent='Bot pausado ('+d.loss_seq+' losses consecutivos) — aguardando setup limpo'; }
+  else pb.style.display='none';
+
+  // timers
+  document.getElementById('crono-sess').textContent = tempo(d.crono_sessao);
+  document.getElementById('t-sess').textContent     = tempo(d.crono_sessao);
+
+  var topBox = document.getElementById('t-op-box');
+  var topLbl = document.getElementById('t-op-lbl');
+  var topVal = document.getElementById('t-op');
+  if(d.trade_ativo){
+    var s=d.crono_entrada||0;
+    topLbl.textContent='OPERACAO';
+    topVal.textContent=('0'+Math.floor(s/60)).slice(-2)+':'+('0'+(s%60)).slice(-2);
+    topVal.style.color='#ff8c42';
+    topBox.style.borderColor='#ff8c42';
+  } else {
+    var pv=d.prox_vela||0;
+    topLbl.textContent='PROXIMA VELA';
+    topVal.textContent=('0'+Math.floor(pv/60)).slice(-2)+':'+('0'+(pv%60)).slice(-2);
+    topVal.style.color='#f7c948';
+    topBox.style.borderColor='#1e2a42';
+  }
+
+  // banca
+  document.getElementById('banca').textContent = fmt(d.banca);
+  var ls=d.lucro_sessao||0;
+  var lsEl=document.getElementById('lucro-s');
+  lsEl.textContent='Sessao: '+(ls>=0?'+':'')+fmt(ls);
+  lsEl.style.color=ls>=0?'#00e5a0':'#ff3e6c';
+
+  // ganhos/perdas
+  var g=d.ganhos||0,p=d.perdas||0,tot=g+p;
+  document.getElementById('ganhos').textContent=g+'W';
+  document.getElementById('perdas').textContent=p+'L';
+  document.getElementById('taxa').textContent=tot?'Taxa: '+Math.round(g/tot*100)+'% ('+tot+')':'Taxa: —';
+
+  // ativo
+  document.getElementById('ativo-tf').textContent=(d.ativo_atual||'—')+' '+(d.tf_atual||'');
+  document.getElementById('payout').textContent='Payout: '+(d.payout_atual?Math.round(d.payout_atual*100)+'%':'—');
+
+  // GALE LEVELS
+  var nl=d.gale_nivel||0, gmax=d.gale_max||6;
+  var stakes=d.gale_stakes_list||[2,4,8,16,32,64,128];
+  var html='';
+  for(var i=0;i<=gmax;i++){
+    var cls=i<nl?'lost':i===nl?'active':'';
+    html+='<div class="gl '+cls+'"><div class="gn">N'+i+'</div><div class="gs">R$'+stakes[i]+'</div></div>';
+  }
+  document.getElementById('gale-levels').innerHTML=html;
+  document.getElementById('gale-info').textContent='N'+nl+' | '+fmt(d.gale_stake||2);
+  document.getElementById('gale-stake').textContent=fmt(d.gale_stake||2);
+
+  // Loss seq bar
+  var maxls=d.max_loss_seq||3;
+  var ls2=d.loss_seq||0;
+  var lbHtml='';
+  for(var j=0;j<maxls;j++){
+    lbHtml+='<div class="lb'+(j<ls2?' active':'')+'"></div>';
+  }
+  document.getElementById('loss-bar').innerHTML=lbHtml;
+  document.getElementById('loss-seq-txt').textContent=ls2;
+
+  // Gale stats
+  document.getElementById('g-ciclos').textContent=d.gale_ciclos||0;
+  document.getElementById('g-wins').textContent=d.gale_wins||0;
+
+  // EMA
+  var e3=document.getElementById('ema3'), e10=document.getElementById('ema10'), e21=document.getElementById('ema21');
+  if(e3&&d.ema3) e3.textContent=d.ema3;
+  if(e10&&d.ema10) e10.textContent=d.ema10;
+  if(e21&&d.ema21) e21.textContent=d.ema21;
+  var dEl=document.getElementById('dir-ema');
+  if(dEl){
+    dEl.textContent=d.direcao_ema==='ALTA'?'▲ ALTA':d.direcao_ema==='BAIXA'?'▼ BAIXA':'— LATERAL';
+    dEl.style.color=d.direcao_ema==='ALTA'?'#00e5a0':d.direcao_ema==='BAIXA'?'#ff3e6c':'#6b7aa0';
+  }
+  var fEl=document.getElementById('frac-info');
+  if(fEl){
+    var ft='';
+    if(d.fractal_up_dist!=null) ft+='▲ frac '+d.fractal_up_dist+'v ';
+    if(d.fractal_down_dist!=null) ft+='▼ frac '+d.fractal_down_dist+'v';
+    fEl.textContent=ft;
+  }
+
+  // buttons
+  document.getElementById('btn-on').disabled=run;
+  document.getElementById('btn-off').disabled=!run;
+
+  // toggles
+  var tp=document.getElementById('tog-pausa'); if(tp) tp.checked=!!d.modo_pausa;
+  var ti=document.getElementById('tog-inv'); if(ti) ti.checked=!!d.inverter_tudo;
+
+  // API
+  document.getElementById('gasto').textContent='$'+(d.api_gasto||0).toFixed(3);
+  document.getElementById('calls').textContent=d.api_chamadas||0;
+  document.getElementById('api-alr').style.display=d.api_alerta?'inline':'none';
+
+  // config (first load)
+  if(!cfgLoaded && d.ativo_foco){
+    cfgLoaded=true;
+    document.getElementById('c-ativo').value=d.ativo_foco;
+    document.getElementById('c-tf').value=d.timeframe||60;
+    document.getElementById('c-conf').value=d.confianca_min||72;
+    document.getElementById('c-maxloss').value=d.max_loss_seq||3;
+    var cgi=document.getElementById('c-gale-ini');
+    if(cgi) cgi.value=d.gale_inicial||2;
+  }
+
+  // stakes info
+  var si=document.getElementById('stakes-info');
+  if(si&&stakes.length){
+    si.textContent=stakes.map(function(s){return'R$'+s;}).join(' → ');
+    var stot=document.getElementById('stakes-total');
+    if(stot) stot.textContent='R$'+stakes.reduce(function(a,b){return a+b;},0).toFixed(2);
+  }
+
+  // analise
+  if(d.analise) renderAnalise(d.analise);
+  if(d.ultima_op) renderUltimaOp(d.ultima_op);
+
+  // historico
+  renderHist(d.historico||[]);
+
+  // log
+  var logs=d.log||[];
+  if(logs.length&&logs[0]!==lastLog0){
+    lastLog0=logs[0];
+    var lhtml=logs.map(function(l){return'<div class="'+lc(l)+'">'+esc(l)+'</div>';}).join('');
+    document.getElementById('logbox').innerHTML=lhtml;
+    var l2=document.getElementById('log2'); if(l2) l2.innerHTML=lhtml;
+  }
+}
+
+function renderAnalise(a){
+  var em=document.getElementById('an-empty'),cd=document.getElementById('an-card');
+  if(!a||!a.sinal){em.style.display='block';cd.style.display='none';return;}
+  em.style.display='none';cd.style.display='block';
+  document.getElementById('an-ativo').textContent=(a.ativo||'—')+' M'+((a.timeframe||60)/60|0);
+  document.getElementById('an-padrao').textContent=a.padrao||'—';
+  var cf=a.confianca||0;
+  var cel=document.getElementById('an-conf');
+  cel.textContent=cf+'%';
+  cel.style.color=cf>=80?'#00e5a0':cf>=65?'#f7c948':'#6b7aa0';
+  var sel=document.getElementById('an-sinal');
+  sel.textContent=a.sinal||'—';
+  sel.style.color=a.sinal==='CALL'?'#00e5a0':a.sinal==='PUT'?'#ff3e6c':'#6b7aa0';
+  var fel=document.getElementById('an-forca');
+  if(fel){ fel.textContent=a.forca||''; fel.style.color=a.forca==='FORTE'?'#f7c948':'#6b7aa0'; }
+  document.getElementById('an-motivo').textContent=a.motivo||'—';
+}
+
+function renderUltimaOp(op){
+  var em=document.getElementById('op-empty'),cd=document.getElementById('op-card');
+  if(!op){em.style.display='block';cd.style.display='none';return;}
+  em.style.display='none';cd.style.display='block';
+  var iw=op.resultado==='WIN';
+  var dEl=document.getElementById('op-dir'); dEl.textContent=op.dir||'—'; dEl.style.color=op.dir==='CALL'?'#00e5a0':'#ff3e6c';
+  document.getElementById('op-pad').textContent=op.padrao||'—';
+  var rEl=document.getElementById('op-res'); rEl.textContent=op.resultado||'—'; rEl.style.color=iw?'#00e5a0':'#ff3e6c';
+  var lu=op.lucro_op||0;
+  document.getElementById('op-luc').textContent=(lu>=0?'+':'')+fmt(lu);
+  document.getElementById('op-at').textContent=op.ativo||'—';
+  document.getElementById('op-sk').textContent='Stake: '+fmt(op.stake);
+  document.getElementById('op-gn').textContent='Gale N'+(op.gale_nivel||0);
+  document.getElementById('op-hr').textContent=op.hora||'—';
+}
+
+function renderHist(hist){
+  var tb=document.getElementById('hist-tb'),em=document.getElementById('hist-empty');
+  if(!hist.length){tb.innerHTML='';em.style.display='block';return;}
+  em.style.display='none';
+  tb.innerHTML=hist.slice().reverse().map(function(h){
+    var iw=h.resultado==='WIN',lu=h.lucro||0;
+    return'<tr>'+
+      '<td>'+esc(h.hora)+'</td>'+
+      '<td>'+esc(h.ativo)+'</td>'+
+      '<td>'+esc(h.tf)+'</td>'+
+      '<td style="color:'+(h.dir==='CALL'?'#00e5a0':'#ff3e6c')+';font-weight:bold">'+esc(h.dir)+'</td>'+
+      '<td>'+esc(h.padrao)+'</td>'+
+      '<td style="color:'+(h.confianca>=80?'#00e5a0':h.confianca>=65?'#f7c948':'#6b7aa0')+'">'+esc(h.confianca)+'%</td>'+
+      '<td style="color:#f7c948">N'+esc(h.gale_n)+'</td>'+
+      '<td>'+fmt(h.stake)+'</td>'+
+      '<td class="'+(iw?'rw':'rl')+'">'+esc(h.resultado)+'</td>'+
+      '<td style="color:'+(lu>=0?'#00e5a0':'#ff3e6c')+'">'+(lu>=0?'+':'')+fmt(lu)+'</td>'+
+    '</tr>';
+  }).join('');
+}
+
+function saveConfig(){
+  var gi = parseFloat(document.getElementById('c-gale-ini').value)||2;
+  gi = Math.max(0.5, gi);
+  cmd('config',{
+    ativo: document.getElementById('c-ativo').value.trim().toUpperCase(),
+    tf:    parseInt(document.getElementById('c-tf').value)||60,
+    conf:  parseInt(document.getElementById('c-conf').value)||72,
+    max_loss: parseInt(document.getElementById('c-maxloss').value)||3,
+    demo:  document.getElementById('c-demo').value==='true',
+    gale_inicial: gi
+  });
+  alert('Salvo!');
+}
+
+function saveCred(){
+  cmd('set_credito',{valor:parseFloat(document.getElementById('inp-cred').value)||0});
+}
+
+function saveWs(){
+  var u=document.getElementById('c-ws').value.trim();
+  if(!u) return;
+  if(u.indexOf('ws://')!==0&&u.indexOf('wss://')!==0){alert('Use ws://IP:8765');return;}
+  localStorage.setItem('iqbot_ws',u);
+  clearTimeout(rt); if(ws){try{ws.close();}catch(e){}} setTimeout(connect,500);
+}
+</script>
+</body>
+</html>
