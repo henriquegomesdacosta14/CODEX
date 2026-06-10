@@ -18,7 +18,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-BASE        = Path("/opt/masaniello/iq_masaniello")
+BASE        = (
+    Path("/opt/masaniello/iq_masaniello")
+    if Path("/opt/masaniello/iq_masaniello").exists()
+    else Path(__file__).parent
+)
 STATE_FILE  = BASE / "masaniello_state.json"
 COFRE_FILE  = BASE / "cofre_confluencia.json"
 HIST_FILE   = BASE / "historico_confluencia.json"

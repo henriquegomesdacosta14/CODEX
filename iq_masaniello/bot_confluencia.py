@@ -51,7 +51,11 @@ log = logging.getLogger(__name__)
 # CONFIGURAÇÃO
 # ============================================================
 
-_CONFIG_BASE = Path("/opt/masaniello/iq_masaniello")
+_CONFIG_BASE = (
+    Path("/opt/masaniello/iq_masaniello")
+    if Path("/opt/masaniello/iq_masaniello").exists()
+    else Path(__file__).parent
+)
 
 _DEFAULTS = {
     # -- Credenciais
