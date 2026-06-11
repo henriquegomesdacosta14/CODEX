@@ -211,6 +211,15 @@ async def broadcast():
     payload["ultima_op"]    = estado.get("ultima_operacao")
     payload["analise"]      = estado.get("ultima_analise")
     payload["aprendizado"]  = estado.get("aprendizado", {})
+    padroes_stats, horas_stats = stats_padroes()
+    payload["padroes_stats"] = [
+        {"nome": k, "wins": v["wins"], "total": v["total"]}
+        for k, v in sorted(padroes_stats.items(), key=lambda x: -x[1]["total"])
+    ]
+    payload["horas_stats"] = [
+        {"hora": k, "wins": v["wins"], "total": v["total"]}
+        for k, v in sorted(horas_stats.items())
+    ]
     payload["config"]   = {
         "ativo":              ATIVO_FIXO,
         "stake":              STAKE_INICIAL,
@@ -1022,16 +1031,48 @@ def atualizar_aprendizado(sinal_executado, ganhou):
             f"{'[INVERTIDO]' if estado['inverter_tudo'] else ''}")
 
 
+def stats_padroes():
+    """Agrega win rate por padrão e por faixa de hora nas últimas 30 operações."""
+    hist = estado["historico"][-30:]
+    if not hist:
+        return {}, {}
+
+    # Por padrão de análise
+    padroes: dict = {}
+    for t in hist:
+        p = (t.get("padrao") or "EMA").split(" ")[0][:20]   # pega só o nome curto
+        if p not in padroes:
+            padroes[p] = {"wins": 0, "total": 0}
+        padroes[p]["total"] += 1
+        if t.get("resultado") == "WIN":
+            padroes[p]["wins"] += 1
+
+    # Por faixa de hora (ex: "08h", "14h")
+    horas: dict = {}
+    for t in hist:
+        hora = t.get("hora", "")
+        faixa = hora[:2] + "h" if hora else "?h"
+        if faixa not in horas:
+            horas[faixa] = {"wins": 0, "total": 0}
+        horas[faixa]["total"] += 1
+        if t.get("resultado") == "WIN":
+            horas[faixa]["wins"] += 1
+
+    return padroes, horas
+
+
 def resumo_aprendizado():
-    """Retorna texto curto do histórico de acerto para incluir no prompt Claude."""
+    """Retorna texto para incluir no prompt Claude com histórico de padrões."""
     ap = estado["aprendizado"]
     recent = estado["historico"][-APRENDIZADO_JANELA:]
     if len(recent) < 3:
         return ""
-    wins  = sum(1 for t in recent if t["resultado"] == "WIN")
-    taxa  = wins / len(recent)
+
+    wins = sum(1 for t in recent if t["resultado"] == "WIN")
+    taxa = wins / len(recent)
     c_rate = ap["call_wins"] / ap["call_total"] if ap["call_total"] > 0 else None
     p_rate = ap["put_wins"]  / ap["put_total"]  if ap["put_total"]  > 0 else None
+
     linhas = [f"HISTORICO RECENTE ({len(recent)} trades): {taxa*100:.0f}% win rate"]
     if c_rate is not None:
         linhas.append(f"Precisao CALL: {c_rate*100:.0f}% ({ap['call_wins']}/{ap['call_total']})")
@@ -1039,6 +1080,26 @@ def resumo_aprendizado():
         linhas.append(f"Precisao PUT:  {p_rate*100:.0f}% ({ap['put_wins']}/{ap['put_total']})")
     if taxa < 0.40:
         linhas.append("ATENCAO: win rate baixo — revise a direcao do sinal com cuidado.")
+
+    # Padrões
+    padroes, horas = stats_padroes()
+    if padroes:
+        linhas.append("PADROES (ultimas 30 ops):")
+        for nome, s in sorted(padroes.items(), key=lambda x: -x[1]["total"]):
+            r = s["wins"] / s["total"]
+            emoji = "✓" if r >= 0.55 else ("✗" if r < 0.35 else "~")
+            linhas.append(f"  {emoji} {nome}: {r*100:.0f}% ({s['wins']}/{s['total']})")
+
+    # Melhor/pior horário
+    if horas:
+        melhores = sorted(horas.items(), key=lambda x: x[1]["wins"]/x[1]["total"] if x[1]["total"]>0 else 0, reverse=True)
+        melhor = melhores[0]
+        pior   = melhores[-1]
+        hora_atual = datetime.now().strftime("%H") + "h"
+        linhas.append(f"HORARIOS: melhor={melhor[0]} ({melhor[1]['wins']}/{melhor[1]['total']}) "
+                      f"pior={pior[0]} ({pior[1]['wins']}/{pior[1]['total']}) "
+                      f"agora={hora_atual}")
+
     return "\n".join(linhas)
 
 

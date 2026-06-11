@@ -352,6 +352,16 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
         </div>
       </div>
 
+      <!-- Histórico de Padrões -->
+      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">📈 Padrões Detectados</div>
+        <div id="padroes-list" style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <span style="color:var(--text2);font-size:10px">Aguardando operações...</span>
+        </div>
+        <div style="margin-top:8px;font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px">🕐 Por Horário</div>
+        <div id="horas-list" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+      </div>
+
       <div class="status-box">
         <div class="pulse" id="pulse" style="display:none"></div>
         <span id="status-txt">Aguardando bot...</span>
@@ -677,6 +687,44 @@ function atualizar(d) {
     if (pEl) pEl.textContent = putRate  !== null ? (putRate *100).toFixed(0)+'%' : '—';
     const invEl = document.getElementById('v-auto-inv');
     if (invEl) { invEl.textContent = ap.auto_inverter ? 'AUTO ON' : (d.inverter_tudo ? 'MANUAL' : 'OFF'); invEl.style.color = ap.auto_inverter?'var(--yellow)':d.inverter_tudo?'var(--orange)':'var(--text2)'; }
+  }
+
+  // Histórico de padrões
+  if (d.padroes_stats && d.padroes_stats.length > 0) {
+    const pl = document.getElementById('padroes-list');
+    if (pl) {
+      pl.innerHTML = d.padroes_stats.map(p => {
+        const r = p.total > 0 ? p.wins/p.total : 0;
+        const cor = r >= 0.55 ? 'var(--green)' : r < 0.35 ? 'var(--red)' : 'var(--yellow)';
+        const emoji = r >= 0.55 ? '✓' : r < 0.35 ? '✗' : '~';
+        const pct = (r*100).toFixed(0);
+        const bar = Math.round(r*100);
+        return `<div style="background:var(--bg3);border-radius:6px;padding:5px 8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+            <span style="font-weight:600;color:var(--text)">${emoji} ${p.nome}</span>
+            <span style="font-family:var(--mono);color:${cor};font-weight:700">${pct}% <span style="color:var(--text2);font-size:10px">${p.wins}/${p.total}</span></span>
+          </div>
+          <div style="background:var(--bg4);border-radius:2px;height:3px"><div style="width:${bar}%;height:100%;border-radius:2px;background:${cor};transition:width .5s"></div></div>
+        </div>`;
+      }).join('');
+    }
+  }
+
+  if (d.horas_stats && d.horas_stats.length > 0) {
+    const hl = document.getElementById('horas-list');
+    if (hl) {
+      const horaAtual = new Date().getHours().toString().padStart(2,'0')+'h';
+      hl.innerHTML = d.horas_stats.map(h => {
+        const r = h.total > 0 ? h.wins/h.total : 0;
+        const cor = r >= 0.55 ? 'var(--green)' : r < 0.35 ? 'var(--red)' : 'var(--yellow)';
+        const ativo = h.hora === horaAtual ? 'border:1px solid var(--blue);' : '';
+        return `<div style="background:var(--bg3);border-radius:6px;padding:4px 7px;text-align:center;${ativo}">
+          <div style="font-size:9px;color:var(--text2)">${h.hora}</div>
+          <div style="font-family:var(--mono);font-size:12px;font-weight:700;color:${cor}">${(r*100).toFixed(0)}%</div>
+          <div style="font-size:9px;color:var(--text2)">${h.wins}/${h.total}</div>
+        </div>`;
+      }).join('');
+    }
   }
 
   if (d.analise && d.analise.sinal) {
