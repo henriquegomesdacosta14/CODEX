@@ -839,12 +839,9 @@ async def varrer_melhor_ativo(iq):
     ranking.sort(reverse=True)
     melhor_score, melhor_ativo, melhor_payout, melhor_dir, melhor_motivo = ranking[0]
 
-    if melhor_score < 20:
-        log(f"⚠ Varredura: melhor score {melhor_score}pts ({melhor_ativo}) — mercado lateral")
-        await broadcast()
-        return None
-
-    log(f"✅ Varredura: escolheu {melhor_ativo} score={melhor_score}pts {melhor_dir} | {melhor_motivo}")
+    # Sempre força a escolha do melhor disponível, mesmo score baixo
+    aviso = " ⚠ mercado lateral" if melhor_score < 20 else ""
+    log(f"✅ Varredura: escolheu {melhor_ativo} score={melhor_score}pts {melhor_dir}{aviso}")
     estado["varredura_log"].append(f"→ Escolhido: {melhor_ativo} ({melhor_score}pts {melhor_dir})")
 
     if melhor_ativo != ATIVO_FIXO:
