@@ -927,12 +927,16 @@ async def obter_payout(iq, ativo):
     return await asyncio.get_event_loop().run_in_executor(None, buscar_payout)
 
 
-async def escolher_ativo(iq, ativo_preferido=None):
+async def escolher_ativo(iq, ativo_preferido=None, forcar_troca=False):
     """Busca payouts e status de abertura em UMA chamada, retorna primeiro ativo viável.
     Atualiza ATIVO_FIXO globalmente se trocar de ativo."""
     global ATIVO_FIXO
     preferido = ativo_preferido or ATIVO_FIXO
-    lista = [preferido] + [a for a in ATIVOS_LISTA if a != preferido]
+    # forcar_troca=True: pula o ativo atual e começa pelos alternativos
+    if forcar_troca:
+        lista = [a for a in ATIVOS_LISTA if a != preferido] + [preferido]
+    else:
+        lista = [preferido] + [a for a in ATIVOS_LISTA if a != preferido]
 
     def buscar_info():
         try:
@@ -1422,14 +1426,26 @@ async def loop_bot():
                     log(f"Erro EMA fallback: {e}")
                     analise = None
             else:
-                # Sem cache — busca agora (fallback, não deveria acontecer com frequência)
+                # Sem cache — busca agora
                 log("⚠ Sem cache — buscando análise agora")
                 try:
                     analise = await buscar_analise(iq)
                 except Exception as e:
                     log(f"Erro buscando análise: {e}")
-                    await asyncio.sleep(5)
-                    continue
+                    analise = None
+
+            # ── Se análise falhou → tenta outro ativo imediatamente ──
+            if not analise:
+                log(f"⚠ Sem análise para {ATIVO_FIXO} — tentando ativo alternativo")
+                novo, payout_novo = await escolher_ativo(iq, forcar_troca=True)
+                if novo:
+                    log(f"🔀 Trocou para {ATIVO_FIXO} — buscando análise")
+                    estado["status"] = f"Trocou → {ATIVO_FIXO}"
+                    await broadcast()
+                    try:
+                        analise = await buscar_analise(iq)
+                    except Exception:
+                        analise = None
 
             # ── LÓGICA DE PAUSA ──────────────────────────────
             if estado["gale_pausado"]:
@@ -1450,7 +1466,7 @@ async def loop_bot():
             # ─────────────────────────────────────────────────
 
             if not analise:
-                log("⚠ Análise vazia — aguardando próxima vela")
+                log("⚠ Sem análise em nenhum ativo — aguardando próxima vela")
                 estado["status"] = "Sem análise — aguardando vela"
                 await broadcast()
                 await asyncio.sleep(5)
