@@ -928,24 +928,56 @@ async def obter_payout(iq, ativo):
 
 
 async def escolher_ativo(iq, ativo_preferido=None):
-    """Itera ATIVOS_LISTA e retorna (ativo, payout) do primeiro com payout >= PAYOUT_MINIMO.
+    """Busca payouts e status de abertura em UMA chamada, retorna primeiro ativo viável.
     Atualiza ATIVO_FIXO globalmente se trocar de ativo."""
     global ATIVO_FIXO
     preferido = ativo_preferido or ATIVO_FIXO
     lista = [preferido] + [a for a in ATIVOS_LISTA if a != preferido]
+
+    def buscar_info():
+        try:
+            payouts = iq.get_all_profit() or {}
+        except Exception:
+            payouts = {}
+        try:
+            open_times = iq.get_all_open_time() or {}
+        except Exception:
+            open_times = {}
+        return payouts, open_times
+
+    payouts, open_times = await asyncio.get_event_loop().run_in_executor(None, buscar_info)
+
+    turbo_open  = open_times.get("turbo",  {})
+    binary_open = open_times.get("binary", {})
+
     for ativo in lista:
         try:
-            payout = await obter_payout(iq, ativo)
-            if payout >= PAYOUT_MINIMO:
-                if ativo != ATIVO_FIXO:
-                    log(f"🔀 Ativo alternativo: {ativo} payout={payout*100:.0f}% (era {ATIVO_FIXO})")
-                    ATIVO_FIXO = ativo
-                    estado["ativo_atual"] = ativo
-                    # Invalida cache — precisa reanalisar o novo ativo
-                    _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
-                return ativo, payout
+            base = ativo.replace("-OTC", "")
+            # Verifica se mercado está aberto
+            aberto = (
+                turbo_open.get(ativo,  {}).get("open") or
+                turbo_open.get(base,   {}).get("open") or
+                binary_open.get(ativo, {}).get("open") or
+                binary_open.get(base,  {}).get("open")
+            )
+            if open_times and not aberto:
+                continue   # mercado fechado, tenta próximo
+
+            # Verifica payout
+            dados  = payouts.get(ativo) or payouts.get(base) or {}
+            payout = float(dados.get("turbo") or dados.get("binary") or dados.get("digital") or 0)
+            if payout < PAYOUT_MINIMO:
+                continue
+
+            if ativo != ATIVO_FIXO:
+                log(f"🔀 Ativo → {ativo} payout={payout*100:.0f}% (era {ATIVO_FIXO}, fechado/baixo)")
+                ATIVO_FIXO = ativo
+                estado["ativo_atual"] = ativo
+                _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
+            return ativo, payout
         except Exception:
             pass
+
     return None, 0.0
 
 
