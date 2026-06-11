@@ -1134,6 +1134,7 @@ async def loop_bot():
     estado["status"]  = "Conectando na IQ Option..."
     await broadcast()
 
+    analise_bg_task = None  # garante que existe no finally mesmo se conexão falhar
     try:
         from iqoptionapi.stable_api import IQ_Option
         import nest_asyncio
@@ -1399,7 +1400,7 @@ async def loop_bot():
     finally:
         estado["rodando"]     = False
         estado["trade_ativo"] = False
-        if "analise_bg_task" in dir() and not analise_bg_task.done():
+        if analise_bg_task is not None and not analise_bg_task.done():
             analise_bg_task.cancel()
         if estado["status"] not in ("stop_gain", "stop_loss") and not str(estado["status"]).startswith("Erro:"):
             estado["status"] = "parado"
