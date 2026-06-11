@@ -69,6 +69,8 @@ CONFIG_FILE          = "iqbot-claude-config.json"
 STATE_FILE           = "iqbot-claude-state.json"
 PAYOUT_MINIMO        = 0.80
 MODO_EXECUCAO        = os.getenv("MODO_EXECUCAO", "precheck")
+MODO_BANCA           = "mg"   # mg | soros | mg_soros | mg_rec
+SOROS_NIVEIS         = 3
 
 # Claude / análise
 MAX_LOSS_SEQ         = 3     # pausa após N losses seguidos
@@ -109,6 +111,8 @@ try:
     CLAUDE_KEY           = str(_cfg.get("claude_key", CLAUDE_KEY))
     MAX_LOSS_SEQ         = int(_cfg.get("max_loss_seq", MAX_LOSS_SEQ))
     CONFIANCA_MIN_CLAUDE = int(_cfg.get("confianca_min", CONFIANCA_MIN_CLAUDE))
+    MODO_BANCA           = str(_cfg.get("modo_banca", MODO_BANCA))
+    SOROS_NIVEIS         = int(_cfg.get("soros_niveis", SOROS_NIVEIS))
 except Exception:
     pass
 
@@ -128,7 +132,7 @@ estado = {
     "soros_nivel": 0,
     "soros_stake": 0.0,
     "stake_atual": STAKE_INICIAL,
-    "modo_banca": "claude_m1",
+    "modo_banca": MODO_BANCA,
     "mg_soros_fase": "ema",
     "mg_rec_perdas": 0.0,
     "mg_rec_nivel": 0,
@@ -1285,36 +1289,117 @@ def resumo_aprendizado():
 
 
 def on_ganho(lucro_op, sinal=""):
+    modo = estado["modo_banca"]
     estado["ganhos"]      += 1
-    estado["mg_nivel"]     = 0
-    estado["stake_atual"]  = STAKE_INICIAL
     estado["loss_seq"]     = 0
     estado["gale_pausado"] = False
-    log(f"WIN ${lucro_op:.2f} - MG resetado para ${STAKE_INICIAL:.2f}")
+
+    if modo == "soros":
+        estado["soros_nivel"] += 1
+        if estado["soros_nivel"] >= SOROS_NIVEIS:
+            estado["soros_nivel"] = 0
+            estado["stake_atual"] = STAKE_INICIAL
+            log(f"WIN ${lucro_op:.2f} - Soros {SOROS_NIVEIS}/{SOROS_NIVEIS} completo → reset ${STAKE_INICIAL:.2f}")
+        else:
+            prox = max(STAKE_MINIMA, round(estado["stake_atual"] + lucro_op, 2))
+            estado["stake_atual"] = prox
+            log(f"WIN ${lucro_op:.2f} - Soros {estado['soros_nivel']}/{SOROS_NIVEIS} → prox ${prox:.2f}")
+
+    elif modo == "mg_soros":
+        if estado["mg_nivel"] > 0:
+            # Recuperação MG → muda para fase soros
+            estado["mg_nivel"]     = 0
+            estado["mg_soros_fase"] = "soros"
+            estado["soros_nivel"]  = 1
+            prox = max(STAKE_MINIMA, round(STAKE_INICIAL + lucro_op, 2))
+            estado["stake_atual"]  = prox
+            log(f"WIN ${lucro_op:.2f} - MG recuperado → Soros 1/{SOROS_NIVEIS} ${prox:.2f}")
+        elif estado["mg_soros_fase"] == "soros":
+            estado["soros_nivel"] += 1
+            if estado["soros_nivel"] >= SOROS_NIVEIS:
+                estado["soros_nivel"]  = 0
+                estado["mg_soros_fase"] = "ema"
+                estado["stake_atual"]  = STAKE_INICIAL
+                log(f"WIN ${lucro_op:.2f} - MG+Soros ciclo completo → reset ${STAKE_INICIAL:.2f}")
+            else:
+                prox = max(STAKE_MINIMA, round(estado["stake_atual"] + lucro_op, 2))
+                estado["stake_atual"] = prox
+                log(f"WIN ${lucro_op:.2f} - MG+Soros {estado['soros_nivel']}/{SOROS_NIVEIS} → ${prox:.2f}")
+        else:
+            estado["stake_atual"] = STAKE_INICIAL
+            log(f"WIN ${lucro_op:.2f} - MG+Soros reset ${STAKE_INICIAL:.2f}")
+
+    elif modo == "mg_rec":
+        estado["mg_nivel"]     = 0
+        estado["mg_rec_nivel"] = 0
+        estado["mg_rec_perdas"] = 0.0
+        estado["stake_atual"]  = STAKE_INICIAL
+        log(f"WIN ${lucro_op:.2f} - MG Rec recuperado → reset ${STAKE_INICIAL:.2f}")
+
+    else:  # mg padrão
+        estado["mg_nivel"]    = 0
+        estado["stake_atual"] = STAKE_INICIAL
+        log(f"WIN ${lucro_op:.2f} - MG reset → ${STAKE_INICIAL:.2f}")
+
     if sinal:
         atualizar_aprendizado(sinal, ganhou=True)
     salvar_estado_runtime()
 
 
 def on_perda(sinal=""):
+    modo = estado["modo_banca"]
     estado["perdas"]   += 1
-    estado["mg_nivel"] += 1
     estado["loss_seq"] += 1
     if sinal:
         atualizar_aprendizado(sinal, ganhou=False)
-    if estado["mg_nivel"] >= MG_NIVEIS:
-        log(f"LOSS - atingiu MG {MG_NIVEIS}. Stop de sequencia.")
-        estado["status"]      = "stop_loss"
-        estado["rodando"]     = False
+
+    if modo == "soros":
+        estado["soros_nivel"] = 0
         estado["stake_atual"] = STAKE_INICIAL
-        salvar_estado_runtime()
-        return
-    estado["stake_atual"] = calcular_stake_mg()
-    if estado["loss_seq"] >= estado["max_loss_seq"]:
-        estado["gale_pausado"] = True
-        log(f"⏸ {estado['loss_seq']} losses seguidos → PAUSADO. Aguardando setup limpo (conf≥80%)...")
-    else:
-        log(f"LOSS - MG nivel {estado['mg_nivel']} proxima ${estado['stake_atual']:.2f}")
+        if estado["loss_seq"] >= estado["max_loss_seq"]:
+            estado["gale_pausado"] = True
+            log(f"⏸ {estado['loss_seq']} losses → PAUSADO")
+        else:
+            log(f"LOSS - Soros reset → ${STAKE_INICIAL:.2f}")
+
+    elif modo == "mg_soros":
+        estado["mg_soros_fase"] = "ema"
+        estado["soros_nivel"]  = 0
+        estado["mg_nivel"]    += 1
+        if estado["mg_nivel"] >= MG_NIVEIS:
+            log(f"LOSS - MG+Soros atingiu max {MG_NIVEIS}. Stop.")
+            estado["status"]      = "stop_loss"
+            estado["rodando"]     = False
+            estado["stake_atual"] = STAKE_INICIAL
+            salvar_estado_runtime()
+            return
+        estado["stake_atual"] = calcular_stake_mg()
+        log(f"LOSS - MG+Soros nivel {estado['mg_nivel']} → ${estado['stake_atual']:.2f}")
+
+    elif modo == "mg_rec":
+        estado["mg_rec_perdas"] = round(estado["mg_rec_perdas"] + estado["stake_atual"], 2)
+        estado["mg_rec_nivel"] += 1
+        payout = max(0.70, estado["payout_atual"] or 0.80)
+        recovery = round(estado["mg_rec_perdas"] / payout + STAKE_INICIAL, 2)
+        estado["stake_atual"] = max(STAKE_MINIMA, recovery)
+        log(f"LOSS - MG Rec acum=${estado['mg_rec_perdas']:.2f} → prox ${estado['stake_atual']:.2f}")
+
+    else:  # mg padrão
+        estado["mg_nivel"] += 1
+        if estado["mg_nivel"] >= MG_NIVEIS:
+            log(f"LOSS - atingiu MG {MG_NIVEIS}. Stop de sequencia.")
+            estado["status"]      = "stop_loss"
+            estado["rodando"]     = False
+            estado["stake_atual"] = STAKE_INICIAL
+            salvar_estado_runtime()
+            return
+        estado["stake_atual"] = calcular_stake_mg()
+        if estado["loss_seq"] >= estado["max_loss_seq"]:
+            estado["gale_pausado"] = True
+            log(f"⏸ {estado['loss_seq']} losses seguidos → PAUSADO. Aguardando setup limpo (conf≥80%)...")
+        else:
+            log(f"LOSS - MG nivel {estado['mg_nivel']} proxima ${estado['stake_atual']:.2f}")
+
     salvar_estado_runtime()
 
 
@@ -1359,6 +1444,8 @@ def salvar_config_arquivo():
         "claude_key":    CLAUDE_KEY,
         "max_loss_seq":  MAX_LOSS_SEQ,
         "confianca_min": CONFIANCA_MIN_CLAUDE,
+        "modo_banca":    MODO_BANCA,
+        "soros_niveis":  SOROS_NIVEIS,
     }
     with open(CONFIG_FILE, "w", encoding="utf-8") as f:
         json.dump(dados, f, ensure_ascii=False, indent=2)
@@ -1418,6 +1505,7 @@ async def handler_ws(websocket):
     global STAKE_INICIAL, MG_FATOR, MG_NIVEIS, STOP_LOSS, STOP_GAIN
     global CONTA_DEMO, PAYOUT_MINIMO, MODO_EXECUCAO
     global CLAUDE_KEY, MAX_LOSS_SEQ, CONFIANCA_MIN_CLAUDE
+    global MODO_BANCA, SOROS_NIVEIS
     global ultima_direcao_valida
 
     clientes_ws.add(websocket)
@@ -1470,13 +1558,17 @@ async def handler_ws(websocket):
                 CLAUDE_KEY           = str(data.get("claude_key", CLAUDE_KEY)) if data.get("claude_key") else CLAUDE_KEY
                 MAX_LOSS_SEQ         = int(data.get("max_loss_seq", MAX_LOSS_SEQ))
                 CONFIANCA_MIN_CLAUDE = int(data.get("confianca_min", CONFIANCA_MIN_CLAUDE))
+                MODO_BANCA           = str(data.get("modo_banca", MODO_BANCA))
+                SOROS_NIVEIS         = int(data.get("soros_niveis", SOROS_NIVEIS))
                 estado["max_loss_seq"]  = MAX_LOSS_SEQ
                 estado["confianca_min"] = CONFIANCA_MIN_CLAUDE
+                estado["modo_banca"]    = MODO_BANCA
                 if not estado["rodando"] and not estado["trade_ativo"]:
                     estado["stake_atual"] = STAKE_INICIAL
                     estado["mg_nivel"]    = 0
+                    estado["soros_nivel"] = 0
                 salvar_config_arquivo()
-                log(f"Config salva: stake=${STAKE_INICIAL:.2f} MG={MG_FATOR}x{MG_NIVEIS} pausa>{MAX_LOSS_SEQ} conf>={CONFIANCA_MIN_CLAUDE}% claude={'OK' if CLAUDE_KEY and not CLAUDE_KEY.startswith('sk-ant-api03-SEU') else 'SEM CHAVE'}")
+                log(f"Config salva: stake=${STAKE_INICIAL:.2f} modo={MODO_BANCA} MG={MG_FATOR}x{MG_NIVEIS} Soros={SOROS_NIVEIS} pausa>{MAX_LOSS_SEQ} conf>={CONFIANCA_MIN_CLAUDE}%")
                 await broadcast()
 
     except Exception:
