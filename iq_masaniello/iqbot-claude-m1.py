@@ -670,13 +670,23 @@ Retorne JSON puro sem markdown:
 
 async def _fetch_candles_tf(iq, tf, n):
     """Busca candles de qualquer timeframe; retorna lista normalizada."""
-    raw = await asyncio.wait_for(
-        asyncio.get_event_loop().run_in_executor(
-            None, lambda: iq.get_candles(ATIVO_FIXO, tf, n, time.time())
-        ),
-        timeout=10
-    )
-    return normalizar_candles(raw)
+    try:
+        raw = await asyncio.wait_for(
+            asyncio.get_event_loop().run_in_executor(
+                None, lambda: iq.get_candles(ATIVO_FIXO, tf, n, time.time())
+            ),
+            timeout=30
+        )
+        candles = normalizar_candles(raw)
+        if not candles:
+            log(f"⚠ Candles vazios tf={tf}s (raw={len(raw) if raw else 0} itens)")
+        return candles
+    except asyncio.TimeoutError:
+        log(f"⚠ Timeout candles tf={tf}s (>30s)")
+        return []
+    except Exception as e:
+        log(f"⚠ Erro candles tf={tf}s: {e}")
+        return []
 
 
 async def buscar_analise(iq):
@@ -697,7 +707,10 @@ async def buscar_analise(iq):
     candles_30 = resultados[1] if not isinstance(resultados[1], Exception) else []
     candles_15 = resultados[2] if not isinstance(resultados[2], Exception) else []
 
+    log(f"Candles: M1={len(candles_m1)} 30s={len(candles_30)} 15s={len(candles_15)}")
+
     if not candles_m1:
+        log("⚠ Sem candles M1 — análise abortada")
         return None
 
     # Análise MTF rápida (pura EMA, sem Claude)
@@ -714,6 +727,7 @@ async def buscar_analise(iq):
         analise = analisar_ema(candles_m1)
 
     if not analise:
+        log(f"⚠ EMA retornou None (M1 fechadas={len(candles_m1)-1 if candles_m1 else 0}, min={EMA_LENTA+2})")
         return None
 
     # Enriquece com dados MTF
@@ -1266,7 +1280,8 @@ async def loop_bot():
             # ─────────────────────────────────────────────────
 
             if not analise:
-                estado["status"] = "Coletando candles..."
+                log("⚠ Análise vazia — aguardando próxima vela")
+                estado["status"] = "Sem análise — aguardando vela"
                 await broadcast()
                 await asyncio.sleep(5)
                 continue
