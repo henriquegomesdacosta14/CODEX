@@ -78,7 +78,7 @@ FORTE_BOOST          = 1.5   # multiplicador de stake quando sinal FORTE
 # EMA original (fallback sem Claude)
 EMA_RAPIDA           = 20
 EMA_LENTA            = 50
-CANDLES_ANALISE      = 90
+CANDLES_ANALISE      = 150
 CONFIRMAR_CRUZAMENTO = 2
 
 ENTRADA_APOS_SEGUNDOS       = 0
@@ -1648,23 +1648,40 @@ async def loop_bot():
             log(f"{sinal} | {ATIVO_FIXO} M1 | ${stake:.2f} | {analise.get('motivo','')[:80]}")
 
             try:
-                try:
-                    check, id_op = await asyncio.get_event_loop().run_in_executor(
-                        None, lambda: iq.buy(stake, ATIVO_FIXO, direcao, EXPIRACAO_MIN)
-                    )
-                except Exception as _buy_err:
-                    if "Timeout" in str(_buy_err) or "timeout" in str(_buy_err):
-                        estado["trade_ativo"] = False
-                        estado["rodando"]     = False
-                        estado["status"]      = "timeout_compra"
-                        log(f"Timeout ao abrir trade. Parando.")
-                        await broadcast()
-                        break
-                    raise
+                buy_ok = False
+                id_op  = None
+                _timeout_buy = False
+                for _tentativa in range(3):
+                    try:
+                        _d = direcao
+                        check, id_op = await asyncio.get_event_loop().run_in_executor(
+                            None, lambda: iq.buy(stake, ATIVO_FIXO, _d, EXPIRACAO_MIN)
+                        )
+                        if check:
+                            buy_ok = True
+                            break
+                        log(f"⚠ Buy rejeitado (tent {_tentativa+1}/3)")
+                        if _tentativa < 2:
+                            await asyncio.sleep(1.2)
+                    except Exception as _buy_err:
+                        if "Timeout" in str(_buy_err) or "timeout" in str(_buy_err):
+                            estado["trade_ativo"] = False
+                            estado["rodando"]     = False
+                            estado["status"]      = "timeout_compra"
+                            log(f"Timeout ao abrir trade. Parando.")
+                            await broadcast()
+                            _timeout_buy = True
+                            break
+                        log(f"⚠ Erro buy tent {_tentativa+1}: {_buy_err}")
+                        if _tentativa < 2:
+                            await asyncio.sleep(1.2)
 
-                if not check:
+                if _timeout_buy:
+                    break
+
+                if not buy_ok:
                     estado["trade_ativo"] = False
-                    log("Falha ao abrir trade. Tentando proxima vela.")
+                    log("Falha ao abrir trade (3 tentativas). Proxima vela.")
                     await broadcast()
                     continue
 
