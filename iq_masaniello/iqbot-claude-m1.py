@@ -670,20 +670,15 @@ Retorne JSON puro sem markdown:
 
 async def _fetch_candles_tf(iq, tf, n):
     """Busca candles de qualquer timeframe; retorna lista normalizada."""
-    async def _buscar():
-        # Wrapping em coroutine para compatibilidade com wait_for no Python 3.11+
-        return await asyncio.get_event_loop().run_in_executor(
+    try:
+        loop = asyncio.get_event_loop()
+        raw = await loop.run_in_executor(
             None, lambda: iq.get_candles(ATIVO_FIXO, tf, n, time.time())
         )
-    try:
-        raw = await asyncio.wait_for(_buscar(), timeout=30)
         candles = normalizar_candles(raw)
         if not candles:
-            log(f"⚠ Candles vazios tf={tf}s (raw={len(raw) if raw else 0} itens)")
+            log(f"⚠ Candles vazios tf={tf}s")
         return candles
-    except asyncio.TimeoutError:
-        log(f"⚠ Timeout candles tf={tf}s (>30s)")
-        return []
     except Exception as e:
         log(f"⚠ Erro candles tf={tf}s: {e}")
         return []
@@ -853,11 +848,8 @@ async def aguardar_abertura_proxima_vela():
 # ─────────────────────────────────────────────
 
 async def obter_preco_atual(iq, ativo):
-    candles_raw = await asyncio.wait_for(
-        asyncio.get_event_loop().run_in_executor(
-            None, lambda: iq.get_candles(ativo, TIMEFRAME, 1, time.time())
-        ),
-        timeout=6
+    candles_raw = await asyncio.get_event_loop().run_in_executor(
+        None, lambda: iq.get_candles(ativo, TIMEFRAME, 1, time.time())
     )
     candles = normalizar_candles(candles_raw)
     if not candles:
@@ -882,10 +874,7 @@ def classificar_resultado_provavel(pontos):
 
 
 async def obter_banca(iq):
-    return await asyncio.wait_for(
-        asyncio.get_event_loop().run_in_executor(None, iq.get_balance),
-        timeout=TIMEOUT_BANCA_SEGUNDOS
-    )
+    return await asyncio.get_event_loop().run_in_executor(None, iq.get_balance)
 
 
 async def obter_banca_com_retry(iq):
@@ -910,10 +899,7 @@ async def obter_payout(iq, ativo):
             return float(payout or 0)
         except Exception:
             return 0
-    return await asyncio.wait_for(
-        asyncio.get_event_loop().run_in_executor(None, buscar_payout),
-        timeout=8
-    )
+    return await asyncio.get_event_loop().run_in_executor(None, buscar_payout)
 
 
 async def escolher_ativo(iq, ativo_preferido=None):
@@ -960,10 +946,7 @@ async def obter_lucro_por_id(iq, id_op):
         if ultimo_erro:
             raise ultimo_erro
         raise RuntimeError("Biblioteca sem metodo check_win disponivel")
-    return await asyncio.wait_for(
-        asyncio.get_event_loop().run_in_executor(None, consultar),
-        timeout=TIMEOUT_RESULTADO_ID_SEGUNDOS
-    )
+    return await asyncio.get_event_loop().run_in_executor(None, consultar)
 
 
 # ─────────────────────────────────────────────
@@ -1299,19 +1282,18 @@ async def loop_bot():
 
             try:
                 try:
-                    check, id_op = await asyncio.wait_for(
-                        asyncio.get_event_loop().run_in_executor(
-                            None, lambda: iq.buy(stake, ATIVO_FIXO, direcao, EXPIRACAO_MIN)
-                        ),
-                        timeout=TIMEOUT_COMPRA_SEGUNDOS
+                    check, id_op = await asyncio.get_event_loop().run_in_executor(
+                        None, lambda: iq.buy(stake, ATIVO_FIXO, direcao, EXPIRACAO_MIN)
                     )
-                except asyncio.TimeoutError:
-                    estado["trade_ativo"] = False
-                    estado["rodando"]     = False
-                    estado["status"]      = "timeout_compra"
-                    log(f"Timeout ao abrir trade ({TIMEOUT_COMPRA_SEGUNDOS}s). Parando.")
-                    await broadcast()
-                    break
+                except Exception as _buy_err:
+                    if "Timeout" in str(_buy_err) or "timeout" in str(_buy_err):
+                        estado["trade_ativo"] = False
+                        estado["rodando"]     = False
+                        estado["status"]      = "timeout_compra"
+                        log(f"Timeout ao abrir trade. Parando.")
+                        await broadcast()
+                        break
+                    raise
 
                 if not check:
                     estado["trade_ativo"] = False
