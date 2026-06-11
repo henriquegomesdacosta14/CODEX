@@ -670,13 +670,13 @@ Retorne JSON puro sem markdown:
 
 async def _fetch_candles_tf(iq, tf, n):
     """Busca candles de qualquer timeframe; retorna lista normalizada."""
-    try:
-        raw = await asyncio.wait_for(
-            asyncio.get_event_loop().run_in_executor(
-                None, lambda: iq.get_candles(ATIVO_FIXO, tf, n, time.time())
-            ),
-            timeout=30
+    async def _buscar():
+        # Wrapping em coroutine para compatibilidade com wait_for no Python 3.11+
+        return await asyncio.get_event_loop().run_in_executor(
+            None, lambda: iq.get_candles(ATIVO_FIXO, tf, n, time.time())
         )
+    try:
+        raw = await asyncio.wait_for(_buscar(), timeout=30)
         candles = normalizar_candles(raw)
         if not candles:
             log(f"⚠ Candles vazios tf={tf}s (raw={len(raw) if raw else 0} itens)")
