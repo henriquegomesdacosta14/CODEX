@@ -329,6 +329,29 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
         <span class="ema-chip" style="color:var(--green)">MTF <strong id="v-mtfconf">--</strong></span>
       </div>
 
+      <!-- Aprendizado adaptativo -->
+      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:6px">
+        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">🧠 Aprendizado Adaptativo</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div style="flex:1;min-width:80px;background:var(--bg3);border-radius:8px;padding:7px 10px;text-align:center">
+            <div style="font-size:9px;color:var(--text2);margin-bottom:3px">Win Rate</div>
+            <div id="v-taxa-win" style="font-family:var(--mono);font-size:18px;font-weight:700">—</div>
+          </div>
+          <div style="flex:1;min-width:80px;background:var(--bg3);border-radius:8px;padding:7px 10px;text-align:center">
+            <div style="font-size:9px;color:var(--green);margin-bottom:3px">CALL %</div>
+            <div id="v-call-rate" style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--green)">—</div>
+          </div>
+          <div style="flex:1;min-width:80px;background:var(--bg3);border-radius:8px;padding:7px 10px;text-align:center">
+            <div style="font-size:9px;color:var(--red);margin-bottom:3px">PUT %</div>
+            <div id="v-put-rate" style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--red)">—</div>
+          </div>
+          <div style="flex:1;min-width:80px;background:var(--bg3);border-radius:8px;padding:7px 10px;text-align:center">
+            <div style="font-size:9px;color:var(--text2);margin-bottom:3px">Inversão</div>
+            <div id="v-auto-inv" style="font-family:var(--mono);font-size:13px;font-weight:700">—</div>
+          </div>
+        </div>
+      </div>
+
       <div class="status-box">
         <div class="pulse" id="pulse" style="display:none"></div>
         <span id="status-txt">Aguardando bot...</span>
@@ -639,6 +662,22 @@ function atualizar(d) {
   if (d.mtf_dir15s) { const el = document.getElementById('v-mtf15'); if(el){ el.textContent = d.mtf_dir15s; el.style.color = d.mtf_dir15s==='CALL'?'var(--green)':d.mtf_dir15s==='PUT'?'var(--red)':'var(--text2)'; } }
   if (d.mtf_dir30s) { const el = document.getElementById('v-mtf30'); if(el){ el.textContent = d.mtf_dir30s; el.style.color = d.mtf_dir30s==='CALL'?'var(--green)':d.mtf_dir30s==='PUT'?'var(--red)':'var(--text2)'; } }
   if (d.mtf_conf)   { const el = document.getElementById('v-mtfconf'); if(el){ el.textContent = d.mtf_conf; el.style.color = d.mtf_conf==='CALL'?'var(--green)':d.mtf_conf==='PUT'?'var(--red)':'var(--text2)'; } }
+
+  // Aprendizado adaptativo
+  if (d.aprendizado) {
+    const ap = d.aprendizado;
+    const taxa = ap.taxa_recente || 0;
+    const taxaEl = document.getElementById('v-taxa-win');
+    if (taxaEl) { taxaEl.textContent = taxa > 0 ? (taxa*100).toFixed(0)+'%' : '—'; taxaEl.style.color = taxa>=0.55?'var(--green)':taxa>=0.40?'var(--yellow)':'var(--red)'; }
+    const callRate = ap.call_total > 0 ? ap.call_wins/ap.call_total : null;
+    const putRate  = ap.put_total  > 0 ? ap.put_wins /ap.put_total  : null;
+    const cEl = document.getElementById('v-call-rate');
+    if (cEl) cEl.textContent = callRate !== null ? (callRate*100).toFixed(0)+'%' : '—';
+    const pEl = document.getElementById('v-put-rate');
+    if (pEl) pEl.textContent = putRate  !== null ? (putRate *100).toFixed(0)+'%' : '—';
+    const invEl = document.getElementById('v-auto-inv');
+    if (invEl) { invEl.textContent = ap.auto_inverter ? 'AUTO ON' : (d.inverter_tudo ? 'MANUAL' : 'OFF'); invEl.style.color = ap.auto_inverter?'var(--yellow)':d.inverter_tudo?'var(--orange)':'var(--text2)'; }
+  }
 
   if (d.analise && d.analise.sinal) {
     document.getElementById('analise-box').style.display = 'block';

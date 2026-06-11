@@ -112,6 +112,11 @@ try:
 except Exception:
     pass
 
+# ─── Aprendizado adaptativo ──────────────────────────────────────
+APRENDIZADO_JANELA     = 15    # últimas N operações para análise
+APRENDIZADO_THRESH_INV = 0.35  # auto-inverte se win rate < 35%
+APRENDIZADO_THRESH_OK  = 0.55  # remove inversão se win rate > 55%
+
 estado = {
     "rodando": False,
     "banca_inicial": 0.0,
@@ -161,6 +166,15 @@ estado = {
     "mtf_dir15s": "—",
     "mtf_dir30s": "—",
     "mtf_conf":   "—",
+    # Aprendizado adaptativo
+    "aprendizado": {
+        "call_wins":    0,
+        "call_total":   0,
+        "put_wins":     0,
+        "put_total":    0,
+        "auto_inverter": False,
+        "taxa_recente": 0.0,
+    },
 }
 
 clientes_ws          = set()
@@ -194,8 +208,9 @@ async def broadcast():
     payload["log"]      = list(estado["log"])
     payload["banca"]    = estado["banca_atual"]
     payload["stake"]    = estado["stake_atual"]
-    payload["ultima_op"] = estado.get("ultima_operacao")
-    payload["analise"]  = estado.get("ultima_analise")
+    payload["ultima_op"]    = estado.get("ultima_operacao")
+    payload["analise"]      = estado.get("ultima_analise")
+    payload["aprendizado"]  = estado.get("aprendizado", {})
     payload["config"]   = {
         "ativo":              ATIVO_FIXO,
         "stake":              STAKE_INICIAL,
@@ -554,6 +569,7 @@ ULTIMAS 6 VELAS fechadas (da mais antiga para a mais recente):
 {chr(10).join(ultimas_velas)}
 
 CONTEXTO MG: nivel {estado['mg_nivel']}/{MG_NIVEIS} | {estado['loss_seq']} losses seguidos
+{resumo_aprendizado()}
 
 REGRAS RIGIDAS — siga exatamente:
 1. Preco ABAIXO SMA21 + EMA3 < EMA10 => somente aceita PUT (tendencia baixa)
@@ -957,20 +973,93 @@ def calcular_stake_mg():
     return round(STAKE_INICIAL * (MG_FATOR ** estado["mg_nivel"]), 2)
 
 
-def on_ganho(lucro_op):
+# ─────────────────────────────────────────────
+#  APRENDIZADO ADAPTATIVO
+# ─────────────────────────────────────────────
+
+def atualizar_aprendizado(sinal_executado, ganhou):
+    """Analisa histórico recente e auto-ajusta direção de sinal."""
+    ap = estado["aprendizado"]
+
+    # Contadores por direção
+    if sinal_executado == "CALL":
+        ap["call_total"] += 1
+        if ganhou:
+            ap["call_wins"] += 1
+    elif sinal_executado == "PUT":
+        ap["put_total"] += 1
+        if ganhou:
+            ap["put_wins"] += 1
+
+    # Win rate das últimas N operações
+    recent = estado["historico"][-APRENDIZADO_JANELA:]
+    if len(recent) < 5:
+        return
+    wins = sum(1 for t in recent if t["resultado"] == "WIN")
+    taxa = wins / len(recent)
+    ap["taxa_recente"] = round(taxa, 3)
+
+    c_rate = ap["call_wins"] / ap["call_total"] if ap["call_total"] > 0 else 0.5
+    p_rate = ap["put_wins"]  / ap["put_total"]  if ap["put_total"]  > 0 else 0.5
+
+    # Auto-inversão: win rate sistematicamente baixo → sinais estão invertidos
+    if taxa < APRENDIZADO_THRESH_INV and not estado["inverter_tudo"]:
+        estado["inverter_tudo"] = True
+        ap["auto_inverter"]     = True
+        log(f"🔄 APRENDIZADO: auto-inversão ATIVADA | win={taxa*100:.0f}% "
+            f"CALL={c_rate*100:.0f}% PUT={p_rate*100:.0f}%")
+
+    elif taxa > APRENDIZADO_THRESH_OK and ap.get("auto_inverter"):
+        estado["inverter_tudo"] = False
+        ap["auto_inverter"]     = False
+        log(f"✅ APRENDIZADO: inversão REMOVIDA | win recuperou {taxa*100:.0f}%")
+
+    # Feedback no log a cada 5 trades
+    if len(recent) % 5 == 0:
+        log(f"📊 Aprendizado: {taxa*100:.0f}% win/{len(recent)} trades | "
+            f"CALL {c_rate*100:.0f}% ({ap['call_wins']}/{ap['call_total']}) "
+            f"PUT {p_rate*100:.0f}% ({ap['put_wins']}/{ap['put_total']}) "
+            f"{'[INVERTIDO]' if estado['inverter_tudo'] else ''}")
+
+
+def resumo_aprendizado():
+    """Retorna texto curto do histórico de acerto para incluir no prompt Claude."""
+    ap = estado["aprendizado"]
+    recent = estado["historico"][-APRENDIZADO_JANELA:]
+    if len(recent) < 3:
+        return ""
+    wins  = sum(1 for t in recent if t["resultado"] == "WIN")
+    taxa  = wins / len(recent)
+    c_rate = ap["call_wins"] / ap["call_total"] if ap["call_total"] > 0 else None
+    p_rate = ap["put_wins"]  / ap["put_total"]  if ap["put_total"]  > 0 else None
+    linhas = [f"HISTORICO RECENTE ({len(recent)} trades): {taxa*100:.0f}% win rate"]
+    if c_rate is not None:
+        linhas.append(f"Precisao CALL: {c_rate*100:.0f}% ({ap['call_wins']}/{ap['call_total']})")
+    if p_rate is not None:
+        linhas.append(f"Precisao PUT:  {p_rate*100:.0f}% ({ap['put_wins']}/{ap['put_total']})")
+    if taxa < 0.40:
+        linhas.append("ATENCAO: win rate baixo — revise a direcao do sinal com cuidado.")
+    return "\n".join(linhas)
+
+
+def on_ganho(lucro_op, sinal=""):
     estado["ganhos"]      += 1
     estado["mg_nivel"]     = 0
     estado["stake_atual"]  = STAKE_INICIAL
     estado["loss_seq"]     = 0
     estado["gale_pausado"] = False
     log(f"WIN ${lucro_op:.2f} - MG resetado para ${STAKE_INICIAL:.2f}")
+    if sinal:
+        atualizar_aprendizado(sinal, ganhou=True)
     salvar_estado_runtime()
 
 
-def on_perda():
+def on_perda(sinal=""):
     estado["perdas"]   += 1
     estado["mg_nivel"] += 1
     estado["loss_seq"] += 1
+    if sinal:
+        atualizar_aprendizado(sinal, ganhou=False)
     if estado["mg_nivel"] >= MG_NIVEIS:
         log(f"LOSS - atingiu MG {MG_NIVEIS}. Stop de sequencia.")
         estado["status"]      = "stop_loss"
@@ -1001,6 +1090,11 @@ def reset_contadores():
     estado["crono_sessao"]    = 0
     estado["loss_seq"]        = 0
     estado["gale_pausado"]    = False
+    estado["aprendizado"]     = {
+        "call_wins": 0, "call_total": 0,
+        "put_wins": 0,  "put_total": 0,
+        "auto_inverter": False, "taxa_recente": 0.0,
+    }
     log("Contadores resetados.")
     salvar_estado_runtime()
 
@@ -1400,9 +1494,9 @@ async def loop_bot():
                 })
 
                 if lucro_op > 0:
-                    on_ganho(lucro_op)
+                    on_ganho(lucro_op, sinal=sinal)
                 else:
-                    on_perda()
+                    on_perda(sinal=sinal)
 
                 estado["trade_ativo"] = False
                 await broadcast()
