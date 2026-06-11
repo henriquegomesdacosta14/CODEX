@@ -693,8 +693,19 @@ Retorne JSON puro sem markdown:
 #  BUSCA ANÁLISE — M1 + MTF (15s/30s) em paralelo
 # ─────────────────────────────────────────────
 
+async def _fetch_candles_ativo(iq, ativo, tf, n):
+    """Busca candles de um ativo específico. Usado na varredura."""
+    try:
+        raw = await asyncio.get_event_loop().run_in_executor(
+            None, lambda: iq.get_candles(ativo, tf, n, time.time())
+        )
+        return normalizar_candles(raw)
+    except Exception:
+        return []
+
+
 async def _fetch_candles_tf(iq, tf, n):
-    """Busca candles de qualquer timeframe; retorna lista normalizada."""
+    """Busca candles do ATIVO_FIXO atual; retorna lista normalizada."""
     try:
         loop = asyncio.get_event_loop()
         raw = await loop.run_in_executor(
@@ -707,6 +718,143 @@ async def _fetch_candles_tf(iq, tf, n):
     except Exception as e:
         log(f"⚠ Erro candles tf={tf}s: {e}")
         return []
+
+
+def pontuar_ativo(candles):
+    """Pontua clareza do gráfico para operar. Retorna (score 0-100, direcao, motivo)."""
+    if not candles or len(candles) < 55:
+        return 0, "NEUTRO", "poucos candles"
+    fechadas = candles[:-1]
+    closes   = [c["close"] for c in fechadas]
+    e3  = _ema(closes, 3)
+    e10 = _ema(closes, 10)
+    s21 = _sma(closes, 21)
+    e50 = _ema(closes, 50)
+    if not all([e3, e10, s21, e50]):
+        return 0, "NEUTRO", "EMA falhou"
+
+    score   = 0
+    direcao = "NEUTRO"
+    motivos = []
+
+    # Alinhamento completo das médias
+    if e3 > e10 > s21 > e50:
+        score += 40; direcao = "CALL"; motivos.append("EMAs↑ alinhadas")
+    elif e3 < e10 < s21 < e50:
+        score += 40; direcao = "PUT";  motivos.append("EMAs↓ alinhadas")
+    elif e3 > e10 > s21:
+        score += 20; direcao = "CALL"; motivos.append("EMA3>10>SMA21")
+    elif e3 < e10 < s21:
+        score += 20; direcao = "PUT";  motivos.append("EMA3<10<SMA21")
+    else:
+        return 5, "NEUTRO", "sem tendência"
+
+    # Divergência entre EMA3 e EMA10 (tendência forte)
+    div = abs(e3 - e10) / e10 * 100
+    if div > 0.05:   score += 20; motivos.append(f"div={div:.3f}%")
+    elif div > 0.02: score += 10
+
+    # Consistência das últimas 5 velas
+    ult5  = fechadas[-5:]
+    bulls = sum(1 for c in ult5 if c["close"] > c["open"])
+    bears = 5 - bulls
+    if direcao == "CALL" and bulls >= 3:
+        score += bulls * 4; motivos.append(f"{bulls}/5 bulls")
+    elif direcao == "PUT" and bears >= 3:
+        score += bears * 4; motivos.append(f"{bears}/5 bears")
+
+    # Corpo médio (evita mercado lateral/doji)
+    corpos = [abs(c["close"]-c["open"]) / max(c["high"]-c["low"], 0.00001) for c in ult5]
+    corp_med = sum(corpos) / 5
+    if corp_med > 0.5:   score += 20; motivos.append(f"corpo={corp_med*100:.0f}%")
+    elif corp_med > 0.3: score += 10
+
+    return min(100, score), direcao, " | ".join(motivos)
+
+
+async def varrer_melhor_ativo(iq):
+    """Varre todos os ativos abertos, pontua cada um e escolhe o melhor gráfico."""
+    global ATIVO_FIXO
+    estado["varrendo"]     = True
+    estado["varredura_log"] = []
+    await broadcast()
+
+    # Pega payouts e status de abertura numa chamada
+    def buscar_info():
+        try:    payouts = iq.get_all_profit() or {}
+        except: payouts = {}
+        try:    open_times = iq.get_all_open_time() or {}
+        except: open_times = {}
+        return payouts, open_times
+
+    payouts, open_times = await asyncio.get_event_loop().run_in_executor(None, buscar_info)
+    turbo_open  = open_times.get("turbo",  {})
+    binary_open = open_times.get("binary", {})
+
+    # Filtra abertos com payout OK
+    candidatos = []
+    for ativo in ATIVOS_LISTA:
+        base   = ativo.replace("-OTC", "")
+        aberto = (turbo_open.get(ativo,{}).get("open") or turbo_open.get(base,{}).get("open") or
+                  binary_open.get(ativo,{}).get("open") or binary_open.get(base,{}).get("open"))
+        dados  = payouts.get(ativo) or payouts.get(base) or {}
+        payout = float(dados.get("turbo") or dados.get("binary") or dados.get("digital") or 0)
+        if (aberto or not open_times) and payout >= PAYOUT_MINIMO:
+            candidatos.append((ativo, payout))
+
+    if not candidatos:
+        log("⚠ Varredura: nenhum ativo aberto com payout OK")
+        estado["varrendo"] = False
+        await broadcast()
+        return None
+
+    log(f"🔍 Varrendo {len(candidatos)} ativos...")
+    estado["varredura_log"] = [f"Varrendo {len(candidatos)} ativos..."]
+    await broadcast()
+
+    # Busca candles de todos em paralelo
+    tarefas = [_fetch_candles_ativo(iq, ativo, TIMEFRAME, 60) for ativo, _ in candidatos]
+    resultados_candles = await asyncio.gather(*tarefas, return_exceptions=True)
+
+    ranking = []
+    for (ativo, payout), candles in zip(candidatos, resultados_candles):
+        if isinstance(candles, Exception) or not candles:
+            estado["varredura_log"].append(f"  {ativo}: sem candles")
+            continue
+        score, direcao, motivo = pontuar_ativo(candles)
+        ranking.append((score, ativo, payout, direcao, motivo))
+        estado["varredura_log"].append(
+            f"  {'★' if score>=60 else '·'} {ativo}: {score}pts {direcao} | {motivo}"
+        )
+        log(f"  {ativo}: {score}pts {direcao} | {motivo}")
+        await broadcast()
+
+    estado["varrendo"] = False
+
+    if not ranking:
+        log("⚠ Varredura: nenhum ativo com candles disponíveis")
+        await broadcast()
+        return None
+
+    ranking.sort(reverse=True)
+    melhor_score, melhor_ativo, melhor_payout, melhor_dir, melhor_motivo = ranking[0]
+
+    if melhor_score < 20:
+        log(f"⚠ Varredura: melhor score {melhor_score}pts ({melhor_ativo}) — mercado lateral")
+        await broadcast()
+        return None
+
+    log(f"✅ Varredura: escolheu {melhor_ativo} score={melhor_score}pts {melhor_dir} | {melhor_motivo}")
+    estado["varredura_log"].append(f"→ Escolhido: {melhor_ativo} ({melhor_score}pts {melhor_dir})")
+
+    if melhor_ativo != ATIVO_FIXO:
+        ATIVO_FIXO = melhor_ativo
+        estado["ativo_atual"] = melhor_ativo
+        estado["payout_atual"] = melhor_payout
+        _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
+
+    await broadcast()
+    return melhor_ativo
 
 
 async def buscar_analise(iq):
@@ -1384,6 +1532,12 @@ async def loop_bot():
         _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
         analise_bg_task = asyncio.create_task(loop_analise_continua(iq))
 
+        # Varredura inicial — escolhe o melhor ativo antes de começar
+        log("🔍 Iniciando varredura de ativos...")
+        await varrer_melhor_ativo(iq)
+
+        falhas_consecutivas = 0   # conta falhas de análise para re-varrer
+
         while estado["rodando"]:
             estado["lucro"] = estado["banca_atual"] - estado["banca_inicial"]
             if STOP_LOSS > 0 and estado["lucro"] <= -abs(STOP_LOSS):
@@ -1434,18 +1588,31 @@ async def loop_bot():
                     log(f"Erro buscando análise: {e}")
                     analise = None
 
-            # ── Se análise falhou → tenta outro ativo imediatamente ──
+            # ── Se análise falhou → troca ativo ou re-varre ──────
             if not analise:
-                log(f"⚠ Sem análise para {ATIVO_FIXO} — tentando ativo alternativo")
-                novo, payout_novo = await escolher_ativo(iq, forcar_troca=True)
-                if novo:
-                    log(f"🔀 Trocou para {ATIVO_FIXO} — buscando análise")
-                    estado["status"] = f"Trocou → {ATIVO_FIXO}"
-                    await broadcast()
+                falhas_consecutivas += 1
+                if falhas_consecutivas >= 3:
+                    # 3 falhas seguidas → re-varre todos os ativos
+                    log(f"⚠ {falhas_consecutivas} falhas seguidas — re-varrendo ativos")
+                    await varrer_melhor_ativo(iq)
+                    falhas_consecutivas = 0
                     try:
                         analise = await buscar_analise(iq)
                     except Exception:
                         analise = None
+                else:
+                    log(f"⚠ Sem análise para {ATIVO_FIXO} — tentando ativo alternativo")
+                    novo, _ = await escolher_ativo(iq, forcar_troca=True)
+                    if novo:
+                        log(f"🔀 Trocou para {ATIVO_FIXO} — buscando análise")
+                        estado["status"] = f"Trocou → {ATIVO_FIXO}"
+                        await broadcast()
+                        try:
+                            analise = await buscar_analise(iq)
+                        except Exception:
+                            analise = None
+            else:
+                falhas_consecutivas = 0   # análise OK — zera contador
 
             # ── LÓGICA DE PAUSA ──────────────────────────────
             if estado["gale_pausado"]:
