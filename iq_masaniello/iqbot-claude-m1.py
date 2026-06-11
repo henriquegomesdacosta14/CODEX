@@ -46,6 +46,14 @@ IQ_PASSWORD = os.getenv("IQ_PASSWORD", "SUA_SENHA")
 CLAUDE_KEY  = os.getenv("CLAUDE_KEY", "sk-ant-api03-SEU_CLAUDE_API_KEY")
 
 ATIVO_FIXO           = os.getenv("IQ_ATIVO", "EURUSD-OTC")
+
+# Lista de ativos alternativos — usados quando o principal está fechado ou payout baixo
+ATIVOS_LISTA = [
+    "EURUSD-OTC", "GBPUSD-OTC", "USDJPY-OTC", "AUDUSD-OTC",
+    "EURJPY-OTC", "EURGBP-OTC", "NZDUSD-OTC", "USDCAD-OTC",
+    "EURUSD", "GBPUSD", "USDJPY", "AUDUSD",
+]
+
 TIMEFRAME            = 60
 EXPIRACAO_MIN        = 1
 
@@ -755,8 +763,8 @@ async def loop_analise_continua(iq):
             segundos_restantes = TIMEFRAME - segundos_da_vela
             proxima_vela_id    = int(agora // TIMEFRAME) + 1
 
-            # Dispara pré-busca nos últimos 20s da vela atual
-            if segundos_restantes <= 20 and not _analise_cache["em_busca"]:
+            # Dispara pré-busca nos últimos 35s da vela atual (Claude precisa de tempo)
+            if segundos_restantes <= 35 and not _analise_cache["em_busca"]:
                 if _analise_cache["vela_id"] == proxima_vela_id:
                     continue  # já temos análise para a próxima vela
 
@@ -892,6 +900,28 @@ async def obter_payout(iq, ativo):
         asyncio.get_event_loop().run_in_executor(None, buscar_payout),
         timeout=8
     )
+
+
+async def escolher_ativo(iq, ativo_preferido=None):
+    """Itera ATIVOS_LISTA e retorna (ativo, payout) do primeiro com payout >= PAYOUT_MINIMO.
+    Atualiza ATIVO_FIXO globalmente se trocar de ativo."""
+    global ATIVO_FIXO
+    preferido = ativo_preferido or ATIVO_FIXO
+    lista = [preferido] + [a for a in ATIVOS_LISTA if a != preferido]
+    for ativo in lista:
+        try:
+            payout = await obter_payout(iq, ativo)
+            if payout >= PAYOUT_MINIMO:
+                if ativo != ATIVO_FIXO:
+                    log(f"🔀 Ativo alternativo: {ativo} payout={payout*100:.0f}% (era {ATIVO_FIXO})")
+                    ATIVO_FIXO = ativo
+                    estado["ativo_atual"] = ativo
+                    # Invalida cache — precisa reanalisar o novo ativo
+                    _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
+                return ativo, payout
+        except Exception:
+            pass
+    return None, 0.0
 
 
 async def obter_lucro_por_id(iq, id_op):
@@ -1127,6 +1157,7 @@ async def handler_ws(websocket):
 # ─────────────────────────────────────────────
 
 async def loop_bot():
+    global ATIVO_FIXO
     if estado["rodando"]:
         return
 
@@ -1180,6 +1211,16 @@ async def loop_bot():
             if not estado["rodando"]:
                 break
 
+            # Verifica payout do ativo atual; troca se necessário
+            ativo_ok, payout_ok = await escolher_ativo(iq)
+            if not ativo_ok:
+                log(f"⚠ Nenhum ativo com payout >= {PAYOUT_MINIMO*100:.0f}% — aguardando")
+                estado["status"] = "Sem ativo viável — aguardando"
+                await broadcast()
+                await asyncio.sleep(30)
+                continue
+            estado["payout_atual"] = payout_ok
+
             vela_atual_id = int(time.time() // TIMEFRAME)
             if _analise_cache["vela_id"] == vela_atual_id and _analise_cache["analise"]:
                 analise = _analise_cache["analise"]
@@ -1188,16 +1229,13 @@ async def loop_bot():
                     f"| MTF 15s:{analise.get('mtf',{}).get('dir_15s','?')} "
                     f"30s:{analise.get('mtf',{}).get('dir_30s','?')}")
             elif _analise_cache["em_busca"]:
-                # Análise ainda rodando em background — aguarda até 8s
-                log("⏳ Aguardando análise em andamento...")
-                for _ in range(16):
-                    await asyncio.sleep(0.5)
-                    if not _analise_cache["em_busca"]:
-                        break
-                if _analise_cache["vela_id"] == vela_atual_id and _analise_cache["analise"]:
-                    analise = _analise_cache["analise"]
-                    _analise_cache.update({"vela_id": -1, "analise": None, "em_busca": False})
-                else:
+                # Análise Claude ainda rodando — faz EMA imediato para não perder vela
+                log("⚠ Análise bg em andamento — EMA M1 imediato para não perder vela")
+                try:
+                    candles_ema = await _fetch_candles_tf(iq, TIMEFRAME, CANDLES_ANALISE)
+                    analise = analisar_ema(candles_ema) if candles_ema else None
+                except Exception as e:
+                    log(f"Erro EMA fallback: {e}")
                     analise = None
             else:
                 # Sem cache — busca agora (fallback, não deveria acontecer com frequência)
@@ -1245,22 +1283,6 @@ async def loop_bot():
             log(f"{sinal} | {ATIVO_FIXO} M1 | ${stake:.2f} | {analise.get('motivo','')[:80]}")
 
             try:
-                try:
-                    payout = await obter_payout(iq, ATIVO_FIXO)
-                    estado["payout_atual"] = payout
-                    if payout < PAYOUT_MINIMO:
-                        estado["trade_ativo"] = False
-                        estado["status"]      = f"Payout baixo {payout*100:.0f}% - aguardando"
-                        log(f"Payout baixo em {ATIVO_FIXO}: {payout*100:.0f}% < {PAYOUT_MINIMO*100:.0f}%. Pulando vela.")
-                        await broadcast()
-                        continue
-                except Exception as e:
-                    estado["trade_ativo"] = False
-                    estado["status"]      = "Erro ao ler payout"
-                    log(f"Erro ao ler payout: {e}. Pulando vela.")
-                    await broadcast()
-                    continue
-
                 try:
                     check, id_op = await asyncio.wait_for(
                         asyncio.get_event_loop().run_in_executor(
