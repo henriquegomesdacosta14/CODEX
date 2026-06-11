@@ -21,7 +21,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
 .dot.ok{background:var(--green);box-shadow:0 0 5px var(--green);}
 .theme-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:4px;}
 
-.metrics-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:12px 20px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.metrics-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:12px 20px;background:var(--bg2);border-bottom:1px solid var(--border);}
 .mcard{background:var(--bg3);border-radius:10px;padding:10px 14px;border:1px solid var(--border);}
 .mcard-label{font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px;}
 .mcard-val{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1;}
@@ -151,7 +151,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
 #toast{position:fixed;right:20px;bottom:20px;background:var(--bg2);border:1px solid var(--border);padding:10px 20px;border-radius:10px;font-size:12px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;white-space:nowrap;}
 
 @media(max-width:1100px){.grid3{grid-template-columns:280px 1fr 320px;}}
-@media(max-width:800px){.grid3{grid-template-columns:1fr;}.metrics-strip{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:800px){.grid3{grid-template-columns:1fr;}.metrics-strip{grid-template-columns:repeat(4,1fr);}}
 </style>
 </head>
 <body>
@@ -173,7 +173,12 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
   <div class="mcard" style="border-top:2px solid var(--blue)">
     <div class="mcard-label">Banca</div>
     <div class="mcard-val" id="m-banca" style="color:var(--blue)">$0.00</div>
-    <div class="mcard-sub" id="m-lucro">+$0.00</div>
+    <div class="mcard-sub">atual</div>
+  </div>
+  <div class="mcard" id="lucro-card" style="border-top:2px solid var(--green)">
+    <div class="mcard-label">Lucro</div>
+    <div class="mcard-val" id="m-lucro" style="color:var(--green)">+$0.00</div>
+    <div class="mcard-sub">sessão</div>
   </div>
   <div class="mcard" style="border-top:2px solid var(--green)">
     <div class="mcard-label">Ganhos</div>
@@ -329,39 +334,6 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
         <span class="ema-chip" style="color:var(--green)">MTF <strong id="v-mtfconf">--</strong></span>
       </div>
 
-      <!-- Aprendizado adaptativo -->
-      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:6px">
-        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">🧠 Aprendizado Adaptativo</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <div style="flex:1;min-width:80px;background:var(--bg3);border-radius:8px;padding:7px 10px;text-align:center">
-            <div style="font-size:9px;color:var(--text2);margin-bottom:3px">Win Rate</div>
-            <div id="v-taxa-win" style="font-family:var(--mono);font-size:18px;font-weight:700">—</div>
-          </div>
-          <div style="flex:1;min-width:80px;background:var(--bg3);border-radius:8px;padding:7px 10px;text-align:center">
-            <div style="font-size:9px;color:var(--green);margin-bottom:3px">CALL %</div>
-            <div id="v-call-rate" style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--green)">—</div>
-          </div>
-          <div style="flex:1;min-width:80px;background:var(--bg3);border-radius:8px;padding:7px 10px;text-align:center">
-            <div style="font-size:9px;color:var(--red);margin-bottom:3px">PUT %</div>
-            <div id="v-put-rate" style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--red)">—</div>
-          </div>
-          <div style="flex:1;min-width:80px;background:var(--bg3);border-radius:8px;padding:7px 10px;text-align:center">
-            <div style="font-size:9px;color:var(--text2);margin-bottom:3px">Inversão</div>
-            <div id="v-auto-inv" style="font-family:var(--mono);font-size:13px;font-weight:700">—</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Histórico de Padrões -->
-      <div style="background:var(--bg4);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:6px">
-        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">📈 Padrões Detectados</div>
-        <div id="padroes-list" style="display:flex;flex-direction:column;gap:5px;font-size:11px">
-          <span style="color:var(--text2);font-size:10px">Aguardando operações...</span>
-        </div>
-        <div style="margin-top:8px;font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px">🕐 Por Horário</div>
-        <div id="horas-list" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-      </div>
-
       <div class="status-box">
         <div class="pulse" id="pulse" style="display:none"></div>
         <span id="status-txt">Aguardando bot...</span>
@@ -436,6 +408,43 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
       </div>
       <div id="varredura-items">
         <div style="color:var(--text2);font-size:12px;text-align:center;padding:10px 0">Aguardando...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🧠 Análise do Trader</div>
+
+      <!-- Aprendizado Adaptativo -->
+      <div style="margin-bottom:12px">
+        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">Aprendizado Adaptativo</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center">
+            <div style="font-size:9px;color:var(--text2);margin-bottom:4px">Win Rate</div>
+            <div id="v-taxa-win" style="font-family:var(--mono);font-size:20px;font-weight:700">—</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center">
+            <div style="font-size:9px;color:var(--green);margin-bottom:4px">CALL %</div>
+            <div id="v-call-rate" style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--green)">—</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center">
+            <div style="font-size:9px;color:var(--red);margin-bottom:4px">PUT %</div>
+            <div id="v-put-rate" style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--red)">—</div>
+          </div>
+          <div style="background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center">
+            <div style="font-size:9px;color:var(--text2);margin-bottom:4px">Inversão</div>
+            <div id="v-auto-inv" style="font-family:var(--mono);font-size:13px;font-weight:700">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Padrões Detectados -->
+      <div>
+        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">📈 Padrões Detectados</div>
+        <div id="padroes-list" style="display:flex;flex-direction:column;gap:5px;font-size:11px">
+          <span style="color:var(--text2);font-size:10px">Aguardando operações...</span>
+        </div>
+        <div style="margin-top:10px;font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px">🕐 Por Horário</div>
+        <div id="horas-list" style="display:flex;flex-wrap:wrap;gap:4px"></div>
       </div>
     </div>
 
@@ -556,6 +565,8 @@ function atualizar(d) {
   const lEl = document.getElementById('m-lucro');
   lEl.textContent = `${d.lucro>=0?'+':''}$${d.lucro.toFixed(2)}`;
   lEl.style.color = d.lucro>=0 ? 'var(--green)' : 'var(--red)';
+  const lcCard = document.getElementById('lucro-card');
+  if (lcCard) lcCard.style.borderTopColor = d.lucro>=0 ? 'var(--green)' : 'var(--red)';
   setText('m-ganhos', d.ganhos);
   setText('m-perdas', d.perdas);
   setText('m-stake',  `$${d.stake.toFixed(2)}`);
@@ -765,7 +776,10 @@ function renderHist(hist, g, p) {
     const div = document.createElement('div');
     div.className = 'hist-item';
     div.innerHTML = `
-      <div class="hist-dir ${h.dir==='CALL'?'call':'put'}">${h.dir==='CALL'?'▲':'▼'}</div>
+      <div style="text-align:center">
+        <div class="hist-dir ${h.dir==='CALL'?'call':'put'}">${h.dir==='CALL'?'▲':'▼'}</div>
+        <div style="width:8px;height:8px;border-radius:50%;background:${isW?'var(--green)':isL?'var(--red)':'var(--text2)'};margin:3px auto 0;box-shadow:${isW?'0 0 5px var(--green)':isL?'0 0 5px var(--red)':'none'}"></div>
+      </div>
       <div class="hist-info">
         <div class="hist-ativo">${h.ativo} <span style="color:var(--blue);font-size:9px">${h.tf}</span></div>
         <div class="hist-meta">${h.padrao||'—'} · $${h.stake.toFixed(2)} · MG${h.mg_nivel||0}${h.confianca?' · '+h.confianca+'%':''}${h.forca==='FORTE'?' 🔥':''}</div>
