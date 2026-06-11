@@ -63,14 +63,11 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
 .btn-inverter{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
 .btn-inverter.on{background:var(--red);color:#fff;border-color:var(--red);}
 
-.status-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.status-box{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 1.5s infinite;}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,214,143,.5);}70%{box-shadow:0 0 0 8px rgba(0,214,143,0);}100%{box-shadow:0 0 0 0 rgba(0,214,143,0);}}
 
-.sessao-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-bottom:12px;}
-.sessao-val{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--yellow);}
-
-.crono-trade{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:none;flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.crono-trade{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:none;flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .crono-val{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--yellow);}
 
 .op-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;display:none;margin-bottom:12px;}
@@ -103,7 +100,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
 .scan-spin{width:10px;height:10px;border-radius:50%;border:2px solid var(--blue);border-top-color:transparent;animation:spin .8s linear infinite;display:none;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-.hist-item{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.hist-item{display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);}
 .hist-item:last-child{border-bottom:none;}
 .hist-dir{font-family:var(--mono);font-size:14px;font-weight:700;text-align:center;}
 .hist-info{display:flex;flex-direction:column;gap:2px;}
@@ -113,7 +110,14 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
 .hist-lucro{font-family:var(--mono);font-size:12px;font-weight:700;}
 .hist-hora{font-size:9px;color:var(--text2);}
 
-.log-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+/* bolinhas de resultado no topo do histórico */
+.res-dots{display:flex;flex-wrap:wrap;gap:5px;padding:10px 0 12px;border-bottom:1px solid var(--border);margin-bottom:6px;min-height:32px;}
+.res-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;transition:box-shadow .2s;}
+.res-dot.win{background:var(--green);box-shadow:0 0 5px var(--green);}
+.res-dot.loss{background:var(--red);box-shadow:0 0 5px var(--red);}
+.res-dot.pend{background:var(--text2);}
+
+.log-box{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
 .log-box::-webkit-scrollbar{width:3px;}
 .log-box::-webkit-scrollbar-thumb{background:var(--border);}
 .log-line{font-family:var(--mono);font-size:10px;line-height:1.6;color:var(--text2);padding:1px 0;border-bottom:1px solid rgba(128,128,128,.06);}
@@ -122,7 +126,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
 .log-line.info{color:var(--blue);}
 .log-line.warn{color:var(--yellow);}
 
-.hist-scroll{max-height:calc(100vh - 180px);overflow-y:auto;}
+.hist-scroll{max-height:calc(100vh - 220px);overflow-y:auto;}
 .hist-scroll::-webkit-scrollbar{width:3px;}
 .hist-scroll::-webkit-scrollbar-thumb{background:var(--border);}
 
@@ -131,10 +135,10 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
 .info-label{color:var(--text2);}
 .info-val{font-family:var(--mono);font-weight:700;}
 
-.ema-strip{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;font-size:10px;font-family:var(--mono);}
-.ema-chip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 10px;}
+.ema-strip{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;font-size:10px;font-family:var(--mono);}
+.ema-chip{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:4px 9px;}
 
-.banner-pausado{background:var(--red2);border:1px solid var(--red);border-radius:8px;padding:10px 14px;margin-bottom:12px;display:none;align-items:center;justify-content:space-between;gap:8px;}
+.banner-pausado{background:var(--red2);border:1px solid var(--red);border-radius:8px;padding:10px 14px;margin-bottom:10px;display:none;align-items:center;justify-content:space-between;gap:8px;}
 
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
 .popup-overlay.show{display:flex;}
@@ -165,6 +169,10 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
     <div class="hbadge"><div class="dot" id="dot-iq"></div><span id="txt-iq">IQ</span></div>
     <div class="hbadge"><div class="dot" id="dot-ws"></div><span id="txt-ws">Conectando...</span></div>
     <div class="hbadge" id="claude-badge" style="color:var(--text2)">🤖 --</div>
+    <div class="hbadge" style="color:var(--yellow);gap:5px">
+      <span style="font-size:10px">⏱</span>
+      <span id="h-sessao-hdr" style="font-family:var(--mono);font-weight:700;font-size:11px">00:00:00</span>
+    </div>
     <button class="theme-btn" onclick="toggleTheme()" id="theme-btn">🌙</button>
   </div>
 </header>
@@ -202,9 +210,9 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
     <div class="mcard-sub">total</div>
   </div>
   <div class="mcard" style="border-top:2px solid var(--orange)">
-    <div class="mcard-label">Sessão</div>
+    <div class="mcard-label">Modo</div>
     <div class="mcard-val" id="m-modo" style="color:var(--orange);font-size:14px">MG</div>
-    <div class="mcard-sub" id="h-sessao" style="font-family:var(--mono)">00:00:00</div>
+    <div class="mcard-sub" id="h-sessao" style="font-family:var(--mono)">—</div>
   </div>
 </div>
 
@@ -315,45 +323,6 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
     </div>
 
     <div class="card">
-      <div class="card-title">📡 Status &amp; Indicadores</div>
-
-      <div id="banner-pausado" class="banner-pausado">
-        <span style="color:var(--red);font-weight:700;font-size:12px">⏸ PAUSADO — aguardando setup limpo</span>
-        <button onclick="retomar()" style="background:var(--yellow);color:#1a1000;border:none;border-radius:6px;padding:6px 12px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap">Retomar</button>
-      </div>
-
-      <div class="ema-strip">
-        <span class="ema-chip" style="color:var(--yellow)">EMA3 <strong id="v-ema3">--</strong></span>
-        <span class="ema-chip" style="color:var(--red)">EMA10 <strong id="v-ema10">--</strong></span>
-        <span class="ema-chip" style="color:var(--blue)">SMA21 <strong id="v-sma21">--</strong></span>
-        <span class="ema-chip" style="color:var(--text2)">Loss <strong id="v-lossseq" style="color:var(--red)">0/3</strong></span>
-      </div>
-      <div class="ema-strip" style="margin-top:-6px">
-        <span class="ema-chip" style="color:var(--purple)">15s <strong id="v-mtf15">--</strong></span>
-        <span class="ema-chip" style="color:var(--orange)">30s <strong id="v-mtf30">--</strong></span>
-        <span class="ema-chip" style="color:var(--green)">MTF <strong id="v-mtfconf">--</strong></span>
-      </div>
-
-      <div class="status-box">
-        <div class="pulse" id="pulse" style="display:none"></div>
-        <span id="status-txt">Aguardando bot...</span>
-      </div>
-
-      <div class="sessao-row">
-        <span style="font-size:10px;color:var(--text2);font-weight:600">⏱ Sessão</span>
-        <span class="sessao-val" id="sessao-display">00:00:00</span>
-      </div>
-
-      <div class="crono-trade" id="crono-box">
-        <div>
-          <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700">⏱ Trade ativo</div>
-          <div class="crono-val" id="crono-val">00:00</div>
-        </div>
-        <div style="font-size:32px" id="crono-dir">—</div>
-      </div>
-    </div>
-
-    <div class="card">
       <div class="card-title">📈 MG / Soros</div>
       <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:6px" id="dots-label">Martingale</div>
       <div class="mg-dots" id="mg-dots"></div>
@@ -369,9 +338,10 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
 
   </div>
 
-  <!-- ═══════ COLUNA CENTRAL: ANÁLISE + LOG ═══════ -->
+  <!-- ═══════ COLUNA CENTRAL ═══════ -->
   <div class="col">
 
+    <!-- Ativo -->
     <div class="card">
       <div class="card-title">🎯 Ativo em Operação</div>
       <div class="ativo-box">
@@ -383,38 +353,48 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
       </div>
     </div>
 
+    <!-- Status & Indicadores (movido da coluna esquerda) -->
     <div class="card">
-      <div class="card-title">🤖 Análise Claude AI</div>
-      <div id="analise-box" style="display:none">
-        <div class="analise-sinal">
-          <span id="a-sinal">—</span>
-          <span id="a-forca" style="display:none;font-size:12px;font-weight:700;padding:3px 10px;border-radius:4px;background:rgba(255,184,48,.2);color:var(--yellow)">FORTE</span>
-          <span style="font-size:14px;color:var(--text2)" id="a-padrao"></span>
+      <div class="card-title">📡 Status &amp; Indicadores</div>
+
+      <div id="banner-pausado" class="banner-pausado">
+        <span style="color:var(--red);font-weight:700;font-size:12px">⏸ PAUSADO — aguardando setup limpo</span>
+        <button onclick="retomar()" style="background:var(--yellow);color:#1a1000;border:none;border-radius:6px;padding:6px 12px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap">Retomar</button>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;margin-bottom:4px">
+        <div style="flex:1;min-width:200px">
+          <div class="ema-strip">
+            <span class="ema-chip" style="color:var(--yellow)">EMA3 <strong id="v-ema3">--</strong></span>
+            <span class="ema-chip" style="color:var(--red)">EMA10 <strong id="v-ema10">--</strong></span>
+            <span class="ema-chip" style="color:var(--blue)">SMA21 <strong id="v-sma21">--</strong></span>
+            <span class="ema-chip" style="color:var(--text2)">Loss <strong id="v-lossseq" style="color:var(--red)">0/3</strong></span>
+          </div>
+          <div class="ema-strip">
+            <span class="ema-chip" style="color:var(--purple)">15s <strong id="v-mtf15">--</strong></span>
+            <span class="ema-chip" style="color:var(--orange)">30s <strong id="v-mtf30">--</strong></span>
+            <span class="ema-chip" style="color:var(--green)">MTF <strong id="v-mtfconf">--</strong></span>
+          </div>
         </div>
-        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700">Confiança</div>
-        <div class="conf-wrap"><div class="conf-bar" id="a-conf-bar" style="width:0%"></div></div>
-        <div style="font-size:13px;color:var(--text2)" id="a-conf-txt">0%</div>
-        <div class="analise-motivo" id="a-motivo"></div>
+        <div class="status-box" style="margin:0;flex-shrink:0;align-self:flex-start">
+          <div class="pulse" id="pulse" style="display:none"></div>
+          <span id="status-txt">Aguardando bot...</span>
+        </div>
       </div>
-      <div id="analise-ph" style="color:var(--text2);font-size:13px;text-align:center;padding:20px 0">
-        Aguardando varredura...
+
+      <div class="crono-trade" id="crono-box">
+        <div>
+          <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700">⏱ Trade ativo</div>
+          <div class="crono-val" id="crono-val">00:00</div>
+        </div>
+        <div style="font-size:32px" id="crono-dir">—</div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">
-        🔍 Varredura de Ativos
-        <div class="scan-spin" id="scan-spin"></div>
-      </div>
-      <div id="varredura-items">
-        <div style="color:var(--text2);font-size:12px;text-align:center;padding:10px 0">Aguardando...</div>
-      </div>
-    </div>
-
+    <!-- Análise do Trader -->
     <div class="card">
       <div class="card-title">🧠 Análise do Trader</div>
 
-      <!-- Aprendizado Adaptativo -->
       <div style="margin-bottom:12px">
         <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">Aprendizado Adaptativo</div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
@@ -437,7 +417,6 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
         </div>
       </div>
 
-      <!-- Padrões Detectados -->
       <div>
         <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:8px">📈 Padrões Detectados</div>
         <div id="padroes-list" style="display:flex;flex-direction:column;gap:5px;font-size:11px">
@@ -448,6 +427,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
       </div>
     </div>
 
+    <!-- Última Operação -->
     <div class="card">
       <div class="card-title">💼 Última Operação</div>
       <div class="op-card" id="op-card" style="display:block;background:none;border:none;padding:0;margin:0">
@@ -467,6 +447,7 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
       </div>
     </div>
 
+    <!-- Log -->
     <div class="card">
       <div class="card-title" style="justify-content:space-between">
         <span>📋 Log em Tempo Real</span>
@@ -475,15 +456,52 @@ header{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 
       <div class="log-box" id="log-geral"></div>
     </div>
 
+    <!-- Análise Claude AI (abaixo do log — menos prioritário visualmente) -->
+    <div class="card">
+      <div class="card-title">🤖 Análise Claude AI</div>
+      <div id="analise-box" style="display:none">
+        <div class="analise-sinal">
+          <span id="a-sinal">—</span>
+          <span id="a-forca" style="display:none;font-size:12px;font-weight:700;padding:3px 10px;border-radius:4px;background:rgba(255,184,48,.2);color:var(--yellow)">FORTE</span>
+          <span style="font-size:14px;color:var(--text2)" id="a-padrao"></span>
+        </div>
+        <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700">Confiança</div>
+        <div class="conf-wrap"><div class="conf-bar" id="a-conf-bar" style="width:0%"></div></div>
+        <div style="font-size:13px;color:var(--text2)" id="a-conf-txt">0%</div>
+        <div class="analise-motivo" id="a-motivo"></div>
+      </div>
+      <div id="analise-ph" style="color:var(--text2);font-size:13px;text-align:center;padding:20px 0">
+        Aguardando varredura...
+      </div>
+    </div>
+
+    <!-- Varredura (abaixo do log — menos prioritário visualmente) -->
+    <div class="card">
+      <div class="card-title">
+        🔍 Varredura de Ativos
+        <div class="scan-spin" id="scan-spin"></div>
+      </div>
+      <div id="varredura-items">
+        <div style="color:var(--text2);font-size:12px;text-align:center;padding:10px 0">Aguardando...</div>
+      </div>
+    </div>
+
   </div>
 
   <!-- ═══════ COLUNA DIREITA: HISTÓRICO ═══════ -->
   <div class="col">
-    <div class="card" style="position:sticky;top:140px">
+    <div class="card" style="position:sticky;top:80px">
       <div class="card-title" style="justify-content:space-between">
-        <span>📊 Histórico de Operações</span>
+        <span>📊 Histórico</span>
         <span id="hist-resumo" style="font-size:10px;color:var(--text2)"></span>
       </div>
+
+      <!-- Sequência de bolinhas de resultado -->
+      <div style="font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px">Sequência de Resultados</div>
+      <div class="res-dots" id="res-dots">
+        <span style="color:var(--text2);font-size:10px;align-self:center">Aguardando operações...</span>
+      </div>
+
       <div class="hist-scroll" id="hist-box">
         <div style="color:var(--text2);font-size:12px;text-align:center;padding:20px 0">Nenhuma operação ainda</div>
       </div>
@@ -592,8 +610,8 @@ function atualizar(d) {
   if (d.crono_sessao > 0) {
     const s = d.crono_sessao;
     const ts = `${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
-    setText('h-sessao', ts);
-    setText('sessao-display', ts);
+    setText('h-sessao',     ts);
+    setText('h-sessao-hdr', ts);
   }
 
   if (d.status === 'stop_gain' || d.status === 'stop_loss') {
@@ -764,7 +782,23 @@ function atualizar(d) {
 function renderHist(hist, g, p) {
   const total = g + p;
   const wr = total > 0 ? Math.round(g / total * 100) : 0;
-  setText('hist-resumo', total > 0 ? `${g}W/${p}L/${wr}%` : '');
+  setText('hist-resumo', total > 0 ? `${g}W/${p}L · ${wr}%` : '');
+
+  // Sequência de bolinhas (últimas 30, da mais antiga à mais recente, esq→dir)
+  const dotsEl = document.getElementById('res-dots');
+  if (dotsEl) {
+    if (!hist || hist.length === 0) {
+      dotsEl.innerHTML = '<span style="color:var(--text2);font-size:10px;align-self:center">Aguardando operações...</span>';
+    } else {
+      const slice = hist.slice(-30);
+      dotsEl.innerHTML = slice.map(h => {
+        const cls = h.resultado === 'WIN' ? 'win' : h.resultado === 'LOSS' ? 'loss' : 'pend';
+        const title = `${h.dir} ${h.resultado||'?'} ${h.hora}`;
+        return `<div class="res-dot ${cls}" title="${title}"></div>`;
+      }).join('');
+    }
+  }
+
   const box = document.getElementById('hist-box');
   if (!hist || hist.length === 0) {
     box.innerHTML = '<div style="color:var(--text2);font-size:12px;text-align:center;padding:20px 0">Nenhuma operação</div>';
