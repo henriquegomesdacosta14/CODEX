@@ -117,7 +117,7 @@ body{
 #elist div{padding:.12em 0;display:flex;justify-content:space-between;gap:.5em}
 #elist div.dead{opacity:.3}
 #elist div.sel{color:var(--gold)}
-#plist{right:1.5%;bottom:2.5%;width:53%;padding:.55em .9em;font-size:.95em}
+#plist{right:1.5%;bottom:2.5%;width:51%;padding:.55em .9em;font-size:.95em}
 #plist .row{display:grid;grid-template-columns:4.6em 1fr 2.6em 5.5em;gap:.8em;align-items:center;padding:.14em .3em;border-radius:4px}
 #plist .row.turn{background:rgba(212,178,106,.16)}
 #plist .row.ko .nm,#plist .row.ko .hp b{color:var(--danger)}
@@ -174,20 +174,61 @@ body{
 #endcard{background:rgba(8,7,20,.88)}
 #endcard ul{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:.4em 2.2em;text-align:left;font-size:.92em;color:var(--muted)}
 #endcard li::before{content:'◆ ';color:var(--crystal)}
-#mute{
-  position:absolute;top:2.5%;right:1.5%;z-index:9;pointer-events:auto;cursor:pointer;
+#tools{position:absolute;top:2.5%;right:1.5%;z-index:9;display:flex;gap:.5em;flex-wrap:wrap;justify-content:flex-end}
+.pill{
+  pointer-events:auto;cursor:pointer;
   font-family:var(--title);font-size:.75em;letter-spacing:.12em;color:var(--ink);
-  background:rgba(8,10,28,.7);border:1px solid var(--gold-dim);border-radius:99px;padding:.35em .9em;
+  background:rgba(8,10,28,.75);border:1px solid var(--gold-dim);border-radius:99px;padding:.4em .95em;
 }
-#mute:focus-visible{outline:2px solid var(--gold)}
-#joy{position:absolute;width:calc(var(--u)*13);height:calc(var(--u)*13);margin:calc(var(--u)*-6.5) 0 0 calc(var(--u)*-6.5);border-radius:50%;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.07);pointer-events:none;z-index:7}
-#joy .knob{position:absolute;left:50%;top:50%;width:42%;height:42%;margin:-21% 0 0 -21%;border-radius:50%;background:rgba(212,178,106,.6)}
-#btnA{
-  display:none;position:absolute;right:3%;bottom:30%;z-index:7;width:calc(var(--u)*10);height:calc(var(--u)*10);border-radius:50%;
-  font-family:var(--title);font-weight:900;font-size:1.4em;color:var(--ink);
-  background:rgba(22,26,58,.75);border:2px solid var(--gold);touch-action:none;
+.pill:focus-visible{outline:2px solid var(--gold)}
+body.touch .pill{font-size:max(.75em,11px);padding:.55em 1em}
+
+/* controles de toque */
+#pad{
+  display:none;width:100%;max-width:640px;box-sizing:border-box;padding:0 6px;
+  align-items:center;justify-content:space-between;gap:12px;
+  touch-action:none;user-select:none;-webkit-user-select:none;
 }
-@media (pointer:coarse){ #stage.touch-explore #btnA{display:block} #legend{display:none} }
+body.touch #pad{display:flex}
+body.touch #legend{display:none}
+#joyBase{
+  position:relative;flex:none;width:clamp(124px,36vw,176px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(212,178,106,.10) 0%,rgba(22,26,58,.82) 70%);
+  border:2px solid var(--gold-dim);box-shadow:inset 0 0 0 6px rgba(0,0,0,.25);touch-action:none;
+}
+#joyBase::before{content:'';position:absolute;inset:18%;border-radius:50%;border:1px dashed rgba(212,178,106,.25)}
+#joyKnob{
+  position:absolute;left:50%;top:50%;width:42%;height:42%;margin:-21% 0 0 -21%;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#f6e2a8,#b98f42 70%);box-shadow:0 4px 10px rgba(0,0,0,.55);pointer-events:none;
+}
+.btns{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;gap:6px 10px;align-items:center;justify-items:center}
+.pb{
+  width:clamp(66px,19vw,90px);aspect-ratio:1;border-radius:50%;padding:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;
+  font-family:var(--title);font-weight:900;font-size:clamp(20px,5.4vw,28px);color:var(--ink);
+  border:2px solid var(--gold);background:rgba(22,26,58,.88);box-shadow:0 4px 0 rgba(0,0,0,.5);touch-action:none;
+}
+.pb small{font-family:var(--text);font-weight:500;font-size:.4em;letter-spacing:.04em;color:var(--ink);opacity:.75;margin-top:.25em}
+#bA{grid-column:2;grid-row:1;background:radial-gradient(circle at 35% 30%,#c4553f,#7a2a20)}
+#bB{grid-column:1;grid-row:2;width:clamp(56px,16vw,76px);font-size:clamp(17px,4.6vw,24px)}
+.pb.on{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.5);filter:brightness(1.35)}
+
+/* modo tela cheia: o jogo ocupa a tela e os botões flutuam por cima */
+body.ov{padding:0}
+body.ov #stage{position:fixed;max-width:none;border-radius:0;box-shadow:none}
+body.ov #pad{
+  position:fixed;left:0;right:0;bottom:0;max-width:none;z-index:20;pointer-events:none;align-items:flex-end;
+  padding:0 max(22px,env(safe-area-inset-right,0px)) max(14px,env(safe-area-inset-bottom,0px)) max(22px,env(safe-area-inset-left,0px));
+}
+body.ov #pad > *{pointer-events:auto}
+body.ov #joyBase{width:clamp(108px,34vh,170px);opacity:.78;background:radial-gradient(circle,rgba(212,178,106,.08) 0%,rgba(10,12,30,.45) 70%)}
+body.ov .pb{width:clamp(56px,17vh,84px);opacity:.85}
+body.ov #bB{width:clamp(48px,14vh,70px)}
+body.ov.battle #joyBase{visibility:hidden}
+body.ov.battle .btns{margin-bottom:36vh}
+body.ov.touch #dlg{top:4%;bottom:auto;left:4%;right:4%;min-height:0}
+body.ov.touch #prompt{bottom:auto;top:26%}
+body.ov.touch #obj{max-width:38%}
 #legend{display:flex;flex-wrap:wrap;justify-content:center;gap:.3em 1.4em;color:var(--muted);font-size:15px}
 #legend kbd{font-family:var(--title);font-weight:700;color:var(--gold);font-size:.9em}
 @media (prefers-reduced-motion:reduce){.bub,#dlg .more{animation:none}}
@@ -231,9 +272,14 @@ body{
     </ul>
     <button class="go" id="againBtn" type="button">↻ JOGAR DE NOVO</button>
   </div>
-  <div id="joy" hidden><div class="knob"></div></div>
-  <button id="btnA" type="button" aria-label="Ação">A</button>
-  <button id="mute" type="button">♪ SOM</button>
+  <div id="tools"><button class="pill" id="ctlBtn" type="button" hidden>⛶ TELA CHEIA</button><button class="pill" id="mute" type="button">♪ SOM</button></div>
+</div>
+<div id="pad" aria-label="Controles de toque">
+  <div id="joyBase" aria-label="Direcional"><div id="joyKnob"></div></div>
+  <div class="btns">
+    <button class="pb" id="bA" type="button" aria-label="Confirmar">A<small>OK</small></button>
+    <button class="pb" id="bB" type="button" aria-label="Voltar ou correr">B<small>VOLTAR</small></button>
+  </div>
 </div>
 <div id="legend">
   <span><kbd>WASD / SETAS</kbd> andar e escolher</span>
@@ -251,7 +297,7 @@ const $ = s => document.querySelector(s);
 const stage = $('#stage'), cv = $('#gl');
 if (!window.THREE) { $('#splash .sub').textContent = 'Não foi possível carregar o motor 3D. Recarregue a página.'; return; }
 const V3 = THREE.Vector3;
-const RW = 480, RH = 270;
+let RW = 480; const RH = 270;
 let renderer;
 try { renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: false }); }
 catch (e) { $('#splash .sub').textContent = 'Seu navegador não conseguiu iniciar o 3D (WebGL).'; $('#startBtn').hidden = true; return; }
@@ -259,17 +305,53 @@ renderer.setPixelRatio(1);
 renderer.setSize(RW, RH, false);
 const camera = new THREE.PerspectiveCamera(50, RW / RH, 0.1, 400);
 
-function fit() {
-  const lg = $('#legend');
-  const lh = lg.offsetHeight ? lg.offsetHeight + 10 : 0;
-  const aw = document.documentElement.clientWidth - 32;
-  const ah = window.innerHeight - 24 - lh;
-  const w = Math.max(280, Math.min(aw, ah * 16 / 9, 1400));
-  stage.style.width = w + 'px';
-  stage.style.height = (w * 9 / 16) + 'px';
-  stage.style.setProperty('--u', (w / 100) + 'px');
+const isTouch = () => document.body.classList.contains('touch');
+if (matchMedia('(pointer:coarse)').matches) document.body.classList.add('touch');
+let ctlPref = null;
+try { ctlPref = localStorage.getItem('valmora-ctl'); } catch (_) {}
+const ctlMode = () => ctlPref || (innerWidth > innerHeight ? 'ov' : 'below');
+function setAspect(a) {
+  const nw = Math.max(2, Math.round(RH * a / 2) * 2);
+  if (nw === RW && Math.abs(camera.aspect - a) < 1e-4) return;
+  RW = nw; renderer.setSize(RW, RH, false);
+  camera.aspect = a; camera.updateProjectionMatrix();
+  if (typeof snapU !== 'undefined') snapU.value.set(RW / 2, RH / 2);
 }
-addEventListener('resize', fit); fit();
+function fit() {
+  const ov = isTouch() && ctlMode() === 'ov';
+  document.body.classList.toggle('ov', ov);
+  let w, h, left = '', top = '';
+  if (ov) {
+    const vw = innerWidth, vh = innerHeight;
+    if (vw / vh < 1.3) { w = vw; h = vw * 9 / 16; left = '0px'; top = Math.max(0, (vh - h) * .3) + 'px'; }
+    else { h = vh; w = Math.min(vw, vh * 2.4); left = (vw - w) / 2 + 'px'; top = '0px'; }
+  } else {
+    const lg = $('#legend'), pad = $('#pad');
+    const extra = (lg.offsetHeight ? lg.offsetHeight + 10 : 0) + (pad.offsetHeight ? pad.offsetHeight + 10 : 0);
+    const aw = document.documentElement.clientWidth - 32;
+    const ah = window.innerHeight - 24 - extra;
+    w = Math.max(260, Math.min(aw, ah * 16 / 9, 1400)); h = w * 9 / 16;
+  }
+  stage.style.width = w + 'px'; stage.style.height = h + 'px'; stage.style.left = left; stage.style.top = top;
+  stage.style.setProperty('--u', (Math.min(w, h * 16 / 9) / 100) + 'px');
+  setAspect(w / h);
+  const cb = $('#ctlBtn'); cb.hidden = !isTouch();
+  cb.textContent = ov ? '▤ BOTÕES ABAIXO' : '⛶ TELA CHEIA';
+}
+addEventListener('resize', fit);
+addEventListener('orientationchange', () => setTimeout(fit, 250));
+addEventListener('touchstart', () => { if (!isTouch()) { document.body.classList.add('touch'); fit(); } }, { once: true, passive: true });
+$('#ctlBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  ctlPref = ctlMode() === 'ov' ? 'below' : 'ov';
+  try { localStorage.setItem('valmora-ctl', ctlPref); } catch (_) {}
+  const el = document.documentElement;
+  if (ctlPref === 'ov') {
+    const rf = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (rf) { try { const pr = rf.call(el); if (pr && pr.catch) pr.catch(() => {}); } catch (_) {} }
+  } else if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+  fit();
+});
 
 /* ======================= utilidades ======================= */
 let seed = 11;
@@ -1005,25 +1087,41 @@ addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
 stage.addEventListener('pointerdown', e => {
   if (e.target.closest('button') || e.target.closest('.win')) return;
   initAudio();
-  if (mode === 'explore' && e.pointerType !== 'mouse') {
-    joy.on = true; joy.id = e.pointerId; const r = stage.getBoundingClientRect();
-    joy.ox = e.clientX; joy.oy = e.clientY; joy.x = joy.y = 0;
-    const el = $('#joy'); el.hidden = false; el.style.left = (e.clientX - r.left) + 'px'; el.style.top = (e.clientY - r.top) + 'px';
-    return;
-  }
-  if (mode === 'dialogue' || mode === 'intro' || mode === 'results') press('ok');
+  if (mode === 'dialogue' || mode === 'intro' || mode === 'results' || mode === 'defeat') press('ok');
 });
-stage.addEventListener('pointermove', e => {
-  if (!joy.on || e.pointerId !== joy.id) return;
-  const max = stage.clientWidth * .065;
-  let dx = e.clientX - joy.ox, dy = e.clientY - joy.oy; const d = Math.hypot(dx, dy);
-  if (d > max) { dx *= max / d; dy *= max / d; }
+const joyBase = $('#joyBase'), joyKnob = $('#joyKnob');
+function joyMove(e) {
+  const r = joyBase.getBoundingClientRect();
+  const max = r.width * .36;
+  let dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+  const d = Math.hypot(dx, dy); if (d > max) { dx *= max / d; dy *= max / d; }
   joy.x = dx / max; joy.y = dy / max;
-  $('#joy .knob').style.transform = `translate(${dx}px,${dy}px)`;
+  joyKnob.style.transform = `translate(${dx}px,${dy}px)`;
+  // nos menus o direcional funciona como setas
+  if (mode === 'battle' || mode === 'splash') {
+    const dir = joy.y < -.6 ? 'up' : joy.y > .6 ? 'down' : null;
+    if (dir && dir !== joy.dir) press(dir);
+    if (Math.abs(joy.y) < .3) joy.dir = null; else if (dir) joy.dir = dir;
+  }
+}
+joyBase.addEventListener('pointerdown', e => {
+  e.preventDefault(); initAudio();
+  joy.on = true; joy.id = e.pointerId; joy.dir = null;
+  try { joyBase.setPointerCapture(e.pointerId); } catch (_) {}
+  joyMove(e);
 });
-const joyEnd = e => { if (e.pointerId !== joy.id) return; joy.on = false; joy.x = joy.y = 0; $('#joy').hidden = true; $('#joy .knob').style.transform = ''; };
-stage.addEventListener('pointerup', joyEnd); stage.addEventListener('pointercancel', joyEnd);
-$('#btnA').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); initAudio(); press('ok'); });
+joyBase.addEventListener('pointermove', e => { if (joy.on && e.pointerId === joy.id) joyMove(e); });
+const joyEnd = e => { if (e.pointerId !== joy.id) return; joy.on = false; joy.x = joy.y = 0; joy.dir = null; joyKnob.style.transform = ''; };
+['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => joyBase.addEventListener(t, joyEnd));
+function padBtn(id, down, up) {
+  const b = $(id);
+  b.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); initAudio(); b.classList.add('on'); try { b.setPointerCapture(e.pointerId); } catch (_) {} down(); });
+  const off = () => { b.classList.remove('on'); if (up) up(); };
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => b.addEventListener(t, off));
+  b.addEventListener('contextmenu', e => e.preventDefault());
+}
+padBtn('#bA', () => press('ok'));
+padBtn('#bB', () => { joy.run = true; if (mode !== 'explore') press('back'); }, () => { joy.run = false; });
 
 function press(k) {
   initAudio();
@@ -1077,7 +1175,6 @@ async function endIntro() {
   cam.pos.set(0, 9, 18.5); cam.look.set(0, 1, 8.5);
   ui.hud.hidden = false;
   setObjective('Fale com o Ancião Thalos, perto do Cristal de Aurora.');
-  stage.classList.add('touch-explore');
   await fadeTo(0, 700);
   mode = 'explore';
   showLoc('VILA DE VALMORA', 'AO ENTARDECER');
@@ -1172,7 +1269,7 @@ function exploreUpdate(dt) {
   const p = hero.g.position;
   if (len > .12) {
     if (len > 1) { mx /= len; mz /= len; }
-    const run = keys.ShiftLeft || keys.ShiftRight || len > .95 && joy.on;
+    const run = keys.ShiftLeft || keys.ShiftRight || joy.run || len > .97 && joy.on;
     const sp = (run ? 7 : 4.2) * Math.min(1, len);
     p.x += mx * sp * dt; p.z += mz * sp * dt;
     const target = Math.atan2(mx, mz);
@@ -1205,7 +1302,7 @@ function exploreUpdate(dt) {
     const q = it.obj.g.position, d = Math.hypot(q.x - p.x, q.z - p.z);
     if (d < it.r && d < best) { best = d; nearest = it; }
   }
-  if (nearest) { ui.prompt.hidden = false; ui.prompt.innerHTML = '<kbd>' + (matchMedia('(pointer:coarse)').matches ? 'A' : 'ESPAÇO') + '</kbd>' + nearest.verb; }
+  if (nearest) { ui.prompt.hidden = false; ui.prompt.innerHTML = '<kbd>' + (isTouch() ? 'A' : 'ESPAÇO') + '</kbd>' + nearest.verb; }
   else ui.prompt.hidden = true;
 }
 
@@ -1708,7 +1805,7 @@ function battleTick(dt) {
 
 async function startBattle() {
   mode = 'transition'; stopSong(); S.encounter();
-  ui.prompt.hidden = true; ui.hud.hidden = true; stage.classList.remove('touch-explore');
+  ui.prompt.hidden = true; ui.hud.hidden = true; document.body.classList.add('battle');
   stage.classList.add('swirl');
   await wait(1.1);
   ui.fade.style.transition = 'none'; ui.fade.style.opacity = 1;
@@ -1812,6 +1909,7 @@ function frame(nowMs) {
   updateBubbles();
   requestAnimationFrame(frame);
 }
+fit(); requestAnimationFrame(fit);
 cam.pos.set(20, 12, 20); cam.look.set(0, 2.5, 0);
 requestAnimationFrame(n => { last = n; frame(n); });
 $('#startBtn').focus({ preventScroll: true });
