@@ -20,7 +20,7 @@ class Ferramentas
                 'name' => 'consultar_horarios_livres',
                 'description' => 'Consulta os horários livres da agenda da clínica em uma data. Use sempre antes de oferecer horários ao paciente.',
                 'strict' => true,
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => [
                         'data' => ['type' => 'string', 'description' => 'Data no formato AAAA-MM-DD'],
@@ -34,7 +34,7 @@ class Ferramentas
                 'name' => 'agendar_consulta',
                 'description' => 'Marca uma consulta. Só use depois que o paciente confirmar serviço, data, hora e nome.',
                 'strict' => true,
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => [
                         'nome_paciente' => ['type' => 'string', 'description' => 'Nome completo do paciente'],
@@ -51,7 +51,7 @@ class Ferramentas
                 'name' => 'listar_meus_agendamentos',
                 'description' => 'Lista os próximos agendamentos feitos por este número de WhatsApp.',
                 'strict' => true,
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => new \stdClass(),
                     'required' => [],
@@ -62,7 +62,7 @@ class Ferramentas
                 'name' => 'cancelar_agendamento',
                 'description' => 'Cancela um agendamento deste número pelo código. Só use após o paciente confirmar o cancelamento.',
                 'strict' => true,
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => [
                         'codigo' => ['type' => 'string', 'description' => 'Código do agendamento (6 caracteres)'],
@@ -75,7 +75,7 @@ class Ferramentas
                 'name' => 'pedir_ajuda_especialista',
                 'description' => 'Passa ESTA conversa para um atendimento mais avançado, que responde no seu lugar. Use quando o caso for complexo, ambíguo ou delicado: reclamação, paciente confuso ou irritado, vários pedidos misturados, ou quando você não tiver certeza de como agir. Não use para perguntas simples nem para agendamentos comuns. Não escreva nada antes de usar.',
                 'strict' => true,
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => ['motivo' => ['type' => 'string', 'description' => 'Por que precisa de ajuda']],
                     'required' => ['motivo'],
@@ -86,7 +86,7 @@ class Ferramentas
                 'name' => 'chamar_atendente_humano',
                 'description' => 'Avisa a equipe da clínica para assumir a conversa: pedido do paciente, reclamação, dúvida sem resposta nas informações da clínica, ou emergência.',
                 'strict' => true,
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => [
                         'motivo' => ['type' => 'string', 'description' => 'Resumo curto do motivo'],

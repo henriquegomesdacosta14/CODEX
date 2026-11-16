@@ -2,8 +2,6 @@
 
 namespace Secretaria;
 
-use Anthropic\Client;
-
 /**
  * Chat de configuração: as donas da clínica conversam com o Claude, que
  * entrevista, tira dúvidas, salva o cadastro e testa a secretária.
@@ -14,18 +12,14 @@ class Assistente
     private const MAX_RODADAS = 10;
     private const ARQUIVO = 'assistente_conversa';
 
-    private Client $claude;
+    private ClaudeApi $claude;
 
     public function __construct(
         private array $config,
         private Armazenamento $armazenamento,
         private string $pastaClinica,
     ) {
-        $this->claude = new Client(
-            apiKey: $config['anthropic_api_key'] ?: null,
-            baseUrl: $config['anthropic_base_url'] ?? null,
-            requestOptions: ['timeout' => 180, 'maxRetries' => 2],
-        );
+        $this->claude = new ClaudeApi((string) ($config['anthropic_api_key'] ?? ''), $config['anthropic_base_url'] ?? null, 180);
     }
 
     // ---------- Conversa compartilhada ----------
@@ -119,46 +113,45 @@ class Assistente
     {
         $acoes = [];
         for ($i = 0; $i < self::MAX_RODADAS; $i++) {
-            $r = $this->claude->beta->messages->create(
-                model: $this->config['modelo_assistente'] ?? 'claude-haiku-5-5',
-                maxTokens: 16000,
-                system: [['type' => 'text', 'text' => $system]],
-                messages: $mensagens,
-                tools: $this->ferramentas(),
-                outputConfig: ['effort' => $this->config['esforco_assistente'] ?? 'low'],
-                cacheControl: ['type' => 'ephemeral'],
-                fallbacks: 'default',
-                betas: ['server-side-fallback-2026-07-01'],
-            );
-            $mensagens[] = ['role' => 'assistant', 'content' => $r->content];
+            $r = $this->claude->mensagem([
+                'model' => $this->config['modelo_assistente'] ?? 'claude-haiku-5-5',
+                'max_tokens' => 16000,
+                'system' => [['type' => 'text', 'text' => $system]],
+                'messages' => $mensagens,
+                'tools' => $this->ferramentas(),
+                'output_config' => ['effort' => $this->config['esforco_assistente'] ?? 'low'],
+                'cache_control' => ['type' => 'ephemeral'],
+                'fallbacks' => 'default',
+            ], ['server-side-fallback-2026-07-01']);
+            $mensagens[] = ['role' => 'assistant', 'content' => $r['content']];
 
-            if ($r->stopReason === 'refusal') {
+            if (($r['stop_reason'] ?? '') === 'refusal') {
                 return ['Não consigo ajudar com esse pedido. Podemos seguir com o cadastro da clínica?', $acoes];
             }
-            if ($r->stopReason !== 'tool_use') {
+            if (($r['stop_reason'] ?? '') !== 'tool_use') {
                 $texto = [];
-                foreach ($r->content as $b) {
-                    if ($b->type === 'text' && trim($b->text) !== '') {
-                        $texto[] = trim($b->text);
+                foreach ($r['content'] as $b) {
+                    if (($b['type'] ?? '') === 'text' && trim((string) ($b['text'] ?? '')) !== '') {
+                        $texto[] = trim($b['text']);
                     }
                 }
                 return [$texto ? implode("\n\n", $texto) : '(sem resposta)', $acoes];
             }
 
             $resultados = [];
-            foreach ($r->content as $b) {
-                if ($b->type !== 'tool_use') {
+            foreach ($r['content'] as $b) {
+                if (($b['type'] ?? '') !== 'tool_use') {
                     continue;
                 }
-                [$saida, $acao] = $this->executar($b->name, (array) $b->input);
+                [$saida, $acao] = $this->executar($b['name'], (array) ($b['input'] ?? []));
                 if ($acao) {
                     $acoes[] = $acao;
                 }
                 $resultados[] = [
                     'type' => 'tool_result',
-                    'toolUseID' => $b->id,
+                    'tool_use_id' => $b['id'],
                     'content' => json_encode($saida, JSON_UNESCAPED_UNICODE),
-                    'isError' => isset($saida['erro']),
+                    'is_error' => isset($saida['erro']),
                 ];
             }
             $mensagens[] = ['role' => 'user', 'content' => $resultados];
@@ -231,12 +224,12 @@ class Assistente
             [
                 'name' => 'ver_cadastro',
                 'description' => 'Mostra tudo o que já está cadastrado sobre a clínica, o que falta de obrigatório e as pendências anotadas para o desenvolvedor. Use no início e sempre que precisar conferir.',
-                'inputSchema' => ['type' => 'object', 'properties' => new \stdClass()],
+                'input_schema' => ['type' => 'object', 'properties' => new \stdClass()],
             ],
             [
                 'name' => 'atualizar_cadastro',
                 'description' => 'Salva informações da clínica. Envie só os campos que mudam. Campos de LISTA (servicos, profissionais, convenios, formas_pagamento, perguntas_frequentes, feriados_e_folgas) substituem a lista anterior inteira: envie a lista completa. Campos de OBJETO (horario_funcionamento, politicas, regras_extras, equipe) são mesclados: envie só as chaves que mudam. Só salve o que as pessoas disseram ou confirmaram.',
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => [
                         'alteracoes' => [
@@ -313,7 +306,7 @@ class Assistente
             [
                 'name' => 'testar_secretaria',
                 'description' => 'Simula uma mensagem de paciente no WhatsApp e retorna o que a secretária responderia com o cadastro atual. Não grava nada na agenda. Use para mostrar o resultado depois de salvar, ou quando pedirem um teste.',
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => ['mensagem_do_paciente' => ['type' => 'string']],
                     'required' => ['mensagem_do_paciente'],
@@ -322,7 +315,7 @@ class Assistente
             [
                 'name' => 'anotar_para_desenvolvedor',
                 'description' => 'Anota um pedido que exige mudar o sistema (ex.: agenda separada por profissional, lembretes automáticos, integração com outro sistema, aviso para a recepção) para o desenvolvedor implementar depois.',
-                'inputSchema' => [
+                'input_schema' => [
                     'type' => 'object',
                     'properties' => ['texto' => ['type' => 'string', 'description' => 'O pedido, claro e completo']],
                     'required' => ['texto'],

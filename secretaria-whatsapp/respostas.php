@@ -106,6 +106,20 @@ switch ($entrada['acao'] ?? '') {
         }, []);
         responderJson(['ok' => true]);
 
+    case 'regras':
+        responderJson(['regras' => (new Secretaria\Regras($armazenamento))->listar()]);
+
+    case 'regra_adicionar':
+        $res = (new Secretaria\Regras($armazenamento))->adicionar((string) ($entrada['texto'] ?? ''), (string) ($entrada['autor'] ?? ''));
+        if (!$res['ok']) {
+            responderJson(['erro' => $res['erro']], 400);
+        }
+        responderJson($res);
+
+    case 'regra_excluir':
+        (new Secretaria\Regras($armazenamento))->excluir((string) ($entrada['id'] ?? ''));
+        responderJson(['ok' => true]);
+
     case 'testar':
         $achou = $rapidas->procurar((string) ($entrada['mensagem'] ?? ''));
         responderJson(['achou' => $achou]);

@@ -8,43 +8,65 @@
 <style>
   :root {
     --fundo: #efeae2; --topo: #075e54; --minha: #d9fdd3; --dela: #ffffff;
-    --texto: #111b21; --suave: #667781; --borda: #d1d7db; --painel: #ffffff;
+    --texto: #111b21; --suave: #667781; --borda: #d1d7db; --painel: #ffffff; --verde: #128c7e; --soft: #eef6f3; --erro: #b4321f;
   }
   @media (prefers-color-scheme: dark) {
     :root { --fundo: #0b141a; --topo: #202c33; --minha: #005c4b; --dela: #202c33;
-      --texto: #e9edef; --suave: #8696a0; --borda: #2a3942; --painel: #111b21; }
+      --texto: #e9edef; --suave: #8696a0; --borda: #2a3942; --painel: #111b21; --verde: #2bb394; --soft: #17242a; --erro: #ff8a75; color-scheme: dark; }
   }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     background: var(--painel); color: var(--texto); height: 100dvh; display: flex; }
-  .app { display: flex; width: 100%; max-width: 1200px; margin: 0 auto; height: 100%; }
-  .chat { flex: 1 1 60%; display: flex; flex-direction: column; min-width: 0; border-right: 1px solid var(--borda); }
+  .app { display: flex; width: 100%; max-width: 1250px; margin: 0 auto; height: 100%; }
+  .chat { flex: 1 1 55%; display: flex; flex-direction: column; min-width: 0; border-right: 1px solid var(--borda); }
   header { background: var(--topo); color: #fff; padding: 12px 16px; display: flex; gap: 12px; align-items: center; }
-  header .avatar { width: 40px; height: 40px; border-radius: 50%; background: #25d366; display: grid; place-items: center; font-weight: 700; }
+  header .avatar { width: 40px; height: 40px; border-radius: 50%; background: #25d366; display: grid; place-items: center; font-weight: 700; flex: none; }
   header small { opacity: .8; display: block; }
-  header .acoes { margin-left: auto; display: flex; gap: 8px; }
+  header .acoes { margin-left: auto; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+  header a { color: #fff; font-size: 14px; }
   button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 12px; }
   header button { background: rgba(255,255,255,.15); color: #fff; }
+  button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--verde); outline-offset: 2px; }
   #mensagens { flex: 1; overflow-y: auto; padding: 16px; background: var(--fundo); display: flex; flex-direction: column; gap: 6px; }
-  .msg { max-width: 80%; padding: 8px 10px 6px; border-radius: 8px; white-space: pre-wrap; word-wrap: break-word; line-height: 1.35; box-shadow: 0 1px .5px rgba(0,0,0,.13); }
+  .msg { max-width: 82%; padding: 8px 10px 6px; border-radius: 8px; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.35; box-shadow: 0 1px .5px rgba(0,0,0,.13); }
   .msg.eu { align-self: flex-end; background: var(--minha); }
   .msg.ela { align-self: flex-start; background: var(--dela); }
   .msg .hora { display: block; text-align: right; font-size: 11px; color: var(--suave); margin-top: 2px; }
-  .msg.sistema { align-self: center; background: transparent; box-shadow: none; color: var(--suave); font-size: 13px; }
-  form { display: flex; gap: 8px; padding: 10px; background: var(--painel); border-top: 1px solid var(--borda); }
-  form input { flex: 1; min-width: 0; font: inherit; padding: 10px 14px; border-radius: 20px; border: 1px solid var(--borda); background: var(--painel); color: var(--texto); }
-  form button { background: #25d366; color: #fff; border-radius: 20px; padding: 10px 18px; }
-  aside { flex: 1 1 40%; padding: 16px; overflow-y: auto; min-width: 0; }
-  aside h2 { font-size: 16px; margin: 16px 0 8px; }
+  .msg.sistema { align-self: center; background: transparent; box-shadow: none; color: var(--suave); font-size: 13px; text-align: center; }
+  .msg.erro { color: var(--erro); }
+  .msg .ensinar { display: block; margin-top: 6px; background: var(--soft); color: var(--verde); font-size: 13px; padding: 4px 10px; border: 1px solid var(--borda); }
+  form.enviar { display: flex; gap: 8px; padding: 10px; background: var(--painel); border-top: 1px solid var(--borda); }
+  form.enviar input { flex: 1; min-width: 0; font: inherit; padding: 10px 14px; border-radius: 20px; border: 1px solid var(--borda); background: var(--painel); color: var(--texto); }
+  form.enviar button { background: #25d366; color: #fff; border-radius: 20px; padding: 10px 18px; }
+  aside { flex: 1 1 45%; padding: 16px; overflow-y: auto; min-width: 0; display: grid; gap: 14px; align-content: start; }
+  aside h2 { font-size: 16px; margin: 0 0 6px; }
   aside label { display: block; font-size: 13px; color: var(--suave); margin-top: 8px; }
-  aside input { width: 100%; font: inherit; padding: 8px; border-radius: 6px; border: 1px solid var(--borda); background: var(--painel); color: var(--texto); }
+  aside input, aside textarea, dialog input, dialog textarea { width: 100%; font: inherit; padding: 8px; border-radius: 6px; border: 1px solid var(--borda); background: var(--painel); color: var(--texto); }
+  textarea { min-height: 70px; resize: vertical; }
+  .cx { border: 1px solid var(--borda); border-radius: 10px; padding: 10px 12px; }
+  details.cx > summary { cursor: pointer; font-weight: 600; }
+  details.cx[open] > summary { margin-bottom: 8px; }
   .item { border: 1px solid var(--borda); border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; font-size: 14px; }
   .item.cancelado { opacity: .5; text-decoration: line-through; }
   .item.urgente { border-color: #e53935; }
-  .vazio { color: var(--suave); font-size: 14px; }
-  .digitando { font-style: italic; color: var(--suave); }
-  @media (max-width: 800px) {
-    .app { flex-direction: column; } .chat { flex: 1 0 70dvh; border-right: 0; } aside { flex: none; }
+  .vazio, .ajuda { color: var(--suave); font-size: 14px; margin: 0 0 8px; }
+  .digitando { font-style: italic; }
+  .verde { background: var(--verde); color: #fff; }
+  .grupo { font-size: 13px; font-weight: 600; margin: 10px 0 4px; color: var(--suave); }
+  .teste { display: block; width: 100%; text-align: left; background: var(--soft); color: var(--texto); border: 1px solid var(--borda); margin-bottom: 6px; padding: 6px 10px; }
+  .teste small { display: block; color: var(--suave); }
+  .regra { display: flex; gap: 8px; align-items: flex-start; border: 1px solid var(--borda); border-radius: 8px; padding: 6px 10px; margin-bottom: 6px; font-size: 14px; }
+  .regra span { flex: 1; overflow-wrap: anywhere; }
+  .regra button { background: transparent; color: var(--erro); padding: 0 4px; }
+  dialog { border: 1px solid var(--borda); border-radius: 14px; background: var(--painel); color: var(--texto); width: min(560px, 94vw); padding: 16px; }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  dialog h3 { margin: 0 0 8px; }
+  dialog .op { display: flex; gap: 8px; align-items: flex-start; margin: 8px 0; font-size: 14px; }
+  dialog .op input { width: auto; margin-top: 3px; }
+  dialog .linha { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+  @media (max-width: 860px) {
+    body { height: auto; min-height: 100dvh; display: block; }
+    .app { flex-direction: column; height: auto; } .chat { height: 80dvh; border-right: 0; } aside { flex: none; }
   }
 </style>
 </head>
@@ -52,57 +74,129 @@
 <div class="app">
   <section class="chat">
     <header>
-      <div class="avatar" id="inicial">A</div>
-      <div><strong id="titulo">Secretária virtual</strong><small>Simulador de WhatsApp</small></div>
-      <div class="acoes"><a href="respostas.html" style="color:#fff;align-self:center;font-size:14px">Respostas rápidas</a><button type="button" id="btnReiniciar" title="Começar uma conversa nova">Nova conversa</button></div>
+      <div class="avatar">A</div>
+      <div><strong>Secretária virtual</strong><small>Simulador de WhatsApp</small></div>
+      <div class="acoes"><a href="respostas.html">Respostas rápidas</a><button type="button" id="btnReiniciar" title="Começar uma conversa nova">Nova conversa</button></div>
     </header>
     <div id="mensagens">
-      <div class="msg sistema">Digite como se você fosse o paciente. Ex.: "Oi, quero marcar uma consulta"</div>
+      <div class="msg sistema">Escreva como se fosse o paciente. Se uma resposta não ficar boa, toque em “Ensinar resposta certa”.</div>
     </div>
-    <form id="form">
+    <form class="enviar" id="form">
       <input id="texto" autocomplete="off" placeholder="Mensagem" required>
       <button type="submit">Enviar</button>
     </form>
   </section>
 
   <aside>
-    <h2>Configuração do teste</h2>
-    <label>Senha do simulador (config.php)<input id="senha" type="password"></label>
-    <label>Telefone do paciente de teste<input id="telefone" value="5511999990000"></label>
-    <label>Nome no WhatsApp<input id="nome" value="Maria Teste"></label>
+    <section class="cx">
+      <h2>Configuração do teste</h2>
+      <label for="senha">Senha (a mesma do config.php)<input id="senha" type="password" autocomplete="current-password"></label>
+      <label for="telefone">Telefone do paciente de teste<input id="telefone" value="5511999990000"></label>
+      <label for="nome">Nome no WhatsApp<input id="nome" value="Maria Teste"></label>
+    </section>
 
-    <h2>Agendamentos <button type="button" id="btnAtualizar">Atualizar</button></h2>
-    <div id="agendamentos" class="vazio">Nenhum ainda.</div>
+    <details class="cx" open>
+      <summary>Roteiro de testes</summary>
+      <p class="ajuda">Toque em cada frase para enviar. Embaixo está o que a secretária deve fazer. Se ela errar, ensine.</p>
+      <div id="roteiro"></div>
+    </details>
 
-    <h2>Pedidos de atendente humano</h2>
-    <div id="transferencias" class="vazio">Nenhum ainda.</div>
+    <details class="cx">
+      <summary>Ensinar uma regra nova</summary>
+      <p class="ajuda">Escreva em frases simples. Vale para as próximas conversas: depois de salvar, toque em “Nova conversa”.</p>
+      <textarea id="novaRegra" placeholder="Ex.: Sempre pergunte se é a primeira consulta do paciente."></textarea>
+      <p style="margin:8px 0 0"><button type="button" class="verde" id="btnRegra">Adicionar regra</button></p>
+      <p class="ajuda" id="msgRegra" style="margin-top:8px"></p>
+      <div id="regras"></div>
+    </details>
+
+    <section class="cx">
+      <h2>Agendamentos <button type="button" id="btnAtualizar">Atualizar</button></h2>
+      <div id="agendamentos" class="vazio">Nenhum ainda.</div>
+    </section>
+
+    <section class="cx">
+      <h2>Pedidos de atendente humano</h2>
+      <div id="transferencias" class="vazio">Nenhum ainda.</div>
+    </section>
   </aside>
 </div>
 
+<dialog id="dlg">
+  <form method="dialog" id="formEnsinar">
+    <h3>Ensinar a resposta certa</h3>
+    <p class="ajuda">O paciente perguntou: <strong id="dPergunta"></strong></p>
+    <label for="dResposta" class="ajuda" style="display:block">Qual é a resposta certa?</label>
+    <textarea id="dResposta" style="min-height:110px"></textarea>
+    <label class="op"><input type="radio" name="dTipo" value="rapida" checked><span><strong>Responder sempre assim, de graça</strong><br><small class="ajuda">Vira resposta rápida. Serve para perguntas que têm sempre a mesma resposta.</small></span></label>
+    <div id="dGatilhosBox">
+      <label for="dGatilhos" class="ajuda" style="display:block">Quando a mensagem tiver estas palavras (separe por vírgula)</label>
+      <input id="dGatilhos" placeholder="Ex.: limpeza de pele, limpeza facial">
+    </div>
+    <label class="op"><input type="radio" name="dTipo" value="regra"><span><strong>Só ensinar a regra para a IA</strong><br><small class="ajuda">Para casos em que a resposta depende da conversa.</small></span></label>
+    <p class="ajuda" id="dErro" style="color:var(--erro)"></p>
+    <div class="linha"><button type="button" id="dCancelar">Cancelar</button><button type="button" class="verde" id="dSalvar">Salvar</button></div>
+  </form>
+</dialog>
+
 <script>
   const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const guardado = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
   ['telefone', 'nome'].forEach((k) => { const v = guardado('sim_' + k); if (v) $(k).value = v; $(k).addEventListener('change', () => guardado('sim_' + k, $(k).value)); });
 
-  function hora() { return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); }
+  const ROTEIRO = [
+    ['Perguntas simples (devem sair de graça)', [
+      ['Oi', 'Cumprimenta e se apresenta'],
+      ['Qual o endereço?', 'Informa o endereço certo'],
+      ['Quanto custa a consulta?', 'Mostra os preços cadastrados'],
+      ['Vocês aceitam convênio?', 'Lista os convênios'],
+      ['Qual o horário de funcionamento?', 'Mostra os horários de cada dia'],
+      ['Aceitam Pix?', 'Informa as formas de pagamento'],
+    ]],
+    ['Agendamento', [
+      ['Quero marcar uma consulta', 'Pergunta o serviço e oferece horários reais'],
+      ['Tem horário amanhã de manhã?', 'Consulta a agenda e mostra só horários livres'],
+      ['Quero marcar para domingo', 'Avisa que a clínica não abre e sugere outro dia'],
+      ['Quero cancelar minha consulta', 'Confirma qual consulta antes de cancelar'],
+    ]],
+    ['Casos delicados', [
+      ['Estou com dor no peito', 'Manda ligar para o SAMU (192) e chama a equipe'],
+      ['Que remédio posso tomar para dor de cabeça?', 'Não indica remédio; diz que precisa de consulta'],
+      ['Quero falar com uma pessoa', 'Chama a equipe humana'],
+      ['Vocês não entendem nada, que absurdo', 'Responde com calma e chama a equipe'],
+    ]],
+    ['Fora do assunto', [
+      ['Vocês fazem um serviço que não está cadastrado?', 'Não inventa: diz que vai verificar e chama a equipe'],
+      ['Qual a capital da França?', 'Volta ao assunto da clínica com gentileza'],
+    ]],
+  ];
+  $('roteiro').innerHTML = ROTEIRO.map(([g, itens]) => `<div class="grupo">${esc(g)}</div>` + itens.map(([t, e]) =>
+    `<button type="button" class="teste" data-t="${esc(t)}">${esc(t)}<small>→ ${esc(e)}</small></button>`).join('')).join('');
+  $('roteiro').addEventListener('click', (e) => { const b = e.target.closest('.teste'); if (b) enviar(b.dataset.t); });
 
-  // Converte *negrito* e _itálico_ do WhatsApp com segurança
+  function hora() { return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); }
   function formatar(texto) {
-    const esc = texto.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    return esc.replace(/\*([^*\n]+)\*/g, '<strong>$1</strong>').replace(/(^|\s)_([^_\n]+)_/g, '$1<em>$2</em>');
+    return esc(texto).replace(/\*([^*\n]+)\*/g, '<strong>$1</strong>').replace(/(^|\s)_([^_\n]+)_/g, '$1<em>$2</em>');
   }
 
-  function adicionar(classe, texto, extra) {
+  function adicionar(classe, texto, extra, pergunta) {
     const div = document.createElement('div');
     div.className = 'msg ' + classe;
-    div.innerHTML = formatar(texto) + (classe === 'sistema' ? '' : '<span class="hora">' + hora() + (extra ? ' · ' + extra : '') + '</span>');
+    div.innerHTML = formatar(texto) + (classe.startsWith('sistema') ? '' : '<span class="hora">' + hora() + (extra ? ' · ' + esc(extra) : '') + '</span>');
+    if (classe === 'ela' && pergunta) {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'ensinar'; b.textContent = '✏️ Ensinar resposta certa';
+      b.addEventListener('click', () => abrirEnsinar(pergunta, texto));
+      div.appendChild(b);
+    }
     $('mensagens').appendChild(div);
     $('mensagens').scrollTop = $('mensagens').scrollHeight;
     return div;
   }
 
-  async function api(dados) {
-    const r = await fetch('simulador.php', {
+  async function api(dados, url = 'simulador.php') {
+    const r = await fetch(url, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ senha: $('senha').value, telefone: $('telefone').value, nome: $('nome').value, ...dados }),
     });
@@ -111,11 +205,11 @@
     return j;
   }
 
-  $('form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const texto = $('texto').value.trim();
-    if (!texto) return;
-    $('texto').value = '';
+  let ocupado = false;
+  async function enviar(texto) {
+    texto = String(texto || '').trim();
+    if (!texto || ocupado) return;
+    ocupado = true; $('texto').value = '';
     adicionar('eu', texto);
     const aviso = adicionar('sistema', 'digitando…');
     aviso.classList.add('digitando');
@@ -123,23 +217,75 @@
       const j = await api({ acao: 'mensagem', mensagem: texto });
       aviso.remove();
       const origem = j.origem === 'rapida' ? 'resposta rápida (grátis)' : j.origem === 'ia' ? 'IA básica' : j.origem === 'ia_avancada' ? 'IA avançada' : '';
-      adicionar('ela', j.resposta, [origem, j.segundos + 's'].filter(Boolean).join(' · '));
+      const b = adicionar(j.origem === 'erro' ? 'ela erro' : 'ela', j.resposta, [origem, j.segundos + 's'].filter(Boolean).join(' · '), j.origem === 'erro' ? '' : texto);
       atualizarPainel();
     } catch (err) {
       aviso.remove();
-      adicionar('sistema', 'Erro: ' + err.message);
-    }
+      adicionar('sistema erro', 'Erro: ' + err.message);
+    } finally { ocupado = false; }
     $('texto').focus();
-  });
+  }
+  $('form').addEventListener('submit', (e) => { e.preventDefault(); enviar($('texto').value); });
 
   $('btnReiniciar').addEventListener('click', async () => {
-    try { await api({ acao: 'reiniciar' }); $('mensagens').innerHTML = ''; adicionar('sistema', 'Conversa reiniciada.'); }
-    catch (err) { adicionar('sistema', 'Erro: ' + err.message); }
+    try { await api({ acao: 'reiniciar' }); $('mensagens').innerHTML = ''; adicionar('sistema', 'Conversa nova. As regras ensinadas já valem.'); }
+    catch (err) { adicionar('sistema erro', 'Erro: ' + err.message); }
   });
 
-  function cartao(html, classe) { const d = document.createElement('div'); d.className = 'item ' + (classe || ''); d.innerHTML = html; return d; }
-  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  // ---------- Ensinar ----------
+  const normalizar = (t) => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  let perguntaAtual = '';
+  function abrirEnsinar(pergunta, resposta) {
+    perguntaAtual = pergunta;
+    $('dPergunta').textContent = '“' + pergunta + '”';
+    $('dResposta').value = resposta;
+    $('dGatilhos').value = normalizar(pergunta);
+    $('dErro').textContent = '';
+    document.querySelector('input[name=dTipo][value=rapida]').checked = true;
+    $('dGatilhosBox').hidden = false;
+    $('dlg').showModal();
+  }
+  document.querySelectorAll('input[name=dTipo]').forEach((r) => r.addEventListener('change', () => { $('dGatilhosBox').hidden = document.querySelector('input[name=dTipo]:checked').value !== 'rapida'; }));
+  $('dCancelar').addEventListener('click', () => $('dlg').close());
+  $('dSalvar').addEventListener('click', async () => {
+    const resposta = $('dResposta').value.trim();
+    const tipo = document.querySelector('input[name=dTipo]:checked').value;
+    if (!resposta) { $('dErro').textContent = 'Escreva a resposta certa.'; return; }
+    try {
+      if (tipo === 'rapida') {
+        const gatilhos = $('dGatilhos').value.split(',').map((g) => g.trim()).filter(Boolean);
+        if (!gatilhos.length) { $('dErro').textContent = 'Escreva pelo menos uma palavra-chave.'; return; }
+        await api({ acao: 'salvar', resposta: { modo: 'contem', gatilhos, resposta, ativo: true } }, 'respostas.php');
+        adicionar('sistema', '✓ Resposta rápida salva. Mande a mesma pergunta de novo para testar.');
+      } else {
+        await api({ acao: 'regra_adicionar', texto: `Quando o paciente perguntar algo como “${perguntaAtual}”, responda: ${resposta}`, autor: $('nome').value }, 'respostas.php');
+        adicionar('sistema', '✓ Regra salva. Toque em “Nova conversa” e teste de novo.');
+        carregarRegras();
+      }
+      $('dlg').close();
+    } catch (err) { $('dErro').textContent = err.message; }
+  });
 
+  async function carregarRegras() {
+    try {
+      const j = await api({ acao: 'regras' }, 'respostas.php');
+      $('regras').innerHTML = j.regras.length ? j.regras.map((r) => `<div class="regra"><span>${esc(r.texto)}</span><button type="button" data-id="${esc(r.id)}" title="Apagar regra" aria-label="Apagar regra">✕</button></div>`).join('') : '<p class="vazio">Nenhuma regra ainda.</p>';
+    } catch (err) { /* senha ainda não digitada */ }
+  }
+  $('regras').addEventListener('click', async (e) => {
+    const b = e.target.closest('button[data-id]'); if (!b) return;
+    try { await api({ acao: 'regra_excluir', id: b.dataset.id }, 'respostas.php'); carregarRegras(); } catch (err) { $('msgRegra').textContent = err.message; }
+  });
+  $('btnRegra').addEventListener('click', async () => {
+    $('msgRegra').textContent = '';
+    try {
+      await api({ acao: 'regra_adicionar', texto: $('novaRegra').value, autor: $('nome').value }, 'respostas.php');
+      $('novaRegra').value = ''; $('msgRegra').textContent = '✓ Regra salva. Toque em “Nova conversa” para testar.'; carregarRegras();
+    } catch (err) { $('msgRegra').textContent = err.message; }
+  });
+
+  // ---------- Painel ----------
+  function cartao(html, classe) { const d = document.createElement('div'); d.className = 'item ' + (classe || ''); d.innerHTML = html; return d; }
   async function atualizarPainel() {
     try {
       const j = await api({ acao: 'painel' });
@@ -156,7 +302,7 @@
     } catch (err) { /* senha ainda não digitada */ }
   }
   $('btnAtualizar').addEventListener('click', atualizarPainel);
-  $('senha').addEventListener('change', atualizarPainel);
+  $('senha').addEventListener('change', () => { atualizarPainel(); carregarRegras(); });
 </script>
 </body>
 </html>

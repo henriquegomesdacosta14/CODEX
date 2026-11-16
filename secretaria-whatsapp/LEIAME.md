@@ -15,6 +15,8 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
 | `clinica/clinica.json` | **Dados da clínica**: nome, endereço, horários, serviços, preços e convênios. Edite aqui. |
 | `clinica/instrucoes.md` | **Personalidade e regras** da secretária. Edite aqui. |
 | `config.php` | Chaves e senhas. Crie a partir de `config.example.php`. Nunca vai para o GitHub. |
+| `INSTALACAO.md` | **Passo a passo de instalação, sem programar.** |
+| `verificar.php` | Confere a instalação e testa a IA. Apague depois de instalar. |
 | `webhook.php` | Endereço que a Meta chama quando chega uma mensagem. |
 | `assistente.html` | **Chat em que a clínica conversa com o Claude** para cadastrar e testar a secretária. |
 | `cadastro.html` | **Página para a clínica preencher seus dados** (funciona no celular). Ao salvar, a secretária já aprende. |
@@ -27,20 +29,14 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
 
 ## O que precisa para rodar
 
-1. **Hospedagem com PHP 8.3 ou mais novo e HTTPS.** A Hostinger serve (plano com acesso SSH, para o passo 3).
+1. **Hospedagem com PHP 8.3 ou mais novo e HTTPS.** A Hostinger serve. Não precisa de SSH nem de Composer.
 2. **Chave da API da Anthropic** (a IA): https://console.anthropic.com → coloque créditos → *API Keys* → *Create Key*. Defina um limite de gasto mensal em *Limits*.
-3. **Composer**, para instalar as bibliotecas. Já vem na Hostinger via SSH.
 4. **Conta de desenvolvedor da Meta** com um app de WhatsApp. Só é necessária na etapa B; para testar no simulador, não precisa.
 
 ## Etapa A: testar no simulador (só precisa da chave da IA)
 
 1. Envie a pasta `secretaria-whatsapp` para a hospedagem (pelo deploy do GitHub ou pelo Gerenciador de Arquivos).
-2. Pelo SSH da Hostinger, entre na pasta e instale as bibliotecas:
-   ```bash
-   cd public_html/secretaria-whatsapp
-   composer install --no-dev
-   ```
-3. Copie `config.example.php` para `config.php` e preencha pelo menos:
+2. Copie `config.example.php` para `config.php` e preencha pelo menos:
    - `anthropic_api_key`
    - `senha_simulador` (escolha uma senha)
 4. Abra `https://SEU-DOMINIO/secretaria-whatsapp/simulador.html`, digite a senha e converse como se fosse um paciente.
@@ -67,7 +63,7 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
   - `ERRO IA`: problema com a chave ou os créditos da Anthropic.
   - `ERRO WhatsApp HTTP 401`: o token da Meta está errado ou vencido.
 - **A Meta não verifica o webhook.** Confira se o `whatsapp_verify_token` é exatamente igual nos dois lugares e se o site abre com HTTPS.
-- **"Faltam as bibliotecas".** Rode `composer install --no-dev` na pasta.
+- **Não sabe o que falta?** Abra `verificar.php`: ele mostra o que está certo e o que falta.
 
 ## Chat de configuração com o Claude
 

@@ -2,11 +2,6 @@
 
 namespace Secretaria;
 
-use Anthropic\Client;
-use Anthropic\Core\Exceptions\APIConnectionException;
-use Anthropic\Core\Exceptions\APIStatusException;
-use Anthropic\Core\Exceptions\RateLimitException;
-
 /**
  * O "cérebro" da secretária: recebe a mensagem do paciente, conversa com a
  * IA (Claude), executa as ferramentas (agenda, transferir para humano) e
@@ -21,7 +16,7 @@ class Secretaria
     private const MAX_RODADAS_FERRAMENTAS = 8;
     private const MENSAGEM_ERRO = 'Desculpe, estou com uma instabilidade no momento 😕 Pode tentar de novo em alguns minutos? Se for urgente, ligue para a recepção: %s';
 
-    private Client $claude;
+    private ClaudeApi $claude;
     private Agenda $agenda;
     private \DateTimeZone $fuso;
     private array $clinica;
@@ -41,11 +36,7 @@ class Secretaria
         $this->agenda = new Agenda($armazenamento, $this->clinica, $this->fuso, $simulacao);
         $this->rapidas = new RespostasRapidas($armazenamento, $this->clinica, $pastaClinica . '/respostas_rapidas.json');
 
-        $this->claude = new Client(
-            apiKey: $config['anthropic_api_key'] ?: null,
-            baseUrl: $config['anthropic_base_url'] ?? null,
-            requestOptions: ['timeout' => 90, 'maxRetries' => 2],
-        );
+        $this->claude = new ClaudeApi((string) ($config['anthropic_api_key'] ?? ''), $config['anthropic_base_url'] ?? null, 90);
     }
 
     /**
@@ -168,45 +159,46 @@ class Secretaria
             $resposta = $this->chamarClaude($system, $mensagens, $modelo);
 
             // Guarda a resposta da IA exatamente como veio (inclui blocos de raciocínio)
-            $mensagens[] = ['role' => 'assistant', 'content' => $resposta->content];
+            $mensagens[] = ['role' => 'assistant', 'content' => $resposta['content']];
 
-            if ($resposta->stopReason === 'refusal') {
-                $this->armazenamento->registrarLog("RECUSA ({$telefone}, {$modelo}): " . json_encode($resposta->stopDetails));
+            if (($resposta['stop_reason'] ?? '') === 'refusal') {
+                $this->armazenamento->registrarLog("RECUSA ({$telefone}, {$modelo}): " . json_encode($resposta['stop_details'] ?? null));
                 if ($podeEscalar) {
                     throw new Escalonamento('recusa do modelo básico');
                 }
                 return 'Desculpe, não consigo ajudar com isso por aqui. Vou pedir para alguém da nossa equipe falar com você. 🙏';
             }
 
-            if ($resposta->stopReason !== 'tool_use') {
-                $texto = $this->extrairTexto($resposta->content);
+            if (($resposta['stop_reason'] ?? '') !== 'tool_use') {
+                $texto = $this->extrairTexto($resposta['content']);
                 if ($texto === '' && $podeEscalar) {
                     throw new Escalonamento('resposta vazia');
                 }
                 return $texto !== '' ? $texto : 'Desculpe, pode repetir, por favor?';
             }
 
-            foreach ($resposta->content as $bloco) {
-                if ($bloco->type === 'tool_use' && $bloco->name === 'pedir_ajuda_especialista' && $podeEscalar) {
-                    throw new Escalonamento('o modelo básico pediu ajuda: ' . (string) (((array) $bloco->input)['motivo'] ?? ''));
+            foreach ($resposta['content'] as $bloco) {
+                if (($bloco['type'] ?? '') === 'tool_use' && $bloco['name'] === 'pedir_ajuda_especialista' && $podeEscalar) {
+                    throw new Escalonamento('o modelo básico pediu ajuda: ' . (string) (($bloco['input'] ?? [])['motivo'] ?? ''));
                 }
             }
 
             // A IA pediu para usar ferramentas: executa todas e devolve os resultados juntos
             $resultados = [];
-            foreach ($resposta->content as $bloco) {
-                if ($bloco->type !== 'tool_use') {
+            foreach ($resposta['content'] as $bloco) {
+                if (($bloco['type'] ?? '') !== 'tool_use') {
                     continue;
                 }
-                $saida = $bloco->name === 'pedir_ajuda_especialista'
+                $entrada = (array) ($bloco['input'] ?? []);
+                $saida = $bloco['name'] === 'pedir_ajuda_especialista'
                     ? ['resultado' => 'Você já é o atendimento avançado. Resolva com cuidado ou use chamar_atendente_humano.']
-                    : $this->executarFerramenta($bloco->name, (array) $bloco->input, $telefone);
-                $this->armazenamento->registrarLog("FERRAMENTA ({$telefone}) {$bloco->name} " . json_encode($bloco->input, JSON_UNESCAPED_UNICODE) . ' => ' . json_encode($saida, JSON_UNESCAPED_UNICODE));
+                    : $this->executarFerramenta($bloco['name'], $entrada, $telefone);
+                $this->armazenamento->registrarLog("FERRAMENTA ({$telefone}) {$bloco['name']} " . json_encode($entrada, JSON_UNESCAPED_UNICODE) . ' => ' . json_encode($saida, JSON_UNESCAPED_UNICODE));
                 $resultados[] = [
                     'type' => 'tool_result',
-                    'toolUseID' => $bloco->id,
+                    'tool_use_id' => $bloco['id'],
                     'content' => json_encode($saida, JSON_UNESCAPED_UNICODE),
-                    'isError' => isset($saida['erro']),
+                    'is_error' => isset($saida['erro']),
                 ];
             }
             $mensagens[] = ['role' => 'user', 'content' => $resultados];
@@ -215,21 +207,20 @@ class Secretaria
         throw new \RuntimeException('A IA usou ferramentas demais em uma única resposta.');
     }
 
-    private function chamarClaude(string $system, array $mensagens, string $modelo): \Anthropic\Beta\Messages\BetaMessage
+    private function chamarClaude(string $system, array $mensagens, string $modelo): array
     {
-        return $this->claude->beta->messages->create(
-            model: $modelo,
-            maxTokens: 8000,
-            system: [['type' => 'text', 'text' => $system]],
-            messages: $mensagens,
-            tools: Ferramentas::definicoes($this->agenda->servicos()),
-            outputConfig: ['effort' => $this->config['esforco'] ?? 'low'],
+        return $this->claude->mensagem([
+            'model' => $modelo,
+            'max_tokens' => 8000,
+            'system' => [['type' => 'text', 'text' => $system]],
+            'messages' => $mensagens,
+            'tools' => Ferramentas::definicoes($this->agenda->servicos()),
+            'output_config' => ['effort' => $this->config['esforco'] ?? 'low'],
             // Guarda em cache o início da conversa: as próximas mensagens ficam mais baratas
-            cacheControl: ['type' => 'ephemeral'],
+            'cache_control' => ['type' => 'ephemeral'],
             // Se a IA principal recusar por política, a API tenta automaticamente outro modelo
-            fallbacks: 'default',
-            betas: ['server-side-fallback-2026-07-01'],
-        );
+            'fallbacks' => 'default',
+        ], ['server-side-fallback-2026-07-01']);
     }
 
     private function executarFerramenta(string $nome, array $entrada, string $telefone): array
@@ -345,6 +336,8 @@ class Secretaria
             $texto .= "\n\n## Regras específicas desta clínica (têm prioridade sobre o estilo padrão)\n" . implode("\n", $linhas) . "\n";
         }
 
+        $texto .= (new Regras($this->armazenamento))->paraInstrucoes();
+
         $info = $this->clinica;
         unset($info['regras_extras'], $info['equipe']);
         $texto .= "\n\n## Informações da clínica (fonte oficial)\n```json\n"
@@ -365,8 +358,8 @@ class Secretaria
     {
         $partes = [];
         foreach ($conteudo as $bloco) {
-            if ($bloco->type === 'text' && trim($bloco->text) !== '') {
-                $partes[] = trim($bloco->text);
+            if (($bloco['type'] ?? '') === 'text' && trim((string) ($bloco['text'] ?? '')) !== '') {
+                $partes[] = trim($bloco['text']);
             }
         }
         return implode("\n\n", $partes);
