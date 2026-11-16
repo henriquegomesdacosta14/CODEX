@@ -120,13 +120,12 @@ class Assistente
         $acoes = [];
         for ($i = 0; $i < self::MAX_RODADAS; $i++) {
             $r = $this->claude->beta->messages->create(
-                // O chat de configuração usa o modelo avançado (conversa mais longa e detalhada)
-                model: ($this->config['modelo_avancado'] ?? '') ?: ($this->config['modelo'] ?? 'claude-sonnet-5-5'),
+                model: $this->config['modelo_assistente'] ?? 'claude-haiku-5-5',
                 maxTokens: 16000,
                 system: [['type' => 'text', 'text' => $system]],
                 messages: $mensagens,
                 tools: $this->ferramentas(),
-                outputConfig: ['effort' => $this->config['esforco_assistente'] ?? 'medium'],
+                outputConfig: ['effort' => $this->config['esforco_assistente'] ?? 'low'],
                 cacheControl: ['type' => 'ephemeral'],
                 fallbacks: 'default',
                 betas: ['server-side-fallback-2026-07-01'],

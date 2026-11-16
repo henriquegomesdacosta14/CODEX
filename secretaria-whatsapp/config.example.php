@@ -11,14 +11,17 @@ return [
     'modelo' => 'claude-haiku-5-5',
     // Modelo que ASSUME a conversa quando o primeiro não dá conta: caso complexo,
     // paciente frustrado, erro ou recusa. Fica até o fim daquela conversa.
-    // Deixe '' para não escalar. Opções: 'claude-sonnet-5-5', 'claude-opus-5-5'.
+    // Deixe '' para não escalar (o mais barato possível).
     'modelo_avancado' => 'claude-sonnet-5-5',
+    // Modelo do chat de configuração (assistente.html). Haiku = bem mais barato.
+    // Troque por 'claude-sonnet-5-5' se quiser conversas mais elaboradas.
+    'modelo_assistente' => 'claude-haiku-5-5',
 
     // Quanto a IA "pensa" antes de responder: 'low', 'medium' ou 'high'.
     // Para atendimento por WhatsApp, 'low' costuma bastar e economiza.
     'esforco' => 'low',
-    // Esforço do chat de configuração (assistente.html), onde a clínica conversa com o Claude
-    'esforco_assistente' => 'medium',
+    // Esforço do chat de configuração (assistente.html): 'low' gasta menos
+    'esforco_assistente' => 'low',
 
     // ===== WhatsApp (Meta Cloud API) =====
     // Painel: developers.facebook.com > seu app > WhatsApp > Configuração da API

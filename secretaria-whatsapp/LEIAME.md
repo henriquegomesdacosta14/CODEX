@@ -76,7 +76,7 @@ Abra `https://SEU-DOMINIO/secretaria-whatsapp/assistente.html`, digite seu nome 
 - É uma conversa **única e compartilhada**: as sócias e o desenvolvedor veem as mesmas mensagens, cada uma com o nome de quem escreveu. A tela se atualiza sozinha.
 - O Claude pergunta as 10 partes do cadastro aos poucos, aceita textos colados (lista de preços, horários), **salva direto no cadastro** e testa como a secretária responderia um paciente. Os testes não gravam nada na agenda.
 - Pedidos que exigem mudar o sistema (ex.: agenda por profissional) são anotados em **Pendências**, para o desenvolvedor.
-- Usa a mesma chave da Anthropic. Cada mensagem custa alguns centavos de dólar.
+- Usa a mesma chave da Anthropic e o modelo `modelo_assistente` (Haiku por padrão, bem barato). Para configurar sem gastar créditos da API, use a página de comentários com o Claude.
 
 ## Cadastro da clínica (para quem não mexe com código)
 
@@ -118,7 +118,7 @@ A aprovação é manual de propósito: uma resposta da IA pode conter algo que s
 
 ## Custos e privacidade
 
-- **IA**: paga por uso no console da Anthropic. Troque o `modelo` no `config.php` para equilibrar custo e qualidade: `claude-opus-5-5`, `claude-sonnet-5-5` ou `claude-haiku-5-5`.
+- **IA**: paga por uso no console da Anthropic. Troque o `modelo` no `config.php` para equilibrar custo e qualidade: `claude-haiku-5-5` (mais barato) ou `claude-sonnet-5-5`.
 - **WhatsApp**: responder quem chamou é gratuito por 24 horas. Mensagens iniciadas pela clínica (lembretes) usam templates pagos. Este protótipo ainda não envia lembretes.
 - **LGPD**: as conversas ficam em `dados/`. Informe os pacientes sobre o atendimento automatizado e apague arquivos antigos periodicamente.
 
