@@ -35,6 +35,10 @@ return [
     // Senha para abrir o simulador e o painel de respostas. Vazio = desativados.
     'senha_simulador' => 'troque-esta-senha',
 
+    // Senha da página cadastro.html (onde a clínica preenche seus dados).
+    // Se ficar vazia, usa a mesma senha do simulador.
+    'senha_cadastro' => '',
+
     // ===== Geral =====
     'fuso_horario' => 'America/Sao_Paulo',
     // Depois de quantas horas sem mensagens a conversa recomeça do zero

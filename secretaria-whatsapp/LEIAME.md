@@ -16,6 +16,7 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
 | `clinica/instrucoes.md` | **Personalidade e regras** da secretária. Edite aqui. |
 | `config.php` | Chaves e senhas. Crie a partir de `config.example.php`. Nunca vai para o GitHub. |
 | `webhook.php` | Endereço que a Meta chama quando chega uma mensagem. |
+| `cadastro.html` | **Página para a clínica preencher seus dados** (funciona no celular). Ao salvar, a secretária já aprende. |
 | `simulador.html` | Tela parecida com o WhatsApp para testar **sem** WhatsApp. |
 | `respostas.html` | Painel de respostas rápidas (grátis) e do que o sistema aprendeu. |
 | `clinica/respostas_rapidas.json` | Respostas rápidas iniciais. |
@@ -66,6 +67,17 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
   - `ERRO WhatsApp HTTP 401`: o token da Meta está errado ou vencido.
 - **A Meta não verifica o webhook.** Confira se o `whatsapp_verify_token` é exatamente igual nos dois lugares e se o site abre com HTTPS.
 - **"Faltam as bibliotecas".** Rode `composer install --no-dev` na pasta.
+
+## Cadastro da clínica (para quem não mexe com código)
+
+Abra `https://SEU-DOMINIO/secretaria-whatsapp/cadastro.html` e entre com a `senha_cadastro` do `config.php`. Se ela estiver vazia, a senha é a do simulador.
+
+- São 10 partes: dados básicos, horários, serviços e preços, profissionais, convênios e pagamento, regras de agendamento, perguntas frequentes, o que não fazer, jeito de falar e equipe.
+- **Salvar** grava em `dados/clinica.json` e vale para as conversas novas. A versão anterior fica guardada como `dados/clinica_backup_*.json`.
+- Perguntas frequentes com **palavras-chave** viram respostas rápidas, grátis.
+- Serviços com "a secretária pode agendar" desmarcado não são agendados pela IA: ela encaminha para a equipe.
+- Se a pessoa sair sem salvar, o rascunho fica guardado no aparelho.
+- **Copiar p/ Claude** gera um resumo em texto para colar numa conversa com o Claude e pedir revisão.
 
 ## Economia: respostas rápidas e aprendizado
 

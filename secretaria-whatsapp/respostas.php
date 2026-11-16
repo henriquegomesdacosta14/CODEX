@@ -30,7 +30,7 @@ if (!hash_equals($senhaConfig, (string) ($entrada['senha'] ?? ''))) {
     responderJson(['erro' => 'Senha incorreta'], 401);
 }
 
-$clinica = json_decode((string) file_get_contents(__DIR__ . '/clinica/clinica.json'), true) ?? [];
+$clinica = Secretaria\Clinica::carregar($armazenamento, __DIR__ . '/clinica');
 $rapidas = new RespostasRapidas($armazenamento, $clinica, __DIR__ . '/clinica/respostas_rapidas.json');
 $rapidas->todas(); // garante que o arquivo de respostas exista
 

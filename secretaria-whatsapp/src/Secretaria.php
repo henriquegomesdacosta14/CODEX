@@ -33,8 +33,7 @@ class Secretaria
     public function __construct(private array $config, private Armazenamento $armazenamento, private string $pastaClinica)
     {
         $this->fuso = new \DateTimeZone($config['fuso_horario'] ?? 'America/Sao_Paulo');
-        $this->clinica = json_decode((string) file_get_contents($pastaClinica . '/clinica.json'), true)
-            ?? throw new \RuntimeException('clinica/clinica.json inválido');
+        $this->clinica = Clinica::carregar($armazenamento, $pastaClinica);
         $this->agenda = new Agenda($armazenamento, $this->clinica, $this->fuso);
         $this->rapidas = new RespostasRapidas($armazenamento, $this->clinica, $pastaClinica . '/respostas_rapidas.json');
 
@@ -249,7 +248,27 @@ class Secretaria
             '{{nome_clinica}}' => $this->clinica['nome_clinica'] ?? 'clínica',
         ]);
 
+        // Regras escritas pela clínica no cadastro (cadastro.html)
+        $extras = $this->clinica['regras_extras'] ?? [];
+        $equipe = $this->clinica['equipe'] ?? [];
+        $linhas = array_filter([
+            !empty($extras['tratamento']) ? "- Forma de tratar o paciente: {$extras['tratamento']}" : '',
+            !empty($extras['emoji']) ? "- Uso de emoji: {$extras['emoji']}" : '',
+            !empty($extras['frases_da_clinica']) ? "- Frases/saudações que a clínica usa: {$extras['frases_da_clinica']}" : '',
+            !empty($extras['proibido']) ? "- NÃO fale sobre / NÃO faça: {$extras['proibido']}" : '',
+            !empty($extras['sempre_humano']) ? "- Estes assuntos vão SEMPRE para um atendente humano (use chamar_atendente_humano): {$extras['sempre_humano']}" : '',
+            !empty($equipe['horario_resposta']) ? "- A equipe humana responde: {$equipe['horario_resposta']}. Informe isso ao transferir." : '',
+        ]);
+        $naoAgendar = array_column(array_filter($this->clinica['servicos'] ?? [], fn ($s) => !($s['agendar_pela_ia'] ?? true)), 'nome');
+        if ($naoAgendar) {
+            $linhas[] = '- NÃO agende estes serviços; explique que precisam de avaliação e chame chamar_atendente_humano: ' . implode(', ', $naoAgendar);
+        }
+        if ($linhas) {
+            $texto .= "\n\n## Regras específicas desta clínica (têm prioridade sobre o estilo padrão)\n" . implode("\n", $linhas) . "\n";
+        }
+
         $info = $this->clinica;
+        unset($info['regras_extras'], $info['equipe']);
         $texto .= "\n\n## Informações da clínica (fonte oficial)\n```json\n"
             . json_encode($info, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
             . "\n```\n";

@@ -134,6 +134,9 @@ class Agenda
             $nomes = array_column($this->servicos(), 'nome');
             return ['erro' => 'Serviço não encontrado. Serviços disponíveis: ' . implode(', ', $nomes)];
         }
+        if (!($servicoInfo['agendar_pela_ia'] ?? true)) {
+            return ['erro' => 'Este serviço não pode ser agendado pela assistente. Encaminhe para a equipe.'];
+        }
         if (!preg_match('/^\d{2}:\d{2}$/', $hora)) {
             return ['erro' => 'Hora inválida. Use o formato HH:MM.'];
         }
