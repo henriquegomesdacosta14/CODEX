@@ -1,0 +1,29 @@
+{
+    "nome_clinica": "Clínica Exemplo Saúde",
+    "nome_assistente": "Ana",
+    "especialidade": "Clínica geral, dermatologia e nutrição",
+    "endereco": "Rua Exemplo, 123 - Sala 45 - Centro - Sua Cidade/UF",
+    "telefone_recepcao": "(00) 0000-0000",
+    "como_chegar": "Próximo à praça central. Estacionamento conveniado no prédio ao lado.",
+    "formas_pagamento": ["Pix", "Cartão de crédito (até 3x)", "Cartão de débito", "Dinheiro"],
+    "convenios": ["Unimed", "Bradesco Saúde", "SulAmérica"],
+    "horario_funcionamento": {
+        "segunda": ["08:00-12:00", "13:30-18:00"],
+        "terca":   ["08:00-12:00", "13:30-18:00"],
+        "quarta":  ["08:00-12:00", "13:30-18:00"],
+        "quinta":  ["08:00-12:00", "13:30-18:00"],
+        "sexta":   ["08:00-12:00", "13:30-17:00"],
+        "sabado":  ["08:00-12:00"],
+        "domingo": []
+    },
+    "feriados_e_folgas": ["2026-12-24", "2026-12-25", "2026-12-31", "2027-01-01"],
+    "duracao_padrao_minutos": 30,
+    "antecedencia_minima_horas": 2,
+    "dias_para_frente_agenda": 60,
+    "servicos": [
+        {"nome": "Consulta clínica geral",   "preco": "R$ 180,00", "duracao_minutos": 30},
+        {"nome": "Consulta dermatologia",    "preco": "R$ 250,00", "duracao_minutos": 30},
+        {"nome": "Consulta nutrição",        "preco": "R$ 200,00", "duracao_minutos": 60},
+        {"nome": "Retorno (até 30 dias)",    "preco": "Sem custo", "duracao_minutos": 30}
+    ]
+}

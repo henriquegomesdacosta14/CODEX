@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Simulador da Secretária</title>
+<style>
+  :root {
+    --fundo: #efeae2; --topo: #075e54; --minha: #d9fdd3; --dela: #ffffff;
+    --texto: #111b21; --suave: #667781; --borda: #d1d7db; --painel: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --fundo: #0b141a; --topo: #202c33; --minha: #005c4b; --dela: #202c33;
+      --texto: #e9edef; --suave: #8696a0; --borda: #2a3942; --painel: #111b21; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--painel); color: var(--texto); height: 100dvh; display: flex; }
+  .app { display: flex; width: 100%; max-width: 1200px; margin: 0 auto; height: 100%; }
+  .chat { flex: 1 1 60%; display: flex; flex-direction: column; min-width: 0; border-right: 1px solid var(--borda); }
+  header { background: var(--topo); color: #fff; padding: 12px 16px; display: flex; gap: 12px; align-items: center; }
+  header .avatar { width: 40px; height: 40px; border-radius: 50%; background: #25d366; display: grid; place-items: center; font-weight: 700; }
+  header small { opacity: .8; display: block; }
+  header .acoes { margin-left: auto; display: flex; gap: 8px; }
+  button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 8px 12px; }
+  header button { background: rgba(255,255,255,.15); color: #fff; }
+  #mensagens { flex: 1; overflow-y: auto; padding: 16px; background: var(--fundo); display: flex; flex-direction: column; gap: 6px; }
+  .msg { max-width: 80%; padding: 8px 10px 6px; border-radius: 8px; white-space: pre-wrap; word-wrap: break-word; line-height: 1.35; box-shadow: 0 1px .5px rgba(0,0,0,.13); }
+  .msg.eu { align-self: flex-end; background: var(--minha); }
+  .msg.ela { align-self: flex-start; background: var(--dela); }
+  .msg .hora { display: block; text-align: right; font-size: 11px; color: var(--suave); margin-top: 2px; }
+  .msg.sistema { align-self: center; background: transparent; box-shadow: none; color: var(--suave); font-size: 13px; }
+  form { display: flex; gap: 8px; padding: 10px; background: var(--painel); border-top: 1px solid var(--borda); }
+  form input { flex: 1; min-width: 0; font: inherit; padding: 10px 14px; border-radius: 20px; border: 1px solid var(--borda); background: var(--painel); color: var(--texto); }
+  form button { background: #25d366; color: #fff; border-radius: 20px; padding: 10px 18px; }
+  aside { flex: 1 1 40%; padding: 16px; overflow-y: auto; min-width: 0; }
+  aside h2 { font-size: 16px; margin: 16px 0 8px; }
+  aside label { display: block; font-size: 13px; color: var(--suave); margin-top: 8px; }
+  aside input { width: 100%; font: inherit; padding: 8px; border-radius: 6px; border: 1px solid var(--borda); background: var(--painel); color: var(--texto); }
+  .item { border: 1px solid var(--borda); border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; font-size: 14px; }
+  .item.cancelado { opacity: .5; text-decoration: line-through; }
+  .item.urgente { border-color: #e53935; }
+  .vazio { color: var(--suave); font-size: 14px; }
+  .digitando { font-style: italic; color: var(--suave); }
+  @media (max-width: 800px) {
+    .app { flex-direction: column; } .chat { flex: 1 0 70dvh; border-right: 0; } aside { flex: none; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="chat">
+    <header>
+      <div class="avatar" id="inicial">A</div>
+      <div><strong id="titulo">Secretária virtual</strong><small>Simulador de WhatsApp</small></div>
+      <div class="acoes"><button type="button" id="btnReiniciar" title="Começar uma conversa nova">Nova conversa</button></div>
+    </header>
+    <div id="mensagens">
+      <div class="msg sistema">Digite como se você fosse o paciente. Ex.: "Oi, quero marcar uma consulta"</div>
+    </div>
+    <form id="form">
+      <input id="texto" autocomplete="off" placeholder="Mensagem" required>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+  <aside>
+    <h2>Configuração do teste</h2>
+    <label>Senha do simulador (config.php)<input id="senha" type="password"></label>
+    <label>Telefone do paciente de teste<input id="telefone" value="5511999990000"></label>
+    <label>Nome no WhatsApp<input id="nome" value="Maria Teste"></label>
+
+    <h2>Agendamentos <button type="button" id="btnAtualizar">Atualizar</button></h2>
+    <div id="agendamentos" class="vazio">Nenhum ainda.</div>
+
+    <h2>Pedidos de atendente humano</h2>
+    <div id="transferencias" class="vazio">Nenhum ainda.</div>
+  </aside>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const guardado = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
+  ['telefone', 'nome'].forEach((k) => { const v = guardado('sim_' + k); if (v) $(k).value = v; $(k).addEventListener('change', () => guardado('sim_' + k, $(k).value)); });
+
+  function hora() { return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); }
+
+  // Converte *negrito* e _itálico_ do WhatsApp com segurança
+  function formatar(texto) {
+    const esc = texto.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    return esc.replace(/\*([^*\n]+)\*/g, '<strong>$1</strong>').replace(/(^|\s)_([^_\n]+)_/g, '$1<em>$2</em>');
+  }
+
+  function adicionar(classe, texto, extra) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + classe;
+    div.innerHTML = formatar(texto) + (classe === 'sistema' ? '' : '<span class="hora">' + hora() + (extra ? ' · ' + extra : '') + '</span>');
+    $('mensagens').appendChild(div);
+    $('mensagens').scrollTop = $('mensagens').scrollHeight;
+    return div;
+  }
+
+  async function api(dados) {
+    const r = await fetch('simulador.php', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ senha: $('senha').value, telefone: $('telefone').value, nome: $('nome').value, ...dados }),
+    });
+    const j = await r.json().catch(() => ({ erro: 'Resposta inválida do servidor (HTTP ' + r.status + ')' }));
+    if (!r.ok || j.erro) throw new Error(j.erro || ('HTTP ' + r.status));
+    return j;
+  }
+
+  $('form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const texto = $('texto').value.trim();
+    if (!texto) return;
+    $('texto').value = '';
+    adicionar('eu', texto);
+    const aviso = adicionar('sistema', 'digitando…');
+    aviso.classList.add('digitando');
+    try {
+      const j = await api({ acao: 'mensagem', mensagem: texto });
+      aviso.remove();
+      adicionar('ela', j.resposta, j.segundos + 's');
+      atualizarPainel();
+    } catch (err) {
+      aviso.remove();
+      adicionar('sistema', 'Erro: ' + err.message);
+    }
+    $('texto').focus();
+  });
+
+  $('btnReiniciar').addEventListener('click', async () => {
+    try { await api({ acao: 'reiniciar' }); $('mensagens').innerHTML = ''; adicionar('sistema', 'Conversa reiniciada.'); }
+    catch (err) { adicionar('sistema', 'Erro: ' + err.message); }
+  });
+
+  function cartao(html, classe) { const d = document.createElement('div'); d.className = 'item ' + (classe || ''); d.innerHTML = html; return d; }
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  async function atualizarPainel() {
+    try {
+      const j = await api({ acao: 'painel' });
+      const ag = $('agendamentos'); ag.innerHTML = ''; ag.className = j.agendamentos.length ? '' : 'vazio';
+      if (!j.agendamentos.length) ag.textContent = 'Nenhum ainda.';
+      j.agendamentos.forEach((a) => ag.appendChild(cartao(
+        `<strong>${esc(a.data.split('-').reverse().join('/'))} ${esc(a.hora)}</strong> · ${esc(a.servico)}<br>${esc(a.nome_paciente)} · ${esc(a.telefone)}<br><small>Código ${esc(a.codigo)} · ${esc(a.status)}</small>`,
+        a.status === 'cancelado' ? 'cancelado' : '')));
+      const tr = $('transferencias'); tr.innerHTML = ''; tr.className = j.transferencias.length ? '' : 'vazio';
+      if (!j.transferencias.length) tr.textContent = 'Nenhum ainda.';
+      j.transferencias.forEach((t) => tr.appendChild(cartao(
+        `${t.urgente ? '🚨 <strong>URGENTE</strong> · ' : ''}${esc(t.telefone)}<br>${esc(t.motivo)}<br><small>${esc(new Date(t.criado_em).toLocaleString('pt-BR'))}</small>`,
+        t.urgente ? 'urgente' : '')));
+    } catch (err) { /* senha ainda não digitada */ }
+  }
+  $('btnAtualizar').addEventListener('click', atualizarPainel);
+  $('senha').addEventListener('change', atualizarPainel);
+</script>
+</body>
+</html>

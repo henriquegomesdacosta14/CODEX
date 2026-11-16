@@ -1,0 +1,9 @@
+# Bloqueia acesso direto a arquivos internos do protótipo
+<FilesMatch "^(composer\.(json|lock)|config(\.example)?\.php|terminal\.php|LEIAME\.md|mock-claude\.php)$">
+    Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(vendor|src|clinica|dados|testes)(/|$) - [F,L]
+</IfModule>
