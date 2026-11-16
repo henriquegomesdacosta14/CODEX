@@ -11,6 +11,9 @@ class Ferramentas
     public static function definicoes(array $servicos): array
     {
         $nomesServicos = array_values(array_column($servicos, 'nome'));
+        $servico = $nomesServicos
+            ? ['type' => 'string', 'enum' => $nomesServicos, 'description' => 'Serviço desejado (define a duração)']
+            : ['type' => 'string', 'description' => 'Serviço desejado'];
 
         return [
             [
@@ -21,7 +24,7 @@ class Ferramentas
                     'type' => 'object',
                     'properties' => [
                         'data' => ['type' => 'string', 'description' => 'Data no formato AAAA-MM-DD'],
-                        'servico' => ['type' => 'string', 'enum' => $nomesServicos, 'description' => 'Serviço desejado (define a duração)'],
+                        'servico' => $servico,
                     ],
                     'required' => ['data', 'servico'],
                     'additionalProperties' => false,
@@ -37,7 +40,7 @@ class Ferramentas
                         'nome_paciente' => ['type' => 'string', 'description' => 'Nome completo do paciente'],
                         'data' => ['type' => 'string', 'description' => 'AAAA-MM-DD'],
                         'hora' => ['type' => 'string', 'description' => 'HH:MM (24h), um dos horários livres'],
-                        'servico' => ['type' => 'string', 'enum' => $nomesServicos],
+                        'servico' => $servico,
                         'observacoes' => ['type' => 'string', 'description' => 'Observações administrativas (ex.: convênio). Pode ser vazio.'],
                     ],
                     'required' => ['nome_paciente', 'data', 'hora', 'servico', 'observacoes'],

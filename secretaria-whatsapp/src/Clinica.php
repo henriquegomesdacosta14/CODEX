@@ -24,10 +24,16 @@ class Clinica
         return is_array($armazenamento->ler('clinica', null));
     }
 
-    /** Limpa e valida o que veio do formulário. Retorna [dados, erros]. */
+    public const CAMPOS_OBJETO = ['horario_funcionamento', 'politicas', 'regras_extras', 'equipe'];
+
+    /**
+     * Limpa e valida o que veio do formulário.
+     * Retorna [dados, erros (formato inválido), faltando (obrigatórios vazios)].
+     */
     public static function validar(array $e): array
     {
         $erros = [];
+        $faltando = [];
         $txt = fn ($v, $max = 500) => mb_substr(trim((string) ($v ?? '')), 0, $max);
         $lista = function ($v, $max = 60) use ($txt) {
             $itens = is_array($v) ? $v : preg_split('/[\n,;]+/', (string) $v);
@@ -46,7 +52,7 @@ class Clinica
             'site_instagram' => $txt($e['site_instagram'] ?? '', 200),
         ];
         if ($d['nome_clinica'] === '') {
-            $erros[] = 'Informe o nome da clínica.';
+            $faltando[] = 'Informe o nome da clínica.';
         }
 
         // Horários: cada dia com até 2 períodos HH:MM-HH:MM
@@ -89,7 +95,7 @@ class Clinica
             ];
         }
         if (!$d['servicos']) {
-            $erros[] = 'Cadastre pelo menos um serviço.';
+            $faltando[] = 'Cadastre pelo menos um serviço.';
         }
         $duracoes = array_column($d['servicos'], 'duracao_minutos');
         $d['duracao_padrao_minutos'] = $duracoes ? min($duracoes) : 30;
@@ -135,6 +141,44 @@ class Clinica
             $d['equipe'][$k] = $txt($e['equipe'][$k] ?? '', 300);
         }
 
-        return [$d, $erros];
+        return [$d, $erros, $faltando];
+    }
+
+    /** Aplica alterações parciais sobre os dados atuais (objetos são mesclados, listas substituídas). */
+    public static function mesclar(array $atual, array $alteracoes): array
+    {
+        foreach ($alteracoes as $k => $v) {
+            if (in_array($k, self::CAMPOS_OBJETO, true) && is_array($v) && is_array($atual[$k] ?? null)) {
+                $atual[$k] = array_merge($atual[$k], $v);
+            } else {
+                $atual[$k] = $v;
+            }
+        }
+        return $atual;
+    }
+
+    /** Grava os dados (com backup da versão anterior) e sincroniza as perguntas frequentes como respostas rápidas. */
+    public static function salvar(Armazenamento $armazenamento, array $dados, string $pastaClinica, string $origem): void
+    {
+        $anterior = $armazenamento->ler('clinica', null);
+        if ($anterior) {
+            $armazenamento->salvar('clinica_backup_' . date('Ymd_His'), $anterior);
+        }
+        $armazenamento->salvar('clinica', $dados);
+        $armazenamento->salvar('clinica_info', ['atualizado_em' => date('c'), 'origem' => $origem]);
+
+        $rapidas = new RespostasRapidas($armazenamento, $dados, $pastaClinica . '/respostas_rapidas.json');
+        $rapidas->todas();
+        $armazenamento->atualizar('respostas_rapidas', function (array $lista) use ($dados) {
+            $lista = array_values(array_filter($lista, fn ($r) => !str_starts_with((string) $r['id'], 'faq_')));
+            foreach ($dados['perguntas_frequentes'] ?? [] as $i => $f) {
+                $gatilhos = array_values(array_filter(array_map([RespostasRapidas::class, 'normalizar'], $f['palavras_chave'] ?? [])));
+                if ($gatilhos) {
+                    $lista[] = ['id' => 'faq_' . ($i + 1), 'modo' => 'contem', 'gatilhos' => $gatilhos, 'resposta' => $f['resposta'], 'ativo' => true];
+                }
+            }
+            return [$lista, null];
+        }, []);
+        $armazenamento->registrarLog("Cadastro da clínica atualizado ({$origem}).");
     }
 }

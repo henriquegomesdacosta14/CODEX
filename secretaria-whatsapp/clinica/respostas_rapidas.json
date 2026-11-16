@@ -33,7 +33,7 @@
             "id": "precos",
             "modo": "contem",
             "gatilhos": ["quanto custa", "qual o valor", "qual valor", "quais os valores", "preco", "precos", "valores", "valor da consulta"],
-            "resposta": "Estes são os valores:\n{{servicos_precos}}\n\nPagamento: {{formas_pagamento}}. Quer agendar?",
+            "resposta": "Estes são os valores:\n{{servicos_precos}}\n\nPagamento: {{formas_pagamento}}.\nQuer agendar?",
             "ativo": true
         },
         {

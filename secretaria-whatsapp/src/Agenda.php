@@ -17,6 +17,7 @@ class Agenda
         private Armazenamento $armazenamento,
         private array $clinica,
         private \DateTimeZone $fuso,
+        private bool $simulacao = false, // true: testa sem gravar nada na agenda
     ) {
     }
 
@@ -170,6 +171,10 @@ class Agenda
                 'observacoes' => $observacoes,
                 'criado_em' => (new \DateTimeImmutable('now', $this->fuso))->format('c'),
             ];
+            if ($this->simulacao) {
+                $novo['codigo'] = 'TESTE';
+                return [$todos, ['sucesso' => true, 'agendamento' => $novo, 'aviso' => 'SIMULAÇÃO: nada foi gravado na agenda.']];
+            }
             $todos[] = $novo;
             return [$todos, ['sucesso' => true, 'agendamento' => $novo]];
         }, []);
@@ -194,6 +199,9 @@ class Agenda
                 if ($a['codigo'] === $codigo && $a['status'] === 'confirmado') {
                     if ($a['telefone'] !== $telefone) {
                         return [$todos, ['erro' => 'Esse agendamento foi feito por outro número. Peça para falar com a recepção.']];
+                    }
+                    if ($this->simulacao) {
+                        return [$todos, ['sucesso' => true, 'agendamento_cancelado' => $a, 'aviso' => 'SIMULAÇÃO: nada foi alterado.']];
                     }
                     $todos[$i]['status'] = 'cancelado';
                     $todos[$i]['cancelado_em'] = (new \DateTimeImmutable('now', $this->fuso))->format('c');

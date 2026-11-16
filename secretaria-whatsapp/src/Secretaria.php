@@ -30,11 +30,15 @@ class Secretaria
     /** De onde veio a última resposta: 'rapida' (grátis), 'ia' ou 'erro'. */
     public string $ultimaOrigem = '';
 
-    public function __construct(private array $config, private Armazenamento $armazenamento, private string $pastaClinica)
-    {
+    public function __construct(
+        private array $config,
+        private Armazenamento $armazenamento,
+        private string $pastaClinica,
+        private bool $simulacao = false, // true: teste da equipe, não grava agenda nem estatísticas
+    ) {
         $this->fuso = new \DateTimeZone($config['fuso_horario'] ?? 'America/Sao_Paulo');
         $this->clinica = Clinica::carregar($armazenamento, $pastaClinica);
-        $this->agenda = new Agenda($armazenamento, $this->clinica, $this->fuso);
+        $this->agenda = new Agenda($armazenamento, $this->clinica, $this->fuso, $simulacao);
         $this->rapidas = new RespostasRapidas($armazenamento, $this->clinica, $pastaClinica . '/respostas_rapidas.json');
 
         $this->claude = new Client(
@@ -70,7 +74,7 @@ class Secretaria
                 // Entra no histórico para a IA saber o que já foi dito, caso seja chamada depois
                 $mensagens[] = ['role' => 'assistant', 'content' => [['type' => 'text', 'text' => $resposta]]];
                 $this->ultimaOrigem = 'rapida';
-                $this->rapidas->contar('rapida');
+                $this->simulacao || $this->rapidas->contar('rapida');
                 $this->armazenamento->registrarLog("RESPOSTA RAPIDA ({$telefone}) [{$rapida['id']}]");
             } else {
                 // 2) Não achou: chama a IA
@@ -83,8 +87,10 @@ class Secretaria
                     return sprintf(self::MENSAGEM_ERRO, $this->clinica['telefone_recepcao'] ?? '');
                 }
                 $this->ultimaOrigem = 'ia';
-                $this->rapidas->contar('ia');
-                $this->rapidas->anotarPergunta($texto, $resposta);
+                if (!$this->simulacao) {
+                    $this->rapidas->contar('ia');
+                    $this->rapidas->anotarPergunta($texto, $resposta);
+                }
             }
 
             $conversa['mensagens'] = $mensagens;
@@ -186,6 +192,9 @@ class Secretaria
 
     private function transferirParaHumano(string $telefone, string $motivo, bool $urgente): array
     {
+        if ($this->simulacao) {
+            return ['sucesso' => true, 'mensagem' => 'SIMULAÇÃO: a equipe seria avisada.', 'telefone_recepcao' => $this->clinica['telefone_recepcao'] ?? null];
+        }
         $this->armazenamento->atualizar('transferencias', function (array $lista) use ($telefone, $motivo, $urgente) {
             $lista[] = [
                 'telefone' => $telefone,

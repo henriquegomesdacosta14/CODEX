@@ -16,6 +16,7 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
 | `clinica/instrucoes.md` | **Personalidade e regras** da secretária. Edite aqui. |
 | `config.php` | Chaves e senhas. Crie a partir de `config.example.php`. Nunca vai para o GitHub. |
 | `webhook.php` | Endereço que a Meta chama quando chega uma mensagem. |
+| `assistente.html` | **Chat em que a clínica conversa com o Claude** para cadastrar e testar a secretária. |
 | `cadastro.html` | **Página para a clínica preencher seus dados** (funciona no celular). Ao salvar, a secretária já aprende. |
 | `simulador.html` | Tela parecida com o WhatsApp para testar **sem** WhatsApp. |
 | `respostas.html` | Painel de respostas rápidas (grátis) e do que o sistema aprendeu. |
@@ -67,6 +68,15 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
   - `ERRO WhatsApp HTTP 401`: o token da Meta está errado ou vencido.
 - **A Meta não verifica o webhook.** Confira se o `whatsapp_verify_token` é exatamente igual nos dois lugares e se o site abre com HTTPS.
 - **"Faltam as bibliotecas".** Rode `composer install --no-dev` na pasta.
+
+## Chat de configuração com o Claude
+
+Abra `https://SEU-DOMINIO/secretaria-whatsapp/assistente.html`, digite seu nome e a `senha_cadastro`.
+
+- É uma conversa **única e compartilhada**: as sócias e o desenvolvedor veem as mesmas mensagens, cada uma com o nome de quem escreveu. A tela se atualiza sozinha.
+- O Claude pergunta as 10 partes do cadastro aos poucos, aceita textos colados (lista de preços, horários), **salva direto no cadastro** e testa como a secretária responderia um paciente. Os testes não gravam nada na agenda.
+- Pedidos que exigem mudar o sistema (ex.: agenda por profissional) são anotados em **Pendências**, para o desenvolvedor.
+- Usa a mesma chave da Anthropic. Cada mensagem custa alguns centavos de dólar.
 
 ## Cadastro da clínica (para quem não mexe com código)
 

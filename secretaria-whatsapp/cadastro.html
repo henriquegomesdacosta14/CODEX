@@ -234,7 +234,7 @@
       </div>
       <label>Quem atende (opcional)<input data-k="profissional" value="${esc(s.profissional)}"></label>
       <label>Preparo (opcional)<small>Jejum, trazer exames, suspender medicamento…</small><input data-k="preparo" value="${esc(s.preparo)}"></label>
-      <label>Observações (opcional)<input data-k="observacoes" value="${esc(s.observacoes)}" placeholder="Ex.: retorno grátis em 30 dias"></label>
+      <label>Observações (opcional)<small>O paciente pode ler este texto</small><input data-k="observacoes" value="${esc(s.observacoes)}" placeholder="Ex.: retorno grátis em 30 dias"></label>
       <label class="check"><input type="checkbox" data-k="agendar_pela_ia" ${s.agendar_pela_ia === false ? '' : 'checked'}> A secretária pode agendar sozinha</label>`;
     $('servicos').appendChild(d);
   }

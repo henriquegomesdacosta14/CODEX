@@ -16,6 +16,8 @@ return [
     // Quanto a IA "pensa" antes de responder: 'low', 'medium' ou 'high'.
     // Para atendimento por WhatsApp, 'low' costuma bastar e economiza.
     'esforco' => 'low',
+    // Esforço do chat de configuração (assistente.html), onde a clínica conversa com o Claude
+    'esforco_assistente' => 'medium',
 
     // ===== WhatsApp (Meta Cloud API) =====
     // Painel: developers.facebook.com > seu app > WhatsApp > Configuração da API

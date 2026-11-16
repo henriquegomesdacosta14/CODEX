@@ -91,11 +91,49 @@ class RespostasRapidas
                     ? $msg === $g
                     : (!$exigeIa && $palavras <= self::MAX_PALAVRAS_CONTEM && str_contains(' ' . $msg . ' ', ' ' . $g . ' '));
                 if ($bate) {
+                    // Pergunta de preço que cita UM serviço: responde só sobre ele
+                    if ($r['id'] === 'precos' && ($s = $this->servicoCitado($msg))) {
+                        return ['id' => 'precos', 'resposta' => $this->respostaServico($s)];
+                    }
                     return ['id' => (string) $r['id'], 'resposta' => $this->preencher((string) $r['resposta'])];
                 }
             }
         }
         return null;
+    }
+
+    /** Se a mensagem cita exatamente um serviço (por uma palavra marcante do nome), retorna esse serviço. */
+    private function servicoCitado(string $msg): ?array
+    {
+        $genericas = ['consulta', 'retorno', 'sessao', 'avaliacao', 'atendimento', 'exame', 'procedimento'];
+        $achados = [];
+        foreach ($this->clinica['servicos'] ?? [] as $s) {
+            foreach (explode(' ', self::normalizar($s['nome'] ?? '')) as $p) {
+                if (strlen($p) >= 5 && !in_array($p, $genericas, true) && str_contains(' ' . $msg . ' ', ' ' . $p)) {
+                    $achados[$s['nome']] = $s;
+                    break;
+                }
+            }
+        }
+        return count($achados) === 1 ? reset($achados) : null;
+    }
+
+    private function respostaServico(array $s): string
+    {
+        $dur = (int) ($s['duracao_minutos'] ?? 0);
+        $durTxt = $dur >= 60 ? (intdiv($dur, 60) . 'h' . ($dur % 60 ? $dur % 60 : '')) : "{$dur} min";
+        $t = "*{$s['nome']}*: *{$s['preco']}*" . ($dur ? " (duração: {$durTxt})" : '') . '.';
+        if (!empty($s['observacoes'])) {
+            $t .= "\n{$s['observacoes']}";
+        }
+        if (!empty($s['preparo'])) {
+            $t .= "\nPreparo: {$s['preparo']}";
+        }
+        if (!empty($this->clinica['formas_pagamento'])) {
+            $t .= "\n\nPagamento: " . implode(', ', $this->clinica['formas_pagamento']) . '.';
+        }
+        $t .= ($s['agendar_pela_ia'] ?? true) ? ' Quer agendar?' : "\n\nEsse serviço precisa de avaliação. Posso pedir para nossa equipe falar com você?";
+        return $t;
     }
 
     /** Troca {{campo}} pelos dados atuais de clinica.json. */
@@ -110,7 +148,7 @@ class RespostasRapidas
         }
         $servicos = array_map(fn ($s) => "• {$s['nome']}: *{$s['preco']}*", $c['servicos'] ?? []);
 
-        return strtr($texto, [
+        $valores = [
             '{{nome_assistente}}' => $c['nome_assistente'] ?? '',
             '{{nome_clinica}}' => $c['nome_clinica'] ?? '',
             '{{endereco}}' => $c['endereco'] ?? '',
@@ -120,7 +158,22 @@ class RespostasRapidas
             '{{servicos_precos}}' => implode("\n", $servicos),
             '{{convenios}}' => implode(', ', $c['convenios'] ?? []),
             '{{formas_pagamento}}' => implode(', ', $c['formas_pagamento'] ?? []),
-        ]);
+        ];
+        // Linhas que dependem de um dado ainda não cadastrado são removidas (ex.: "Pagamento: ." vazio)
+        $linhas = [];
+        foreach (explode("\n", $texto) as $linha) {
+            preg_match_all('/\{\{[a-z_]+\}\}/', $linha, $m);
+            $vazio = false;
+            foreach ($m[0] as $campo) {
+                if (isset($valores[$campo]) && trim($valores[$campo]) === '') {
+                    $vazio = true;
+                }
+            }
+            if (!$vazio) {
+                $linhas[] = strtr($linha, $valores);
+            }
+        }
+        return trim(implode("\n", $linhas));
     }
 
     /** Anota uma pergunta respondida pela IA (base para o aprendizado). */
