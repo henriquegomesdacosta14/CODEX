@@ -77,18 +77,21 @@ class Secretaria
                 $this->simulacao || $this->rapidas->contar('rapida');
                 $this->armazenamento->registrarLog("RESPOSTA RAPIDA ({$telefone}) [{$rapida['id']}]");
             } else {
-                // 2) Não achou: chama a IA
+                // 2) Não achou: chama a IA (Haiku primeiro; o Sonnet assume se ele não der conta)
                 try {
-                    $resposta = $this->conversarComIA($conversa['system'], $mensagens, $telefone);
+                    $resposta = $this->responderComEscalonamento($conversa, $mensagens, $telefone, $texto);
                 } catch (\Throwable $e) {
                     // Não salva nada desta rodada: o histórico continua como estava
                     $this->ultimaOrigem = 'erro';
                     $this->armazenamento->registrarLog("ERRO IA ({$telefone}): " . get_class($e) . ': ' . $e->getMessage());
                     return sprintf(self::MENSAGEM_ERRO, $this->clinica['telefone_recepcao'] ?? '');
                 }
-                $this->ultimaOrigem = 'ia';
+                $this->ultimaOrigem = ($conversa['modo_avancado'] ?? false) ? 'ia_avancada' : 'ia';
                 if (!$this->simulacao) {
                     $this->rapidas->contar('ia');
+                    if ($this->ultimaOrigem === 'ia_avancada') {
+                        $this->rapidas->contar('ia_avancada');
+                    }
                     $this->rapidas->anotarPergunta($texto, $resposta);
                 }
             }
@@ -107,22 +110,86 @@ class Secretaria
         $this->arquivarConversa($telefone);
     }
 
-    private function conversarComIA(string $system, array &$mensagens, string $telefone): string
+    /** Sinais de que o paciente está frustrado ou o caso é delicado: vai direto para o modelo avançado. */
+    private const SINAIS_FRUSTRACAO = [
+        'nao entendeu', 'nao entende', 'nao esta entendendo', 'ja falei', 'ja disse', 'ja expliquei', 'de novo isso',
+        'robo', 'reclamacao', 'reclamar', 'absurdo', 'pessimo', 'horrivel', 'ridiculo', 'nao resolve', 'nao ajudou',
+        'falar com alguem', 'falar com uma pessoa', 'falar com humano', 'processo', 'procon',
+    ];
+
+    /**
+     * Usa o modelo básico (Haiku). Se ele pedir ajuda, falhar ou o paciente
+     * estiver frustrado, o modelo avançado (Sonnet) assume e fica até o fim
+     * desta conversa.
+     * @return string Texto da resposta
+     */
+    private function responderComEscalonamento(array &$conversa, array &$mensagens, string $telefone, string $texto): string
+    {
+        $basico = $this->config['modelo'] ?? 'claude-haiku-5-5';
+        $avancado = $this->config['modelo_avancado'] ?? '';
+        $podeEscalar = $avancado !== '' && $avancado !== $basico;
+
+        $usarAvancado = $podeEscalar && (($conversa['modo_avancado'] ?? false) || $this->temSinalDeFrustracao($texto));
+
+        if (!$usarAvancado) {
+            $antes = $mensagens;
+            try {
+                return $this->conversarComIA($conversa['system'], $mensagens, $telefone, $basico, $podeEscalar);
+            } catch (\Throwable $e) {
+                if (!$podeEscalar) {
+                    throw $e;
+                }
+                // Desfaz só a tentativa desta mensagem e passa para o modelo avançado
+                $mensagens = $antes;
+                $this->armazenamento->registrarLog("ESCALONOU ({$telefone}) para {$avancado}: " . $e->getMessage());
+            }
+        } else {
+            $this->armazenamento->registrarLog("MODELO AVANCADO ({$telefone}): " . (($conversa['modo_avancado'] ?? false) ? 'conversa já escalonada' : 'sinal de frustração'));
+        }
+
+        $conversa['modo_avancado'] = true;
+        return $this->conversarComIA($conversa['system'], $mensagens, $telefone, $avancado, false);
+    }
+
+    private function temSinalDeFrustracao(string $texto): bool
+    {
+        $t = ' ' . RespostasRapidas::normalizar($texto) . ' ';
+        foreach (self::SINAIS_FRUSTRACAO as $s) {
+            if (str_contains($t, ' ' . $s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function conversarComIA(string $system, array &$mensagens, string $telefone, string $modelo, bool $podeEscalar): string
     {
         for ($rodada = 0; $rodada < self::MAX_RODADAS_FERRAMENTAS; $rodada++) {
-            $resposta = $this->chamarClaude($system, $mensagens);
+            $resposta = $this->chamarClaude($system, $mensagens, $modelo);
 
             // Guarda a resposta da IA exatamente como veio (inclui blocos de raciocínio)
             $mensagens[] = ['role' => 'assistant', 'content' => $resposta->content];
 
             if ($resposta->stopReason === 'refusal') {
-                $this->armazenamento->registrarLog("RECUSA ({$telefone}): " . json_encode($resposta->stopDetails));
+                $this->armazenamento->registrarLog("RECUSA ({$telefone}, {$modelo}): " . json_encode($resposta->stopDetails));
+                if ($podeEscalar) {
+                    throw new Escalonamento('recusa do modelo básico');
+                }
                 return 'Desculpe, não consigo ajudar com isso por aqui. Vou pedir para alguém da nossa equipe falar com você. 🙏';
             }
 
             if ($resposta->stopReason !== 'tool_use') {
                 $texto = $this->extrairTexto($resposta->content);
+                if ($texto === '' && $podeEscalar) {
+                    throw new Escalonamento('resposta vazia');
+                }
                 return $texto !== '' ? $texto : 'Desculpe, pode repetir, por favor?';
+            }
+
+            foreach ($resposta->content as $bloco) {
+                if ($bloco->type === 'tool_use' && $bloco->name === 'pedir_ajuda_especialista' && $podeEscalar) {
+                    throw new Escalonamento('o modelo básico pediu ajuda: ' . (string) (((array) $bloco->input)['motivo'] ?? ''));
+                }
             }
 
             // A IA pediu para usar ferramentas: executa todas e devolve os resultados juntos
@@ -131,7 +198,9 @@ class Secretaria
                 if ($bloco->type !== 'tool_use') {
                     continue;
                 }
-                $saida = $this->executarFerramenta($bloco->name, (array) $bloco->input, $telefone);
+                $saida = $bloco->name === 'pedir_ajuda_especialista'
+                    ? ['resultado' => 'Você já é o atendimento avançado. Resolva com cuidado ou use chamar_atendente_humano.']
+                    : $this->executarFerramenta($bloco->name, (array) $bloco->input, $telefone);
                 $this->armazenamento->registrarLog("FERRAMENTA ({$telefone}) {$bloco->name} " . json_encode($bloco->input, JSON_UNESCAPED_UNICODE) . ' => ' . json_encode($saida, JSON_UNESCAPED_UNICODE));
                 $resultados[] = [
                     'type' => 'tool_result',
@@ -146,10 +215,10 @@ class Secretaria
         throw new \RuntimeException('A IA usou ferramentas demais em uma única resposta.');
     }
 
-    private function chamarClaude(string $system, array $mensagens): \Anthropic\Beta\Messages\BetaMessage
+    private function chamarClaude(string $system, array $mensagens, string $modelo): \Anthropic\Beta\Messages\BetaMessage
     {
         return $this->claude->beta->messages->create(
-            model: $this->config['modelo'] ?? 'claude-opus-5-5',
+            model: $modelo,
             maxTokens: 8000,
             system: [['type' => 'text', 'text' => $system]],
             messages: $mensagens,

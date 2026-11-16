@@ -120,7 +120,8 @@ class Assistente
         $acoes = [];
         for ($i = 0; $i < self::MAX_RODADAS; $i++) {
             $r = $this->claude->beta->messages->create(
-                model: $this->config['modelo'] ?? 'claude-opus-5-5',
+                // O chat de configuração usa o modelo avançado (conversa mais longa e detalhada)
+                model: ($this->config['modelo_avancado'] ?? '') ?: ($this->config['modelo'] ?? 'claude-sonnet-5-5'),
                 maxTokens: 16000,
                 system: [['type' => 'text', 'text' => $system]],
                 messages: $mensagens,

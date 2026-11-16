@@ -7,11 +7,12 @@ return [
     // Chave criada em https://console.anthropic.com  (Settings > API Keys)
     'anthropic_api_key' => '',
 
-    // Modelo da IA. Opções:
-    //   'claude-opus-5-5'   -> mais inteligente (padrão)
-    //   'claude-sonnet-5-5' -> intermediário, mais barato
-    //   'claude-haiku-5-5'  -> mais barato de todos
-    'modelo' => 'claude-opus-5-5',
+    // Modelo que atende primeiro (barato e rápido)
+    'modelo' => 'claude-haiku-5-5',
+    // Modelo que ASSUME a conversa quando o primeiro não dá conta: caso complexo,
+    // paciente frustrado, erro ou recusa. Fica até o fim daquela conversa.
+    // Deixe '' para não escalar. Opções: 'claude-sonnet-5-5', 'claude-opus-5-5'.
+    'modelo_avancado' => 'claude-sonnet-5-5',
 
     // Quanto a IA "pensa" antes de responder: 'low', 'medium' ou 'high'.
     // Para atendimento por WhatsApp, 'low' costuma bastar e economiza.

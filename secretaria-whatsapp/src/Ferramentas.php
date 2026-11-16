@@ -72,6 +72,17 @@ class Ferramentas
                 ],
             ],
             [
+                'name' => 'pedir_ajuda_especialista',
+                'description' => 'Passa ESTA conversa para um atendimento mais avançado, que responde no seu lugar. Use quando o caso for complexo, ambíguo ou delicado: reclamação, paciente confuso ou irritado, vários pedidos misturados, ou quando você não tiver certeza de como agir. Não use para perguntas simples nem para agendamentos comuns. Não escreva nada antes de usar.',
+                'strict' => true,
+                'inputSchema' => [
+                    'type' => 'object',
+                    'properties' => ['motivo' => ['type' => 'string', 'description' => 'Por que precisa de ajuda']],
+                    'required' => ['motivo'],
+                    'additionalProperties' => false,
+                ],
+            ],
+            [
                 'name' => 'chamar_atendente_humano',
                 'description' => 'Avisa a equipe da clínica para assumir a conversa: pedido do paciente, reclamação, dúvida sem resposta nas informações da clínica, ou emergência.',
                 'strict' => true,

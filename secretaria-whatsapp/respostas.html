@@ -135,6 +135,7 @@
     $('stats').innerHTML = `
       <div class="stat"><strong>${rap}</strong><span class="muted">respostas rápidas (grátis)</span></div>
       <div class="stat"><strong>${ia}</strong><span class="muted">respostas da IA</span></div>
+      <div class="stat"><strong>${s.ia_avancada || 0}</strong><span class="muted">delas com a IA avançada</span></div>
       <div class="stat"><strong>${tot ? Math.round(rap / tot * 100) : 0}%</strong><span class="muted">sem custo de IA</span></div>`;
 
     $('perguntas').innerHTML = dados.perguntas.length ? dados.perguntas.map((p, i) => `

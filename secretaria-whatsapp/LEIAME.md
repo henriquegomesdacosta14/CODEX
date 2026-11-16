@@ -89,6 +89,17 @@ Abra `https://SEU-DOMINIO/secretaria-whatsapp/cadastro.html` e entre com a `senh
 - Se a pessoa sair sem salvar, o rascunho fica guardado no aparelho.
 - **Copiar p/ Claude** gera um resumo em texto para colar numa conversa com o Claude e pedir revisão.
 
+## Economia: Haiku primeiro, Sonnet quando precisa
+
+- O **Haiku** (`modelo`), o mais barato, atende primeiro.
+- O **Sonnet** (`modelo_avancado`) assume a conversa quando:
+  - o Haiku pede ajuda (caso complexo, paciente confuso, vários pedidos juntos);
+  - o paciente mostra frustração ("você não entendeu", "que absurdo", "quero falar com alguém");
+  - o Haiku dá erro, recusa ou fica sem resposta.
+- Depois que o Sonnet assume, ele fica até o fim daquela conversa. As respostas rápidas continuam grátis no meio.
+- O painel de respostas mostra quantas respostas usaram a IA avançada no mês.
+- Para não escalar nunca, use `'modelo_avancado' => ''`.
+
 ## Economia: respostas rápidas e aprendizado
 
 Perguntas comuns são respondidas **sem chamar a IA**, ou seja, de graça: saudação, endereço, horário de funcionamento, preços, convênios, formas de pagamento e agradecimentos.
