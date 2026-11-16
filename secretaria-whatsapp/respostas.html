@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Respostas Rápidas</title>
+<style>
+  :root {
+    --bg: #f3f5f2; --surface: #ffffff; --line: #dde3dc; --fg: #17201b; --muted: #5f6d64;
+    --accent: #13866f; --accent-fg: #fff; --soft: #eef6f3; --warn: #b4321f; --warn-bg: #fdecea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0e1412; --surface: #151d1a; --line: #26322d; --fg: #e4ebe7; --muted: #92a199;
+      --accent: #2bb394; --accent-fg: #06201a; --soft: #13221d; --warn: #ff8a75; --warn-bg: #3a1a15; color-scheme: dark; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 20px 16px; }
+  .wrap { max-width: 1100px; margin: 0 auto; display: grid; gap: 16px; }
+  h1 { margin: 0; font-size: 1.5rem; } h2 { margin: 0 0 4px; font-size: 1.05rem; }
+  p { margin: 0; } .muted { color: var(--muted); font-size: 14px; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; min-width: 0; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 16px; align-items: start; }
+  input, textarea, select { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); width: 100%; }
+  textarea { min-height: 90px; resize: vertical; }
+  label { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+  button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); padding: 7px 12px; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+  button.danger { color: var(--warn); }
+  .stats { display: flex; flex-wrap: wrap; gap: 24px; }
+  .stat strong { display: block; font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+  .item { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 6px; }
+  .item.off { opacity: .55; }
+  .tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag { font-size: 12px; background: var(--soft); color: var(--accent); padding: 1px 8px; border-radius: 999px; }
+  .resp { white-space: pre-wrap; font-size: 14px; background: var(--bg); border-radius: 8px; padding: 8px; overflow-wrap: anywhere; }
+  .count { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--accent); }
+  .list { display: grid; gap: 8px; }
+  #erro { color: var(--warn); }
+  dialog { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--fg); width: min(640px, 94vw); padding: 16px; }
+  dialog::backdrop { background: rgba(0,0,0,.4); }
+  dialog form { display: grid; gap: 10px; }
+  .aviso { background: var(--warn-bg); color: var(--warn); border-radius: 8px; padding: 8px 10px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="row" style="justify-content:space-between">
+    <h1>Respostas Rápidas</h1>
+    <a href="simulador.html">← Voltar ao simulador</a>
+  </div>
+  <p class="muted">Perguntas comuns respondidas <strong>sem chamar a IA</strong> (grátis). O sistema anota o que a IA respondeu, e aqui você transforma as perguntas mais frequentes em respostas rápidas.</p>
+
+  <div class="panel row">
+    <label style="flex:1;min-width:200px">Senha do painel (config.php)<input id="senha" type="password"></label>
+    <button class="primary" id="btnEntrar" type="button">Entrar</button>
+    <span id="erro"></span>
+  </div>
+
+  <div class="panel" id="painelStats" hidden>
+    <h2>Este mês</h2>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <div class="grid" id="conteudo" hidden>
+    <section class="panel">
+      <h2>Aprendidas: perguntas que a IA respondeu</h2>
+      <p class="muted" style="margin-bottom:10px">As mais frequentes aparecem primeiro. Aprove só respostas que valem sempre: evite datas, horários livres ou dados do paciente.</p>
+      <div class="list" id="perguntas"></div>
+    </section>
+
+    <section class="panel">
+      <div class="row" style="justify-content:space-between;margin-bottom:10px">
+        <h2>Respostas rápidas ativas</h2>
+        <button class="primary" id="btnNova" type="button">+ Nova</button>
+      </div>
+      <div class="row" style="margin-bottom:10px">
+        <input id="teste" placeholder="Teste uma mensagem, ex.: qual o endereço?" style="flex:1">
+        <button id="btnTestar" type="button">Testar</button>
+      </div>
+      <p class="muted" id="resultadoTeste" style="margin-bottom:10px"></p>
+      <div class="list" id="respostas"></div>
+    </section>
+  </div>
+</div>
+
+<dialog id="dlg">
+  <form method="dialog" id="formResp">
+    <h2 id="dlgTitulo">Resposta rápida</h2>
+    <label>Quando a mensagem…
+      <select id="fModo">
+        <option value="contem">contém um destes gatilhos (até 12 palavras)</option>
+        <option value="exato">é exatamente um destes gatilhos</option>
+      </select>
+    </label>
+    <label>Gatilhos (um por linha; acentos e maiúsculas não importam)<textarea id="fGatilhos"></textarea></label>
+    <label>Resposta<textarea id="fResposta" style="min-height:140px"></textarea></label>
+    <p class="muted">Pode usar: {{endereco}} {{horarios}} {{servicos_precos}} {{convenios}} {{formas_pagamento}} {{telefone_recepcao}} {{nome_clinica}} {{nome_assistente}} {{como_chegar}}. Esses campos puxam os dados atuais da clínica.</p>
+    <label style="display:flex;gap:8px;align-items:center;color:var(--fg)"><input type="checkbox" id="fAtivo" style="width:auto" checked> Ativa</label>
+    <p class="aviso">Mensagens sobre agendar, cancelar, dor, urgência ou falar com atendente sempre vão para a IA, mesmo que tenham um gatilho.</p>
+    <div class="row" style="justify-content:flex-end">
+      <button value="cancel" type="submit">Cancelar</button>
+      <button class="primary" id="btnSalvar" type="button">Salvar</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  let editando = null, chavePergunta = null, dados = null;
+
+  async function api(acao, extra = {}) {
+    const r = await fetch('respostas.php', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ senha: $('senha').value, acao, ...extra }) });
+    const j = await r.json().catch(() => ({ erro: 'Resposta inválida (HTTP ' + r.status + ')' }));
+    if (!r.ok || j.erro) throw new Error(j.erro || 'HTTP ' + r.status);
+    return j;
+  }
+
+  async function carregar() {
+    try {
+      dados = await api('listar');
+      $('erro').textContent = '';
+      $('conteudo').hidden = false; $('painelStats').hidden = false;
+      render();
+    } catch (e) { $('erro').textContent = e.message; }
+  }
+
+  function render() {
+    const mes = new Date().toISOString().slice(0, 7);
+    const s = dados.estatisticas[mes] || {};
+    const rap = s.rapida || 0, ia = s.ia || 0, tot = rap + ia;
+    $('stats').innerHTML = `
+      <div class="stat"><strong>${rap}</strong><span class="muted">respostas rápidas (grátis)</span></div>
+      <div class="stat"><strong>${ia}</strong><span class="muted">respostas da IA</span></div>
+      <div class="stat"><strong>${tot ? Math.round(rap / tot * 100) : 0}%</strong><span class="muted">sem custo de IA</span></div>`;
+
+    $('perguntas').innerHTML = dados.perguntas.length ? dados.perguntas.map((p, i) => `
+      <div class="item">
+        <div><span class="count">${p.vezes}×</span> ${esc(p.pergunta)}</div>
+        <div class="resp">${esc(p.ultima_resposta_ia)}</div>
+        <div class="row"><button class="primary" data-aprovar="${i}">Aprovar como resposta rápida</button><button data-ignorar="${i}">Ignorar</button></div>
+      </div>`).join('') : '<p class="muted">Nada ainda. Conforme a IA responder perguntas, elas aparecem aqui.</p>';
+
+    $('respostas').innerHTML = dados.respostas.map((r, i) => `
+      <div class="item ${r.ativo ? '' : 'off'}">
+        <div class="tags"><span class="muted" style="font-size:12px">${r.modo === 'exato' ? 'igual a:' : 'contém:'}</span>${r.gatilhos.map((g) => `<span class="tag">${esc(g)}</span>`).join('')}</div>
+        <div class="resp">${esc(r.resposta)}</div>
+        <div class="row"><button data-editar="${i}">Editar</button><button class="danger" data-excluir="${i}">Excluir</button>${r.ativo ? '' : '<span class="muted">desativada</span>'}</div>
+      </div>`).join('');
+  }
+
+  function abrir(r, chave) {
+    editando = r?.id || null; chavePergunta = chave || null;
+    $('dlgTitulo').textContent = editando ? 'Editar resposta rápida' : 'Nova resposta rápida';
+    $('fModo').value = r?.modo || 'contem';
+    $('fGatilhos').value = (r?.gatilhos || []).join('\n');
+    $('fResposta').value = r?.resposta || '';
+    $('fAtivo').checked = r?.ativo ?? true;
+    $('dlg').showModal();
+  }
+
+  document.addEventListener('click', async (e) => {
+    const t = e.target;
+    try {
+      if (t.dataset.aprovar !== undefined) {
+        const p = dados.perguntas[+t.dataset.aprovar];
+        abrir({ modo: 'contem', gatilhos: [p.chave], resposta: p.ultima_resposta_ia, ativo: true }, p.chave);
+      } else if (t.dataset.ignorar !== undefined) {
+        await api('ignorar_pergunta', { chave: dados.perguntas[+t.dataset.ignorar].chave }); carregar();
+      } else if (t.dataset.editar !== undefined) {
+        abrir(dados.respostas[+t.dataset.editar]);
+      } else if (t.dataset.excluir !== undefined) {
+        const r = dados.respostas[+t.dataset.excluir];
+        if (t.dataset.confirmar) { await api('excluir', { id: r.id }); carregar(); }
+        else { t.dataset.confirmar = '1'; t.textContent = 'Confirmar exclusão'; }
+      }
+    } catch (err) { $('erro').textContent = err.message; }
+  });
+
+  $('btnSalvar').addEventListener('click', async () => {
+    try {
+      await api('salvar', { chave_pergunta: chavePergunta, resposta: {
+        id: editando, modo: $('fModo').value, ativo: $('fAtivo').checked,
+        gatilhos: $('fGatilhos').value.split('\n').map((g) => g.trim()).filter(Boolean),
+        resposta: $('fResposta').value } });
+      $('dlg').close(); carregar();
+    } catch (err) { alertaDlg(err.message); }
+  });
+  function alertaDlg(m) { $('dlgTitulo').textContent = m; }
+
+  $('btnNova').addEventListener('click', () => abrir(null));
+  $('btnEntrar').addEventListener('click', carregar);
+  $('senha').addEventListener('keydown', (e) => { if (e.key === 'Enter') carregar(); });
+  $('btnTestar').addEventListener('click', async () => {
+    try {
+      const j = await api('testar', { mensagem: $('teste').value });
+      $('resultadoTeste').innerHTML = j.achou ? `✅ Resposta rápida <strong>${esc(j.achou.id)}</strong> (grátis):<br><span class="resp" style="display:block;margin-top:4px">${esc(j.achou.resposta)}</span>` : '🤖 Nenhuma resposta rápida: esta mensagem iria para a IA.';
+    } catch (err) { $('erro').textContent = err.message; }
+  });
+</script>
+</body>
+</html>

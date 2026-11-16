@@ -25,6 +25,10 @@ class Secretaria
     private Agenda $agenda;
     private \DateTimeZone $fuso;
     private array $clinica;
+    private RespostasRapidas $rapidas;
+
+    /** De onde veio a última resposta: 'rapida' (grátis), 'ia' ou 'erro'. */
+    public string $ultimaOrigem = '';
 
     public function __construct(private array $config, private Armazenamento $armazenamento, private string $pastaClinica)
     {
@@ -32,6 +36,7 @@ class Secretaria
         $this->clinica = json_decode((string) file_get_contents($pastaClinica . '/clinica.json'), true)
             ?? throw new \RuntimeException('clinica/clinica.json inválido');
         $this->agenda = new Agenda($armazenamento, $this->clinica, $this->fuso);
+        $this->rapidas = new RespostasRapidas($armazenamento, $this->clinica, $pastaClinica . '/respostas_rapidas.json');
 
         $this->claude = new Client(
             apiKey: $config['anthropic_api_key'] ?: null,
@@ -59,12 +64,28 @@ class Secretaria
                 ]],
             ];
 
-            try {
-                $resposta = $this->conversarComIA($conversa['system'], $mensagens, $telefone);
-            } catch (\Throwable $e) {
-                // Não salva nada desta rodada: o histórico continua como estava
-                $this->armazenamento->registrarLog("ERRO IA ({$telefone}): " . get_class($e) . ': ' . $e->getMessage());
-                return sprintf(self::MENSAGEM_ERRO, $this->clinica['telefone_recepcao'] ?? '');
+            // 1) Pergunta conhecida? Responde sem chamar a IA (custo zero)
+            $rapida = ($this->config['respostas_rapidas'] ?? true) ? $this->rapidas->procurar($texto) : null;
+            if ($rapida) {
+                $resposta = $rapida['resposta'];
+                // Entra no histórico para a IA saber o que já foi dito, caso seja chamada depois
+                $mensagens[] = ['role' => 'assistant', 'content' => [['type' => 'text', 'text' => $resposta]]];
+                $this->ultimaOrigem = 'rapida';
+                $this->rapidas->contar('rapida');
+                $this->armazenamento->registrarLog("RESPOSTA RAPIDA ({$telefone}) [{$rapida['id']}]");
+            } else {
+                // 2) Não achou: chama a IA
+                try {
+                    $resposta = $this->conversarComIA($conversa['system'], $mensagens, $telefone);
+                } catch (\Throwable $e) {
+                    // Não salva nada desta rodada: o histórico continua como estava
+                    $this->ultimaOrigem = 'erro';
+                    $this->armazenamento->registrarLog("ERRO IA ({$telefone}): " . get_class($e) . ': ' . $e->getMessage());
+                    return sprintf(self::MENSAGEM_ERRO, $this->clinica['telefone_recepcao'] ?? '');
+                }
+                $this->ultimaOrigem = 'ia';
+                $this->rapidas->contar('ia');
+                $this->rapidas->anotarPergunta($texto, $resposta);
             }
 
             $conversa['mensagens'] = $mensagens;

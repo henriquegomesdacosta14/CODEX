@@ -1,0 +1,54 @@
+{
+    "_como_funciona": "Respostas iniciais. Na primeira vez que o sistema roda, elas são copiadas para dados/respostas_rapidas.json, e daí em diante você edita pelo painel (respostas.html). modo 'exato': a mensagem inteira precisa ser igual a um gatilho. modo 'contem': a mensagem precisa conter um gatilho. Use {{campo}} para puxar dados de clinica.json.",
+    "respostas": [
+        {
+            "id": "saudacao",
+            "modo": "exato",
+            "gatilhos": ["oi", "ola", "oie", "bom dia", "boa tarde", "boa noite", "oi tudo bem", "ola tudo bem", "oi boa tarde", "oi bom dia", "oi boa noite", "ola bom dia", "ola boa tarde", "ola boa noite"],
+            "resposta": "Olá! 👋 Sou a {{nome_assistente}}, assistente virtual da {{nome_clinica}}. Posso te ajudar a *marcar uma consulta* ou tirar dúvidas sobre preços, convênios e endereço. Como posso ajudar?",
+            "ativo": true
+        },
+        {
+            "id": "agradecimento",
+            "modo": "exato",
+            "gatilhos": ["obrigado", "obrigada", "valeu", "ok obrigado", "ok obrigada", "muito obrigado", "muito obrigada", "obg", "brigado", "brigada"],
+            "resposta": "Por nada! Se precisar de mais alguma coisa, é só chamar. 😊",
+            "ativo": true
+        },
+        {
+            "id": "endereco",
+            "modo": "contem",
+            "gatilhos": ["endereco", "onde fica", "onde voces ficam", "localizacao", "como chego", "como chegar", "qual o local"],
+            "resposta": "📍 *Endereço:* {{endereco}}\n{{como_chegar}}",
+            "ativo": true
+        },
+        {
+            "id": "horario_funcionamento",
+            "modo": "contem",
+            "gatilhos": ["horario de funcionamento", "horario de atendimento", "que horas abre", "que horas fecha", "abre que horas", "fecha que horas", "horario da clinica", "funciona sabado", "abre sabado", "abre domingo", "funciona domingo", "abrem sabado", "abrem domingo", "funcionam sabado", "funcionam domingo", "atende sabado", "atendem sabado", "atendem domingo"],
+            "resposta": "🕐 *Horário de atendimento:*\n{{horarios}}\n\nQuer que eu veja um horário para você?",
+            "ativo": true
+        },
+        {
+            "id": "precos",
+            "modo": "contem",
+            "gatilhos": ["quanto custa", "qual o valor", "qual valor", "quais os valores", "preco", "precos", "valores", "valor da consulta"],
+            "resposta": "Estes são os valores:\n{{servicos_precos}}\n\nPagamento: {{formas_pagamento}}. Quer agendar?",
+            "ativo": true
+        },
+        {
+            "id": "convenios",
+            "modo": "contem",
+            "gatilhos": ["convenio", "convenios", "plano de saude", "planos de saude", "aceita plano", "atende plano"],
+            "resposta": "Atendemos os convênios: *{{convenios}}*. Também atendemos particular. Quer agendar uma consulta?",
+            "ativo": true
+        },
+        {
+            "id": "pagamento",
+            "modo": "contem",
+            "gatilhos": ["forma de pagamento", "formas de pagamento", "aceita pix", "aceita cartao", "aceitam pix", "aceitam cartao", "parcela", "parcelar"],
+            "resposta": "Aceitamos: {{formas_pagamento}}.",
+            "ativo": true
+        }
+    ]
+}

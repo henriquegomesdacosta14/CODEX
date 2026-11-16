@@ -42,8 +42,13 @@ switch ($acao) {
             responderJson(['erro' => 'Mensagem vazia'], 400);
         }
         $inicio = microtime(true);
-        $resposta = criarSecretaria($config, $armazenamento)->responder($telefone, (string) ($entrada['nome'] ?? 'Paciente Teste'), $texto);
-        responderJson(['resposta' => $resposta, 'segundos' => round(microtime(true) - $inicio, 1)]);
+        $secretaria = criarSecretaria($config, $armazenamento);
+        $resposta = $secretaria->responder($telefone, (string) ($entrada['nome'] ?? 'Paciente Teste'), $texto);
+        responderJson([
+            'resposta' => $resposta,
+            'origem' => $secretaria->ultimaOrigem,
+            'segundos' => round(microtime(true) - $inicio, 1),
+        ]);
 
     case 'reiniciar':
         criarSecretaria($config, $armazenamento)->reiniciarConversa($telefone);

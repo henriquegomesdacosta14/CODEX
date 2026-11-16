@@ -26,8 +26,13 @@ return [
     'whatsapp_verify_token'    => 'troque-este-texto',
     'graph_api_version'        => 'v23.0',
 
-    // ===== Simulador (testar sem WhatsApp) =====
-    // Senha para abrir simulador.html. Deixe vazio para desativar o simulador.
+    // ===== Economia: respostas rápidas =====
+    // true: perguntas frequentes (endereço, preço, convênio...) são respondidas
+    // sem chamar a IA. Gerencie em respostas.html.
+    'respostas_rapidas' => true,
+
+    // ===== Painel (simulador.html e respostas.html) =====
+    // Senha para abrir o simulador e o painel de respostas. Vazio = desativados.
     'senha_simulador' => 'troque-esta-senha',
 
     // ===== Geral =====

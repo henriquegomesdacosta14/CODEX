@@ -54,7 +54,7 @@
     <header>
       <div class="avatar" id="inicial">A</div>
       <div><strong id="titulo">Secretária virtual</strong><small>Simulador de WhatsApp</small></div>
-      <div class="acoes"><button type="button" id="btnReiniciar" title="Começar uma conversa nova">Nova conversa</button></div>
+      <div class="acoes"><a href="respostas.html" style="color:#fff;align-self:center;font-size:14px">Respostas rápidas</a><button type="button" id="btnReiniciar" title="Começar uma conversa nova">Nova conversa</button></div>
     </header>
     <div id="mensagens">
       <div class="msg sistema">Digite como se você fosse o paciente. Ex.: "Oi, quero marcar uma consulta"</div>
@@ -122,7 +122,8 @@
     try {
       const j = await api({ acao: 'mensagem', mensagem: texto });
       aviso.remove();
-      adicionar('ela', j.resposta, j.segundos + 's');
+      const origem = j.origem === 'rapida' ? 'resposta rápida (grátis)' : j.origem === 'ia' ? 'IA' : '';
+      adicionar('ela', j.resposta, [origem, j.segundos + 's'].filter(Boolean).join(' · '));
       atualizarPainel();
     } catch (err) {
       aviso.remove();

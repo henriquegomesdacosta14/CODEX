@@ -17,6 +17,8 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
 | `config.php` | Chaves e senhas. Crie a partir de `config.example.php`. Nunca vai para o GitHub. |
 | `webhook.php` | Endereço que a Meta chama quando chega uma mensagem. |
 | `simulador.html` | Tela parecida com o WhatsApp para testar **sem** WhatsApp. |
+| `respostas.html` | Painel de respostas rápidas (grátis) e do que o sistema aprendeu. |
+| `clinica/respostas_rapidas.json` | Respostas rápidas iniciais. |
 | `terminal.php` | Teste pelo terminal: `php terminal.php`. |
 | `src/` | Código: IA (`Secretaria.php`), agenda (`Agenda.php`), ações da IA (`Ferramentas.php`) e WhatsApp (`WhatsApp.php`). |
 | `dados/` | Criada automaticamente: conversas, agendamentos, pedidos de atendente e `log.txt`. Bloqueada para acesso pela internet. |
@@ -64,6 +66,22 @@ Paciente (WhatsApp) → Meta Cloud API → webhook.php → IA (Claude) → respo
   - `ERRO WhatsApp HTTP 401`: o token da Meta está errado ou vencido.
 - **A Meta não verifica o webhook.** Confira se o `whatsapp_verify_token` é exatamente igual nos dois lugares e se o site abre com HTTPS.
 - **"Faltam as bibliotecas".** Rode `composer install --no-dev` na pasta.
+
+## Economia: respostas rápidas e aprendizado
+
+Perguntas comuns são respondidas **sem chamar a IA**, ou seja, de graça: saudação, endereço, horário de funcionamento, preços, convênios, formas de pagamento e agradecimentos.
+
+1. Chega uma mensagem. Se ela bater com uma resposta rápida, o sistema responde na hora, sem custo.
+2. Se não bater, a IA responde. Isso sempre acontece com agendar, cancelar, dor, urgência ou pedido de atendente.
+3. O sistema **anota as perguntas que a IA respondeu** e quantas vezes cada uma apareceu.
+4. Em `https://SEU-DOMINIO/secretaria-whatsapp/respostas.html` (com a mesma senha do simulador) você vê:
+   - quantas mensagens foram respondidas de graça no mês;
+   - as perguntas mais frequentes, com a resposta que a IA deu. Um clique em **Aprovar** transforma a resposta em resposta rápida;
+   - as respostas rápidas existentes, para editar, desativar ou criar novas, e um campo para testar uma mensagem.
+
+As respostas usam campos como `{{endereco}}` e `{{servicos_precos}}`, que puxam os dados de `clinica/clinica.json`. Se você mudar um preço lá, as respostas rápidas acompanham. Para desligar tudo isso, use `'respostas_rapidas' => false` no `config.php`.
+
+A aprovação é manual de propósito: uma resposta da IA pode conter algo que só vale naquele dia, como "temos horário amanhã às 10h".
 
 ## Custos e privacidade
 
