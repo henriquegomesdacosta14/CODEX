@@ -1,0 +1,18 @@
+{
+  "name": "Três Encontros",
+  "short_name": "Três Encontros",
+  "description": "30 dias com o Espírito Santo, Jesus e Deus Pai: três encontros por dia, nos horários que você escolher.",
+  "lang": "pt-BR",
+  "start_url": "./#inicio",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#10142A",
+  "theme_color": "#10142A",
+  "icons": [
+    { "src": "icones/icone-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icones/icone-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icones/icone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icones/icone.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

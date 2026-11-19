@@ -1,0 +1,292 @@
+/* Três Encontros
+   Conceito: a cor do app acompanha o momento do dia.
+   Manhã (Espírito Santo) = aurora rosada; Almoço (Jesus) = céu claro do meio-dia; Noite (Pai) = azul-noite estrelado.
+   O "arco do dia" no topo mostra os três encontros no horário de cada pessoa. */
+
+:root {
+  --f-titulo: "Fraunces", Georgia, "Times New Roman", serif;
+  --f-leitura: "Literata", Georgia, "Times New Roman", serif;
+  --f-ui: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --raio: 18px;
+  --raio-p: 12px;
+  --sombra: 0 14px 34px rgba(30, 20, 25, .10);
+
+  /* Manhã, claro (padrão) */
+  --bg: #FAF0EE; --bg2: #F3DCD9; --surface: #FFFFFF; --ink: #2B1F22; --muted: #77626A;
+  --line: #EBD5D2; --accent: #B4465E; --on-accent: #FFFFFF; --soft: #F6E1E2; --sol: #E89A5B; --ok: #3E7D58;
+  color-scheme: light;
+}
+
+body[data-momento="almoco"] {
+  --bg: #EEF4F5; --bg2: #D6E8EE; --surface: #FFFFFF; --ink: #16262C; --muted: #5A6E75;
+  --line: #D3E2E6; --accent: #1C6A84; --on-accent: #FFFFFF; --soft: #DDECF1; --sol: #D9970F; --ok: #2F7A55;
+}
+body[data-momento="noite"] {
+  --bg: #10142A; --bg2: #1D2347; --surface: #181E38; --ink: #ECEAF6; --muted: #A6A6C4;
+  --line: #2A3156; --accent: #B7A5F7; --on-accent: #17123A; --soft: #252B52; --sol: #F3D58C; --ok: #8FD4A8;
+  --sombra: 0 14px 34px rgba(0, 0, 0, .35);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body[data-momento="manha"] {
+    --bg: #1E1517; --bg2: #3A2128; --surface: #271B1E; --ink: #F4E6E6; --muted: #BBA3A7;
+    --line: #3E2C30; --accent: #F08EA2; --on-accent: #2A1017; --soft: #3A2329; --sol: #F2B27D; --ok: #8FD4A8;
+    --sombra: 0 14px 34px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+  :root:not([data-theme="light"]) body[data-momento="almoco"] {
+    --bg: #0F1B20; --bg2: #17323C; --surface: #152328; --ink: #E3EEF1; --muted: #95ABB2;
+    --line: #24373E; --accent: #6CC3DF; --on-accent: #082029; --soft: #1A3540; --sol: #F2C14E; --ok: #8FD4A8;
+    --sombra: 0 14px 34px rgba(0, 0, 0, .35); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] body[data-momento="manha"] {
+  --bg: #1E1517; --bg2: #3A2128; --surface: #271B1E; --ink: #F4E6E6; --muted: #BBA3A7;
+  --line: #3E2C30; --accent: #F08EA2; --on-accent: #2A1017; --soft: #3A2329; --sol: #F2B27D; --ok: #8FD4A8;
+  --sombra: 0 14px 34px rgba(0, 0, 0, .35); color-scheme: dark;
+}
+:root[data-theme="dark"] body[data-momento="almoco"] {
+  --bg: #0F1B20; --bg2: #17323C; --surface: #152328; --ink: #E3EEF1; --muted: #95ABB2;
+  --line: #24373E; --accent: #6CC3DF; --on-accent: #082029; --soft: #1A3540; --sol: #F2C14E; --ok: #8FD4A8;
+  --sombra: 0 14px 34px rgba(0, 0, 0, .35); color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg) linear-gradient(180deg, var(--bg2) 0, var(--bg) 340px) no-repeat;
+  color: var(--ink);
+  font: 16px/1.5 var(--f-ui);
+  transition: background-color .6s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+body[data-momento="noite"] {
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 8%, rgba(255,255,255,.55), transparent 60%),
+    radial-gradient(1px 1px at 78% 5%, rgba(255,255,255,.5), transparent 60%),
+    radial-gradient(1.5px 1.5px at 64% 18%, rgba(255,255,255,.35), transparent 60%),
+    radial-gradient(1px 1px at 30% 22%, rgba(255,255,255,.4), transparent 60%),
+    radial-gradient(1px 1px at 90% 26%, rgba(255,255,255,.35), transparent 60%),
+    linear-gradient(180deg, var(--bg2) 0, var(--bg) 360px);
+}
+img, svg { max-width: 100%; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+[hidden] { display: none !important; }
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-top: max(20px, env(safe-area-inset-top, 0px));
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(18px, env(safe-area-inset-left, 0px));
+  padding-right: max(18px, env(safe-area-inset-right, 0px));
+}
+.app.sem-menu { padding-bottom: max(28px, env(safe-area-inset-bottom, 0px)); }
+.carregando { min-height: 70vh; display: grid; place-items: center; color: var(--muted); }
+
+h1, h2, h3 { margin: 0; font-family: var(--f-titulo); font-weight: 500; font-variation-settings: "SOFT" 100; text-wrap: balance; line-height: 1.12; }
+h1 { font-size: clamp(32px, 8.5vw, 44px); letter-spacing: -.01em; }
+h2 { font-size: clamp(24px, 6vw, 30px); }
+h3 { font-size: 20px; }
+p { margin: 0; }
+.rotulo { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.rotulo.acento { color: var(--accent); }
+.mudo { color: var(--muted); }
+.pilha { display: grid; gap: 14px; }
+.pilha-g { display: grid; gap: 24px; }
+.linha { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.numeros { font-variant-numeric: tabular-nums; }
+
+/* Botões */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 52px; padding: 14px 24px; border: 0; border-radius: 999px;
+  background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: 16px;
+  text-decoration: none; transition: transform .15s ease, opacity .2s;
+}
+.btn:active { transform: scale(.98); }
+.btn.cheio { width: 100%; }
+.btn.secundario { background: transparent; color: var(--ink); border: 1.5px solid var(--line); }
+.btn.suave { background: var(--soft); color: var(--accent); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.link { background: none; border: 0; padding: 8px 0; color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Campos */
+.campo { display: grid; gap: 8px; }
+.campo label, .campo .rotulo-campo { font-weight: 600; font-size: 15px; }
+.entrada {
+  width: 100%; min-height: 54px; padding: 14px 16px; border-radius: var(--raio-p);
+  border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); font-size: 17px;
+}
+.entrada:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 4px var(--soft); }
+.entrada.codigo { font-weight: 700; letter-spacing: .16em; text-transform: uppercase; text-align: center; font-size: 22px; }
+.erro { color: #C0392B; font-weight: 600; font-size: 14px; }
+body[data-momento="noite"] .erro, :root[data-theme="dark"] .erro { color: #FF9A8B; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .erro { color: #FF9A8B; } }
+
+/* Cartões */
+.cartao { background: var(--surface); border: 1px solid var(--line); border-radius: var(--raio); padding: 20px; }
+.cartao.sombra { box-shadow: var(--sombra); border-color: transparent; }
+
+/* ---------- Boas-vindas ---------- */
+.boas-vindas { min-height: calc(100vh - 60px); display: grid; align-content: center; gap: 28px; text-align: center; }
+.boas-vindas .marca { display: grid; justify-items: center; gap: 18px; }
+.boas-vindas .marca svg { width: 132px; height: auto; }
+.boas-vindas h1 { font-size: clamp(40px, 11vw, 56px); }
+.boas-vindas .lead { font-family: var(--f-leitura); font-size: 18px; color: var(--muted); max-width: 30ch; margin: 0 auto; }
+.tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+.tres div { display: grid; gap: 2px; padding: 12px 6px; border-radius: var(--raio-p); background: var(--surface); border: 1px solid var(--line); }
+.tres b { font-family: var(--f-titulo); font-weight: 500; font-size: 17px; }
+.tres span { font-size: 12px; color: var(--muted); }
+
+/* Abertura (passo a passo) */
+.passo { display: grid; gap: 22px; padding-top: 12px; }
+.pontos { display: flex; gap: 6px; }
+.pontos i { width: 22px; height: 4px; border-radius: 4px; background: var(--line); }
+.pontos i.ativo { background: var(--accent); }
+.passo .texto { font-family: var(--f-leitura); font-size: 18px; line-height: 1.7; display: grid; gap: 14px; }
+.ciclo { width: 100%; max-width: 360px; margin: 4px auto 0; display: block; }
+.ciclo text { font-family: var(--f-ui); font-size: 13px; font-weight: 600; fill: var(--ink); }
+.horarios { display: grid; gap: 12px; }
+.horario { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--raio-p); background: var(--surface); border: 1px solid var(--line); }
+.horario .ic { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; }
+.horario b { display: block; font-weight: 600; }
+.horario small { color: var(--muted); display: block; font-size: 13px; line-height: 1.35; }
+@media (max-width: 380px) { .horario { grid-template-columns: 40px minmax(0, 1fr); } .horario input[type="time"] { grid-column: 1 / -1; width: 100%; } }
+.horario input[type="time"] { width: 8em; min-height: 46px; padding: 8px 10px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ic.manha { background: #F6E1E2; color: #B4465E; }
+.ic.almoco { background: #DDECF1; color: #1C6A84; }
+.ic.noite { background: #252B52; color: #F3D58C; }
+.dica { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: var(--raio-p); background: var(--soft); font-size: 15px; }
+.dica svg { flex: none; margin-top: 2px; color: var(--accent); }
+.dica ol { margin: 6px 0 0; padding-left: 1.2em; }
+
+/* ---------- Hoje ---------- */
+.topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+.saudacao { display: grid; gap: 6px; margin-bottom: 6px; }
+.saudacao h1 { font-size: clamp(30px, 8vw, 40px); }
+.arco { width: 100%; height: auto; display: block; margin: 4px 0 2px; }
+.arco .trilha { fill: none; stroke: var(--line); stroke-width: 2; stroke-dasharray: 2 6; stroke-linecap: round; }
+.arco .feito { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; }
+.arco .marco { fill: var(--surface); stroke: var(--line); stroke-width: 2; }
+.arco .marco.aberto { stroke: var(--accent); }
+.arco .marco.concluido { fill: var(--accent); stroke: var(--accent); }
+.arco .astro { fill: var(--sol); }
+.arco text { font-family: var(--f-ui); font-size: 11px; font-weight: 700; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.arco .horizonte { stroke: var(--line); stroke-width: 1; }
+
+.destaque { position: relative; overflow: hidden; display: grid; gap: 12px; text-decoration: none; color: inherit; border: 0; width: 100%; text-align: left; }
+.destaque .ref { font-family: var(--f-leitura); font-style: italic; color: var(--muted); }
+.destaque h2 { font-size: clamp(26px, 7vw, 32px); }
+.destaque .btn { justify-self: start; }
+
+.encontros { display: grid; gap: 10px; }
+.encontro {
+  display: grid; grid-template-columns: 44px 1fr auto; gap: 14px; align-items: center;
+  width: 100%; text-align: left; padding: 14px 16px; border-radius: var(--raio);
+  background: var(--surface); border: 1px solid var(--line); color: var(--ink);
+}
+.encontro .tx { min-width: 0; }
+.encontro .tx b { display: block; font-weight: 600; }
+.encontro .tx small { color: var(--muted); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.encontro .estado { font-size: 13px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.encontro.fechado { background: transparent; border-style: dashed; cursor: default; }
+.encontro.fechado .ic { filter: grayscale(.7); opacity: .6; }
+.encontro.concluido .estado { color: var(--ok); }
+.selo { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: var(--soft); color: var(--accent); font-size: 12px; font-weight: 700; }
+
+.progresso { display: grid; gap: 10px; }
+.barra { height: 8px; border-radius: 8px; background: var(--line); overflow: hidden; }
+.barra i { display: block; height: 100%; background: var(--accent); border-radius: 8px; transition: width .6s ease; }
+
+/* ---------- Jornada ---------- */
+.bloco { display: grid; gap: 12px; }
+.bloco-cab { display: grid; gap: 4px; }
+.bloco-cab p { color: var(--muted); font-size: 14px; }
+.dias { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.dia {
+  aspect-ratio: 1; max-width: 100%; border-radius: 14px; border: 1px solid var(--line); background: var(--surface);
+  display: grid; place-items: center; align-content: center; gap: 4px; padding: 6px; color: var(--ink);
+}
+.dia b { font-family: var(--f-titulo); font-weight: 500; font-size: 22px; line-height: 1; }
+.dia .gotas { display: flex; gap: 3px; }
+.dia .gotas i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.dia .gotas i.ok { background: var(--accent); }
+.dia.hoje { box-shadow: 0 0 0 2px var(--accent); }
+.dia.futuro { background: transparent; border-style: dashed; color: var(--muted); cursor: default; }
+.dia.bloq-demo { opacity: .5; }
+
+.lista-dia { display: grid; gap: 10px; }
+
+/* ---------- Leitura do encontro ---------- */
+.barra-leitura { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.voltar { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 8px 4px; color: var(--muted); font-weight: 600; }
+.leitura { display: grid; gap: 22px; }
+.leitura .cab { display: grid; gap: 10px; }
+.leitura h1 { font-size: clamp(32px, 9vw, 42px); }
+.ref-chip { justify-self: start; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--soft); color: var(--accent); font-weight: 700; font-size: 14px; }
+.reflexao { font-family: var(--f-leitura); font-size: 19px; line-height: 1.75; display: grid; gap: 1em; }
+.reflexao.capitular p:first-child::first-letter { font-family: var(--f-titulo); font-size: 3.1em; float: left; line-height: .9; padding: 6px 8px 0 0; color: var(--accent); }
+.pergunta { display: grid; gap: 14px; }
+.pergunta .q { font-family: var(--f-titulo); font-size: 22px; line-height: 1.3; font-weight: 500; }
+.notas { width: 100%; min-height: 120px; resize: vertical; padding: 14px 16px; border-radius: var(--raio-p); border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); font: 17px/1.6 var(--f-leitura); }
+.notas:focus { outline: none; border-color: var(--accent); }
+.salvo { font-size: 12px; color: var(--muted); min-height: 1em; }
+.pratica { display: grid; gap: 10px; border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; }
+.pratica p { font-family: var(--f-leitura); font-size: 19px; line-height: 1.65; }
+.pratica.oracao p { font-style: italic; }
+.concluir { display: grid; gap: 12px; justify-items: center; text-align: center; padding-top: 6px; }
+.feito-ok { display: grid; justify-items: center; gap: 10px; padding: 18px; border-radius: var(--raio); background: var(--soft); text-align: center; }
+.feito-ok svg { color: var(--ok); }
+@media (prefers-reduced-motion: no-preference) {
+  .feito-ok svg { animation: brota .5s ease-out both; }
+  @keyframes brota { from { transform: scale(.6); } to { transform: scale(1); } }
+  .entra { animation: entra .35s ease-out both; }
+  @keyframes entra { from { transform: translateY(8px); } to { transform: none; } }
+}
+
+/* ---------- Ajustes ---------- */
+.grupo { display: grid; gap: 12px; }
+.grupo h2 { font-size: 22px; }
+.interruptor { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+/* ---------- Final ---------- */
+.final { display: grid; gap: 26px; text-align: center; }
+.final .coroa { display: grid; justify-items: center; gap: 14px; }
+.numeros-final { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.numeros-final div { padding: 14px 6px; border-radius: var(--raio-p); background: var(--surface); border: 1px solid var(--line); display: grid; }
+.numeros-final b { font-family: var(--f-titulo); font-size: 28px; font-weight: 500; }
+.numeros-final span { font-size: 12px; color: var(--muted); }
+.proximo { text-align: left; display: grid; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--raio); padding: 22px; }
+.proximo .previa { font-family: var(--f-leitura); font-size: 17px; line-height: 1.7; color: var(--ink); position: relative; max-height: 9.5em; overflow: hidden; }
+.proximo .previa::after { content: ""; position: absolute; inset: auto 0 0 0; height: 3.5em; background: linear-gradient(transparent, var(--surface)); }
+.mensagem { white-space: pre-wrap; text-align: left; font-family: var(--f-leitura); font-size: 15px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--raio-p); padding: 14px; margin: 0; }
+
+/* ---------- Menu inferior ---------- */
+.menu {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  display: flex; justify-content: center;
+  padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+}
+.menu nav { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; max-width: 420px; }
+.menu a { display: grid; justify-items: center; gap: 2px; padding: 6px; color: var(--muted); text-decoration: none; font-size: 12px; font-weight: 600; border-radius: 12px; }
+.menu a[aria-current="page"] { color: var(--accent); }
+
+/* Apresentação (só para demonstrar o app) */
+.apresentacao { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 12px; padding: 10px 12px; margin-bottom: 16px; }
+.apresentacao input[type="range"] { flex: 1 1 140px; accent-color: var(--accent); }
+.apresentacao select { padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(92px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  z-index: 30; max-width: calc(100% - 32px); padding: 12px 18px; border-radius: 999px;
+  background: var(--ink); color: var(--bg); font-weight: 600; font-size: 14px; box-shadow: var(--sombra);
+}

@@ -1,0 +1,1022 @@
+{
+ "mes": "mes-01",
+ "titulo": "Três Encontros",
+ "subtitulo": "30 dias com o Espírito Santo, Jesus e Deus Pai",
+ "blocos": [
+  {
+   "numero": 1,
+   "titulo": "Conhecendo o Espírito Santo",
+   "subtitulo": "O Espírito que nos prepara e nos leva a Jesus."
+  },
+  {
+   "numero": 2,
+   "titulo": "Conhecendo Jesus",
+   "subtitulo": "Jesus que nos mostra o caminho e nos leva ao Pai."
+  },
+  {
+   "numero": 3,
+   "titulo": "Conhecendo Deus Pai",
+   "subtitulo": "O Pai que nos recebe e nos dá o Espírito de novo."
+  }
+ ],
+ "abertura": [
+  {
+   "titulo": "Três encontros por dia",
+   "texto": [
+    "Durante 30 dias, você vai ter três encontros com Deus: ao acordar, com o Espírito Santo; no almoço, com Jesus; e antes de dormir, com Deus Pai.",
+    "Cada encontro tem um versículo, uma reflexão, uma pergunta para pensar com sinceridade e uma prática para viver ainda naquele dia. Não há tempo certo. Fique o quanto o seu coração pedir."
+   ]
+  },
+  {
+   "titulo": "Um leva ao outro",
+   "texto": [
+    "A Bíblia mostra um caminho que se repete na nossa vida. O Espírito nos leva a Jesus: “Ele me glorificará, porque há de receber do que é meu e vo-lo há de anunciar” (João 16:14). Jesus nos leva ao Pai: “Ninguém vem ao Pai senão por mim” (João 14:6). E o Pai nos dá o Espírito: “Quanto mais o Pai celestial dará o Espírito Santo àqueles que lho pedirem” (Lucas 11:13).",
+    "Deus é um só, e as três Pessoas estão com você o tempo todo. Dividir o dia em três encontros é um jeito de prestar atenção em cada uma delas e perceber como agem juntas."
+   ]
+  },
+  {
+   "titulo": "A jornada",
+   "texto": [
+    "Os dias 1 a 10 são para conhecer o Espírito Santo. Os dias 11 a 20, para conhecer Jesus. Os dias 21 a 30, para conhecer o Pai.",
+    "Cada encontro é liberado no horário que você escolher. Se perder um, ele continua esperando por você. Só não dá para adiantar: a graça desta jornada é viver um dia de cada vez."
+   ]
+  }
+ ],
+ "proximoMes": [
+  {
+   "titulo": "O Pai Nosso",
+   "texto": [
+    "30 dias aprendendo a orar com Jesus, frase por frase, com os mesmos três encontros do dia."
+   ]
+  },
+  {
+   "titulo": "Uma prévia do dia 1",
+   "texto": [
+    "Os discípulos viam Jesus curar, ensinar e enfrentar multidões. Mas só pediram uma coisa a Ele: “Senhor, ensina-nos a orar”. Eles perceberam que o segredo de Jesus não estava nos milagres, estava no tempo a sós com o Pai.",
+    "No próximo mês, você vai caminhar pela oração que Jesus ensinou, uma frase de cada vez. “Pai nosso, que estás nos céus” já muda tudo: não é só “meu” Pai, é “nosso”. E é por aí que começamos."
+   ]
+  }
+ ],
+ "dias": [
+  {
+   "dia": 1,
+   "titulo": "Ele é uma Pessoa",
+   "bloco": 1,
+   "manha": {
+    "referencia": "João 14:16-17",
+    "texto": [
+     "Na última noite com os discípulos, Jesus prometeu “outro Consolador”, que ficaria com eles para sempre. A palavra “outro” quer dizer alguém como Ele mesmo. O Espírito Santo não é uma energia, um arrepio ou um clima bom no culto. Ele é uma Pessoa: pensa, sente, fala, ensina e pode ser entristecido.",
+     "Isso muda a forma de começar o dia. Você não acorda sozinho(a). Antes do celular, das contas e das tarefas, Alguém já está com você e quer caminhar junto. Uma pessoa a gente cumprimenta, escuta e conhece aos poucos. É assim que esta jornada começa."
+    ],
+    "pergunta": "Até hoje, eu me relacionei com o Espírito Santo como uma Pessoa ou como uma força distante?",
+    "pratica": "“Bom dia, Espírito Santo. Eu quero Te conhecer de verdade. Caminha comigo hoje.”"
+   },
+   "almoco": {
+    "referencia": "Lucas 4:1, 14",
+    "texto": [
+     "Lucas conta que Jesus voltou do Jordão “cheio do Espírito Santo”, foi “guiado pelo Espírito” ao deserto e voltou “no poder do Espírito” para a Galileia. O próprio Filho de Deus, como homem, viveu dependendo do Espírito em cada passo.",
+     "Se Jesus precisou do Espírito para viver e servir, quanto mais nós. No meio do dia, quando o cansaço bate e a paciência acaba, lembre que a vida cristã não é força de vontade. É a mesma dependência que Jesus teve."
+    ],
+    "pergunta": "Em que parte do meu dia eu mais tento fazer tudo sozinho(a), na minha força?",
+    "pratica": "Antes de voltar ao trabalho, pare um instante e diga: “Espírito Santo, eu dependo do Senhor nesta tarde”."
+   },
+   "noite": {
+    "referencia": "Lucas 11:11-13",
+    "texto": [
+     "Jesus compara Deus a um pai que não dá uma cobra ao filho que pede peixe. E conclui: se nós, sendo imperfeitos, sabemos dar coisas boas aos filhos, “quanto mais o Pai celestial dará o Espírito Santo àqueles que lho pedirem”.",
+     "O melhor presente do Pai não é uma coisa, é Ele mesmo, pelo Seu Espírito. E Ele dá com alegria a quem pede. Termine este primeiro dia pedindo sem medo, como um filho que confia."
+    ],
+    "pergunta": "O que eu costumo pedir mais a Deus: coisas, ou a presença d’Ele?",
+    "pratica": "“Pai, obrigado(a) por este primeiro dia. Eu Te peço o melhor presente: o Teu Espírito Santo. Enche-me para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 2,
+   "titulo": "Ele mora em mim",
+   "bloco": 1,
+   "manha": {
+    "referencia": "1 Coríntios 6:19-20",
+    "texto": [
+     "“Acaso não sabeis que o vosso corpo é santuário do Espírito Santo, que está em vós?” No Antigo Testamento, a presença de Deus habitava no templo de Jerusalém. Agora, o templo é você. Deus não visita só aos domingos: Ele mora em quem crê.",
+     "Isso dá valor ao seu corpo, às suas escolhas e aos lugares por onde você anda. Onde você for hoje, Ele vai junto: no ônibus, no escritório, na cozinha. Cada lugar pode virar um lugar de encontro com Deus."
+    ],
+    "pergunta": "Se o meu corpo é casa de Deus, o que eu tenho deixado entrar nessa casa?",
+    "pratica": "“Espírito Santo, que o meu corpo, a minha casa e as minhas conversas sejam lugares onde o Senhor se sinta bem-vindo.”"
+   },
+   "almoco": {
+    "referencia": "João 20:19-22",
+    "texto": [
+     "Depois de ressuscitar, Jesus apareceu aos discípulos, que estavam trancados numa sala, com medo. Disse “Paz seja convosco”, soprou sobre eles e falou: “Recebei o Espírito Santo”. Foi Jesus quem entregou o Espírito a eles.",
+     "A presença do Espírito em você é um presente de Jesus. Ele não deixou os discípulos sozinhos com o medo, e não deixa você. A paz que Ele soprou naquela sala também está disponível no meio do seu dia."
+    ],
+    "pergunta": "Que porta eu tenho mantido trancada por medo?",
+    "pratica": "Respire fundo e devagar, e a cada respiração diga: “Jesus, eu recebo a Tua paz”."
+   },
+   "noite": {
+    "referencia": "Romanos 8:15",
+    "texto": [
+     "“Não recebestes o espírito de escravidão, para viverdes outra vez atemorizados, mas recebestes o espírito de adoção, baseados no qual clamamos: Aba, Pai.” “Aba” era a palavra carinhosa que uma criança usava para chamar o pai.",
+     "É o Espírito que mora em você quem ensina o seu coração a chamar Deus assim. Você não precisa de palavras bonitas para orar esta noite. Basta falar com o Pai como um filho fala com um pai que o ama."
+    ],
+    "pergunta": "Eu oro como um filho que fala com o pai, ou como um empregado que presta contas?",
+    "pratica": "“Aba, Pai, obrigado(a) por morar em mim pelo Teu Espírito. Descanso esta noite nos Teus braços. Enche-me de novo amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 3,
+   "titulo": "Ele me convence",
+   "bloco": 1,
+   "manha": {
+    "referencia": "João 16:7-8",
+    "texto": [
+     "Jesus disse que o Espírito “convencerá o mundo do pecado, da justiça e do juízo”. Aquele aperto no coração depois de uma palavra dura, aquela inquietação quando algo está errado, muitas vezes é o Espírito falando.",
+     "Existe uma diferença importante: o inimigo acusa para afastar você de Deus; o Espírito convence para trazer você de volta. A acusação diz “você não presta”. O Espírito diz “isso não combina com quem você é, volte”. Hoje, preste atenção nessa voz."
+    ],
+    "pergunta": "Que voz tem falado mais alto em mim: a que acusa ou a que chama de volta?",
+    "pratica": "“Espírito Santo, mostra-me o que precisa mudar em mim, e dá-me um coração disposto a obedecer.”"
+   },
+   "almoco": {
+    "referencia": "Lucas 5:4-10",
+    "texto": [
+     "Depois da pesca milagrosa, Pedro caiu aos pés de Jesus e disse: “Senhor, retira-te de mim, porque sou pecador”. A presença santa de Jesus fez Pedro enxergar quem ele era. Mas Jesus respondeu: “Não temas; doravante serás pescador de homens”.",
+     "Quando o Espírito mostra o nosso pecado, Jesus não nos manda embora. Ele nos chama para perto e nos dá um propósito. O convencimento é sempre o começo de algo novo."
+    ],
+    "pergunta": "Existe algo que eu escondo de Jesus por achar que Ele vai se afastar de mim?",
+    "pratica": "Se houver alguém a quem você deve um pedido de perdão, mande a mensagem ainda hoje."
+   },
+   "noite": {
+    "referencia": "Salmo 51:10-12",
+    "texto": [
+     "Davi orou: “Cria em mim, ó Deus, um coração puro... não retires de mim o teu Santo Espírito. Restitui-me a alegria da tua salvação”. Ele tinha pecado gravemente, mas sabia a quem recorrer.",
+     "O Pai não quer que você durma carregando culpa. Ele quer limpar, renovar e devolver a alegria. Antes de dormir, entregue a Ele o que o Espírito mostrou hoje."
+    ],
+    "pergunta": "O que o Espírito me mostrou hoje que eu preciso entregar ao Pai antes de dormir?",
+    "pratica": "“Pai, eu confesso [diga o que for]. Cria em mim um coração puro e restitui a minha alegria. Não retires de mim o Teu Espírito. Amém.”"
+   }
+  },
+  {
+   "dia": 4,
+   "titulo": "Ele me ensina",
+   "bloco": 1,
+   "manha": {
+    "referencia": "João 14:26",
+    "texto": [
+     "“O Consolador, o Espírito Santo, a quem o Pai enviará em meu nome, esse vos ensinará todas as coisas e vos fará lembrar de tudo o que vos tenho dito.” Quando você abre a Bíblia, não lê sozinho(a). O Autor está ao seu lado.",
+     "Já aconteceu de um versículo que você leu muitas vezes, de repente, “acender”? É o Espírito ensinando. E Ele também faz lembrar: no meio de uma situação difícil, traz à mente a Palavra certa. Para isso, é preciso ter guardado a Palavra antes."
+    ],
+    "pergunta": "Quanto da Palavra está guardado em mim para o Espírito me lembrar na hora difícil?",
+    "pratica": "“Espírito Santo, abre o meu entendimento. Traz à minha mente a Palavra certa na hora certa.”"
+   },
+   "almoco": {
+    "referencia": "Lucas 24:27, 32, 45",
+    "texto": [
+     "No caminho de Emaús, Jesus explicou a dois discípulos, a partir de Moisés e de todos os profetas, o que as Escrituras diziam sobre Ele. Depois, “abriu-lhes o entendimento para compreenderem as Escrituras”. Eles disseram: “Porventura, não nos ardia o coração?”",
+     "A Bíblia inteira aponta para Jesus. Quando você lê, procure por Ele em cada promessa, em cada história, em cada mandamento. A leitura deixa de ser obrigação e vira encontro."
+    ],
+    "pergunta": "Quando foi a última vez que o meu coração ardeu lendo a Bíblia?",
+    "pratica": "Escolha um versículo, guarde no celular e leia de novo antes de cada refeição."
+   },
+   "noite": {
+    "referencia": "Salmo 119:105",
+    "texto": [
+     "“Lâmpada para os meus pés é a tua palavra e luz para o meu caminho.” Uma lâmpada antiga não iluminava a estrada inteira, só o próximo passo. O Pai raramente mostra o plano completo, mas sempre ilumina o suficiente para seguir.",
+     "Talvez você esteja ansioso(a) por não saber o que vem pela frente. Esta noite, agradeça pela luz que já recebeu e confie que amanhã ela estará lá de novo."
+    ],
+    "pergunta": "Eu tenho exigido de Deus a estrada inteira, quando Ele me oferece o próximo passo?",
+    "pratica": "“Pai, obrigado(a) pela Tua Palavra. Ilumina os meus próximos passos. Dá-me o Teu Espírito para entender e obedecer amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 5,
+   "titulo": "Ele ora comigo",
+   "bloco": 1,
+   "manha": {
+    "referencia": "Romanos 8:26-27",
+    "texto": [
+     "“O Espírito, semelhantemente, nos assiste em nossa fraqueza; porque não sabemos orar como convém, mas o mesmo Espírito intercede por nós sobremaneira, com gemidos inexprimíveis.” Que alívio: você não precisa saber orar direito.",
+     "Tem dias em que as palavras somem. A dor é grande demais, ou o cansaço é tanto que só sai um suspiro. Nessas horas, o Espírito ora por você e com você, e a oração chega ao Pai inteira, mesmo sem palavras."
+    ],
+    "pergunta": "Eu deixo de orar quando não encontro as palavras certas?",
+    "pratica": "“Espírito Santo, ora comigo e por mim hoje. Ensina-me a orar.”"
+   },
+   "almoco": {
+    "referencia": "Lucas 11:1-4",
+    "texto": [
+     "Os discípulos viam Jesus orando e pediram: “Senhor, ensina-nos a orar”. Ele respondeu com o Pai Nosso: começa por Deus (o Seu nome, o Seu Reino), passa pelo pão de cada dia, pelo perdão, e termina pedindo proteção.",
+     "É uma oração curta, simples e completa. Jesus mostra que orar não é fazer discurso, é conversar com o Pai com confiança. Use o Pai Nosso como um roteiro, parando em cada frase."
+    ],
+    "pergunta": "Minhas orações começam por Deus ou começam pela minha lista de pedidos?",
+    "pratica": "Ore o Pai Nosso devagar, frase por frase, colocando os seus próprios pedidos em cada parte."
+   },
+   "noite": {
+    "referencia": "Mateus 6:6",
+    "texto": [
+     "“Tu, porém, quando orares, entra no teu quarto e, fechada a porta, orarás a teu Pai, que está em secreto; e teu Pai, que vê em secreto, te recompensará.” O Pai valoriza o encontro escondido, sem plateia e sem pose.",
+     "O quarto, antes de dormir, é um ótimo lugar para isso. Sem ninguém olhando, você pode ser totalmente sincero(a). Fale do seu dia, das alegrias e das frustrações. O Pai está ouvindo."
+    ],
+    "pergunta": "O que eu diria ao Pai se tivesse certeza absoluta de que Ele não vai se decepcionar comigo?",
+    "pratica": "“Pai, aqui no secreto, eu abro o meu coração. Obrigado(a) por ouvir cada oração de hoje. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 6,
+   "titulo": "Ele produz fruto em mim",
+   "bloco": 1,
+   "manha": {
+    "referencia": "Gálatas 5:22-25",
+    "texto": [
+     "“O fruto do Espírito é: amor, alegria, paz, longanimidade, benignidade, bondade, fidelidade, mansidão, domínio próprio.” Paulo diz “fruto”, no singular. Não é um cardápio para escolher o preferido. É um só caráter, o de Jesus, crescendo em nós.",
+     "Fruto não nasce de esforço, nasce de ligação. Uma árvore não faz força para dar laranja; ela dá porque está viva e ligada à raiz. Quanto mais tempo com o Espírito, mais o fruto aparece, às vezes antes de você perceber."
+    ],
+    "pergunta": "Qual parte desse fruto as pessoas da minha casa diriam que ainda está verde em mim?",
+    "pratica": "“Espírito Santo, faz crescer em mim a parte do fruto que está mais fraca: [paciência, mansidão, alegria...].”"
+   },
+   "almoco": {
+    "referencia": "João 15:4-5",
+    "texto": [
+     "“Eu sou a videira, vós, os ramos. Quem permanece em mim, e eu, nele, esse dá muito fruto; porque sem mim nada podeis fazer.” O fruto do Espírito é, na verdade, a vida de Jesus correndo pelos ramos.",
+     "Permanecer é uma palavra de rotina, não de evento. É voltar para Jesus várias vezes ao dia, como neste momento do almoço. O galho que se solta seca; o que fica ligado floresce."
+    ],
+    "pergunta": "Eu permaneço em Jesus durante o dia, ou só O visito em alguns momentos?",
+    "pratica": "Pratique de propósito, ainda hoje, a parte do fruto que você pediu de manhã."
+   },
+   "noite": {
+    "referencia": "João 15:1-2, 8",
+    "texto": [
+     "Jesus diz que o Pai é o agricultor que cuida da videira, e completa: “Nisto é glorificado meu Pai, em que deis muito fruto”. O Pai se alegra quando vê o caráter de Jesus crescendo em você.",
+     "Às vezes, o agricultor poda para que a planta dê mais fruto. Se hoje algo foi cortado, uma vontade, um plano, um orgulho, pode ser cuidado do Pai, não castigo."
+    ],
+    "pergunta": "O que Deus tem podado em mim que eu tenho chamado de perda?",
+    "pratica": "“Pai, obrigado(a) pelo Teu cuidado, até quando Tu podas. Que a minha vida dê fruto para a Tua glória. Dá-me o Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 7,
+   "titulo": "Ele me capacita",
+   "bloco": 1,
+   "manha": {
+    "referencia": "1 Coríntios 12:4-7",
+    "texto": [
+     "“Há diversidade de dons, mas o Espírito é o mesmo.” E Paulo completa: “A manifestação do Espírito é concedida a cada um visando a um fim proveitoso”. Ninguém ficou de fora. Você também recebeu algo do Espírito para abençoar outras pessoas.",
+     "Os dons não são troféus para exibir, são ferramentas para servir. Pode ser ensinar, acolher, orar, organizar, consolar, cozinhar, cantar, ouvir. O Espírito distribui como quer, e nenhum dom é pequeno quando é usado por amor."
+    ],
+    "pergunta": "Que dom as pessoas costumam reconhecer em mim, e eu ainda não coloquei a serviço de Deus?",
+    "pratica": "“Espírito Santo, mostra-me os dons que o Senhor colocou em mim e onde eu posso usá-los hoje.”"
+   },
+   "almoco": {
+    "referencia": "Mateus 25:14-29",
+    "texto": [
+     "Na parábola dos talentos, um senhor confiou bens aos servos, cada um segundo a sua capacidade. Dois multiplicaram. Um, com medo, enterrou o que recebeu. Jesus não critica quem recebeu pouco; critica quem escondeu por medo.",
+     "O que Deus colocou nas suas mãos não foi dado para ficar guardado. Jesus valoriza a fidelidade no pouco: “Foste fiel no pouco, sobre o muito te colocarei”."
+    ],
+    "pergunta": "O que eu tenho enterrado por medo de errar ou de ser criticado(a)?",
+    "pratica": "Use hoje, de propósito, um dom ou talento seu para abençoar alguém."
+   },
+   "noite": {
+    "referencia": "Tiago 1:5",
+    "texto": [
+     "“Se, porém, algum de vós necessita de sabedoria, peça-a a Deus, que a todos dá liberalmente e nada lhes impropera; e ser-lhe-á concedida.” O Pai não humilha quem pede ajuda. Ele dá com generosidade.",
+     "Talvez você sinta que não tem capacidade para o que Deus está pedindo. Ótimo: é exatamente aí que o Pai gosta de agir. Ele não chama os capacitados; Ele capacita os que se dispõem."
+    ],
+    "pergunta": "Em que área eu preciso pedir sabedoria em vez de fingir que sei?",
+    "pratica": "“Pai, eu preciso de sabedoria para [diga a situação]. Obrigado(a) porque Tu dás sem me humilhar. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 8,
+   "titulo": "Ele me dá ousadia",
+   "bloco": 1,
+   "manha": {
+    "referencia": "Atos 4:29-31",
+    "texto": [
+     "Os discípulos estavam sendo ameaçados. Em vez de pedir que o problema sumisse, oraram: “Concede aos teus servos que anunciem com toda a intrepidez a tua palavra”. O lugar tremeu, “todos ficaram cheios do Espírito Santo e, com intrepidez, anunciavam a palavra de Deus”.",
+     "O Espírito não tira todos os medos do caminho, mas dá coragem para atravessá-los. Pedro, que tinha negado Jesus diante de uma empregada, agora falava diante das autoridades. O que mudou foi o Espírito."
+    ],
+    "pergunta": "Que medo tem calado a minha boca quando eu deveria falar de Jesus?",
+    "pratica": "“Espírito Santo, enche-me de ousadia hoje. Que o medo não decida por mim.”"
+   },
+   "almoco": {
+    "referencia": "Marcos 5:18-20",
+    "texto": [
+     "Depois de ser liberto, o homem de Gadara quis seguir Jesus. Mas Jesus disse: “Vai para tua casa, para os teus. Anuncia-lhes tudo o que o Senhor te fez”. Ele não precisava de um curso; tinha uma história.",
+     "Testemunhar não é discutir religião. É contar o que Jesus fez por você. Ninguém pode contestar a sua história, porque foi você quem viveu."
+    ],
+    "pergunta": "Se alguém me perguntasse hoje o que Jesus fez por mim, o que eu contaria?",
+    "pratica": "Conte para alguém, de forma natural, uma coisa que Deus fez na sua vida."
+   },
+   "noite": {
+    "referencia": "2 Timóteo 1:7",
+    "texto": [
+     "“Porque Deus não nos tem dado espírito de covardia, mas de poder, de amor e de moderação.” Paulo escreveu isso a Timóteo, um jovem tímido que estava liderando uma igreja difícil.",
+     "O medo pode até aparecer, mas ele não veio do Pai. Poder para agir, amor para agir do jeito certo e moderação para não agir no impulso: é isso que o Pai dá. Durma hoje sabendo que a coragem de amanhã já foi prometida."
+    ],
+    "pergunta": "Em que decisão o medo tem falado mais alto do que Deus?",
+    "pratica": "“Pai, eu entrego os meus medos. Obrigado(a) porque o Teu Espírito é de poder, amor e moderação. Enche-me dele para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 9,
+   "titulo": "Ele me guia",
+   "bloco": 1,
+   "manha": {
+    "referencia": "Romanos 8:14",
+    "texto": [
+     "“Pois todos os que são guiados pelo Espírito de Deus são filhos de Deus.” Ser guiado é deixar Ele conduzir as pequenas decisões: uma palavra, uma mensagem, um desvio no caminho, um “não” na hora certa.",
+     "Muitas obras de amor começam com um leve toque no coração: “liga para fulano”, “pergunta se ela está bem”. O Espírito raramente grita. Quem treina o ouvido percebe esses toques, e quem obedece logo vê Deus agir."
+    ],
+    "pergunta": "Quantos toques do Espírito eu já deixei passar por achar que era só impressão minha?",
+    "pratica": "“Espírito Santo, mostra-me hoje uma pessoa que precisa de uma palavra minha, e dá-me coragem para obedecer.”"
+   },
+   "almoco": {
+    "referencia": "João 5:19",
+    "texto": [
+     "Jesus disse que o Filho nada faz por si mesmo, “senão somente aquilo que vir fazer o Pai”. Ele vivia atento o tempo todo, até no meio da multidão e do trabalho, procurando o que o Pai estava fazendo.",
+     "Você pode viver assim também. Em vez de pedir a Deus que abençoe os seus planos, pergunte: “Senhor, o que o Senhor está fazendo aqui, e como eu entro nisso?”"
+    ],
+    "pergunta": "Eu costumo pedir que Deus siga os meus planos, ou procuro entrar nos planos d’Ele?",
+    "pratica": "Se o Espírito trouxe alguém à sua mente de manhã, mande agora a mensagem."
+   },
+   "noite": {
+    "referencia": "Provérbios 3:5-6",
+    "texto": [
+     "“Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento. Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas.” “Todos os caminhos” inclui o trabalho, o dinheiro, os relacionamentos.",
+     "O Pai não promete que você vai entender tudo. Promete endireitar o caminho de quem confia. Esta noite, entregue a Ele as decisões que estão tirando o seu sono."
+    ],
+    "pergunta": "Qual decisão eu ainda estou tentando resolver só com o meu entendimento?",
+    "pratica": "“Pai, eu Te entrego [a decisão]. Endireita os meus caminhos. Dá-me o Teu Espírito para me guiar amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 10,
+   "titulo": "Ele me leva a Jesus",
+   "bloco": 1,
+   "manha": {
+    "referencia": "João 16:13-14",
+    "texto": [
+     "Jesus disse que o Espírito “não falará por si mesmo” e que “ele me glorificará, porque há de receber do que é meu e vo-lo há de anunciar”. O Espírito Santo é como um holofote: Ele não aponta para si, aponta para Jesus.",
+     "Por isso, a marca de uma vida cheia do Espírito não é só emoção ou experiências, é amar mais a Jesus. Tudo o que vimos nestes dez dias, o ensino, a oração, o fruto, os dons e a ousadia, tinha esse destino: levar você até Ele."
+    ],
+    "pergunta": "Depois destes dez dias, eu amo mais a Jesus, ou só sei mais sobre Ele?",
+    "pratica": "“Espírito Santo, mostra-me Jesus. Faz com que eu O ame mais do que ontem.”"
+   },
+   "almoco": {
+    "referencia": "João 15:26",
+    "texto": [
+     "“Quando, porém, vier o Consolador, que eu vos enviarei da parte do Pai, o Espírito da verdade, que dele procede, esse dará testemunho de mim.” Nesse único versículo aparecem o Pai, o Filho e o Espírito, trabalhando juntos.",
+     "O Espírito dá testemunho de Jesus dentro de você, e depois por meio de você. A partir de amanhã, vamos olhar para Jesus mais de perto: quem Ele é, como ama, como serve e como nos leva ao Pai."
+    ],
+    "pergunta": "O que o Espírito mais me mostrou sobre mim mesmo(a) nestes dez dias?",
+    "pratica": "Escreva em uma frase o que você aprendeu sobre o Espírito Santo, e guarde para reler."
+   },
+   "noite": {
+    "referencia": "Efésios 2:18",
+    "texto": [
+     "“Porque, por ele, ambos temos acesso ao Pai em um Espírito.” Este versículo é o mapa de toda a jornada: pelo Espírito, por meio de Jesus, chegamos ao Pai. A porta está aberta.",
+     "Termine este primeiro bloco agradecendo. Você conheceu melhor Aquele que mora em você, ensina, convence, ora, capacita e produz fruto. E Ele está preparando o seu coração para conhecer Jesus de perto."
+    ],
+    "pergunta": "O que mudou na forma como eu começo os meus dias?",
+    "pratica": "“Pai, obrigado(a) por estes dias com o Teu Espírito. Prepara o meu coração para conhecer Jesus mais de perto. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 11,
+   "titulo": "Deus perto de nós",
+   "bloco": 2,
+   "manha": {
+    "referencia": "1 Coríntios 12:3",
+    "texto": [
+     "Paulo escreve que “ninguém pode dizer: Senhor Jesus!, senão pelo Espírito Santo”. Dizer com a boca é fácil. Dizer com a vida, entregando o controle a Jesus, só o Espírito torna possível.",
+     "Comece este novo bloco pedindo que o Espírito revele Jesus a você de um jeito novo. Talvez você já conheça as histórias. Agora o convite é conhecer a Pessoa por trás delas."
+    ],
+    "pergunta": "Jesus é Senhor da minha vida inteira, ou só das partes que eu escolhi entregar?",
+    "pratica": "“Espírito Santo, revela Jesus para mim nestes dias. Quero que Ele seja Senhor de verdade na minha vida.”"
+   },
+   "almoco": {
+    "referencia": "João 1:14",
+    "texto": [
+     "“E o Verbo se fez carne e habitou entre nós, cheio de graça e de verdade.” Deus não ficou distante mandando recados. Ele veio, nasceu, cresceu numa família simples, trabalhou com as mãos, sentiu fome, cansaço e tristeza.",
+     "Isso quer dizer que Jesus entende a sua rotina. Ele sabe o que é um dia cheio, uma conversa difícil, uma decepção. No meio do seu almoço, Ele não está longe: Ele é Deus que escolheu morar perto."
+    ],
+    "pergunta": "Eu imagino Jesus distante da minha rotina, ou perto dela?",
+    "pratica": "Leia um trecho curto de um Evangelho e repare em um detalhe humano de Jesus: um cansaço, uma emoção, uma refeição."
+   },
+   "noite": {
+    "referencia": "João 3:16",
+    "texto": [
+     "“Porque Deus amou ao mundo de tal maneira que deu o seu Filho unigênito, para que todo o que nele crê não pereça, mas tenha a vida eterna.” Jesus não veio contra a vontade do Pai. Foi o Pai quem deu o Filho, por amor.",
+     "Quando olhar para Jesus nestes dias, lembre que está vendo o tamanho do amor do Pai. Ninguém dá o que tem de mais precioso por quem não ama."
+    ],
+    "pergunta": "Eu acredito, de verdade, que esse amor é para mim, e não só para “o mundo”?",
+    "pratica": "“Pai, obrigado(a) por me amar a ponto de dar o Teu Filho. Que eu entenda esse amor um pouco mais a cada dia. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 12,
+   "titulo": "Jesus me chama",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Apocalipse 22:17",
+    "texto": [
+     "No fim da Bíblia, “o Espírito e a noiva dizem: Vem!” e “quem quiser receba de graça a água da vida”. Do primeiro ao último livro, o Espírito está convidando as pessoas a se aproximarem de Jesus.",
+     "Esse convite não acontece só uma vez, na conversão. Ele se repete todas as manhãs: “Vem”. Vem com o seu cansaço, com as suas dúvidas, com a sua sede."
+    ],
+    "pergunta": "Com o que eu tenho tentado matar a minha sede que não é Jesus?",
+    "pratica": "“Espírito Santo, eu ouço o Teu convite. Eu vou a Jesus hoje, do jeito que estou.”"
+   },
+   "almoco": {
+    "referencia": "Marcos 1:16-18",
+    "texto": [
+     "Jesus viu Simão e André lançando a rede e disse: “Vinde após mim, e eu vos farei pescadores de homens”. Eles deixaram as redes imediatamente. Jesus chamou gente comum, no meio do trabalho, sem currículo religioso.",
+     "O chamado de Jesus também encontra você no meio do expediente. Ele não espera você ficar perfeito(a). Ele diz “vem atrás de mim” e promete fazer algo novo: “eu vos farei”."
+    ],
+    "pergunta": "Que “rede” eu ainda seguro com força e me impede de seguir Jesus com liberdade?",
+    "pratica": "Pergunte a Jesus: “Que rede eu preciso largar para Te seguir melhor?”, e anote a resposta."
+   },
+   "noite": {
+    "referencia": "João 6:37, 44",
+    "texto": [
+     "Jesus disse: “Ninguém pode vir a mim se o Pai, que me enviou, não o trouxer”. E prometeu: “O que vem a mim, de modo nenhum o lançarei fora”. Se você está buscando a Deus, foi o Pai quem começou isso. Ele te atraiu.",
+     "Isso traz descanso. A sua fé não depende só da sua força. O Pai que te trouxe até aqui vai continuar te conduzindo, e Jesus não vai te mandar embora."
+    ],
+    "pergunta": "Já me senti indigno(a) de chegar perto de Jesus? O que esta promessa diz sobre isso?",
+    "pratica": "“Pai, obrigado(a) por me atrair a Jesus. Continua me puxando para perto. Dá-me o Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 13,
+   "titulo": "Jesus me perdoa",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Tito 3:4-5",
+    "texto": [
+     "Quando se manifestou a bondade de Deus, “não por obras de justiça praticadas por nós, mas segundo sua misericórdia, ele nos salvou mediante o lavar regenerador e renovador do Espírito Santo”. A salvação não é prêmio, é misericórdia.",
+     "O Espírito aplica no seu coração o perdão que Jesus conquistou na cruz. Ele lava e renova. Hoje você não precisa provar nada para Deus; pode viver a partir do perdão, não em busca dele."
+    ],
+    "pergunta": "Eu vivo tentando merecer o amor de Deus, ou vivo a partir dele?",
+    "pratica": "“Espírito Santo, renova a minha mente hoje. Que eu viva como alguém perdoado(a).”"
+   },
+   "almoco": {
+    "referencia": "João 8:3-11",
+    "texto": [
+     "Levaram até Jesus uma mulher pega em adultério, querendo apedrejá-la. Ele disse: “Aquele que dentre vós estiver sem pecado seja o primeiro que lhe atire pedra”. Um a um, foram embora. Então Jesus disse a ela: “Nem eu tampouco te condeno; vai e não peques mais”.",
+     "Repare na ordem: primeiro a graça, “não te condeno”, depois a mudança, “não peques mais”. Jesus não diminui o pecado, mas também não esmaga a pecadora. Ele faz isso com você, e quer que você faça isso com os outros."
+    ],
+    "pergunta": "Tenho alguma pedra na mão, pronta para atirar em alguém?",
+    "pratica": "Se alguém errar com você hoje, responda primeiro com graça, e só depois corrija."
+   },
+   "noite": {
+    "referencia": "1 João 1:9",
+    "texto": [
+     "“Se confessarmos os nossos pecados, ele é fiel e justo para nos perdoar os pecados e nos purificar de toda injustiça.” Repare: o Pai é “justo” para perdoar. Por causa de Jesus, perdoar quem confessa não é só bondade, é justiça, porque a dívida já foi paga.",
+     "Não vá dormir carregando o que já pode ser entregue. Confesse com sinceridade e receba o perdão com fé."
+    ],
+    "pergunta": "Existe algum pecado que eu já confessei, mas continuo me acusando por ele?",
+    "pratica": "“Pai, eu confesso [diga o que for]. Obrigado(a) porque, em Jesus, eu estou perdoado(a). Purifica-me e enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 14,
+   "titulo": "Jesus se compadece",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Romanos 5:5",
+    "texto": [
+     "“O amor de Deus é derramado em nosso coração pelo Espírito Santo, que nos foi outorgado.” Compaixão não é algo que você precisa fabricar. É o amor de Deus derramado, enchendo até transbordar para quem está perto.",
+     "O Espírito quer abrir os seus olhos para a dor dos outros. Não é só sentir pena, é enxergar e se mover em direção a quem sofre."
+    ],
+    "pergunta": "Quem está sofrendo perto de mim e eu não tenho percebido?",
+    "pratica": "“Espírito Santo, derrama o amor de Deus em mim hoje. Abre os meus olhos para a dor de quem estiver perto.”"
+   },
+   "almoco": {
+    "referencia": "Marcos 6:30-34",
+    "texto": [
+     "Jesus e os discípulos estavam exaustos e foram para um lugar deserto descansar. Quando chegaram, uma multidão já esperava. Em vez de se irritar, Jesus “compadeceu-se deles, porque eram como ovelhas que não têm pastor. E passou a ensinar-lhes muitas coisas”.",
+     "Jesus deixou o plano dele ser interrompido pelo amor. As interrupções do seu dia, uma pessoa que precisa conversar, um pedido inesperado, podem ser exatamente onde Jesus quer agir por meio de você."
+    ],
+    "pergunta": "Como eu costumo reagir quando alguém interrompe os meus planos?",
+    "pratica": "Pergunte de verdade a alguém: “Como você está?”, e espere a resposta sem pressa."
+   },
+   "noite": {
+    "referencia": "Salmo 103:13-14",
+    "texto": [
+     "“Como um pai se compadece de seus filhos, assim o Senhor se compadece dos que o temem. Pois ele conhece a nossa estrutura e sabe que somos pó.” A compaixão de Jesus é o retrato do coração do Pai.",
+     "O Pai conhece os seus limites. Ele não se assusta com a sua fraqueza. Esta noite, receba a compaixão d’Ele por você e entregue nas mãos d’Ele quem você viu sofrendo hoje."
+    ],
+    "pergunta": "Eu sou mais duro(a) comigo mesmo(a) do que Deus é?",
+    "pratica": "“Pai, obrigado(a) pela Tua compaixão comigo. Eu Te apresento [nome], que está sofrendo. Cuida dessa vida. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 15,
+   "titulo": "Jesus me cura",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Lucas 4:16-19",
+    "texto": [
+     "Na sinagoga de Nazaré, Jesus leu as palavras de Isaías: “O Espírito do Senhor está sobre mim, pelo que me ungiu para evangelizar os pobres; enviou-me para proclamar libertação aos cativos e restauração da vista aos cegos, para pôr em liberdade os oprimidos”.",
+     "A missão de Jesus foi cheia do Espírito, e o alvo dela eram pessoas feridas, presas e cansadas. O mesmo Espírito trabalha hoje onde dói: no corpo, na memória, nas emoções."
+    ],
+    "pergunta": "Que ferida eu escondo tão bem que nem eu mesmo(a) olho para ela?",
+    "pratica": "“Espírito Santo, toca na área da minha vida que precisa de cura. Eu abro essa porta para o Senhor hoje.”"
+   },
+   "almoco": {
+    "referencia": "Marcos 5:25-34",
+    "texto": [
+     "Uma mulher estava doente havia doze anos. Tinha gastado tudo com médicos e só piorava. Ela pensou: “Se eu apenas lhe tocar as vestes, ficarei curada”. Tocou, e foi curada. Mas Jesus parou a multidão e perguntou quem O tinha tocado.",
+     "Ele não queria só curar o corpo, queria encontrar a pessoa. Quando ela se apresentou tremendo, Jesus a chamou de “filha” e disse: “Vai-te em paz”. Doze anos de vergonha terminaram com uma palavra de carinho."
+    ],
+    "pergunta": "Eu busco só o que Jesus pode fazer por mim, ou busco o encontro com Ele?",
+    "pratica": "Ore hoje, pelo nome, por alguém que está doente, e mande uma mensagem dizendo que você orou."
+   },
+   "noite": {
+    "referencia": "Êxodo 15:26 e Salmo 147:3",
+    "texto": [
+     "Deus se apresentou ao povo dizendo: “Eu sou o Senhor, que te sara”. E o salmista completa: “Sara os de coração quebrantado e lhes pensa as feridas”. A imagem é de um pai que limpa e enfaixa o machucado do filho com cuidado.",
+     "Nem toda cura acontece de uma vez. Algumas são processos, como uma ferida que fecha devagar. Mas o Pai está cuidando, curativo por curativo, mesmo quando você não vê."
+    ],
+    "pergunta": "Eu tenho permitido que Deus cuide das minhas feridas, ou só as cubro para ninguém ver?",
+    "pratica": "“Pai, Tu és o Senhor que me sara. Eu Te entrego [o corpo, a memória, a emoção]. Cuida de mim enquanto eu durmo. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 16,
+   "titulo": "Jesus serve",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Atos 6:1-4",
+    "texto": [
+     "Quando a igreja cresceu, faltou gente para servir as mesas das viúvas. Os apóstolos pediram que escolhessem sete homens “cheios do Espírito e de sabedoria” para essa tarefa. Para servir comida, era preciso estar cheio do Espírito.",
+     "Isso diz muito. No Reino, não existe serviço pequeno. Lavar louça, organizar cadeiras, cuidar de criança, levar uma refeição: tudo pode ser feito no poder do Espírito, e tudo importa."
+    ],
+    "pergunta": "Existe algum serviço que eu considero pequeno demais para mim?",
+    "pratica": "“Espírito Santo, enche-me para servir hoje. Que eu faça as coisas simples com o Teu amor.”"
+   },
+   "almoco": {
+    "referencia": "João 13:3-15",
+    "texto": [
+     "Sabendo que o Pai tinha colocado tudo em suas mãos, Jesus se levantou da mesa, pegou uma toalha e lavou os pés dos discípulos, inclusive os de Judas. Era o trabalho do servo mais simples da casa. Depois disse: “Eu vos dei o exemplo, para que, como eu vos fiz, façais vós também”.",
+     "Jesus serviu porque sabia quem era, não para provar quem era. Quem está seguro no amor do Pai não tem medo de se abaixar."
+    ],
+    "pergunta": "Eu sirvo melhor quando sou visto(a), ou também quando ninguém vê?",
+    "pratica": "Faça hoje um serviço escondido, sem contar para ninguém."
+   },
+   "noite": {
+    "referencia": "Hebreus 6:10",
+    "texto": [
+     "“Deus não é injusto para ficar esquecido do vosso trabalho e do amor que evidenciastes para com o seu nome, pois servistes e ainda servis aos santos.” O Pai viu cada serviço de hoje, até o que ninguém notou.",
+     "Às vezes servir cansa e parece não ser reconhecido. Mas nada do que é feito por amor se perde diante do Pai. Ele guarda tudo."
+    ],
+    "pergunta": "Onde eu tenho me cansado de servir por falta de reconhecimento?",
+    "pratica": "“Pai, obrigado(a) pelas oportunidades de servir hoje. Renova as minhas forças. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 17,
+   "titulo": "Jesus ora por mim",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Efésios 6:18",
+    "texto": [
+     "Paulo ensina: “Com toda oração e súplica, orando em todo tempo no Espírito e para isto vigiando com toda perseverança e súplica por todos os santos”. Orar “em todo tempo” não é passar o dia de joelhos. É viver o dia conversando com Deus.",
+     "O Espírito transforma pequenas pausas em oração: no trânsito, na fila, antes de responder uma mensagem difícil. A oração deixa de ser um compromisso e vira uma companhia."
+    ],
+    "pergunta": "Quantas vezes por dia eu lembro de falar com Deus fora dos horários marcados?",
+    "pratica": "“Espírito Santo, lembra-me de orar ao longo do dia, nas pausas pequenas e nas decisões grandes.”"
+   },
+   "almoco": {
+    "referencia": "Marcos 1:35 e Hebreus 7:25",
+    "texto": [
+     "“Tendo-se levantado alta madrugada, saiu, foi para um lugar deserto e ali orava.” Jesus, o Filho de Deus, precisava de tempo a sós com o Pai. E hoje, Hebreus diz que Ele “vive sempre para interceder” por nós.",
+     "Pense nisso no meio do seu dia: Jesus está orando por você agora. Não por um grupo genérico, por você, pelo nome, sabendo exatamente o que você está enfrentando."
+    ],
+    "pergunta": "Como o meu dia mudaria se eu lembrasse que Jesus está orando por mim agora?",
+    "pratica": "Tire um minuto de silêncio e agradeça a Jesus por estar intercedendo por você."
+   },
+   "noite": {
+    "referencia": "João 17:9, 15, 20",
+    "texto": [
+     "Antes da cruz, Jesus orou ao Pai pelos discípulos: “Não peço que os tires do mundo, e sim que os guardes do mal”. E incluiu você: “Não rogo somente por estes, mas também por aqueles que vierem a crer em mim, por intermédio da sua palavra”.",
+     "O Pai ouviu essa oração do Filho, e ela continua valendo sobre a sua vida. Você não está fora do mundo, mas está guardado(a) nas mãos do Pai."
+    ],
+    "pergunta": "Do que eu preciso ser guardado(a) neste momento da minha vida?",
+    "pratica": "“Pai, obrigado(a) porque Jesus orou por mim. Guarda-me do mal, guarda a minha casa esta noite. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 18,
+   "titulo": "Jesus na cruz",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Hebreus 9:14",
+    "texto": [
+     "O autor de Hebreus diz que Cristo, “pelo Espírito eterno, a si mesmo se ofereceu sem mácula a Deus” e que o seu sangue purifica a nossa consciência “de obras mortas, para servirmos ao Deus vivo”. Até na cruz, o Pai, o Filho e o Espírito estavam juntos.",
+     "O Espírito aplica em você o que aconteceu na cruz. Ele limpa a consciência pesada, aquela que repete o passado sem parar, e liberta para servir ao Deus vivo."
+    ],
+    "pergunta": "O que ainda pesa na minha consciência e precisa ser lavado pelo que Jesus fez?",
+    "pratica": "“Espírito Santo, aplica em mim hoje o poder da cruz. Limpa a minha consciência e me liberta para servir.”"
+   },
+   "almoco": {
+    "referencia": "Isaías 53:4-5 e Lucas 23:39-43",
+    "texto": [
+     "Séculos antes, Isaías escreveu: “Ele foi traspassado pelas nossas transgressões... e pelas suas pisaduras fomos sarados”. Na cruz, um ladrão crucificado ao lado pediu: “Jesus, lembra-te de mim”. E ouviu: “Hoje estarás comigo no paraíso”.",
+     "Aquele homem não tinha nada a oferecer, nem tempo para mudar de vida. Só tinha um pedido honesto. E recebeu tudo. A cruz mostra que ninguém está longe demais da graça."
+    ],
+    "pergunta": "Eu ainda acho que preciso oferecer algo a Jesus antes de receber a graça d’Ele?",
+    "pratica": "Leia devagar Isaías 53:4-6 e troque “nossas” por “minhas” em cada frase."
+   },
+   "noite": {
+    "referencia": "Romanos 5:8",
+    "texto": [
+     "“Mas Deus prova o seu próprio amor para conosco pelo fato de ter Cristo morrido por nós, sendo nós ainda pecadores.” O Pai não esperou você melhorar para amar. O amor veio antes, no pior momento.",
+     "Quando você duvidar do amor de Deus, não olhe para as circunstâncias. Olhe para a cruz. Ali está a prova que não muda."
+    ],
+    "pergunta": "Em que momentos eu duvido do amor de Deus? O que a cruz responde a isso?",
+    "pratica": "“Pai, obrigado(a) porque me amaste quando eu ainda estava longe. Que a cruz seja a minha certeza. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 19,
+   "titulo": "Jesus venceu",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Romanos 8:11",
+    "texto": [
+     "“Se habita em vós o Espírito daquele que ressuscitou a Jesus dentre os mortos, esse mesmo que ressuscitou a Cristo Jesus dentre os mortos vivificará também o vosso corpo mortal, por meio do seu Espírito, que em vós habita.”",
+     "O mesmo Espírito que tirou Jesus do túmulo mora em você. Isso significa que nenhuma área da sua vida está morta demais para Deus. Casamento, sonhos, fé, saúde: o poder da ressurreição está disponível."
+    ],
+    "pergunta": "Que área da minha vida eu já dei como morta, mas Deus pode ressuscitar?",
+    "pratica": "“Espírito Santo, traz vida nova para [a área que parece morta]. Eu creio no poder da ressurreição.”"
+   },
+   "almoco": {
+    "referencia": "João 11:25-26 e João 16:33",
+    "texto": [
+     "Diante do túmulo de Lázaro, Jesus disse: “Eu sou a ressurreição e a vida. Quem crê em mim, ainda que morra, viverá”. E antes da cruz avisou: “No mundo, passais por aflições; mas tende bom ânimo; eu venci o mundo”.",
+     "Jesus não prometeu uma vida sem problemas. Prometeu que o problema não teria a última palavra. A vitória d’Ele já aconteceu, e você vive a partir dela."
+    ],
+    "pergunta": "Que problema tem parecido ter a última palavra na minha vida?",
+    "pratica": "Encare hoje uma tarefa ou conversa que o medo vinha adiando, lembrando: “Jesus já venceu”."
+   },
+   "noite": {
+    "referencia": "Filipenses 2:8-11",
+    "texto": [
+     "Jesus se humilhou até a morte de cruz. “Pelo que também Deus o exaltou sobremaneira e lhe deu o nome que está acima de todo nome”, para que toda língua confesse que Jesus Cristo é Senhor, “para glória de Deus Pai”.",
+     "O Pai honrou a obediência do Filho. O caminho de Jesus, humildade primeiro e glória depois, também é o caminho de quem O segue."
+    ],
+    "pergunta": "Onde Deus tem me chamado a descer, em vez de subir?",
+    "pratica": "“Pai, eu Te adoro porque exaltaste Jesus acima de tudo. Que Ele seja Senhor na minha vida. Dá-me o Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 20,
+   "titulo": "Jesus me leva ao Pai",
+   "bloco": 2,
+   "manha": {
+    "referencia": "Gálatas 4:6",
+    "texto": [
+     "“E, porque vós sois filhos, enviou Deus ao nosso coração o Espírito de seu Filho, que clama: Aba, Pai!” O Espírito é chamado aqui de “Espírito de seu Filho”. Ele coloca em você o mesmo jeito de Jesus se relacionar com o Pai.",
+     "Jesus chamava Deus de Pai com total confiança. O Espírito quer que você tenha essa mesma intimidade. A partir de amanhã, a jornada é sobre isso: conhecer o Pai."
+    ],
+    "pergunta": "O que me impede de confiar em Deus como Pai?",
+    "pratica": "“Espírito Santo, ensina o meu coração a chamar Deus de Pai como Jesus chamava.”"
+   },
+   "almoco": {
+    "referencia": "João 14:6-9",
+    "texto": [
+     "“Eu sou o caminho, e a verdade, e a vida; ninguém vem ao Pai senão por mim.” Filipe pediu: “Senhor, mostra-nos o Pai”, e Jesus respondeu: “Quem me vê a mim vê o Pai”.",
+     "Tudo o que você viu de Jesus nestes dez dias, a proximidade, o chamado, o perdão, a compaixão, a cura, o serviço, a oração, a cruz e a vitória, é também o retrato do Pai. Jesus não é só o caminho até Deus; Ele mostra como Deus é."
+    ],
+    "pergunta": "Qual destes dez dias mais mudou a minha imagem de Deus?",
+    "pratica": "Escreva uma frase sobre quem Jesus foi para você nestes dias, e guarde para reler."
+   },
+   "noite": {
+    "referencia": "João 17:3",
+    "texto": [
+     "Na oração antes da cruz, Jesus disse ao Pai: “E a vida eterna é esta: que te conheçam a ti, o único Deus verdadeiro, e a Jesus Cristo, a quem enviaste”. Vida eterna não começa só depois da morte. Começa quando a gente conhece o Pai e o Filho.",
+     "Termine este segundo bloco agradecendo pelo que conheceu de Jesus. Amanhã começa a última parte da jornada: o coração do Pai."
+    ],
+    "pergunta": "Eu conheço a Deus, ou só conheço coisas sobre Deus?",
+    "pratica": "“Pai, obrigado(a) por me mostrar Jesus. Por meio d’Ele eu chego até Ti. Prepara o meu coração para Te conhecer mais. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 21,
+   "titulo": "O Pai que corre ao meu encontro",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Romanos 8:16-17",
+    "texto": [
+     "“O próprio Espírito testifica com o nosso espírito que somos filhos de Deus. Ora, se somos filhos, somos também herdeiros.” Antes de qualquer opinião sobre você hoje, a do chefe, a das redes, a sua própria, o Espírito já disse quem você é.",
+     "Muita gente serve a Deus como empregado, tentando merecer o salário. O Espírito sussurra outra verdade: você é filho(a), herdeiro(a), amado(a). Comece o dia ouvindo essa voz."
+    ],
+    "pergunta": "Que voz tem dito quem eu sou: a do Espírito, ou a das pessoas e das minhas falhas?",
+    "pratica": "“Espírito Santo, lembra-me hoje de que eu sou filho(a) de Deus, mesmo quando eu falhar.”"
+   },
+   "almoco": {
+    "referencia": "Lucas 15:17-24",
+    "texto": [
+     "Jesus contou a história de um filho que pediu a herança, gastou tudo e voltou envergonhado, ensaiando um discurso: “Já não sou digno de ser chamado teu filho”. Mas o pai “o avistou, e, compadecido dele, correndo, o abraçou e beijou”. Trouxe roupa nova, anel e sandálias.",
+     "Naquela época, um homem respeitado não corria em público. Esse pai correu. Jesus contou essa parábola para mostrar como é o coração do Pai: Ele não espera você chegar perfeito(a); Ele corre ao seu encontro."
+    ],
+    "pergunta": "Existe uma área da minha vida em que eu ainda estou “num país distante”?",
+    "pratica": "Dê hoje um passo de volta para Deus nessa área, e lembre que Ele já está correndo até você."
+   },
+   "noite": {
+    "referencia": "1 João 3:1",
+    "texto": [
+     "“Vede que grande amor nos tem concedido o Pai, a ponto de sermos chamados filhos de Deus; e, de fato, somos filhos de Deus.” João faz questão de repetir: “de fato, somos”. Não é só um jeito bonito de falar. É a sua identidade real.",
+     "O seu valor não vem do que você fez hoje, do quanto produziu ou acertou. Vem de quem te ama. Durma esta noite como filho(a), não como funcionário(a)."
+    ],
+    "pergunta": "Se o meu valor não depende do que eu produzo, o que muda na forma como eu vivo?",
+    "pratica": "“Pai, obrigado(a) por correr ao meu encontro e me chamar de filho(a). Eu descanso nessa verdade. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 22,
+   "titulo": "O Pai que cuida de mim",
+   "bloco": 3,
+   "manha": {
+    "referencia": "João 14:18",
+    "texto": [
+     "Ao prometer o Espírito, Jesus disse: “Não vos deixarei órfãos, voltarei para vós outros”. Órfão é quem enfrenta a vida sem pai, sem proteção e sem provisão. Pelo Espírito, você nunca está nessa situação.",
+     "As contas, o trabalho, a saúde e a família não estão só nas suas costas. O Espírito dá sabedoria para as decisões e paz no meio da incerteza."
+    ],
+    "pergunta": "Em que área eu tenho vivido como órfão(ã), carregando tudo sozinho(a)?",
+    "pratica": "“Espírito Santo, dá-me sabedoria para as decisões de hoje, principalmente sobre [trabalho, dinheiro, família].”"
+   },
+   "almoco": {
+    "referencia": "Mateus 6:25-33",
+    "texto": [
+     "Jesus apontou para os pássaros e as flores do campo: “Vosso Pai celeste as sustenta... Porventura, não valeis vós muito mais do que as aves?”. E concluiu: “Buscai, pois, em primeiro lugar, o seu reino e a sua justiça, e todas estas coisas vos serão acrescentadas”.",
+     "Repare que Jesus diz “vosso Pai”. A preocupação cresce quando esquecemos que temos um Pai. Jesus não diz que as necessidades não existem; diz que o Pai sabe delas."
+    ],
+    "pergunta": "O que vem em primeiro lugar nas minhas preocupações e nas minhas orações?",
+    "pratica": "Antes de comer, agradeça com calma pela refeição, como quem recebe da mão do Pai."
+   },
+   "noite": {
+    "referencia": "1 Pedro 5:6-7",
+    "texto": [
+     "“Humilhai-vos, portanto, sob a poderosa mão de Deus... lançando sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós.” “Lançar” é jogar longe, soltar de verdade, não entregar e pegar de volta.",
+     "Não leve para a cama o que pode ficar nas mãos do Pai. Diga em voz alta, pelo nome, cada preocupação, e deixe com Ele."
+    ],
+    "pergunta": "Qual preocupação eu entrego a Deus toda noite e pego de volta toda manhã?",
+    "pratica": "“Pai, eu lanço sobre Ti [diga cada preocupação]. Cuida disso enquanto eu durmo. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 23,
+   "titulo": "O Pai que me vê",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Salmo 139:7-10",
+    "texto": [
+     "“Para onde me ausentarei do teu Espírito? Para onde fugirei da tua face?” Davi percebe que não existe lugar onde Deus não esteja: nem no alto, nem no fundo, nem do outro lado do mar. “Ainda lá me haverá de guiar a tua mão.”",
+     "Para quem foge, isso assusta. Para quem é filho, isso consola. Onde você estiver hoje, por mais sozinho(a) que se sinta, o Espírito está ali, guiando."
+    ],
+    "pergunta": "Em que lugar ou situação eu me sinto longe de Deus?",
+    "pratica": "“Espírito Santo, onde eu for hoje, que eu sinta a Tua mão me guiando.”"
+   },
+   "almoco": {
+    "referencia": "João 1:45-49",
+    "texto": [
+     "Filipe chamou Natanael para conhecer Jesus, e ele desconfiou: “De Nazaré pode sair alguma coisa boa?”. Quando chegou, Jesus disse: “Antes de Filipe te chamar, eu te vi, quando estavas debaixo da figueira”. Natanael se rendeu: “Mestre, tu és o Filho de Deus”.",
+     "Ninguém sabe o que aconteceu debaixo daquela figueira. Talvez uma oração, uma dúvida, uma tristeza. Jesus viu. Ele também viu os seus momentos escondidos, e não se afastou."
+    ],
+    "pergunta": "Que momento escondido da minha vida eu gostaria que alguém tivesse visto?",
+    "pratica": "Faça hoje um ato de bondade ou generosidade sem contar e sem postar."
+   },
+   "noite": {
+    "referencia": "Gênesis 16:7-13",
+    "texto": [
+     "Agar, uma serva maltratada, fugiu para o deserto, grávida e sozinha. Ali o Anjo do Senhor a encontrou, chamou pelo nome e falou com ela. Agar deu a Deus um nome: “Tu és Deus que vê”.",
+     "A primeira pessoa na Bíblia a dar um nome a Deus foi uma mulher que se sentia invisível. O Pai vê quem ninguém vê. Nada do que aconteceu hoje passou despercebido para Ele: o esforço, a lágrima escondida, a vitória pequena."
+    ],
+    "pergunta": "Onde eu tenho me sentido invisível? O que muda saber que o Pai me vê?",
+    "pratica": "“Pai, Tu és o Deus que me vê. Obrigado(a) por me encontrar até no deserto. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 24,
+   "titulo": "O Pai que é fiel",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Efésios 1:13-14",
+    "texto": [
+     "“Fostes selados com o Santo Espírito da promessa, o qual é o penhor da nossa herança.” Penhor é o sinal que garante o que foi prometido. O Espírito em você é a garantia de Deus de que Ele vai cumprir tudo o que disse.",
+     "Você pode mudar de humor, de fase, de força. Mas o selo continua. Deus não desiste do que começou em você."
+    ],
+    "pergunta": "Que promessa de Deus eu deixei de acreditar com o tempo?",
+    "pratica": "“Espírito Santo, obrigado(a) por ser a garantia de que Deus é fiel. Renova hoje a minha esperança em [a promessa].”"
+   },
+   "almoco": {
+    "referencia": "João 21:15-17",
+    "texto": [
+     "Pedro tinha negado Jesus três vezes. Depois da ressurreição, à beira do mar, Jesus perguntou três vezes: “Tu me amas?”. E, a cada resposta, devolveu a missão: “Apascenta as minhas ovelhas”. Uma pergunta para cada negação.",
+     "Jesus não fingiu que nada tinha acontecido, mas também não descartou Pedro. Ele restaurou com cuidado. A fidelidade de Jesus é maior do que a nossa falha: “Se somos infiéis, ele permanece fiel” (2 Timóteo 2:13)."
+    ],
+    "pergunta": "Em que área eu acho que falhei demais para ser usado(a) por Deus de novo?",
+    "pratica": "Escreva o nome de alguém que você precisa restaurar, como Jesus fez com Pedro, e dê o primeiro passo."
+   },
+   "noite": {
+    "referencia": "Lamentações 3:21-23",
+    "texto": [
+     "“Quero trazer à memória o que me pode dar esperança. As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim; renovam-se cada manhã. Grande é a tua fidelidade.”",
+     "Jeremias escreveu isso no meio da ruína, com a cidade destruída. A esperança dele não vinha das circunstâncias, vinha da memória de quem Deus é. Amanhã de manhã, quando você acordar, a misericórdia do Pai já vai estar nova, esperando."
+    ],
+    "pergunta": "Que lembranças da fidelidade de Deus eu posso trazer à memória hoje?",
+    "pratica": "“Pai, grande é a Tua fidelidade. Obrigado(a) porque amanhã a Tua misericórdia será nova. Enche-me do Teu Espírito. Amém.”"
+   }
+  },
+  {
+   "dia": 25,
+   "titulo": "O Pai que me corrige por amor",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Gálatas 5:16, 25",
+    "texto": [
+     "“Andai no Espírito e jamais satisfareis à concupiscência da carne... Se vivemos no Espírito, andemos também no Espírito.” Andar é passo a passo. O Espírito não mostra o caminho inteiro; Ele corrige a direção a cada passo, como um guia ao lado.",
+     "Quando Ele aponta algo errado, não é para humilhar, é para acertar o rumo. Quanto mais cedo a gente ouve, menor o desvio."
+    ],
+    "pergunta": "Que correção de rota o Espírito vem me pedindo há algum tempo?",
+    "pratica": "“Espírito Santo, corrige os meus passos hoje. Que eu Te ouça logo no primeiro aviso.”"
+   },
+   "almoco": {
+    "referencia": "Lucas 22:41-44",
+    "texto": [
+     "No Getsêmani, angustiado a ponto de o suor cair como gotas de sangue, Jesus orou: “Pai, se queres, passa de mim este cálice; contudo, não se faça a minha vontade, e sim a tua”. Até Jesus colocou a própria vontade debaixo da vontade do Pai.",
+     "Submeter-se ao Pai não é fraqueza, é confiança. Jesus sabia que a vontade do Pai era boa, mesmo quando doía. E do outro lado da cruz estava a ressurreição."
+    ],
+    "pergunta": "Em que situação eu tenho dito “seja feita a minha vontade”?",
+    "pratica": "Faça hoje aquilo que você sabe que Deus pediu e está adiando."
+   },
+   "noite": {
+    "referencia": "Hebreus 12:5-11",
+    "texto": [
+     "“O Senhor corrige a quem ama e açoita a todo filho a quem recebe.” O autor explica que nossos pais nos corrigiam como achavam melhor, “Deus, porém, nos disciplina para aproveitamento, a fim de sermos participantes da sua santidade”.",
+     "A correção do Pai é prova de que você é filho(a). Ela não é agradável na hora, mas “produz fruto pacífico”. Se hoje você foi confrontado(a), agradeça: o Pai está cuidando de você."
+    ],
+    "pergunta": "Eu tenho visto as correções de Deus como castigo ou como cuidado?",
+    "pratica": "“Pai, obrigado(a) por me corrigir por amor. Seja feita a Tua vontade, e não a minha. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 26,
+   "titulo": "O Pai que me consola",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Atos 9:31 e João 14:16",
+    "texto": [
+     "Lucas conta que a igreja crescia “andando no temor do Senhor e, no conforto do Espírito Santo”. E o nome que Jesus deu ao Espírito, Consolador, quer dizer “aquele que é chamado para ficar ao lado”.",
+     "Consolar não é tirar a dor com uma frase pronta. É ficar junto. O Espírito não observa o seu sofrimento de longe; Ele senta ao seu lado no chão."
+    ],
+    "pergunta": "Eu tenho deixado o Espírito me consolar, ou tenho buscado consolo só em outras coisas?",
+    "pratica": "“Espírito Santo, Consolador, fica ao meu lado hoje. Consola o meu coração onde dói.”"
+   },
+   "almoco": {
+    "referencia": "João 11:32-36",
+    "texto": [
+     "Quando Maria chorou aos pés de Jesus pela morte do irmão, Ele “agitou-se no espírito e comoveu-se”. E então: “Jesus chorou”. Ele sabia que ia ressuscitar Lázaro minutos depois, e mesmo assim chorou com ela.",
+     "Jesus não tem pressa de calar a sua dor com respostas prontas. Primeiro Ele chora junto. Assim Ele também nos ensina a consolar: com presença, antes de qualquer palavra."
+    ],
+    "pergunta": "Quando alguém sofre perto de mim, eu ofereço presença ou só conselhos?",
+    "pratica": "Ligue, mande mensagem ou visite alguém que está passando por luto, doença ou solidão."
+   },
+   "noite": {
+    "referencia": "2 Coríntios 1:3-4",
+    "texto": [
+     "“Bendito seja o Deus e Pai de nosso Senhor Jesus Cristo, o Pai de misericórdias e Deus de toda consolação! É ele que nos conforta em toda a nossa tribulação, para podermos consolar os que estiverem em qualquer angústia.”",
+     "O Pai consola você e transforma a sua dor em ferramenta de consolo para outros. O que você está atravessando hoje pode, amanhã, ser exatamente o que alguém precisa ouvir."
+    ],
+    "pergunta": "Que dor que eu já atravessei pode hoje consolar outra pessoa?",
+    "pratica": "“Pai de toda consolação, abraça o meu coração esta noite. Usa a minha dor para consolar outros. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 27,
+   "titulo": "O Pai que me dá descanso",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Isaías 63:14",
+    "texto": [
+     "Lembrando como Deus conduziu o povo pelo deserto, Isaías escreve: “Como o animal que desce aos vales, o Espírito do Senhor lhes deu descanso”. A imagem é de um rebanho que sai do sol forte e encontra sombra e água no vale.",
+     "O Espírito não só nos empurra para frente; Ele também nos leva a descansar. Descanso não é preguiça nem perda de tempo. É confiar que Deus continua trabalhando quando você para."
+    ],
+    "pergunta": "Quando foi a última vez que eu descansei sem culpa?",
+    "pratica": "“Espírito Santo, conduz o meu dia num ritmo de paz. Mostra-me onde eu preciso parar.”"
+   },
+   "almoco": {
+    "referencia": "Mateus 11:28-30",
+    "texto": [
+     "“Vinde a mim, todos os que estais cansados e sobrecarregados, e eu vos aliviarei. Tomai sobre vós o meu jugo e aprendei de mim, porque sou manso e humilde de coração; e achareis descanso para a vossa alma.”",
+     "Jesus não diz “esforce-se mais”. Ele diz “vem”. O jugo era a peça de madeira que unia dois bois para puxarem juntos. Jesus oferece puxar junto com você. O peso dividido com Ele fica leve."
+    ],
+    "pergunta": "Que peso eu carrego sozinho(a) que Jesus quer dividir comigo?",
+    "pratica": "Tire dez minutos de pausa de verdade hoje: sem celular, sem tarefa, só respirando na presença de Jesus."
+   },
+   "noite": {
+    "referencia": "Êxodo 33:14 e Salmo 127:2",
+    "texto": [
+     "Deus prometeu a Moisés: “A minha presença irá contigo, e eu te darei descanso”. E o salmista lembra que é inútil levantar cedo e deitar tarde, comendo o pão de ansiedade, “pois aos seus amados ele o dá enquanto dormem”.",
+     "O Pai continua cuidando de tudo enquanto você dorme. O sono também é um ato de fé: você fecha os olhos e confia que Ele não fecha os d’Ele."
+    ],
+    "pergunta": "Eu durmo em paz, ou levo para a cama tudo o que não resolvi?",
+    "pratica": "“Pai, a Tua presença vai comigo e me dá descanso. Eu entrego o que ficou por fazer hoje. Cuida de tudo enquanto eu durmo. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 28,
+   "titulo": "O Pai que se alegra em mim",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Romanos 14:17",
+    "texto": [
+     "“O reino de Deus não é comida nem bebida, mas justiça, e paz, e alegria no Espírito Santo.” A alegria faz parte do Reino. Não é um enfeite, é um sinal de que Deus está presente.",
+     "A alegria do Espírito não depende de tudo estar bem. Ela nasce de saber quem está com você. Por isso dá para ter alegria até num dia difícil."
+    ],
+    "pergunta": "Eu tenho vivido a fé com alegria, ou só com peso e obrigação?",
+    "pratica": "“Espírito Santo, enche-me de alegria hoje, uma alegria que os problemas não tiram.”"
+   },
+   "almoco": {
+    "referencia": "Lucas 15:4-7",
+    "texto": [
+     "Jesus contou de um pastor que deixou noventa e nove ovelhas para procurar uma que se perdeu. Quando encontra, “põe-na sobre os ombros, cheio de júbilo”, e chama os amigos para festejar. E concluiu: “Haverá maior júbilo no céu por um pecador que se arrepende”.",
+     "O céu faz festa por pessoas. Por você. Jesus não carrega a ovelha resmungando; carrega com alegria. Você não é um peso para Deus, é motivo de festa."
+    ],
+    "pergunta": "Eu me vejo como um peso para Deus ou como alguém que Ele se alegra em carregar?",
+    "pratica": "Faça alguém sorrir hoje, de propósito."
+   },
+   "noite": {
+    "referencia": "Sofonias 3:17",
+    "texto": [
+     "“O Senhor, teu Deus, está no meio de ti, poderoso para salvar-te; ele se deleitará em ti com alegria; renovar-te-á no seu amor, regozijar-se-á em ti com júbilo.” Na língua original, a ideia é de Alguém que canta de alegria.",
+     "Imagine: o Pai cantando sobre você, como uma mãe que canta para o filho dormir. Termine este dia ouvindo isso com o coração."
+    ],
+    "pergunta": "O que muda em mim saber que Deus se alegra em mim, e não só me tolera?",
+    "pratica": "“Pai, obrigado(a) porque Tu Te alegras em mim. Que eu durma ouvindo o Teu amor. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 29,
+   "titulo": "O Pai que dá boas dádivas",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Atos 2:38-39",
+    "texto": [
+     "No dia de Pentecostes, Pedro disse: “Recebereis o dom do Espírito Santo. Pois para vós outros é a promessa, para vossos filhos e para todos os que ainda estão longe”. O Espírito é chamado de “dom”, um presente.",
+     "A promessa não era só para os apóstolos. É para você, para os seus filhos e para quem ainda está longe. Ore hoje também por alguém da sua família que ainda não conhece a Deus."
+    ],
+    "pergunta": "Quem da minha família ainda está longe e precisa das minhas orações?",
+    "pratica": "“Espírito Santo, obrigado(a) por ser um presente para mim. Alcança também [nome de alguém da família].”"
+   },
+   "almoco": {
+    "referencia": "Mateus 7:7-11",
+    "texto": [
+     "“Pedi, e dar-se-vos-á; buscai e achareis; batei, e abrir-se-vos-á.” E Jesus compara: que pai daria uma pedra ao filho que pede pão? “Quanto mais vosso Pai, que está nos céus, dará boas coisas aos que lhe pedirem?”",
+     "Jesus nos ensina a pedir com ousadia, porque o Pai é bom. Às vezes a resposta é “sim”, às vezes é “espere”, às vezes é “tenho algo melhor”. Mas nunca é uma pedra."
+    ],
+    "pergunta": "Que pedido eu deixei de fazer por achar que Deus não se importaria?",
+    "pratica": "Compartilhe hoje algo que você recebeu de Deus: um almoço, uma ajuda, um tempo, um item parado em casa."
+   },
+   "noite": {
+    "referencia": "Tiago 1:17",
+    "texto": [
+     "“Toda boa dádiva e todo dom perfeito é lá do alto, descendo do Pai das luzes, em quem não pode existir variação ou sombra de mudança.” O Pai não muda de humor. A bondade d’Ele ontem é a mesma hoje e amanhã.",
+     "Olhe para trás nestes 29 dias e conte as boas dádivas: o que você aprendeu, o que foi curado, as pessoas que Deus colocou no caminho. Tudo veio do Pai das luzes."
+    ],
+    "pergunta": "Quais foram as maiores dádivas de Deus para mim nesta jornada?",
+    "pratica": "“Pai, obrigado(a) por cada boa dádiva destes dias: [cite algumas]. Tu és bom e não mudas. Enche-me do Teu Espírito para amanhã. Amém.”"
+   }
+  },
+  {
+   "dia": 30,
+   "titulo": "O Pai me dá o Espírito de novo",
+   "bloco": 3,
+   "manha": {
+    "referencia": "Ezequiel 36:26-27",
+    "texto": [
+     "“Dar-vos-ei coração novo e porei dentro de vós espírito novo; tirarei de vós o coração de pedra e vos darei coração de carne. Porei dentro de vós o meu Espírito.” Essa foi a promessa de Deus muito antes de Jesus, e ela se cumpre em você.",
+     "Nestes 30 dias, o Espírito amoleceu o que estava duro e trouxe vida onde estava seco. E Ele não vai embora quando a jornada acabar. Ele continua aqui, todas as manhãs."
+    ],
+    "pergunta": "O que estava duro em mim e Deus amoleceu nestes 30 dias?",
+    "pratica": "“Espírito Santo, obrigado(a) por estes 30 dias. Não quero parar aqui. Continua me guiando todas as manhãs.”"
+   },
+   "almoco": {
+    "referencia": "João 17:20-23 e Mateus 28:20",
+    "texto": [
+     "Antes da cruz, Jesus orou por todos os que creriam n’Ele, inclusive você: “a fim de que todos sejam um; e como és tu, ó Pai, em mim e eu em ti, também sejam eles em nós”. Jesus quer que você viva dentro da comunhão que Ele tem com o Pai.",
+     "E as últimas palavras d’Ele no Evangelho de Mateus são uma promessa: “Eis que estou convosco todos os dias até à consumação do século”. Todos os dias, inclusive os próximos."
+    ],
+    "pergunta": "Qual hábito desta jornada eu quero levar para o resto da vida?",
+    "pratica": "Escolha um hábito destes 30 dias para manter: o “bom dia” ao Espírito, a pausa com Jesus no almoço ou a gratidão ao Pai à noite."
+   },
+   "noite": {
+    "referencia": "Lucas 11:13 e Números 6:24-26",
+    "texto": [
+     "A jornada termina onde começou: “Quanto mais o Pai celestial dará o Espírito Santo àqueles que lho pedirem”. O ciclo se fecha e recomeça. O Pai dá o Espírito, o Espírito leva a Jesus, Jesus leva ao Pai.",
+     "Receba esta noite a bênção que Deus mandou pronunciar sobre o Seu povo: “O Senhor te abençoe e te guarde; o Senhor faça resplandecer o rosto sobre ti e tenha misericórdia de ti; o Senhor sobre ti levante o rosto e te dê a paz”."
+    ],
+    "pergunta": "Quem eu era no dia 1, e quem estou me tornando agora?",
+    "pratica": "“Pai, obrigado(a) por estes 30 dias Contigo. Pelo Teu Espírito eu conheci mais a Jesus, e por Jesus eu cheguei mais perto de Ti. Dá-me o Teu Espírito amanhã e todos os dias da minha vida. Em nome de Jesus, amém.”"
+   }
+  }
+ ]
+}
