@@ -1,0 +1,33 @@
+# Configuração geral do canal. Campos com A_DEFINIR dependem de decisão do Henrique.
+canal:
+  nome: A_DEFINIR
+  idioma: pt-BR
+  publico: geral            # NÃO é conteúdo para crianças
+
+estilo_visual:
+  direcao: A_DEFINIR        # ex.: mangá/anime (direção inicial do briefing)
+  prompt_base: ""           # texto acrescentado a todo prompt de imagem
+
+voz:
+  servico: A_DEFINIR        # ex.: elevenlabs
+  voz_id: A_DEFINIR
+
+imagens:
+  servico: A_DEFINIR
+
+formatos:
+  longo:  {largura: 1920, altura: 1080}
+  shorts: {largura: 1080, altura: 1920}
+  thumbnail: {largura: 1280, altura: 720}
+
+video:
+  fps: 30
+  codec_video: libx264
+  codec_audio: aac
+  preset: veryfast          # testes; trocar para medium/slow na produção
+  volume_musica: 0.12       # trilha baixa sob a narração
+
+upload:
+  privacidade_padrao: private   # private ou agendado. NUNCA public direto.
+  feito_para_criancas: false
+  conteudo_sintetico: true      # declaração de conteúdo alterado/sintético

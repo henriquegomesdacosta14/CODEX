@@ -1,0 +1,7 @@
+# Descrição base de cada personagem. Toda imagem que mostrar o personagem
+# reutiliza exatamente esta descrição, para manter consistência entre cenas.
+# Preencha conforme o estilo visual definido em config.yaml.
+personagens: {}
+#  davi:
+#    nome: Davi
+#    descricao: "jovem pastor de 16 anos, cabelo castanho ondulado, túnica bege, funda de couro"

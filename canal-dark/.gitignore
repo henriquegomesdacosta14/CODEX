@@ -1,0 +1,14 @@
+# Segredos — NUNCA commitar
+.env
+client_secret*.json
+token*.json
+*.pickle
+
+# Saídas pesadas de cada vídeo (ficam só na máquina)
+projetos/*
+!projetos/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.venv/
