@@ -5,7 +5,7 @@ canal:
   publico: geral            # NÃO é conteúdo para crianças
 
 estilo_visual:
-  direcao: A_DEFINIR        # ex.: mangá/anime (direção inicial do briefing)
+  direcao: anime            # mini-série animada (confirmar no 1º episódio)
   prompt_base: ""           # texto acrescentado a todo prompt de imagem
 
 voz:
@@ -14,6 +14,10 @@ voz:
 
 imagens:
   servico: A_DEFINIR
+
+animacao:
+  servico: A_DEFINIR        # candidato: kling (API de desenvolvedor, kling.ai/dev)
+  modo: parcial             # anima os momentos fortes; o resto usa ilustração + Ken Burns
 
 formatos:
   longo:  {largura: 1920, altura: 1080}
