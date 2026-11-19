@@ -2,7 +2,7 @@
 
 Sempre PRIVADO ou AGENDADO, nunca público direto.
 """
-from .comum import (RAIZ, carregar_config, exigir_aprovado, exigir_roteiro_aprovado, log,
+from .comum import (RAIZ, carregar_config, eh_teste, exigir_aprovado, exigir_roteiro_aprovado, log,
                     pasta_projeto, rodar, ErroEtapa)
 
 ETAPA = "8-upload"
@@ -14,6 +14,8 @@ def args_extras(p):
 
 def main(args):
     pasta = pasta_projeto(args.projeto)
+    if eh_teste(pasta):
+        raise ErroEtapa("Projeto de teste nunca é enviado ao YouTube.")
     exigir_roteiro_aprovado(pasta)
     exigir_aprovado(pasta / "revisao_final.md", "Revisão final")
     cfg = carregar_config()["upload"]

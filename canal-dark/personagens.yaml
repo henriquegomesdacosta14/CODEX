@@ -1,7 +1,13 @@
 # Descrição base de cada personagem. Toda imagem que mostrar o personagem
 # reutiliza exatamente esta descrição, para manter consistência entre cenas.
-# Preencha conforme o estilo visual definido em config.yaml.
-personagens: {}
-#  davi:
-#    nome: Davi
-#    descricao: "jovem pastor de 16 anos, cabelo castanho ondulado, túnica bege, funda de couro"
+# Ajustar quando o estilo visual final for definido.
+personagens:
+  davi:
+    nome: Davi
+    descricao: "jovem pastor de cerca de 16 anos, magro, pele morena, cabelo castanho ondulado até o pescoço, túnica bege simples com cinto de couro, sandálias, funda de couro na mão"
+  golias:
+    nome: Golias
+    descricao: "gigante guerreiro filisteu de quase três metros, barba escura, elmo de bronze, couraça de escamas de bronze, caneleiras de bronze, lança enorme"
+  saul:
+    nome: Saul
+    descricao: "rei de Israel, homem alto de meia-idade, barba grisalha curta, manto real vermelho-escuro, coroa simples de ouro"

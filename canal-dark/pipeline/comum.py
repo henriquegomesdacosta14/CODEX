@@ -104,8 +104,50 @@ def exigir_aprovado(arquivo: Path, descricao: str) -> None:
         )
 
 
+def eh_teste(pasta: Path) -> bool:
+    """Projeto de teste: só usa serviços locais gratuitos e nunca é enviado ao YouTube."""
+    arquivo = pasta / "projeto.json"
+    return arquivo.exists() and bool(ler_json(arquivo).get("teste"))
+
+
 def exigir_roteiro_aprovado(pasta: Path) -> None:
+    if eh_teste(pasta) and ler_status(pasta / "roteiro.md") != "aprovado":
+        log(pasta, "aprovacao", "AVISO: projeto de teste — seguindo sem roteiro aprovado "
+                                "(só serviços locais, upload bloqueado).")
+        return
     exigir_aprovado(pasta / "roteiro.md", "Roteiro")
+
+
+# ---------------------------------------------------------------- mídia
+
+def duracao_midia(arquivo: Path) -> float:
+    import subprocess
+    saida = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0",
+         str(arquivo)], capture_output=True, text=True, check=True).stdout
+    return float(saida.strip())
+
+
+def ffmpeg(*args: str) -> None:
+    import subprocess
+    r = subprocess.run(["ffmpeg", "-y", "-hide_banner", "-loglevel", "error", *args],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        raise ErroEtapa(f"ffmpeg falhou: {r.stderr.strip()[-800:]}")
+
+
+def formatos_do_projeto(pasta: Path) -> list[str]:
+    f = ler_json(pasta / "projeto.json").get("formato", "shorts")
+    return ["longo", "shorts"] if f == "ambos" else [f]
+
+
+def fonte(negrito: bool = True) -> str:
+    """Fonte para textos: usa assets/fontes/ se houver, senão a do sistema."""
+    proprias = sorted((RAIZ / "assets" / "fontes").glob("*.[ot]tf"))
+    if proprias:
+        return str(proprias[0])
+    nome = "DejaVuSans-Bold.ttf" if negrito else "DejaVuSans.ttf"
+    return f"/usr/share/fonts/truetype/dejavu/{nome}"
 
 
 # ---------------------------------------------------------------- roteiro

@@ -18,6 +18,8 @@ def args_extras(p):
     p.add_argument("--ideia", help="ideia livre (alternativa ao temas.csv)")
     p.add_argument("--passagem", default="", help="referência bíblica (livro cap:vers)")
     p.add_argument("--formato", choices=["shorts", "longo", "ambos"], default="shorts")
+    p.add_argument("--teste", action="store_true",
+                   help="projeto de teste: voz e imagens locais provisórias, sem upload")
 
 
 def ler_temas():
@@ -48,7 +50,8 @@ def main(args):
         if not achados:
             raise ErroEtapa("Tema não encontrado em temas.csv (ou nenhum pendente).")
         titulo, passagem = achados[0]["titulo"], achados[0]["passagem"]
-        marcar_tema(titulo, "em_producao")
+        if not args.teste:
+            marcar_tema(titulo, "em_producao")
 
     pasta = pasta_projeto(args.projeto, criar=True)
     arquivo = pasta / "projeto.json"
@@ -56,7 +59,7 @@ def main(args):
         raise ErroEtapa(f"Projeto '{args.projeto}' já existe ({arquivo}).")
     salvar_json(arquivo, {
         "id": args.projeto, "titulo": titulo, "passagem": passagem,
-        "formato": args.formato, "criado_em": datetime.now().isoformat(timespec="seconds"),
+        "formato": args.formato, "teste": args.teste, "criado_em": datetime.now().isoformat(timespec="seconds"),
     })
     log(pasta, ETAPA, f"Projeto criado: '{titulo}' ({passagem or 'passagem a definir'}), formato {args.formato}.")
 

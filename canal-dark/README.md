@@ -60,10 +60,22 @@ python -m pipeline.etapa_1_tema --projeto jonas --ideia "Jonas fugindo de Deus" 
 | Etapa | Situação |
 |---|---|
 | 1 Tema, 2 Roteiro | funcionando |
-| 3 Narração | aguarda serviço de voz + `voz_id` + chave |
-| 4 Imagens | aguarda serviço de imagens + estilo visual + chave |
-| 5 Montagem, 6 Legendas, 7 Thumbnail | a implementar no vídeo de teste |
+| 3 Narração | modo teste com voz local (espeak-ng + MBROLA); aguarda serviço real + chave |
+| 4 Imagens | modo teste com ilustração provisória por código; aguarda serviço real + chave |
+| 5 Montagem | funcionando (Ken Burns, transições, trilha com ducking, volume -14 LUFS) |
+| 6 Legendas | funcionando (.srt + legenda animada nos Shorts); tempos estimados por cena |
+| 7 Thumbnail e metadados | funcionando |
 | 8 Upload | aguarda `client_secret.json`; travas de aprovação e privacidade já ativas |
+
+### Modo teste
+
+`--teste` na etapa 1 cria um projeto que usa só serviços locais gratuitos e **nunca** é
+enviado ao YouTube. Ele roda sem o roteiro aprovado, só para conferir ritmo e montagem.
+
+```bash
+sudo apt-get install -y espeak-ng mbrola-br3   # voz provisória
+python -m pipeline.etapa_1_tema --projeto teste-davi-golias --teste --tema "Davi e Golias"
+```
 
 ## Decisões em aberto
 

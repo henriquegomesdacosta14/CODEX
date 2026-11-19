@@ -26,6 +26,7 @@ video:
   codec_audio: aac
   preset: veryfast          # testes; trocar para medium/slow na produção
   volume_musica: 0.12       # trilha baixa sob a narração
+  musica: ""                # arquivo em assets/musicas/ (+ .txt com a licença); vazio = fundo gerado
 
 upload:
   privacidade_padrao: private   # private ou agendado. NUNCA public direto.
