@@ -11,6 +11,8 @@ Paulo diz que o próprio Espírito confirma, por dentro, que somos filhos e herd
 
 Muita gente serve a Deus como empregado, tentando merecer o salário. O Espírito sussurra outra verdade: você é filho(a), herdeiro(a), amado(a). Comece o dia ouvindo essa voz.
 
++ J. I. Packer | O Conhecimento de Deus | Packer escreveu que, se quiser saber o quanto alguém entendeu do cristianismo, descubra quanto valor ele dá ao fato de ser filho de Deus. Para ele, a adoção é o maior privilégio do evangelho.
+
 ? Que voz tem dito quem eu sou: a do Espírito, ou a das pessoas e das minhas falhas?
 ! “Espírito Santo, lembra-me hoje de que eu sou filho(a) de Deus, mesmo quando eu falhar.”
 
@@ -22,6 +24,8 @@ Jesus contou a história de um filho que pediu a herança, gastou tudo e voltou 
 
 Naquela época, um homem respeitado não corria em público. Esse pai correu. Jesus contou essa parábola para mostrar como é o coração do Pai: Ele não espera você chegar perfeito(a); Ele corre ao seu encontro.
 
++ Timothy Keller | O Deus Pródigo | Tim Keller mostra que a parábola tem dois filhos perdidos. Um se perdeu na rebeldia; o outro, o mais velho, se perdeu na própria bondade, servindo o pai sem amá-lo. A graça do Pai alcança os dois.
+
 ? Existe uma área da minha vida em que eu ainda estou “num país distante”?
 ! Dê hoje um passo de volta para Deus nessa área, e lembre que Ele já está correndo até você.
 
@@ -32,6 +36,8 @@ Naquela época, um homem respeitado não corria em público. Esse pai correu. Je
 João escreve como quem não consegue acreditar no tamanho desse amor. João faz questão de repetir: “de fato, somos”. Não é só um jeito bonito de falar. É a sua identidade real.
 
 O seu valor não vem do que você fez hoje, do quanto produziu ou acertou. Vem de quem te ama. Durma esta noite como filho(a), não como funcionário(a).
+
++ Henri Nouwen | A Volta do Filho Pródigo | Nouwen passou horas diante do quadro de Rembrandt sobre o filho pródigo. Ele percebeu que as mãos do pai no quadro são diferentes, uma mais firme e outra mais delicada, como a de um pai e a de uma mãe. Assim é o abraço de Deus.
 
 ? Se o meu valor não depende do que eu produzo, o que muda na forma como eu vivo?
 ! “Pai, obrigado(a) por correr ao meu encontro e me chamar de filho(a). Eu descanso nessa verdade. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -46,6 +52,8 @@ Ao prometer o Espírito, Jesus disse: “Não vos deixarei órfãos, voltarei pa
 
 As contas, o trabalho, a saúde e a família não estão só nas suas costas. O Espírito dá sabedoria para as decisões e paz no meio da incerteza.
 
++ Billy Graham | O Espírito Santo | Billy Graham lembra que Consolador quer dizer alguém chamado para ficar ao lado. Quem tem o Espírito nunca enfrenta nada sozinho, nem as contas, nem a doença, nem a solidão.
+
 ? Em que área eu tenho vivido como órfão(ã), carregando tudo sozinho(a)?
 ! “Espírito Santo, dá-me sabedoria para as decisões de hoje, principalmente sobre [trabalho, dinheiro, família].”
 
@@ -57,6 +65,8 @@ Jesus apontou para os pássaros e as flores do campo: “Vosso Pai celeste as su
 
 Repare que Jesus diz “vosso Pai”. A preocupação cresce quando esquecemos que temos um Pai. Jesus não diz que as necessidades não existem; diz que o Pai sabe delas.
 
++ George Müller | A Autobiografia de George Müller | George Müller cuidou de mais de dez mil órfãos na Inglaterra do século 19 sem pedir dinheiro a ninguém, só a Deus em oração. Há relatos de manhãs em que não havia comida e, na hora, chegava o pão e o leite.
+
 ? O que vem em primeiro lugar nas minhas preocupações e nas minhas orações?
 ! Antes de comer, agradeça com calma pela refeição, como quem recebe da mão do Pai.
 
@@ -67,6 +77,8 @@ Repare que Jesus diz “vosso Pai”. A preocupação cresce quando esquecemos q
 Pedro manda lançar sobre Deus toda a ansiedade, porque Ele cuida de nós. “Lançar” é jogar longe, soltar de verdade, não entregar e pegar de volta.
 
 Não leve para a cama o que pode ficar nas mãos do Pai. Diga em voz alta, pelo nome, cada preocupação, e deixe com Ele.
+
++ Max Lucado | Ansiosos por Nada | Max Lucado escreveu sobre a ansiedade a partir de Filipenses 4. Ele propõe trocar a preocupação por oração e gratidão: entregar a Deus, pedir com clareza e agradecer antes de ver a resposta.
 
 ? Qual preocupação eu entrego a Deus toda noite e pego de volta toda manhã?
 ! “Pai, eu lanço sobre Ti [diga cada preocupação]. Cuida disso enquanto eu durmo. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -81,6 +93,8 @@ Davi faz duas perguntas, e a resposta é a mesma: não há para onde fugir de De
 
 Para quem foge, isso assusta. Para quem é filho, isso consola. Onde você estiver hoje, por mais sozinho(a) que se sinta, o Espírito está ali, guiando.
 
++ A. W. Tozer | À Procura de Deus | Tozer ensinava que Deus está presente em todo lugar; o que falta não é a presença d’Ele, mas a nossa percepção dela. Quem aprende a reparar no Espírito descobre que nunca esteve sozinho.
+
 ? Em que lugar ou situação eu me sinto longe de Deus?
 ! “Espírito Santo, onde eu for hoje, que eu sinta a Tua mão me guiando.”
 
@@ -92,6 +106,8 @@ Filipe chamou Natanael para conhecer Jesus, e ele desconfiou: “De Nazaré pode
 
 Ninguém sabe o que aconteceu debaixo daquela figueira. Talvez uma oração, uma dúvida, uma tristeza. Jesus viu. Ele também viu os seus momentos escondidos, e não se afastou.
 
++ Timothy Keller | O Significado do Casamento | Tim Keller escreveu que ser amado sem ser conhecido é superficial, e ser conhecido sem ser amado é o nosso maior medo. Ser totalmente conhecido e verdadeiramente amado é parecido com ser amado por Deus. Foi isso que Natanael experimentou.
+
 ? Que momento escondido da minha vida eu gostaria que alguém tivesse visto?
 ! Faça hoje um ato de bondade ou generosidade sem contar e sem postar.
 
@@ -102,6 +118,8 @@ Ninguém sabe o que aconteceu debaixo daquela figueira. Talvez uma oração, uma
 Agar, uma serva maltratada, fugiu para o deserto, grávida e sozinha. Ali o Anjo do Senhor a encontrou, chamou pelo nome e falou com ela. Agar deu a Deus um nome: “Tu és Deus que vê”.
 
 A primeira pessoa na Bíblia a dar um nome a Deus foi uma mulher que se sentia invisível. O Pai vê quem ninguém vê. Nada do que aconteceu hoje passou despercebido para Ele: o esforço, a lágrima escondida, a vitória pequena.
+
++ Agostinho | Confissões | Agostinho confessa a Deus que o procurava fora, enquanto Ele estava dentro: Tu estavas comigo, e eu não estava contigo. O Pai que vê nunca tirou os olhos de nós, nem nos anos em que nós O ignoramos.
 
 ? Onde eu tenho me sentido invisível? O que muda saber que o Pai me vê?
 ! “Pai, Tu és o Deus que me vê. Obrigado(a) por me encontrar até no deserto. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -116,6 +134,8 @@ Paulo usa uma palavra do comércio para falar do Espírito: penhor. Penhor é o 
 
 Você pode mudar de humor, de fase, de força. Mas o selo continua. Deus não desiste do que começou em você.
 
++ Martyn Lloyd-Jones | Alegria Inexprimível | O pregador Martyn Lloyd-Jones ensinava que o selo do Espírito traz certeza: uma convicção profunda de que somos de Deus. Ele encorajava os cristãos a buscarem essa segurança, e não a viverem em dúvida permanente.
+
 ? Que promessa de Deus eu deixei de acreditar com o tempo?
 ! “Espírito Santo, obrigado(a) por ser a garantia de que Deus é fiel. Renova hoje a minha esperança em [a promessa].”
 
@@ -127,6 +147,8 @@ Pedro tinha negado Jesus três vezes. Depois da ressurreição, à beira do mar,
 
 Jesus não fingiu que nada tinha acontecido, mas também não descartou Pedro. Ele restaurou com cuidado. A fidelidade de Jesus é maior do que a nossa falha: “Se somos infiéis, ele permanece fiel” (2 Timóteo 2:13).
 
++ Brennan Manning | O Evangelho Maltrapilho | A mensagem central de Brennan Manning ajuda a ler esta cena: Deus não usa gente perfeita, usa gente restaurada pela graça. Pedro, que negou Jesus três vezes, voltou a ser chamado pelo nome e recebeu de novo a sua missão.
+
 ? Em que área eu acho que falhei demais para ser usado(a) por Deus de novo?
 ! Escreva o nome de alguém que você precisa restaurar, como Jesus fez com Pedro, e dê o primeiro passo.
 
@@ -137,6 +159,8 @@ Jesus não fingiu que nada tinha acontecido, mas também não descartou Pedro. E
 Esta é uma das declarações mais bonitas sobre a fidelidade de Deus, e ela nasceu num dos piores momentos da história de Israel.
 
 Jeremias escreveu isso no meio da ruína, com a cidade destruída. A esperança dele não vinha das circunstâncias, vinha da memória de quem Deus é. Amanhã de manhã, quando você acordar, a misericórdia do Pai já vai estar nova, esperando.
+
++ Thomas Chisholm | hino Grande é a Tua Fidelidade | Thomas Chisholm escreveu o hino Grande é a Tua Fidelidade, inspirado em Lamentações 3. Ele dizia que não viveu nada extraordinário: só percebeu, dia após dia, a fidelidade de Deus em coisas comuns. Cada manhã nova é uma prova.
 
 ? Que lembranças da fidelidade de Deus eu posso trazer à memória hoje?
 ! “Pai, grande é a Tua fidelidade. Obrigado(a) porque amanhã a Tua misericórdia será nova. Enche-me do Teu Espírito. Amém.”
@@ -151,6 +175,8 @@ Paulo diz que a vida no Espírito se vive andando. Andar é passo a passo. O Esp
 
 Quando Ele aponta algo errado, não é para humilhar, é para acertar o rumo. Quanto mais cedo a gente ouve, menor o desvio.
 
++ Watchman Nee | Sentar, Andar, Permanecer | Watchman Nee resume a vida cristã em três verbos de Efésios: primeiro sentar, descansando no que Cristo já fez; depois andar, vivendo no Espírito; e então permanecer firme. A ordem importa: só anda bem quem antes se sentou.
+
 ? Que correção de rota o Espírito vem me pedindo há algum tempo?
 ! “Espírito Santo, corrige os meus passos hoje. Que eu Te ouça logo no primeiro aviso.”
 
@@ -162,6 +188,8 @@ No Getsêmani, angustiado a ponto de o suor cair como gotas de sangue, Jesus oro
 
 Submeter-se ao Pai não é fraqueza, é confiança. Jesus sabia que a vontade do Pai era boa, mesmo quando doía. E do outro lado da cruz estava a ressurreição.
 
++ Dietrich Bonhoeffer | Resistência e Submissão | Bonhoeffer foi preso por resistir ao nazismo e executado semanas antes do fim da guerra. As cartas da prisão mostram um homem entregue à vontade de Deus, que encontrou paz mesmo diante da morte, como Jesus no Getsêmani.
+
 ? Em que situação eu tenho dito “seja feita a minha vontade”?
 ! Faça hoje aquilo que você sabe que Deus pediu e está adiando.
 
@@ -172,6 +200,8 @@ Submeter-se ao Pai não é fraqueza, é confiança. Jesus sabia que a vontade do
 Hebreus diz que a correção de Deus é sinal de amor, não de rejeição: “o Senhor corrige a quem ama”. O autor explica que nossos pais nos corrigiam como achavam melhor, “Deus, porém, nos disciplina para aproveitamento, a fim de sermos participantes da sua santidade”.
 
 A correção do Pai é prova de que você é filho(a). Ela não é agradável na hora, mas “produz fruto pacífico”. Se hoje você foi confrontado(a), agradeça: o Pai está cuidando de você.
+
++ C. S. Lewis | O Problema do Sofrimento | C. S. Lewis escreveu que Deus sussurra nos nossos prazeres, fala na nossa consciência e grita nas nossas dores. A dor pode ser o megafone que nos acorda para o que realmente importa.
 
 ? Eu tenho visto as correções de Deus como castigo ou como cuidado?
 ! “Pai, obrigado(a) por me corrigir por amor. Seja feita a Tua vontade, e não a minha. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -186,6 +216,8 @@ Lucas conta que a igreja crescia “andando no temor do Senhor e, no conforto do
 
 Consolar não é tirar a dor com uma frase pronta. É ficar junto. O Espírito não observa o seu sofrimento de longe; Ele senta ao seu lado no chão.
 
++ Elisabeth Elliot | Através dos Portais do Esplendor | O marido de Elisabeth Elliot foi morto pelos índios que tentava alcançar. Anos depois, consolada por Deus, ela foi morar entre esse mesmo povo, levando o evangelho. O consolo do Espírito pode levar a lugares que a dor jamais imaginaria.
+
 ? Eu tenho deixado o Espírito me consolar, ou tenho buscado consolo só em outras coisas?
 ! “Espírito Santo, Consolador, fica ao meu lado hoje. Consola o meu coração onde dói.”
 
@@ -197,6 +229,8 @@ Quando Maria chorou aos pés de Jesus pela morte do irmão, Ele “agitou-se no 
 
 Jesus não tem pressa de calar a sua dor com respostas prontas. Primeiro Ele chora junto. Assim Ele também nos ensina a consolar: com presença, antes de qualquer palavra.
 
++ C. S. Lewis | A Anatomia de uma Dor | Depois da morte da esposa, C. S. Lewis escreveu um diário honesto do seu luto, com perguntas duras para Deus. O livro mostra que a fé não proíbe as lágrimas. O próprio Jesus chorou.
+
 ? Quando alguém sofre perto de mim, eu ofereço presença ou só conselhos?
 ! Ligue, mande mensagem ou visite alguém que está passando por luto, doença ou solidão.
 
@@ -207,6 +241,8 @@ Jesus não tem pressa de calar a sua dor com respostas prontas. Primeiro Ele cho
 Paulo escreveu isso depois de passar por sofrimentos tão grandes que chegou a perder a esperança de sobreviver.
 
 O Pai consola você e transforma a sua dor em ferramenta de consolo para outros. O que você está atravessando hoje pode, amanhã, ser exatamente o que alguém precisa ouvir.
+
++ Henri Nouwen | O Sofrimento que Cura | Henri Nouwen escreveu sobre o curador ferido: quem reconhece as próprias feridas pode ajudar outros a encontrar cura. As nossas dores, entregues a Deus, viram ponte para quem sofre.
 
 ? Que dor que eu já atravessei pode hoje consolar outra pessoa?
 ! “Pai de toda consolação, abraça o meu coração esta noite. Usa a minha dor para consolar outros. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -221,6 +257,8 @@ Lembrando como Deus conduziu o povo pelo deserto, Isaías escreve: “Como o ani
 
 O Espírito não só nos empurra para frente; Ele também nos leva a descansar. Descanso não é preguiça nem perda de tempo. É confiar que Deus continua trabalhando quando você para.
 
++ Andrew Murray | Permanecei em Cristo | Andrew Murray convida a permanecer em Cristo como um ramo descansa na videira, sem ansiedade e sem esforço desesperado. O Espírito nos ensina esse ritmo de descanso confiante, um dia de cada vez.
+
 ? Quando foi a última vez que eu descansei sem culpa?
 ! “Espírito Santo, conduz o meu dia num ritmo de paz. Mostra-me onde eu preciso parar.”
 
@@ -232,6 +270,8 @@ Jesus faz um convite a todos os cansados: trocar o peso que carregam pelo jugo d
 
 Jesus não diz “esforce-se mais”. Ele diz “vem”. O jugo era a peça de madeira que unia dois bois para puxarem juntos. Jesus oferece puxar junto com você. O peso dividido com Ele fica leve.
 
++ John Mark Comer | Elimine a Pressa | John Mark Comer conta que pediu um conselho a Dallas Willard sobre como ser espiritualmente saudável. A resposta foi: elimine a pressa da sua vida. O jugo de Jesus é suave porque tem o ritmo d’Ele, não o nosso.
+
 ? Que peso eu carrego sozinho(a) que Jesus quer dividir comigo?
 ! Tire dez minutos de pausa de verdade hoje: sem celular, sem tarefa, só respirando na presença de Jesus.
 
@@ -242,6 +282,8 @@ Jesus não diz “esforce-se mais”. Ele diz “vem”. O jugo era a peça de m
 Deus prometeu a Moisés: “A minha presença irá contigo, e eu te darei descanso”. E o salmista lembra que é inútil levantar cedo e deitar tarde, comendo o pão de ansiedade, “pois aos seus amados ele o dá enquanto dormem”.
 
 O Pai continua cuidando de tudo enquanto você dorme. O sono também é um ato de fé: você fecha os olhos e confia que Ele não fecha os d’Ele.
+
++ Abraham Heschel | O Sabá | O rabino Abraham Heschel chamou o dia de descanso de catedral no tempo. Assim como construímos templos no espaço, Deus nos convida a separar tempo para Ele. Dormir em paz também é um ato de fé.
 
 ? Eu durmo em paz, ou levo para a cama tudo o que não resolvi?
 ! “Pai, a Tua presença vai comigo e me dá descanso. Eu entrego o que ficou por fazer hoje. Cuida de tudo enquanto eu durmo. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -256,6 +298,8 @@ Paulo resume o Reino de Deus em três palavras: justiça, paz e alegria. A alegr
 
 A alegria do Espírito não depende de tudo estar bem. Ela nasce de saber quem está com você. Por isso dá para ter alegria até num dia difícil.
 
++ C. S. Lewis | Surpreendido pela Alegria | C. S. Lewis passou a vida buscando uma alegria que aparecia em lampejos e logo sumia. Ao se converter, entendeu que aquela alegria era uma placa apontando para Deus. A alegria do Espírito é um sinal de que Ele está perto.
+
 ? Eu tenho vivido a fé com alegria, ou só com peso e obrigação?
 ! “Espírito Santo, enche-me de alegria hoje, uma alegria que os problemas não tiram.”
 
@@ -267,6 +311,8 @@ Jesus contou de um pastor que deixou noventa e nove ovelhas para procurar uma qu
 
 O céu faz festa por pessoas. Por você. Jesus não carrega a ovelha resmungando; carrega com alegria. Você não é um peso para Deus, é motivo de festa.
 
++ Philip Yancey | Maravilhosa Graça | Philip Yancey observa que, nas três parábolas de Lucas 15, tudo termina em festa. Para Jesus, o céu não é um lugar de contabilidade fria; é uma casa que comemora cada pessoa que volta.
+
 ? Eu me vejo como um peso para Deus ou como alguém que Ele se alegra em carregar?
 ! Faça alguém sorrir hoje, de propósito.
 
@@ -277,6 +323,8 @@ O céu faz festa por pessoas. Por você. Jesus não carrega a ovelha resmungando
 Sofonias descreve Deus se alegrando com o Seu povo. Na língua original, a ideia é de Alguém que canta de alegria.
 
 Imagine: o Pai cantando sobre você, como uma mãe que canta para o filho dormir. Termine este dia ouvindo isso com o coração.
+
++ Max Lucado | Você é Especial | Nesta fábula de Max Lucado, os bonequinhos de madeira vivem colando estrelas e bolinhas cinzas uns nos outros. Até que um deles descobre que o carpinteiro que o fez o ama, e os rótulos começam a cair. O valor vem de quem nos fez.
 
 ? O que muda em mim saber que Deus se alegra em mim, e não só me tolera?
 ! “Pai, obrigado(a) porque Tu Te alegras em mim. Que eu durma ouvindo o Teu amor. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -291,6 +339,8 @@ No dia de Pentecostes, Pedro disse: “Recebereis o dom do Espírito Santo. Pois
 
 A promessa não era só para os apóstolos. É para você, para os seus filhos e para quem ainda está longe. Ore hoje também por alguém da sua família que ainda não conhece a Deus.
 
++ Jim Cymbala | Vento Fresco, Fogo Fresco | Jim Cymbala conta que a filha dele se afastou de Deus. Numa terça-feira, a igreja inteira orou por ela. Dias depois, ela voltou para casa, quebrantada. A promessa do Espírito é para os nossos filhos também.
+
 ? Quem da minha família ainda está longe e precisa das minhas orações?
 ! “Espírito Santo, obrigado(a) por ser um presente para mim. Alcança também [nome de alguém da família].”
 
@@ -302,6 +352,8 @@ Jesus ensina a pedir, buscar e bater, com insistência e confiança. E Jesus com
 
 Jesus nos ensina a pedir com ousadia, porque o Pai é bom. Às vezes a resposta é “sim”, às vezes é “espere”, às vezes é “tenho algo melhor”. Mas nunca é uma pedra.
 
++ Mark Batterson | O Fazedor de Círculos | Mark Batterson conta a antiga história de Honi, que desenhou um círculo no chão e disse que não sairia dali até Deus mandar chuva. O livro é um convite a orar com ousadia e insistência, como Jesus ensinou.
+
 ? Que pedido eu deixei de fazer por achar que Deus não se importaria?
 ! Compartilhe hoje algo que você recebeu de Deus: um almoço, uma ajuda, um tempo, um item parado em casa.
 
@@ -312,6 +364,8 @@ Jesus nos ensina a pedir com ousadia, porque o Pai é bom. Às vezes a resposta 
 Tiago diz de onde vem tudo o que é bom. O Pai não muda de humor. A bondade d’Ele ontem é a mesma hoje e amanhã.
 
 Olhe para trás nestes 29 dias e conte as boas dádivas: o que você aprendeu, o que foi curado, as pessoas que Deus colocou no caminho. Tudo veio do Pai das luzes.
+
++ Ann Voskamp | Mil Presentes | Ann Voskamp aceitou o desafio de escrever uma lista de mil presentes de Deus no dia a dia: a luz na janela, a espuma da louça, um riso. Contar as dádivas mudou o jeito como ela via a vida, e trouxe alegria no meio da dor.
 
 ? Quais foram as maiores dádivas de Deus para mim nesta jornada?
 ! “Pai, obrigado(a) por cada boa dádiva destes dias: [cite algumas]. Tu és bom e não mudas. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -326,6 +380,8 @@ Por meio de Ezequiel, Deus prometeu trocar o coração de pedra por um coração
 
 Nestes 30 dias, o Espírito amoleceu o que estava duro e trouxe vida onde estava seco. E Ele não vai embora quando a jornada acabar. Ele continua aqui, todas as manhãs.
 
++ Jonathan Edwards | A Genuína Experiência Espiritual | Jonathan Edwards ensinava que a verdadeira religião está nas afeições santas: um coração que passa a amar a Deus e as coisas d’Ele. O coração novo que o Espírito dá não é só de boas ideias, é de novos amores.
+
 ? O que estava duro em mim e Deus amoleceu nestes 30 dias?
 ! “Espírito Santo, obrigado(a) por estes 30 dias. Não quero parar aqui. Continua me guiando todas as manhãs.”
 
@@ -337,6 +393,8 @@ Antes da cruz, Jesus orou por todos os que creriam n’Ele, inclusive você: “
 
 E as últimas palavras d’Ele no Evangelho de Mateus são uma promessa: “Eis que estou convosco todos os dias até à consumação do século”. Todos os dias, inclusive os próximos.
 
++ Irmão Lourenço | A Prática da Presença de Deus | Irmão Lourenço dizia que o segredo não era ter grandes momentos com Deus, mas nunca deixar de conversar com Ele ao longo do dia. Jesus prometeu estar conosco todos os dias, e a prática da presença é lembrar disso.
+
 ? Qual hábito desta jornada eu quero levar para o resto da vida?
 ! Escolha um hábito destes 30 dias para manter: o “bom dia” ao Espírito, a pausa com Jesus no almoço ou a gratidão ao Pai à noite.
 
@@ -347,6 +405,8 @@ E as últimas palavras d’Ele no Evangelho de Mateus são uma promessa: “Eis 
 A jornada termina onde começou: “Quanto mais o Pai celestial dará o Espírito Santo àqueles que lho pedirem”. O ciclo se fecha e recomeça. O Pai dá o Espírito, o Espírito leva a Jesus, Jesus leva ao Pai.
 
 Receba esta noite a bênção que Deus mandou pronunciar sobre o Seu povo: “O Senhor te abençoe e te guarde; o Senhor faça resplandecer o rosto sobre ti e tenha misericórdia de ti; o Senhor sobre ti levante o rosto e te dê a paz”.
+
++ John Bunyan | O Peregrino | No fim de O Peregrino, Cristão atravessa o último rio e é recebido na Cidade Celestial com trombetas. Toda jornada com Deus termina em casa, nos braços do Pai. Estes 30 dias são só um trecho dessa estrada.
 
 ? Quem eu era no dia 1, e quem estou me tornando agora?
 ! “Pai, obrigado(a) por estes 30 dias Contigo. Pelo Teu Espírito eu conheci mais a Jesus, e por Jesus eu cheguei mais perto de Ti. Dá-me o Teu Espírito amanhã e todos os dias da minha vida. Em nome de Jesus, amém.”

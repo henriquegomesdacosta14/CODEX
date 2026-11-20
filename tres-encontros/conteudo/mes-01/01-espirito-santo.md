@@ -24,6 +24,8 @@ Lucas conta que Jesus voltou do Jordão “cheio do Espírito Santo”, foi “g
 
 Se Jesus precisou do Espírito para viver e servir, quanto mais nós. No meio do dia, quando o cansaço bate e a paciência acaba, lembre que a vida cristã não é força de vontade. É a mesma dependência que Jesus teve.
 
++ Watchman Nee | A Vida Cristã Normal | Watchman Nee ensinava que a vida cristã não é o nosso esforço para imitar Jesus, mas Cristo vivendo a vida d’Ele através de nós. Quanto antes desistimos de fazer tudo sozinhos, mais espaço o Espírito encontra para agir.
+
 ? Em que parte do meu dia eu mais tento fazer tudo sozinho(a), na minha força?
 ! Antes de voltar ao trabalho, pare um instante e diga: “Espírito Santo, eu dependo do Senhor nesta tarde”.
 
@@ -34,6 +36,8 @@ Se Jesus precisou do Espírito para viver e servir, quanto mais nós. No meio do
 Jesus compara Deus a um pai que não dá uma cobra ao filho que pede peixe. E conclui: se nós, sendo imperfeitos, sabemos dar coisas boas aos filhos, “quanto mais o Pai celestial dará o Espírito Santo àqueles que lho pedirem”.
 
 O melhor presente do Pai não é uma coisa, é Ele mesmo, pelo Seu Espírito. E Ele dá com alegria a quem pede. Termine este primeiro dia pedindo sem medo, como um filho que confia.
+
++ A. W. Tozer | Mais Perto de Deus | Tozer dizia que o que vem à nossa mente quando pensamos em Deus é a coisa mais importante sobre nós. Quem imagina um Pai mesquinho pede pouco. Quem conhece o Pai de Jesus pede o Espírito com confiança.
 
 ? O que eu costumo pedir mais a Deus: coisas, ou a presença d’Ele?
 ! “Pai, obrigado(a) por este primeiro dia. Eu Te peço o melhor presente: o Teu Espírito Santo. Enche-me para amanhã. Amém.”
@@ -61,6 +65,8 @@ Depois de ressuscitar, Jesus apareceu aos discípulos, que estavam trancados num
 
 A presença do Espírito em você é um presente de Jesus. Ele não deixou os discípulos sozinhos com o medo, e não deixa você. A paz que Ele soprou naquela sala também está disponível no meio do seu dia.
 
++ Irmão Lourenço | A Prática da Presença de Deus | Irmão Lourenço era cozinheiro num mosteiro do século 17. Ele aprendeu a conversar com Deus entre panelas e pratos sujos, com a mesma paz que tinha na capela. Para ele, qualquer tarefa feita por amor a Deus vira oração.
+
 ? Que porta eu tenho mantido trancada por medo?
 ! Respire fundo e devagar, e a cada respiração diga: “Jesus, eu recebo a Tua paz”.
 
@@ -71,6 +77,8 @@ A presença do Espírito em você é um presente de Jesus. Ele não deixou os di
 Paulo contrasta dois espíritos: o da escravidão, que vive com medo, e o da adoção, que chama Deus de Pai. “Aba” era a palavra carinhosa que uma criança usava para chamar o pai.
 
 É o Espírito que mora em você quem ensina o seu coração a chamar Deus assim. Você não precisa de palavras bonitas para orar esta noite. Basta falar com o Pai como um filho fala com um pai que o ama.
+
++ Joachim Jeremias | O Pai-Nosso | O estudioso Joachim Jeremias chamou atenção para a palavra Aba: era o jeito familiar e carinhoso de uma criança chamar o pai. Ele mostrou como foi surpreendente Jesus usar essa palavra com Deus, e nos ensinar a fazer o mesmo.
 
 ? Eu oro como um filho que fala com o pai, ou como um empregado que presta contas?
 ! “Aba, Pai, obrigado(a) por morar em mim pelo Teu Espírito. Descanso esta noite nos Teus braços. Enche-me de novo amanhã. Amém.”
@@ -98,6 +106,8 @@ Depois da pesca milagrosa, Pedro caiu aos pés de Jesus e disse: “Senhor, reti
 
 Quando o Espírito mostra o nosso pecado, Jesus não nos manda embora. Ele nos chama para perto e nos dá um propósito. O convencimento é sempre o começo de algo novo.
 
++ Brennan Manning | O Evangelho Maltrapilho | Brennan Manning, que lutou anos contra o alcoolismo, escreveu sobre a graça para gente cansada e ferida. A mensagem dele é que Deus nos ama como somos, e não como achamos que deveríamos ser. Por isso não precisamos fugir d’Ele quando falhamos.
+
 ? Existe algo que eu escondo de Jesus por achar que Ele vai se afastar de mim?
 ! Se houver alguém a quem você deve um pedido de perdão, mande a mensagem ainda hoje.
 
@@ -108,6 +118,8 @@ Quando o Espírito mostra o nosso pecado, Jesus não nos manda embora. Ele nos c
 Davi orou: “Cria em mim, ó Deus, um coração puro... não retires de mim o teu Santo Espírito. Restitui-me a alegria da tua salvação”. Ele tinha pecado gravemente, mas sabia a quem recorrer.
 
 O Pai não quer que você durma carregando culpa. Ele quer limpar, renovar e devolver a alegria. Antes de dormir, entregue a Ele o que o Espírito mostrou hoje.
+
++ John Bunyan | O Peregrino | Na alegoria de John Bunyan, o personagem Cristão carrega um fardo enorme nas costas. Quando chega à cruz, o fardo se solta sozinho, rola morro abaixo e cai num sepulcro, para nunca mais ser visto. É isso que a confissão faz com a culpa.
 
 ? O que o Espírito me mostrou hoje que eu preciso entregar ao Pai antes de dormir?
 ! “Pai, eu confesso [diga o que for]. Cria em mim um coração puro e restitui a minha alegria. Não retires de mim o Teu Espírito. Amém.”
@@ -135,6 +147,8 @@ No caminho de Emaús, Jesus explicou a dois discípulos, a partir de Moisés e d
 
 A Bíblia inteira aponta para Jesus. Quando você lê, procure por Ele em cada promessa, em cada história, em cada mandamento. A leitura deixa de ser obrigação e vira encontro.
 
++ Richard Foster | Celebração da Disciplina | Richard Foster apresenta o estudo e a meditação na Palavra como disciplinas que nos colocam no lugar onde Deus pode nos transformar. Não é sobre ler muito, mas ler devagar, deixando o texto ler a gente.
+
 ? Quando foi a última vez que o meu coração ardeu lendo a Bíblia?
 ! Escolha um versículo, guarde no celular e leia de novo antes de cada refeição.
 
@@ -145,6 +159,8 @@ A Bíblia inteira aponta para Jesus. Quando você lê, procure por Ele em cada p
 O salmista compara a Palavra de Deus a uma lâmpada. Uma lâmpada antiga não iluminava a estrada inteira, só o próximo passo. O Pai raramente mostra o plano completo, mas sempre ilumina o suficiente para seguir.
 
 Talvez você esteja ansioso(a) por não saber o que vem pela frente. Esta noite, agradeça pela luz que já recebeu e confie que amanhã ela estará lá de novo.
+
++ Elisabeth Elliot | escritos e palestras | Elisabeth Elliot, que perdeu o marido morto no Equador, gostava de um conselho antigo: quando não souber o que fazer, faça a próxima coisa. Deus raramente mostra o caminho inteiro, mas sempre mostra o próximo passo de obediência.
 
 ? Eu tenho exigido de Deus a estrada inteira, quando Ele me oferece o próximo passo?
 ! “Pai, obrigado(a) pela Tua Palavra. Ilumina os meus próximos passos. Dá-me o Teu Espírito para entender e obedecer amanhã. Amém.”
@@ -172,6 +188,8 @@ Os discípulos viam Jesus orando e pediram: “Senhor, ensina-nos a orar”. Ele
 
 É uma oração curta, simples e completa. Jesus mostra que orar não é fazer discurso, é conversar com o Pai com confiança. Use o Pai Nosso como um roteiro, parando em cada frase.
 
++ Andrew Murray | Com Cristo na Escola da Oração | Andrew Murray observou que os discípulos nunca pediram a Jesus que os ensinasse a pregar ou a fazer milagres, mas a orar. Para ele, Jesus é o professor paciente de quem quer aprender a orar, e ninguém é aluno atrasado demais.
+
 ? Minhas orações começam por Deus ou começam pela minha lista de pedidos?
 ! Ore o Pai Nosso devagar, frase por frase, colocando os seus próprios pedidos em cada parte.
 
@@ -182,6 +200,8 @@ Os discípulos viam Jesus orando e pediram: “Senhor, ensina-nos a orar”. Ele
 Jesus convida a orar de porta fechada, onde só o Pai vê. O Pai valoriza o encontro escondido, sem plateia e sem pose.
 
 O quarto, antes de dormir, é um ótimo lugar para isso. Sem ninguém olhando, você pode ser totalmente sincero(a). Fale do seu dia, das alegrias e das frustrações. O Pai está ouvindo.
+
++ E. M. Bounds | Poder pela Oração | E. M. Bounds dizia que a igreja procura métodos melhores, enquanto Deus procura pessoas melhores, pessoas de oração. O que acontece no quarto, a portas fechadas, define o que acontece em público.
 
 ? O que eu diria ao Pai se tivesse certeza absoluta de que Ele não vai se decepcionar comigo?
 ! “Pai, aqui no secreto, eu abro o meu coração. Obrigado(a) por ouvir cada oração de hoje. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -209,6 +229,8 @@ Jesus usa uma imagem simples do campo: a videira e os ramos. O fruto do Espírit
 
 Permanecer é uma palavra de rotina, não de evento. É voltar para Jesus várias vezes ao dia, como neste momento do almoço. O galho que se solta seca; o que fica ligado floresce.
 
++ Hudson Taylor | O Segredo Espiritual de Hudson Taylor | O missionário Hudson Taylor viveu anos cansado, lutando para ser mais fiel. A virada veio quando entendeu que o ramo não se esforça para ficar na videira: ele simplesmente descansa nela. Deixar de lutar e começar a confiar mudou a vida dele.
+
 ? Eu permaneço em Jesus durante o dia, ou só O visito em alguns momentos?
 ! Pratique de propósito, ainda hoje, a parte do fruto que você pediu de manhã.
 
@@ -219,6 +241,8 @@ Permanecer é uma palavra de rotina, não de evento. É voltar para Jesus vária
 Jesus diz que o Pai é o agricultor que cuida da videira, e completa: “Nisto é glorificado meu Pai, em que deis muito fruto”. O Pai se alegra quando vê o caráter de Jesus crescendo em você.
 
 Às vezes, o agricultor poda para que a planta dê mais fruto. Se hoje algo foi cortado, uma vontade, um plano, um orgulho, pode ser cuidado do Pai, não castigo.
+
++ C. S. Lewis | Cristianismo Puro e Simples | C. S. Lewis compara a vida cristã a uma casa em reforma. Você esperava que Deus consertasse umas goteiras, mas Ele começa a derrubar paredes e construir alas novas. É que Ele não quer uma casinha arrumada: quer um palácio onde possa morar.
 
 ? O que Deus tem podado em mim que eu tenho chamado de perda?
 ! “Pai, obrigado(a) pelo Teu cuidado, até quando Tu podas. Que a minha vida dê fruto para a Tua glória. Dá-me o Teu Espírito para amanhã. Amém.”
@@ -246,6 +270,8 @@ Na parábola dos talentos, um senhor confiou bens aos servos, cada um segundo a 
 
 O que Deus colocou nas suas mãos não foi dado para ficar guardado. Jesus valoriza a fidelidade no pouco: “Foste fiel no pouco, sobre o muito te colocarei”.
 
++ Rick Warren | Uma Vida com Propósitos | Rick Warren começa o livro com uma frase que incomoda: não é sobre você. Para ele, os nossos dons, experiências e até as nossas dores foram moldados para servir aos outros e a Deus, e é aí que encontramos sentido.
+
 ? O que eu tenho enterrado por medo de errar ou de ser criticado(a)?
 ! Use hoje, de propósito, um dom ou talento seu para abençoar alguém.
 
@@ -256,6 +282,8 @@ O que Deus colocou nas suas mãos não foi dado para ficar guardado. Jesus valor
 Tiago faz uma promessa direta a quem se sente perdido. O Pai não humilha quem pede ajuda. Ele dá com generosidade.
 
 Talvez você sinta que não tem capacidade para o que Deus está pedindo. Ótimo: é exatamente aí que o Pai gosta de agir. Ele não chama os capacitados; Ele capacita os que se dispõem.
+
++ J. I. Packer | O Conhecimento de Deus | J. I. Packer compara a sabedoria de Deus a aprender a dirigir: Ele não nos mostra o mapa de toda a viagem, mas nos ensina a reagir bem à estrada que aparece. Ser sábio não é entender tudo, é andar com Deus em cada curva.
 
 ? Em que área eu preciso pedir sabedoria em vez de fingir que sei?
 ! “Pai, eu preciso de sabedoria para [diga a situação]. Obrigado(a) porque Tu dás sem me humilhar. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -283,6 +311,8 @@ Depois de ser liberto, o homem de Gadara quis seguir Jesus. Mas Jesus disse: “
 
 Testemunhar não é discutir religião. É contar o que Jesus fez por você. Ninguém pode contestar a sua história, porque foi você quem viveu.
 
++ Irmão André | O Contrabandista de Deus | Irmão André levava Bíblias escondidas para países fechados ao evangelho. Na fronteira, orava pedindo que Deus cegasse os olhos que normalmente veem. A história dele mostra que a ousadia cristã nasce da oração, não da falta de medo.
+
 ? Se alguém me perguntasse hoje o que Jesus fez por mim, o que eu contaria?
 ! Conte para alguém, de forma natural, uma coisa que Deus fez na sua vida.
 
@@ -293,6 +323,8 @@ Testemunhar não é discutir religião. É contar o que Jesus fez por você. Nin
 Paulo lembra de onde vem a coragem, e de onde o medo não vem. Paulo escreveu isso a Timóteo, um jovem tímido que estava liderando uma igreja difícil.
 
 O medo pode até aparecer, mas ele não veio do Pai. Poder para agir, amor para agir do jeito certo e moderação para não agir no impulso: é isso que o Pai dá. Durma hoje sabendo que a coragem de amanhã já foi prometida.
+
++ Corrie ten Boom | O Refúgio Secreto | Corrie ten Boom e a família esconderam judeus em casa durante a Segunda Guerra. Presa num campo de concentração, ela descobriu que a coragem não vem antes, vem na hora: o Pai dá a força quando precisamos, não antes.
 
 ? Em que decisão o medo tem falado mais alto do que Deus?
 ! “Pai, eu entrego os meus medos. Obrigado(a) porque o Teu Espírito é de poder, amor e moderação. Enche-me dele para amanhã. Amém.”
@@ -320,6 +352,8 @@ Jesus disse que o Filho nada faz por si mesmo, “senão somente aquilo que vir 
 
 Você pode viver assim também. Em vez de pedir a Deus que abençoe os seus planos, pergunte: “Senhor, o que o Senhor está fazendo aqui, e como eu entro nisso?”
 
++ Dallas Willard | A Conspiração Divina | Dallas Willard definia o discípulo como alguém que aprende com Jesus a viver a própria vida como Jesus viveria se estivesse no lugar dele. Seguir Jesus não é só crer, é aprender um jeito novo de viver o dia comum.
+
 ? Eu costumo pedir que Deus siga os meus planos, ou procuro entrar nos planos d’Ele?
 ! Se o Espírito trouxe alguém à sua mente de manhã, mande agora a mensagem.
 
@@ -330,6 +364,8 @@ Você pode viver assim também. Em vez de pedir a Deus que abençoe os seus plan
 Salomão pede uma confiança inteira, de todo o coração. “Todos os caminhos” inclui o trabalho, o dinheiro, os relacionamentos.
 
 O Pai não promete que você vai entender tudo. Promete endireitar o caminho de quem confia. Esta noite, entregue a Ele as decisões que estão tirando o seu sono.
+
++ Hannah Whitall Smith | O Segredo Cristão de uma Vida Feliz | Hannah Whitall Smith escreveu que muitos cristãos entregam a Deus as suas preocupações e, logo depois, pegam tudo de volta. Para ela, confiar é deixar com Deus de verdade e descansar no cuidado d’Ele.
 
 ? Qual decisão eu ainda estou tentando resolver só com o meu entendimento?
 ! “Pai, eu Te entrego [a decisão]. Endireita os meus caminhos. Dá-me o Teu Espírito para me guiar amanhã. Amém.”
@@ -357,6 +393,8 @@ Jesus explica a principal missão do Espírito: dar testemunho d’Ele. Nesse ú
 
 O Espírito dá testemunho de Jesus dentro de você, e depois por meio de você. A partir de amanhã, vamos olhar para Jesus mais de perto: quem Ele é, como ama, como serve e como nos leva ao Pai.
 
++ Billy Graham | O Espírito Santo | Billy Graham insistia que a obra principal do Espírito Santo é glorificar a Cristo. Onde o Espírito está agindo de verdade, Jesus fica maior, e não a experiência, o pregador ou a emoção do momento.
+
 ? O que o Espírito mais me mostrou sobre mim mesmo(a) nestes dez dias?
 ! Escreva em uma frase o que você aprendeu sobre o Espírito Santo, e guarde para reler.
 
@@ -367,6 +405,8 @@ O Espírito dá testemunho de Jesus dentro de você, e depois por meio de você.
 Paulo resume em poucas palavras como chegamos a Deus. Este versículo é o mapa de toda a jornada: pelo Espírito, por meio de Jesus, chegamos ao Pai. A porta está aberta.
 
 Termine este primeiro bloco agradecendo. Você conheceu melhor Aquele que mora em você, ensina, convence, ora, capacita e produz fruto. E Ele está preparando o seu coração para conhecer Jesus de perto.
+
++ Agostinho | Confissões | Agostinho, depois de uma juventude longe de Deus, escreveu uma frase que atravessou os séculos: o nosso coração fica inquieto enquanto não descansa em Deus. Nenhum prazer ou conquista preenche o lugar que é d’Ele.
 
 ? O que mudou na forma como eu começo os meus dias?
 ! “Pai, obrigado(a) por estes dias com o Teu Espírito. Prepara o meu coração para conhecer Jesus mais de perto. Enche-me do Teu Espírito para amanhã. Amém.”
