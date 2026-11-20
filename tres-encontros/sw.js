@@ -1,6 +1,7 @@
 /* Service worker do Três Encontros: funciona sem internet e mostra os avisos dos encontros. */
-var VERSAO = "te-v6";
-var ARQUIVOS = ["./", "index.html", "app.css", "app.js", "manifest.webmanifest",
+importScripts("lembretes.js");
+var VERSAO = "te-v7";
+var ARQUIVOS = ["./", "index.html", "app.css", "app.js", "lembretes.js", "manifest.webmanifest",
   "icones/icone.svg", "icones/icone-192.png", "icones/icone-512.png", "icones/apple-touch-icon.png"];
 var MOMENTOS = [
   { id: "manha", nome: "Bom dia com o Espírito Santo", padrao: "06:30" },
@@ -76,9 +77,9 @@ self.addEventListener("push", function (e) {
       dia = Math.round((hoje - ini) / 864e5) + 1;
     }
     var titulo = est.titulos && est.titulos[dia - 1] ? est.titulos[dia - 1] : "";
-    var corpo = (dia >= 1 && dia <= 30 ? "Dia " + dia + (titulo ? " · " + titulo : "") + ". " : "") + "O seu encontro está esperando por você.";
-    return self.registration.showNotification(atual.nome, {
-      body: corpo,
+    var lembrete = self.TELembretes.montar(atual.id, est.nome, dia, titulo);
+    return self.registration.showNotification(lembrete.titulo, {
+      body: lembrete.corpo,
       icon: "icones/icone-192.png",
       badge: "icones/icone-192.png",
       tag: "encontro-" + hojeISO(agora) + "-" + atual.id,

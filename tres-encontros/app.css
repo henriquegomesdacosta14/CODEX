@@ -162,6 +162,13 @@ body[data-momento="noite"] .erro, :root[data-theme="dark"] .erro { color: #FF9A8
 .ic.manha { background: #F6E1E2; color: #B4465E; }
 .ic.almoco { background: #DDECF1; color: #1C6A84; }
 .ic.noite { background: #252B52; color: #F3D58C; }
+.convites { display: grid; gap: 8px; }
+.convite { display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 12px; align-items: start; padding: 12px 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(0,0,0,.06); text-align: left; }
+.convite .ic { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; }
+.convite .ic svg { width: 18px; height: 18px; }
+.convite b { font-size: 15px; }
+.convite small { color: var(--muted); }
+.convite p { font-size: 14px; line-height: 1.45; color: var(--ink); margin-top: 2px; }
 .dica { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: var(--raio-p); background: var(--soft); font-size: 15px; }
 .dica svg { flex: none; margin-top: 2px; color: var(--accent); }
 .dica ol { margin: 6px 0 0; padding-left: 1.2em; }

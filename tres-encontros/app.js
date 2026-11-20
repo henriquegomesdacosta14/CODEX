@@ -359,18 +359,18 @@
     }
     if (p === conteudo.abertura.length) {
       app.innerHTML = '<section class="passo entra">' + pontos +
-        '<span class="rotulo acento">Seus horários</span><h1>Quando você quer encontrar Deus?</h1>' +
-        '<p class="mudo">Os três encontros do dia abrem à meia-noite, e você faz cada um quando puder. Escolha os horários em que quer receber um lembrete. Dá para mudar depois, em Ajustes.</p>' +
+        '<span class="rotulo acento">Seus encontros</span><h1>Marque seus encontros com Deus</h1>' +
+        '<p class="mudo">Escolha o horário de cada encontro. Na hora marcada, você recebe um convite no celular. Os encontros do dia abrem à meia-noite, então dá para viver cada um antes ou depois, quando puder. Dá para mudar em Ajustes.</p>' +
         '<form class="pilha-g" id="formHorarios" novalidate>' +
-        '<label class="campo"><span class="rotulo-campo">Como podemos te chamar?</span><input class="entrada" id="nome" maxlength="40" autocomplete="given-name" placeholder="Seu primeiro nome" value="' + esc(estado.nome || "") + '"></label>' +
+        '<label class="campo"><span class="rotulo-campo">Como podemos te chamar? (aparece nos convites)</span><input class="entrada" id="nome" maxlength="40" autocomplete="given-name" placeholder="Seu primeiro nome" value="' + esc(estado.nome || "") + '"></label>' +
         camposHorarios() +
-        '<button class="btn cheio" type="submit">Salvar horários</button></form>' +
+        '<button class="btn cheio" type="submit">Marcar meus encontros</button></form>' +
         '<button class="link" data-acao="passo" data-ir="' + (p - 1) + '">Voltar</button></section>';
       return;
     }
     app.innerHTML = '<section class="passo entra">' + pontos +
-      '<span class="rotulo acento">Avisos</span><h1>Quer um lembrete na hora de cada encontro?</h1>' +
-      '<p class="mudo">Um aviso discreto no celular, três vezes ao dia, no horário que você escolheu.</p>' +
+      '<span class="rotulo acento">Convites no celular</span><h1>Quer receber o convite na hora de cada encontro?</h1>' +
+      '<p class="mudo">No horário que você marcou, chega um convite assim:</p>' + previaConvites(true) +
       blocoInstalacao() +
       '<p class="erro" id="erroAvisos" hidden></p>' +
       '<button class="btn cheio" data-acao="ativar-avisos-inicio">' + ICONES.sino + " Ativar avisos</button>" +
@@ -380,9 +380,33 @@
   function camposHorarios() {
     return '<div class="horarios">' + MOMENTOS.map(function (m) {
       return '<label class="horario"><span class="ic ' + m.id + '">' + ICONES[m.id] + "</span>" +
-        "<span><b>" + m.curto + "</b><small>" + m.nome + "</small></span>" +
+        "<span><b>" + m.pessoa + "</b><small>" + {manha: "Encontro da manhã", almoco: "Encontro do almoço", noite: "Encontro da noite"}[m.id] + "</small></span>" +
         '<input type="time" id="h-' + m.id + '" value="' + horario(m.id) + '" required aria-label="Horário: ' + m.nome + '"></label>';
     }).join("") + "</div>";
+  }
+
+  /** Mostra como chegam os convites, no formato de notificação do celular. */
+  function previaConvites(soUm) {
+    var dia = Math.max(1, Math.min(TOTAL, diaDeHoje()));
+    var lista = soUm ? [MOMENTOS[1]] : MOMENTOS;
+    return '<div class="convites">' + lista.map(function (m) {
+      var l = window.TELembretes.montar(m.id, estado.nome, dia, conteudo && conteudo.dias[dia - 1] ? conteudo.dias[dia - 1].titulo : "");
+      return '<div class="convite"><span class="ic ' + m.id + '">' + ICONES[m.id] + '</span><div><div class="linha" style="justify-content:space-between"><b>' + esc(l.titulo) +
+        '</b><small class="numeros">' + horario(m.id) + "</small></div><p>" + esc(l.corpo).replace(/\n/g, "<br>") + "</p></div></div>";
+    }).join("") + "</div>";
+  }
+
+  function testarConvite() {
+    var m = momentoDoRelogio(), dia = Math.max(1, Math.min(TOTAL, diaDeHoje()));
+    var l = window.TELembretes.montar(m, estado.nome, dia, diaConteudo(dia) ? diaConteudo(dia).titulo : "");
+    function naTela() { aviso(l.titulo + ": " + l.corpo.split("\n")[0]); }
+    if (!("Notification" in window) || !("serviceWorker" in navigator) || !swRegistrado) return naTela();
+    Notification.requestPermission().then(function (perm) {
+      if (perm !== "granted") return naTela();
+      return navigator.serviceWorker.ready.then(function (reg) {
+        return reg.showNotification(l.titulo, { body: l.corpo, icon: "icones/icone-192.png", tag: "teste", data: { rota: "#encontro-" + dia + "-" + m } });
+      });
+    }).catch(naTela);
   }
 
   function lerHorarios() {
@@ -629,10 +653,11 @@
     var avisosTxt = estado.demo ? "Disponível com o código de acesso." : (estado.avisos ? "Ativados neste celular." : "Desligados.");
     app.innerHTML = barraApresentacao() + '<header class="saudacao"><span class="rotulo acento">Ajustes</span><h1>Do seu jeito</h1></header>' +
       '<div class="pilha-g">' +
-      '<form class="cartao grupo" id="formAjustes" novalidate><h2>Nome e horários</h2>' +
-      '<label class="campo"><span class="rotulo-campo">Seu nome</span><input class="entrada" id="nome" maxlength="40" value="' + esc(estado.nome || "") + '"></label>' +
+      '<form class="cartao grupo" id="formAjustes" novalidate><h2>Seus encontros</h2>' +
+      '<label class="campo"><span class="rotulo-campo">Seu nome (aparece nos convites)</span><input class="entrada" id="nome" maxlength="40" value="' + esc(estado.nome || "") + '"></label>' +
       camposHorarios() + '<button class="btn" type="submit">Salvar</button></form>' +
-      '<section class="cartao grupo"><h2>Avisos no celular</h2><p class="mudo">' + avisosTxt + "</p>" + blocoInstalacao() +
+      '<section class="cartao grupo"><h2>Convites no celular</h2><p class="mudo">' + avisosTxt + "</p>" + previaConvites(false) + blocoInstalacao() +
+      '<button class="btn suave" data-acao="testar-convite">Testar um convite agora</button>' +
       (estado.demo ? "" : (estado.avisos ? '<button class="btn secundario" data-acao="desativar-avisos">Desligar avisos</button>' : '<button class="btn" data-acao="ativar-avisos">' + ICONES.sino + " Ativar avisos</button>")) + "</section>" +
       '<section class="cartao grupo"><h2>Seu acesso</h2><p class="mudo numeros">' + (estado.demo ? "Degustação de 3 dias." : "Código " + esc(estado.codigo) + ". Use o mesmo código para continuar em outro celular.") + "</p>" +
       (estado.demo ? botaoCompra("Quero os 30 dias") : "") +
@@ -699,6 +724,7 @@
         history.replaceState(null, "", location.pathname + location.search); render(); break;
       case "sem-link": aviso("O link de compra ainda não foi configurado."); break;
       case "compartilhar": compartilhar(app._mensagem || ""); break;
+      case "testar-convite": testarConvite(); break;
     }
   });
 
