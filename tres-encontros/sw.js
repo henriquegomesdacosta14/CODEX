@@ -1,6 +1,6 @@
 /* Service worker do Três Encontros: funciona sem internet e mostra os avisos dos encontros. */
 importScripts("lembretes.js");
-var VERSAO = "te-v9";
+var VERSAO = "te-v10";
 var ARQUIVOS = ["./", "index.html", "app.css", "app.js", "lembretes.js", "manifest.webmanifest",
   "icones/icone.svg", "icones/icone-192.png", "icones/icone-512.png", "icones/apple-touch-icon.png"];
 var MOMENTOS = [
@@ -77,7 +77,7 @@ self.addEventListener("push", function (e) {
       dia = Math.round((hoje - ini) / 864e5) + 1;
     }
     var titulo = est.titulos && est.titulos[dia - 1] ? est.titulos[dia - 1] : "";
-    var lembrete = self.TELembretes.montar(atual.id, est.nome, dia, titulo);
+    var lembrete = self.TELembretes.montar(atual.id, est.nome, dia, titulo, est.genero);
     return self.registration.showNotification(lembrete.titulo, {
       body: lembrete.corpo,
       icon: "icones/icone-192.png",
