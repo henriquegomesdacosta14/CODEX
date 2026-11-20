@@ -76,12 +76,14 @@ O plano compartilhado da Hostinger tem menos capacidade do que o servidor do tes
 
 ## Mudar os textos
 
-1. Edite os arquivos em `conteudo/mes-01/`. Cada dia segue este formato:
+1. Edite os arquivos em `conteudo/mes-01/`. Cada dia segue o formato abaixo. A linha que começa com `>` é o versículo em destaque, e a referência do título é a passagem para ler na Bíblia:
 
    ```
    # Dia 5 — Ele ora comigo
 
    ## Manhã · Romanos 8:26-27
+
+   > “Também o Espírito, semelhantemente, nos assiste em nossa fraqueza...” — Romanos 8:26
 
    Parágrafo da reflexão.
 

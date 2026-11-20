@@ -7,7 +7,8 @@ Formato dos arquivos .md:
   # Bloco N — Título          (abre um bloco de 10 dias)
   > Subtítulo do bloco
   # Dia N — Título            (abre um dia)
-  ## Manhã · Referência       (Manhã, Almoço ou Noite)
+  ## Manhã · Referência       (Manhã, Almoço ou Noite; a referência é a passagem para ler)
+  > “Texto do versículo” — Referência do versículo   (versículo em destaque)
   parágrafos de reflexão...
   ? pergunta para refletir
   ! prática do dia, atitude ou oração
@@ -67,12 +68,17 @@ def dias(arquivos):
             if m:
                 if dia is None:
                     sys.exit(f"{onde}: momento fora de um dia")
-                momento = {"referencia": m[2].strip(), "texto": [], "pergunta": "", "pratica": ""}
+                momento = {"referencia": m[2].strip(), "versiculo": None, "texto": [], "pergunta": "", "pratica": ""}
                 dia[MOMENTOS[m[1]]] = momento
                 continue
             if momento is None:
                 sys.exit(f"{onde}: texto fora de um momento: {linha[:60]}")
-            if linha.startswith("? "):
+            if linha.startswith("> "):
+                v = re.match(r"^> “(.+)” — (.+)$", linha)
+                if not v:
+                    sys.exit(f"{onde}: versículo fora do formato > “texto” — Referência")
+                momento["versiculo"] = {"texto": v[1].strip(), "referencia": v[2].strip()}
+            elif linha.startswith("? "):
                 momento["pergunta"] = linha[2:].strip()
             elif linha.startswith("! "):
                 momento["pratica"] = linha[2:].strip()
@@ -92,6 +98,8 @@ def validar(lista):
             if not mo:
                 erros.append(f"dia {d['dia']}: falta o momento {chave}")
                 continue
+            if not mo["versiculo"]:
+                erros.append(f"dia {d['dia']} {chave}: sem versículo em destaque")
             if not mo["texto"]:
                 erros.append(f"dia {d['dia']} {chave}: sem reflexão")
             if not mo["pergunta"]:

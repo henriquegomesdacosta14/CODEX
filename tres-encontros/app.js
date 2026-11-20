@@ -23,6 +23,7 @@
     hoje: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 18a9 9 0 0 1 18 0"/><circle cx="12" cy="18" r="1.5" fill="currentColor"/><path d="M2 21h20"/></svg>',
     jornada: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="6" r="1.5"/><circle cx="12" cy="6" r="1.5"/><circle cx="19" cy="6" r="1.5"/><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="18" r="1.5"/><circle cx="12" cy="18" r="1.5"/><circle cx="19" cy="18" r="1.5"/></svg>',
     ajustes: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>',
+    livro: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>',
     voltar: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>',
     cadeado: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
     ok: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>',
@@ -97,6 +98,7 @@
   function aberto(d, m) {
     if (d < 1 || d > limiteDias()) return false;
     var hoje = diaDeHoje();
+    if (apresentacao.ativa) return true; // na apresentação, todos os dias ficam abertos para conferir
     return d <= hoje; // os três encontros do dia abrem à meia-noite; o horário é só para o lembrete
   }
   function concluido(d, m) { return (estado.concluidos || []).indexOf(d + "-" + m) >= 0; }
@@ -461,7 +463,7 @@
     var cls = "encontro" + (feito ? " concluido" : "") + (ab ? "" : " fechado");
     return '<button class="' + cls + '"' + (ab ? ' data-ir="encontro-' + d + "-" + m + '"' : ' disabled aria-disabled="true"') + ">" +
       '<span class="ic ' + m + '">' + ICONES[m] + "</span>" +
-      '<span class="tx"><b>' + mo.nome + "</b><small>" + (ab ? esc(dc.referencia) : "Abre à meia-noite") + "</small></span>" +
+      '<span class="tx"><b>' + mo.nome + "</b><small>" + (ab ? esc(dc.versiculo.referencia) : "Abre à meia-noite") + "</small></span>" +
       '<span class="estado">' + estadoTxt + "</span></button>";
   }
 
@@ -483,7 +485,8 @@
       var mo = momento(pendente);
       destaque = '<button class="cartao sombra destaque entra" data-ir="encontro-' + d + "-" + pendente + '">' +
         '<span class="rotulo acento">' + mo.nome + "</span><h2>" + esc(dia.titulo) + "</h2>" +
-        '<span class="ref">' + esc(dia[pendente].referencia) + "</span>" +
+        '<span class="trecho">“' + esc(dia[pendente].versiculo.texto) + '”</span>' +
+        '<span class="ref">' + esc(dia[pendente].versiculo.referencia) + "</span>" +
         '<span class="btn">Começar o encontro</span></button>';
     } else {
       if (d < limiteDias()) {
@@ -544,9 +547,15 @@
     app.innerHTML = barraApresentacao() +
       '<div class="barra-leitura"><button class="voltar" data-acao="voltar">' + ICONES.voltar + " Voltar</button>" +
       '<span class="selo numeros">Dia ' + d + " de " + TOTAL + "</span></div>" +
-      '<article class="leitura entra"><header class="cab"><span class="rotulo acento">' + mo.nome + "</span>" +
-      "<h1>" + esc(dia.titulo) + '</h1><span class="ref-chip">' + ICONES[m] + " " + esc(enc.referencia) + "</span></header>" +
-      '<div class="reflexao' + (/^[A-Za-zÀ-ÿ]/.test(enc.texto[0]) ? " capitular" : "") + '">' + enc.texto.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") + "</div>" +
+      '<article class="leitura entra"><header class="cab"><span class="rotulo acento linha">' + ICONES[m] + " " + mo.nome + "</span>" +
+      "<h1>" + esc(dia.titulo) + '</h1><span class="mudo">' + esc(blocoDoDia(d).titulo.replace(/^Bloco \d+ — /, "")) + "</span></header>" +
+      '<figure class="palavra"><span class="aspas" aria-hidden="true">“</span><span class="rotulo acento">Palavra de hoje</span>' +
+      "<blockquote>" + esc(enc.versiculo.texto) + "</blockquote>" +
+      "<figcaption>" + esc(enc.versiculo.referencia) + "</figcaption>" +
+      (enc.referencia !== enc.versiculo.referencia ? '<p class="leia">' + ICONES.livro + " Leia na sua Bíblia: " + esc(enc.referencia) + "</p>" : "") + "</figure>" +
+      '<section class="pilha"><span class="rotulo acento">Reflexão</span>' +
+      '<div class="reflexao' + (/^[A-Za-zÀ-ÿ]/.test(enc.texto[0]) ? " capitular" : "") + '">' + enc.texto.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") + "</div></section>" +
+      '<div class="ornamento" aria-hidden="true"><i></i><i></i><i></i></div>' +
       '<section class="cartao pergunta"><span class="rotulo acento">Para refletir</span><p class="q">' + esc(enc.pergunta) + "</p>" +
       '<textarea class="notas" id="nota" data-chave="' + chave + '" placeholder="Escreva aqui o que vier ao seu coração. Só você vê.">' + esc(nota) + "</textarea>" +
       '<span class="salvo" id="salvo"></span></section>' +
@@ -589,7 +598,7 @@
     var blocos = conteudo.blocos.map(function (b, i) {
       var cells = "";
       for (var d = i * 10 + 1; d <= i * 10 + 10; d++) {
-        var passado = d <= hoje && d <= limiteDias();
+        var passado = aberto(d, "manha");
         var gotas = MOMENTOS.map(function (m) { return "<i" + (concluido(d, m.id) ? ' class="ok"' : "") + "></i>"; }).join("");
         var cls = "dia" + (d === hoje ? " hoje" : "") + (passado ? "" : " futuro") + (estado.demo && d > DIAS_DEMO && !apresentacao.ativa ? " bloq-demo" : "");
         cells += '<button class="' + cls + '"' + (passado ? ' data-ir="dia-' + d + '"' : ' disabled aria-disabled="true"') +
@@ -604,7 +613,7 @@
   }
 
   function renderDia(d) {
-    if (d < 1 || d > TOTAL || d > diaDeHoje() || d > limiteDias()) { ir("jornada"); return; }
+    if (!aberto(d, "manha")) { ir("jornada"); return; }
     definirMomentoVisual(momentoDoRelogio());
     var dia = diaConteudo(d);
     app.innerHTML = barraApresentacao() + '<div class="barra-leitura"><a class="voltar" href="#jornada">' + ICONES.voltar + " Jornada</a></div>" +

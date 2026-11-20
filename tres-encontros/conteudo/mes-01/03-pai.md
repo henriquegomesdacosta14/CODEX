@@ -5,7 +5,9 @@
 
 ## Manhã · Romanos 8:16-17
 
-“O próprio Espírito testifica com o nosso espírito que somos filhos de Deus. Ora, se somos filhos, somos também herdeiros.” Antes de qualquer opinião sobre você hoje, a do chefe, a das redes, a sua própria, o Espírito já disse quem você é.
+> “O próprio Espírito testifica com o nosso espírito que somos filhos de Deus. Ora, se somos filhos, somos também herdeiros.” — Romanos 8:16-17
+
+Paulo diz que o próprio Espírito confirma, por dentro, que somos filhos e herdeiros. Antes de qualquer opinião sobre você hoje, a do chefe, a das redes, a sua própria, o Espírito já disse quem você é.
 
 Muita gente serve a Deus como empregado, tentando merecer o salário. O Espírito sussurra outra verdade: você é filho(a), herdeiro(a), amado(a). Comece o dia ouvindo essa voz.
 
@@ -13,6 +15,8 @@ Muita gente serve a Deus como empregado, tentando merecer o salário. O Espírit
 ! “Espírito Santo, lembra-me hoje de que eu sou filho(a) de Deus, mesmo quando eu falhar.”
 
 ## Almoço · Lucas 15:17-24
+
+> “E, levantando-se, foi para seu pai. Vinha ele ainda longe, quando seu pai o avistou, e, compadecido dele, correndo, o abraçou, e beijou.” — Lucas 15:20
 
 Jesus contou a história de um filho que pediu a herança, gastou tudo e voltou envergonhado, ensaiando um discurso: “Já não sou digno de ser chamado teu filho”. Mas o pai “o avistou, e, compadecido dele, correndo, o abraçou e beijou”. Trouxe roupa nova, anel e sandálias.
 
@@ -23,7 +27,9 @@ Naquela época, um homem respeitado não corria em público. Esse pai correu. Je
 
 ## Noite · 1 João 3:1
 
-“Vede que grande amor nos tem concedido o Pai, a ponto de sermos chamados filhos de Deus; e, de fato, somos filhos de Deus.” João faz questão de repetir: “de fato, somos”. Não é só um jeito bonito de falar. É a sua identidade real.
+> “Vede que grande amor nos tem concedido o Pai, a ponto de sermos chamados filhos de Deus; e, de fato, somos filhos de Deus.” — 1 João 3:1
+
+João escreve como quem não consegue acreditar no tamanho desse amor. João faz questão de repetir: “de fato, somos”. Não é só um jeito bonito de falar. É a sua identidade real.
 
 O seu valor não vem do que você fez hoje, do quanto produziu ou acertou. Vem de quem te ama. Durma esta noite como filho(a), não como funcionário(a).
 
@@ -34,6 +40,8 @@ O seu valor não vem do que você fez hoje, do quanto produziu ou acertou. Vem d
 
 ## Manhã · João 14:18
 
+> “Não vos deixarei órfãos, voltarei para vós outros.” — João 14:18
+
 Ao prometer o Espírito, Jesus disse: “Não vos deixarei órfãos, voltarei para vós outros”. Órfão é quem enfrenta a vida sem pai, sem proteção e sem provisão. Pelo Espírito, você nunca está nessa situação.
 
 As contas, o trabalho, a saúde e a família não estão só nas suas costas. O Espírito dá sabedoria para as decisões e paz no meio da incerteza.
@@ -42,6 +50,8 @@ As contas, o trabalho, a saúde e a família não estão só nas suas costas. O 
 ! “Espírito Santo, dá-me sabedoria para as decisões de hoje, principalmente sobre [trabalho, dinheiro, família].”
 
 ## Almoço · Mateus 6:25-33
+
+> “Buscai, pois, em primeiro lugar, o seu reino e a sua justiça, e todas estas coisas vos serão acrescentadas.” — Mateus 6:33
 
 Jesus apontou para os pássaros e as flores do campo: “Vosso Pai celeste as sustenta... Porventura, não valeis vós muito mais do que as aves?”. E concluiu: “Buscai, pois, em primeiro lugar, o seu reino e a sua justiça, e todas estas coisas vos serão acrescentadas”.
 
@@ -52,7 +62,9 @@ Repare que Jesus diz “vosso Pai”. A preocupação cresce quando esquecemos q
 
 ## Noite · 1 Pedro 5:6-7
 
-“Humilhai-vos, portanto, sob a poderosa mão de Deus... lançando sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós.” “Lançar” é jogar longe, soltar de verdade, não entregar e pegar de volta.
+> “Lançando sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós.” — 1 Pedro 5:7
+
+Pedro manda lançar sobre Deus toda a ansiedade, porque Ele cuida de nós. “Lançar” é jogar longe, soltar de verdade, não entregar e pegar de volta.
 
 Não leve para a cama o que pode ficar nas mãos do Pai. Diga em voz alta, pelo nome, cada preocupação, e deixe com Ele.
 
@@ -63,7 +75,9 @@ Não leve para a cama o que pode ficar nas mãos do Pai. Diga em voz alta, pelo 
 
 ## Manhã · Salmo 139:7-10
 
-“Para onde me ausentarei do teu Espírito? Para onde fugirei da tua face?” Davi percebe que não existe lugar onde Deus não esteja: nem no alto, nem no fundo, nem do outro lado do mar. “Ainda lá me haverá de guiar a tua mão.”
+> “Para onde me ausentarei do teu Espírito? Para onde fugirei da tua face? Ainda lá me haverá de guiar a tua mão, e a tua destra me susterá.” — Salmo 139:7, 10
+
+Davi faz duas perguntas, e a resposta é a mesma: não há para onde fugir de Deus. Davi percebe que não existe lugar onde Deus não esteja: nem no alto, nem no fundo, nem do outro lado do mar. “Ainda lá me haverá de guiar a tua mão.”
 
 Para quem foge, isso assusta. Para quem é filho, isso consola. Onde você estiver hoje, por mais sozinho(a) que se sinta, o Espírito está ali, guiando.
 
@@ -71,6 +85,8 @@ Para quem foge, isso assusta. Para quem é filho, isso consola. Onde você estiv
 ! “Espírito Santo, onde eu for hoje, que eu sinta a Tua mão me guiando.”
 
 ## Almoço · João 1:45-49
+
+> “Respondeu-lhe Jesus: Antes de Filipe te chamar, eu te vi, quando estavas debaixo da figueira.” — João 1:48
 
 Filipe chamou Natanael para conhecer Jesus, e ele desconfiou: “De Nazaré pode sair alguma coisa boa?”. Quando chegou, Jesus disse: “Antes de Filipe te chamar, eu te vi, quando estavas debaixo da figueira”. Natanael se rendeu: “Mestre, tu és o Filho de Deus”.
 
@@ -80,6 +96,8 @@ Ninguém sabe o que aconteceu debaixo daquela figueira. Talvez uma oração, uma
 ! Faça hoje um ato de bondade ou generosidade sem contar e sem postar.
 
 ## Noite · Gênesis 16:7-13
+
+> “Então, ela invocou o nome do Senhor, que lhe falava: Tu és Deus que vê.” — Gênesis 16:13
 
 Agar, uma serva maltratada, fugiu para o deserto, grávida e sozinha. Ali o Anjo do Senhor a encontrou, chamou pelo nome e falou com ela. Agar deu a Deus um nome: “Tu és Deus que vê”.
 
@@ -92,7 +110,9 @@ A primeira pessoa na Bíblia a dar um nome a Deus foi uma mulher que se sentia i
 
 ## Manhã · Efésios 1:13-14
 
-“Fostes selados com o Santo Espírito da promessa, o qual é o penhor da nossa herança.” Penhor é o sinal que garante o que foi prometido. O Espírito em você é a garantia de Deus de que Ele vai cumprir tudo o que disse.
+> “Fostes selados com o Santo Espírito da promessa; o qual é o penhor da nossa herança.” — Efésios 1:13-14
+
+Paulo usa uma palavra do comércio para falar do Espírito: penhor. Penhor é o sinal que garante o que foi prometido. O Espírito em você é a garantia de Deus de que Ele vai cumprir tudo o que disse.
 
 Você pode mudar de humor, de fase, de força. Mas o selo continua. Deus não desiste do que começou em você.
 
@@ -100,6 +120,8 @@ Você pode mudar de humor, de fase, de força. Mas o selo continua. Deus não de
 ! “Espírito Santo, obrigado(a) por ser a garantia de que Deus é fiel. Renova hoje a minha esperança em [a promessa].”
 
 ## Almoço · João 21:15-17
+
+> “Senhor, tu sabes todas as coisas, tu sabes que eu te amo. Jesus lhe disse: Apascenta as minhas ovelhas.” — João 21:17
 
 Pedro tinha negado Jesus três vezes. Depois da ressurreição, à beira do mar, Jesus perguntou três vezes: “Tu me amas?”. E, a cada resposta, devolveu a missão: “Apascenta as minhas ovelhas”. Uma pergunta para cada negação.
 
@@ -110,7 +132,9 @@ Jesus não fingiu que nada tinha acontecido, mas também não descartou Pedro. E
 
 ## Noite · Lamentações 3:21-23
 
-“Quero trazer à memória o que me pode dar esperança. As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim; renovam-se cada manhã. Grande é a tua fidelidade.”
+> “As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim; renovam-se cada manhã. Grande é a tua fidelidade.” — Lamentações 3:22-23
+
+Esta é uma das declarações mais bonitas sobre a fidelidade de Deus, e ela nasceu num dos piores momentos da história de Israel.
 
 Jeremias escreveu isso no meio da ruína, com a cidade destruída. A esperança dele não vinha das circunstâncias, vinha da memória de quem Deus é. Amanhã de manhã, quando você acordar, a misericórdia do Pai já vai estar nova, esperando.
 
@@ -121,7 +145,9 @@ Jeremias escreveu isso no meio da ruína, com a cidade destruída. A esperança 
 
 ## Manhã · Gálatas 5:16, 25
 
-“Andai no Espírito e jamais satisfareis à concupiscência da carne... Se vivemos no Espírito, andemos também no Espírito.” Andar é passo a passo. O Espírito não mostra o caminho inteiro; Ele corrige a direção a cada passo, como um guia ao lado.
+> “Se vivemos no Espírito, andemos também no Espírito.” — Gálatas 5:25
+
+Paulo diz que a vida no Espírito se vive andando. Andar é passo a passo. O Espírito não mostra o caminho inteiro; Ele corrige a direção a cada passo, como um guia ao lado.
 
 Quando Ele aponta algo errado, não é para humilhar, é para acertar o rumo. Quanto mais cedo a gente ouve, menor o desvio.
 
@@ -129,6 +155,8 @@ Quando Ele aponta algo errado, não é para humilhar, é para acertar o rumo. Qu
 ! “Espírito Santo, corrige os meus passos hoje. Que eu Te ouça logo no primeiro aviso.”
 
 ## Almoço · Lucas 22:41-44
+
+> “Pai, se queres, passa de mim este cálice; contudo, não se faça a minha vontade, e sim a tua.” — Lucas 22:42
 
 No Getsêmani, angustiado a ponto de o suor cair como gotas de sangue, Jesus orou: “Pai, se queres, passa de mim este cálice; contudo, não se faça a minha vontade, e sim a tua”. Até Jesus colocou a própria vontade debaixo da vontade do Pai.
 
@@ -139,7 +167,9 @@ Submeter-se ao Pai não é fraqueza, é confiança. Jesus sabia que a vontade do
 
 ## Noite · Hebreus 12:5-11
 
-“O Senhor corrige a quem ama e açoita a todo filho a quem recebe.” O autor explica que nossos pais nos corrigiam como achavam melhor, “Deus, porém, nos disciplina para aproveitamento, a fim de sermos participantes da sua santidade”.
+> “Toda disciplina, com efeito, no momento não parece ser motivo de alegria, mas de tristeza; ao depois, entretanto, produz fruto pacífico aos que têm sido por ela exercitados, fruto de justiça.” — Hebreus 12:11
+
+Hebreus diz que a correção de Deus é sinal de amor, não de rejeição: “o Senhor corrige a quem ama”. O autor explica que nossos pais nos corrigiam como achavam melhor, “Deus, porém, nos disciplina para aproveitamento, a fim de sermos participantes da sua santidade”.
 
 A correção do Pai é prova de que você é filho(a). Ela não é agradável na hora, mas “produz fruto pacífico”. Se hoje você foi confrontado(a), agradeça: o Pai está cuidando de você.
 
@@ -150,6 +180,8 @@ A correção do Pai é prova de que você é filho(a). Ela não é agradável na
 
 ## Manhã · Atos 9:31 e João 14:16
 
+> “A igreja, na verdade, tinha paz por toda a Judeia, Galileia e Samaria, edificando-se e caminhando no temor do Senhor, e, no conforto do Espírito Santo, crescia em número.” — Atos 9:31
+
 Lucas conta que a igreja crescia “andando no temor do Senhor e, no conforto do Espírito Santo”. E o nome que Jesus deu ao Espírito, Consolador, quer dizer “aquele que é chamado para ficar ao lado”.
 
 Consolar não é tirar a dor com uma frase pronta. É ficar junto. O Espírito não observa o seu sofrimento de longe; Ele senta ao seu lado no chão.
@@ -158,6 +190,8 @@ Consolar não é tirar a dor com uma frase pronta. É ficar junto. O Espírito n
 ! “Espírito Santo, Consolador, fica ao meu lado hoje. Consola o meu coração onde dói.”
 
 ## Almoço · João 11:32-36
+
+> “Jesus chorou.” — João 11:35
 
 Quando Maria chorou aos pés de Jesus pela morte do irmão, Ele “agitou-se no espírito e comoveu-se”. E então: “Jesus chorou”. Ele sabia que ia ressuscitar Lázaro minutos depois, e mesmo assim chorou com ela.
 
@@ -168,7 +202,9 @@ Jesus não tem pressa de calar a sua dor com respostas prontas. Primeiro Ele cho
 
 ## Noite · 2 Coríntios 1:3-4
 
-“Bendito seja o Deus e Pai de nosso Senhor Jesus Cristo, o Pai de misericórdias e Deus de toda consolação! É ele que nos conforta em toda a nossa tribulação, para podermos consolar os que estiverem em qualquer angústia.”
+> “Bendito seja o Deus e Pai de nosso Senhor Jesus Cristo, o Pai de misericórdias e Deus de toda consolação! É ele que nos conforta em toda a nossa tribulação, para podermos consolar os que estiverem em qualquer angústia.” — 2 Coríntios 1:3-4
+
+Paulo escreveu isso depois de passar por sofrimentos tão grandes que chegou a perder a esperança de sobreviver.
 
 O Pai consola você e transforma a sua dor em ferramenta de consolo para outros. O que você está atravessando hoje pode, amanhã, ser exatamente o que alguém precisa ouvir.
 
@@ -179,6 +215,8 @@ O Pai consola você e transforma a sua dor em ferramenta de consolo para outros.
 
 ## Manhã · Isaías 63:14
 
+> “Como o animal que desce aos vales, o Espírito do Senhor lhes deu descanso.” — Isaías 63:14
+
 Lembrando como Deus conduziu o povo pelo deserto, Isaías escreve: “Como o animal que desce aos vales, o Espírito do Senhor lhes deu descanso”. A imagem é de um rebanho que sai do sol forte e encontra sombra e água no vale.
 
 O Espírito não só nos empurra para frente; Ele também nos leva a descansar. Descanso não é preguiça nem perda de tempo. É confiar que Deus continua trabalhando quando você para.
@@ -188,7 +226,9 @@ O Espírito não só nos empurra para frente; Ele também nos leva a descansar. 
 
 ## Almoço · Mateus 11:28-30
 
-“Vinde a mim, todos os que estais cansados e sobrecarregados, e eu vos aliviarei. Tomai sobre vós o meu jugo e aprendei de mim, porque sou manso e humilde de coração; e achareis descanso para a vossa alma.”
+> “Vinde a mim, todos os que estais cansados e sobrecarregados, e eu vos aliviarei.” — Mateus 11:28
+
+Jesus faz um convite a todos os cansados: trocar o peso que carregam pelo jugo d’Ele, que é suave.
 
 Jesus não diz “esforce-se mais”. Ele diz “vem”. O jugo era a peça de madeira que unia dois bois para puxarem juntos. Jesus oferece puxar junto com você. O peso dividido com Ele fica leve.
 
@@ -196,6 +236,8 @@ Jesus não diz “esforce-se mais”. Ele diz “vem”. O jugo era a peça de m
 ! Tire dez minutos de pausa de verdade hoje: sem celular, sem tarefa, só respirando na presença de Jesus.
 
 ## Noite · Êxodo 33:14 e Salmo 127:2
+
+> “Respondeu-lhe: A minha presença irá contigo, e eu te darei descanso.” — Êxodo 33:14
 
 Deus prometeu a Moisés: “A minha presença irá contigo, e eu te darei descanso”. E o salmista lembra que é inútil levantar cedo e deitar tarde, comendo o pão de ansiedade, “pois aos seus amados ele o dá enquanto dormem”.
 
@@ -208,7 +250,9 @@ O Pai continua cuidando de tudo enquanto você dorme. O sono também é um ato d
 
 ## Manhã · Romanos 14:17
 
-“O reino de Deus não é comida nem bebida, mas justiça, e paz, e alegria no Espírito Santo.” A alegria faz parte do Reino. Não é um enfeite, é um sinal de que Deus está presente.
+> “Porque o reino de Deus não é comida nem bebida, mas justiça, e paz, e alegria no Espírito Santo.” — Romanos 14:17
+
+Paulo resume o Reino de Deus em três palavras: justiça, paz e alegria. A alegria faz parte do Reino. Não é um enfeite, é um sinal de que Deus está presente.
 
 A alegria do Espírito não depende de tudo estar bem. Ela nasce de saber quem está com você. Por isso dá para ter alegria até num dia difícil.
 
@@ -216,6 +260,8 @@ A alegria do Espírito não depende de tudo estar bem. Ela nasce de saber quem e
 ! “Espírito Santo, enche-me de alegria hoje, uma alegria que os problemas não tiram.”
 
 ## Almoço · Lucas 15:4-7
+
+> “Digo-vos que, assim, haverá maior júbilo no céu por um pecador que se arrepende do que por noventa e nove justos que não necessitam de arrependimento.” — Lucas 15:7
 
 Jesus contou de um pastor que deixou noventa e nove ovelhas para procurar uma que se perdeu. Quando encontra, “põe-na sobre os ombros, cheio de júbilo”, e chama os amigos para festejar. E concluiu: “Haverá maior júbilo no céu por um pecador que se arrepende”.
 
@@ -226,7 +272,9 @@ O céu faz festa por pessoas. Por você. Jesus não carrega a ovelha resmungando
 
 ## Noite · Sofonias 3:17
 
-“O Senhor, teu Deus, está no meio de ti, poderoso para salvar-te; ele se deleitará em ti com alegria; renovar-te-á no seu amor, regozijar-se-á em ti com júbilo.” Na língua original, a ideia é de Alguém que canta de alegria.
+> “O Senhor, teu Deus, está no meio de ti, poderoso para salvar-te; ele se deleitará em ti com alegria; renovar-te-á no seu amor, regozijar-se-á em ti com júbilo.” — Sofonias 3:17
+
+Sofonias descreve Deus se alegrando com o Seu povo. Na língua original, a ideia é de Alguém que canta de alegria.
 
 Imagine: o Pai cantando sobre você, como uma mãe que canta para o filho dormir. Termine este dia ouvindo isso com o coração.
 
@@ -237,6 +285,8 @@ Imagine: o Pai cantando sobre você, como uma mãe que canta para o filho dormir
 
 ## Manhã · Atos 2:38-39
 
+> “Recebereis o dom do Espírito Santo. Pois para vós outros é a promessa, para vossos filhos e para todos os que ainda estão longe.” — Atos 2:38-39
+
 No dia de Pentecostes, Pedro disse: “Recebereis o dom do Espírito Santo. Pois para vós outros é a promessa, para vossos filhos e para todos os que ainda estão longe”. O Espírito é chamado de “dom”, um presente.
 
 A promessa não era só para os apóstolos. É para você, para os seus filhos e para quem ainda está longe. Ore hoje também por alguém da sua família que ainda não conhece a Deus.
@@ -246,7 +296,9 @@ A promessa não era só para os apóstolos. É para você, para os seus filhos e
 
 ## Almoço · Mateus 7:7-11
 
-“Pedi, e dar-se-vos-á; buscai e achareis; batei, e abrir-se-vos-á.” E Jesus compara: que pai daria uma pedra ao filho que pede pão? “Quanto mais vosso Pai, que está nos céus, dará boas coisas aos que lhe pedirem?”
+> “Ora, se vós, que sois maus, sabeis dar boas dádivas aos vossos filhos, quanto mais vosso Pai, que está nos céus, dará boas coisas aos que lhe pedirem?” — Mateus 7:11
+
+Jesus ensina a pedir, buscar e bater, com insistência e confiança. E Jesus compara: que pai daria uma pedra ao filho que pede pão? “Quanto mais vosso Pai, que está nos céus, dará boas coisas aos que lhe pedirem?”
 
 Jesus nos ensina a pedir com ousadia, porque o Pai é bom. Às vezes a resposta é “sim”, às vezes é “espere”, às vezes é “tenho algo melhor”. Mas nunca é uma pedra.
 
@@ -255,7 +307,9 @@ Jesus nos ensina a pedir com ousadia, porque o Pai é bom. Às vezes a resposta 
 
 ## Noite · Tiago 1:17
 
-“Toda boa dádiva e todo dom perfeito é lá do alto, descendo do Pai das luzes, em quem não pode existir variação ou sombra de mudança.” O Pai não muda de humor. A bondade d’Ele ontem é a mesma hoje e amanhã.
+> “Toda boa dádiva e todo dom perfeito é lá do alto, descendo do Pai das luzes, em quem não pode existir variação ou sombra de mudança.” — Tiago 1:17
+
+Tiago diz de onde vem tudo o que é bom. O Pai não muda de humor. A bondade d’Ele ontem é a mesma hoje e amanhã.
 
 Olhe para trás nestes 29 dias e conte as boas dádivas: o que você aprendeu, o que foi curado, as pessoas que Deus colocou no caminho. Tudo veio do Pai das luzes.
 
@@ -266,7 +320,9 @@ Olhe para trás nestes 29 dias e conte as boas dádivas: o que você aprendeu, o
 
 ## Manhã · Ezequiel 36:26-27
 
-“Dar-vos-ei coração novo e porei dentro de vós espírito novo; tirarei de vós o coração de pedra e vos darei coração de carne. Porei dentro de vós o meu Espírito.” Essa foi a promessa de Deus muito antes de Jesus, e ela se cumpre em você.
+> “Dar-vos-ei coração novo e porei dentro de vós espírito novo; tirarei de vós o coração de pedra e vos darei coração de carne. Porei dentro de vós o meu Espírito.” — Ezequiel 36:26-27
+
+Por meio de Ezequiel, Deus prometeu trocar o coração de pedra por um coração de carne e colocar o Seu Espírito dentro de nós. Essa promessa se cumpre em você.
 
 Nestes 30 dias, o Espírito amoleceu o que estava duro e trouxe vida onde estava seco. E Ele não vai embora quando a jornada acabar. Ele continua aqui, todas as manhãs.
 
@@ -274,6 +330,8 @@ Nestes 30 dias, o Espírito amoleceu o que estava duro e trouxe vida onde estava
 ! “Espírito Santo, obrigado(a) por estes 30 dias. Não quero parar aqui. Continua me guiando todas as manhãs.”
 
 ## Almoço · João 17:20-23 e Mateus 28:20
+
+> “E eis que estou convosco todos os dias até à consumação do século.” — Mateus 28:20
 
 Antes da cruz, Jesus orou por todos os que creriam n’Ele, inclusive você: “a fim de que todos sejam um; e como és tu, ó Pai, em mim e eu em ti, também sejam eles em nós”. Jesus quer que você viva dentro da comunhão que Ele tem com o Pai.
 
@@ -283,6 +341,8 @@ E as últimas palavras d’Ele no Evangelho de Mateus são uma promessa: “Eis 
 ! Escolha um hábito destes 30 dias para manter: o “bom dia” ao Espírito, a pausa com Jesus no almoço ou a gratidão ao Pai à noite.
 
 ## Noite · Lucas 11:13 e Números 6:24-26
+
+> “O Senhor te abençoe e te guarde; o Senhor faça resplandecer o rosto sobre ti e tenha misericórdia de ti; o Senhor sobre ti levante o rosto e te dê a paz.” — Números 6:24-26
 
 A jornada termina onde começou: “Quanto mais o Pai celestial dará o Espírito Santo àqueles que lho pedirem”. O ciclo se fecha e recomeça. O Pai dá o Espírito, o Espírito leva a Jesus, Jesus leva ao Pai.
 
