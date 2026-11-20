@@ -249,6 +249,12 @@
 
   function render() {
     if (!conteudo) return;
+    renderTela();
+    // Na apresentação, a barra de controle aparece em todas as telas.
+    if (apresentacao.ativa && !app.querySelector(".apresentacao")) app.insertAdjacentHTML("afterbegin", barraApresentacao());
+  }
+
+  function renderTela() {
     if (!estado.codigo) { renderEntrada(); return; }
     if (!estado.configurado) { renderConfiguracao(); return; }
     var rota = rotaAtual(), m;
@@ -258,6 +264,7 @@
     if (rota === "jornada") return renderJornada();
     if (rota === "ajustes") return renderAjustes();
     if (rota === "final" && jornadaConcluida()) return renderFinal();
+    if (rota === "fim-degustacao" && apresentacao.ativa) return renderFimDemo();
     return renderHoje();
   }
 
@@ -277,7 +284,12 @@
       '<select id="apHora" aria-label="Hora simulada">' + opcoes.map(function (o) {
         return '<option value="' + o[0] + '"' + (apresentacao.hora === o[0] ? " selected" : "") + ">" + o[1] + "</option>";
       }).join("") + "</select>" +
-      '<button class="link" data-acao="ver-primeiro-acesso" style="padding:4px 0">Ver o primeiro acesso</button></div>';
+      '<select id="apIr" aria-label="Ir para a tela"><option value="">Ir para a tela…</option>' + [
+        ["boas-vindas", "1. Boas-vindas"], ["codigo", "2. Digitar o código"], ["abertura", "3. Abertura (3 telas)"],
+        ["marque", "4. Marque seus encontros"], ["convites", "5. Ativar os convites"], ["hoje", "6. Hoje"],
+        ["encontro", "7. Um encontro"], ["jornada", "8. Jornada"], ["ajustes", "9. Ajustes"],
+        ["fim-degustacao", "10. Fim da degustação"], ["final", "11. Encerramento do dia 30"], ["admin", "12. Área do administrador"]
+      ].map(function (o) { return '<option value="' + o[0] + '">' + o[1] + "</option>"; }).join("") + "</select></div>";
   }
 
   /* ---------- Entrada ---------- */
@@ -301,7 +313,8 @@
         '<label class="campo"><span class="rotulo-campo">Código de acesso</span>' +
         '<input class="entrada codigo" id="codigo" autocomplete="one-time-code" autocapitalize="characters" spellcheck="false" maxlength="14" placeholder="TE-XXXX-XXXX" inputmode="text"></label>' +
         '<p class="erro" id="erroCodigo" hidden></p>' +
-        '<button class="btn cheio" type="submit" id="botaoEntrar">Entrar</button></form></section>';
+        '<button class="btn cheio" type="submit" id="botaoEntrar">Entrar</button>' +
+        (apresentacao.ativa ? '<p class="mudo" style="font-size:14px">Na apresentação, digite DEMO para entrar.</p>' : "") + "</form></section>";
       setTimeout(function () { var c = document.getElementById("codigo"); if (c) c.focus(); }, 50);
       return;
     }
@@ -731,7 +744,7 @@
       case "sem-link": aviso("O link de compra ainda não foi configurado."); break;
       case "compartilhar": compartilhar(app._mensagem || ""); break;
       case "testar-convite": testarConvite(); break;
-      case "ver-primeiro-acesso": estado.configurado = false; tela.passo = 0; render(); window.scrollTo(0, 0); break;
+
     }
   });
 
@@ -767,7 +780,32 @@
       document.getElementById("apRotulo").textContent = apresentacao.dia > 30 ? "Depois do dia 30" : "Dia " + apresentacao.dia;
     }
   });
+  /* Navegação da apresentação: leva direto a qualquer tela do sistema. */
+  function garantirDemo() {
+    if (!estado.codigo) {
+      estado = { codigo: CODIGO_DEMO, demo: true, inicio: hojeISO(new Date()), concluidos: [], notas: {}, nome: "Ana", configurado: true,
+        horarios: { manha: "06:30", almoco: "12:00", noite: "21:30" } };
+    }
+    estado.configurado = true;
+    if (apresentacao.dia > 30) apresentacao.dia = Math.min(30, diaDeHoje());
+  }
+  function irParaTela(t) {
+    var semHash = function () { history.replaceState(null, "", location.pathname + location.search); };
+    if (t === "boas-vindas" || t === "codigo") { estado = {}; tela.passo = t === "codigo" ? "codigo" : 0; semHash(); render(); }
+    else if (t === "abertura" || t === "marque" || t === "convites") {
+      garantirDemo(); estado.configurado = false;
+      tela.passo = t === "abertura" ? 0 : (t === "marque" ? conteudo.abertura.length : conteudo.abertura.length + 1);
+      semHash(); render();
+    }
+    else if (t === "admin") { location.href = "admin.html"; return; }
+    else if (t === "final") { garantirDemo(); apresentacao.dia = 31; ir("final"); }
+    else if (t === "encontro") { garantirDemo(); ir("encontro-" + Math.max(1, Math.min(30, diaDeHoje())) + "-" + momentoDoRelogio()); }
+    else { garantirDemo(); ir(t === "hoje" ? "inicio" : t); }
+    window.scrollTo(0, 0);
+  }
+
   app.addEventListener("change", function (e) {
+    if (e.target.id === "apIr" && e.target.value) { irParaTela(e.target.value); return; }
     if (e.target.id === "apDia" || e.target.id === "apHora") {
       if (e.target.id === "apHora") apresentacao.hora = e.target.value;
       var y = window.scrollY; render(); window.scrollTo(0, y);
@@ -815,11 +853,7 @@
 
   /* ---------- Início ---------- */
   if ((location.hash || "") === "#apresentacao" || window.TE_APRESENTACAO) {
-    apresentacao.ativa = true;
-    if (!estado.codigo) {
-      estado = { codigo: CODIGO_DEMO, demo: true, inicio: hojeISO(new Date()), concluidos: [], notas: {}, nome: "Ana", configurado: true,
-        horarios: { manha: "06:30", almoco: "12:00", noite: "21:30" } };
-    }
+    apresentacao.ativa = true; // começa pela tela de boas-vindas, como um cliente novo
     apresentacao.dia = Math.max(1, Math.min(31, diaDeHoje()));
   }
 

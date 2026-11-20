@@ -10,6 +10,10 @@
   :root { --bg:#F4F3F8; --card:#fff; --ink:#1E2033; --muted:#666A82; --line:#DEDDEA; --accent:#3D3A8C; --ok:#2F7A55; --warn:#B4465E; }
   @media (prefers-color-scheme: dark) { :root { --bg:#121424; --card:#1B1E33; --ink:#ECEBF5; --muted:#A3A5BE; --line:#2C3050; --accent:#B7A5F7; --ok:#8FD4A8; --warn:#F08EA2; } }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  .linha > * { min-width: 0; }
+  main > *, #painel > *, .card { min-width: 0; }
+  label > input:not(#qtd) { width: 100%; }
   body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
   main { max-width: 980px; margin: 0 auto; padding: 24px max(16px, env(safe-area-inset-left)); display:grid; gap:18px; }
   h1 { margin:0; font-size:26px; } h2 { margin:0 0 10px; font-size:18px; }
@@ -35,6 +39,7 @@
 <body>
 <main>
   <header><h1>Três Encontros · Administração</h1><p class="mudo">Gere os códigos de acesso e acompanhe quem está fazendo a jornada.</p></header>
+  <p class="card" id="avisoDemo" hidden><b>Demonstração.</b> Sem servidor, esta página mostra dados de exemplo e aceita qualquer senha. <a href="index.html">Voltar ao app</a></p>
 
   <section class="card" id="login">
     <h2>Entrar</h2>
@@ -69,9 +74,50 @@
   var senha = "";
   try { senha = sessionStorage.getItem("te-admin") || ""; } catch (e) {}
   var $ = function (id) { return document.getElementById(id); };
+  // Sem servidor (prévia do sistema), a página funciona com dados de exemplo.
+  var demo = false;
   function api(acao, dados) {
+    if (demo) return Promise.resolve(exemplo(acao, dados || {}));
     return fetch("api.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.assign({ acao: acao, senha: senha }, dados || {})) })
-      .then(function (r) { return r.json(); });
+      .then(function (r) { return r.json(); })
+      .catch(function () {
+        if (!window.TE_APRESENTACAO) return { ok: false, erro: "Sem conexão com o servidor." };
+        demo = true;
+        document.getElementById("avisoDemo").hidden = false;
+        return exemplo(acao, dados || {});
+      });
+  }
+  var base = [
+    ["TE-7K3P-QW9M", "Maria Souza, pedido 1042", "Maria", 12, 33], ["TE-H2RD-8XLC", "Igreja Nova Vida, célula 3", "João", 5, 14],
+    ["TE-PZ4N-6TUV", "Presente da Ana", "Carla", 28, 81], ["TE-B9EM-2KJR", "Pedido 1051", "", 0, 0],
+    ["TE-WQ5A-7HNF", "Pedido 1050", "Pedro", 31, 90], ["TE-L3CX-9DPS", "Igreja Nova Vida, célula 3", "Rute", 2, 4]
+  ];
+  var exemplos = base.map(function (b, i) {
+    var inicio = b[3] ? new Date(Date.now() - (b[3] - 1) * 864e5).toISOString().slice(0, 10) : "";
+    return { codigo: b[0], observacao: b[1], nome: b[2], criadoEm: new Date(Date.now() - i * 36e5).toISOString(), inicio: inicio, dia: b[3], concluidos: b[4],
+      ultimoAcesso: b[3] ? new Date(Date.now() - i * 5e6).toISOString() : "", bloqueado: false };
+  });
+  function exemplo(acao, d) {
+    if (acao === "admin_gerar") {
+      var novos = [];
+      for (var i = 0; i < Math.max(1, Math.min(20, d.quantidade || 1)); i++) {
+        var c = "TE-" + Math.random().toString(36).slice(2, 6).toUpperCase() + "-" + Math.random().toString(36).slice(2, 6).toUpperCase();
+        novos.push(c);
+        exemplos.unshift({ codigo: c, observacao: d.observacao || "", nome: "", criadoEm: new Date().toISOString(), inicio: "", dia: 0, concluidos: 0, ultimoAcesso: "", bloqueado: false });
+      }
+      return { ok: true, codigos: novos };
+    }
+    if (acao === "admin_bloquear") {
+      exemplos.forEach(function (c) { if (c.codigo === d.codigo) c.bloqueado = !!d.bloquear; });
+      return { ok: true };
+    }
+    if (acao === "admin_listar") {
+      var b = (d.busca || "").toLowerCase();
+      var lista = exemplos.filter(function (c) { return !b || (c.codigo + c.observacao + c.nome).toLowerCase().indexOf(b) >= 0; });
+      return { ok: true, codigos: lista, resumo: { total: exemplos.length, naoUsados: exemplos.filter(function (c) { return !c.inicio; }).length,
+        emJornada: exemplos.filter(function (c) { return c.inicio && c.dia <= 30; }).length, concluidos: exemplos.filter(function (c) { return c.dia > 30; }).length, celularesComAviso: 4 } };
+    }
+    return { ok: true };
   }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function data(iso) { if (!iso) return "—"; var d = new Date(iso); return isNaN(d) ? iso : d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }); }

@@ -1,6 +1,6 @@
 /* Service worker do Três Encontros: funciona sem internet e mostra os avisos dos encontros. */
 importScripts("lembretes.js");
-var VERSAO = "te-v8";
+var VERSAO = "te-v9";
 var ARQUIVOS = ["./", "index.html", "app.css", "app.js", "lembretes.js", "manifest.webmanifest",
   "icones/icone.svg", "icones/icone-192.png", "icones/icone-512.png", "icones/apple-touch-icon.png"];
 var MOMENTOS = [
