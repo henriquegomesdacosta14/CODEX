@@ -57,7 +57,8 @@
     </section>
 
     <section class="card">
-      <div class="linha" style="justify-content:space-between;align-items:center"><h2 style="margin:0">Códigos</h2><button class="sec" id="atualizar">Atualizar</button></div>
+      <div class="linha" style="justify-content:space-between;align-items:center"><h2 style="margin:0">Códigos</h2>
+        <form class="linha" id="formBusca"><input id="busca" type="search" placeholder="Buscar por código, nome ou observação"><button class="sec" id="atualizar" type="submit">Buscar</button></form></div>
       <div class="resumo" id="resumo" style="margin:12px 0"></div>
       <div class="tabela"><table><thead><tr><th>Código</th><th>Observação</th><th>Nome</th><th>Início</th><th>Dia</th><th>Encontros</th><th>Último acesso</th><th></th></tr></thead><tbody id="lista"></tbody></table></div>
     </section>
@@ -89,16 +90,16 @@
   }
 
   function listar() {
-    api("admin_listar").then(function (r) {
+    api("admin_listar", { busca: $("busca").value }).then(function (r) {
       if (!r.ok) return;
-      var ativos = r.codigos.filter(function (c) { return c.inicio && c.dia <= 30; }).length;
-      var concl = r.codigos.filter(function (c) { return c.concluidos >= 90 || c.dia > 30; }).length;
-      $("resumo").innerHTML = "<div><b>" + r.codigos.length + "</b>códigos</div><div><b>" + r.codigos.filter(function (c) { return !c.inicio; }).length + "</b>ainda não usados</div><div><b>" + ativos + "</b>em jornada</div><div><b>" + concl + "</b>concluídos</div><div><b>" + r.celularesComAviso + "</b>celulares com aviso</div>";
+      var s = r.resumo, n = function (v) { return Number(v).toLocaleString("pt-BR"); };
+      $("resumo").innerHTML = "<div><b>" + n(s.total) + "</b>códigos</div><div><b>" + n(s.naoUsados) + "</b>ainda não usados</div><div><b>" + n(s.emJornada) + "</b>em jornada</div><div><b>" + n(s.concluidos) + "</b>já passaram dos 30 dias</div><div><b>" + n(s.celularesComAviso) + "</b>celulares com aviso</div>";
       $("lista").innerHTML = r.codigos.map(function (c) {
         var status = c.bloqueado ? '<span class="pill bloq">bloqueado</span>' : (c.inicio ? '<span class="pill ok">ativo</span>' : '<span class="pill">novo</span>');
         return "<tr><td class=\"cod\">" + esc(c.codigo) + " " + status + "</td><td>" + esc(c.observacao) + "</td><td>" + esc(c.nome) + "</td><td>" + esc(c.inicio || "—") + "</td><td>" + (c.inicio ? Math.min(c.dia, 31) : "—") + "</td><td>" + c.concluidos + "/90</td><td>" + data(c.ultimoAcesso) + "</td>" +
           '<td><button class="sec" data-cop="' + esc(c.codigo) + '">Copiar mensagem</button> <button class="sec" data-bloq="' + esc(c.codigo) + '" data-v="' + (c.bloqueado ? 0 : 1) + '">' + (c.bloqueado ? "Desbloquear" : "Bloquear") + "</button></td></tr>";
-      }).join("") || '<tr><td colspan="8" class="mudo">Nenhum código ainda. Gere o primeiro acima.</td></tr>';
+      }).join("") || '<tr><td colspan="8" class="mudo">Nenhum código encontrado.</td></tr>';
+      if (s.total > 200 && !$("busca").value) $("lista").innerHTML += '<tr><td colspan="8" class="mudo">Mostrando os 200 mais recentes. Use a busca para achar os outros.</td></tr>';
     });
   }
 
@@ -124,7 +125,7 @@
     if (b.dataset.cop) copiar(mensagem(b.dataset.cop), b);
     if (b.dataset.bloq) api("admin_bloquear", { codigo: b.dataset.bloq, bloquear: b.dataset.v === "1" }).then(listar);
   });
-  $("atualizar").addEventListener("click", listar);
+  $("formBusca").addEventListener("submit", function (e) { e.preventDefault(); listar(); });
   if (senha) entrar();
 })();
 </script>

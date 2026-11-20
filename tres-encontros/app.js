@@ -97,9 +97,7 @@
   function aberto(d, m) {
     if (d < 1 || d > limiteDias()) return false;
     var hoje = diaDeHoje();
-    if (d < hoje) return true;
-    if (d > hoje) return false;
-    return minutosAgora() >= minutos(horario(m));
+    return d <= hoje; // os três encontros do dia abrem à meia-noite; o horário é só para o lembrete
   }
   function concluido(d, m) { return (estado.concluidos || []).indexOf(d + "-" + m) >= 0; }
   function totalConcluidos() { return (estado.concluidos || []).length; }
@@ -107,17 +105,6 @@
   function blocoDoDia(d) { return conteudo.blocos[Math.min(2, Math.floor((d - 1) / 10))]; }
   function diaConteudo(d) { return conteudo.dias[d - 1]; }
 
-  /** Próximo encontro que vai abrir (para a contagem regressiva). */
-  function proximoEncontro() {
-    var hoje = diaDeHoje();
-    for (var d = Math.max(1, hoje); d <= limiteDias(); d++) {
-      for (var i = 0; i < 3; i++) {
-        var m = MOMENTOS[i].id;
-        if (!aberto(d, m)) return { dia: d, momento: m };
-      }
-    }
-    return null;
-  }
 
   /* ---------- Utilidades ---------- */
   function esc(s) {
@@ -371,7 +358,7 @@
     if (p === conteudo.abertura.length) {
       app.innerHTML = '<section class="passo entra">' + pontos +
         '<span class="rotulo acento">Seus horários</span><h1>Quando você quer encontrar Deus?</h1>' +
-        '<p class="mudo">Cada encontro é liberado no horário que você escolher. Dá para mudar depois, em Ajustes.</p>' +
+        '<p class="mudo">Os três encontros do dia abrem à meia-noite, e você faz cada um quando puder. Escolha os horários em que quer receber um lembrete. Dá para mudar depois, em Ajustes.</p>' +
         '<form class="pilha-g" id="formHorarios" novalidate>' +
         '<label class="campo"><span class="rotulo-campo">Como podemos te chamar?</span><input class="entrada" id="nome" maxlength="40" autocomplete="given-name" placeholder="Seu primeiro nome" value="' + esc(estado.nome || "") + '"></label>' +
         camposHorarios() +
@@ -470,11 +457,11 @@
   function cartaoEncontro(d, m) {
     var mo = momento(m), dc = diaConteudo(d)[m];
     var feito = concluido(d, m), ab = aberto(d, m);
-    var estadoTxt = feito ? "Vivido" : (ab ? "Aberto" : ICONES.cadeado + " " + horario(m));
+    var estadoTxt = feito ? "Vivido" : (ab ? horario(m) : ICONES.cadeado);
     var cls = "encontro" + (feito ? " concluido" : "") + (ab ? "" : " fechado");
     return '<button class="' + cls + '"' + (ab ? ' data-ir="encontro-' + d + "-" + m + '"' : ' disabled aria-disabled="true"') + ">" +
       '<span class="ic ' + m + '">' + ICONES[m] + "</span>" +
-      '<span class="tx"><b>' + mo.nome + "</b><small>" + (ab ? esc(dc.referencia) : "Libera às " + horario(m)) + "</small></span>" +
+      '<span class="tx"><b>' + mo.nome + "</b><small>" + (ab ? esc(dc.referencia) : "Abre à meia-noite") + "</small></span>" +
       '<span class="estado">' + estadoTxt + "</span></button>";
   }
 
@@ -485,11 +472,12 @@
     if (jornadaConcluida() && hoje > TOTAL) return renderFinal();
     var d = Math.max(1, Math.min(TOTAL, hoje)), dia = diaConteudo(d), bloco = blocoDoDia(d);
     var nome = primeiroNome();
+    // Sugere o encontro do momento atual; se já foi vivido, o primeiro que ainda falta hoje.
     var pendente = null;
-    for (var i = 2; i >= 0; i--) {
-      var m = MOMENTOS[i].id;
-      if (aberto(d, m) && !concluido(d, m)) { pendente = m; break; }
-    }
+    [relogio].concat(MOMENTOS.map(function (x) { return x.id; })).some(function (m) {
+      if (aberto(d, m) && !concluido(d, m)) { pendente = m; return true; }
+      return false;
+    });
     var destaque;
     if (pendente) {
       var mo = momento(pendente);
@@ -498,16 +486,10 @@
         '<span class="ref">' + esc(dia[pendente].referencia) + "</span>" +
         '<span class="btn">Começar o encontro</span></button>';
     } else {
-      var prox = proximoEncontro();
-      if (prox && prox.dia === d) {
-        var pm = momento(prox.momento);
-        destaque = '<div class="cartao destaque"><span class="rotulo">Próximo encontro</span><h2>' + pm.nome + "</h2>" +
-          '<p class="mudo numeros">Libera às ' + horario(prox.momento) + ' · <span id="contagem">' + contagem(prox) + "</span></p></div>";
-      } else if (prox) {
-        var amanha = diaConteudo(prox.dia);
+      if (d < limiteDias()) {
         destaque = '<div class="cartao destaque"><span class="rotulo acento">Você viveu os três encontros de hoje</span>' +
-          "<h2>Amanhã: " + esc(amanha.titulo) + "</h2>" +
-          '<p class="mudo">O primeiro encontro do dia ' + prox.dia + " libera às " + horario("manha") + ". Descanse em paz.</p></div>";
+          "<h2>Amanhã: " + esc(diaConteudo(d + 1).titulo) + "</h2>" +
+          '<p class="mudo">Os encontros do dia ' + (d + 1) + " abrem à meia-noite. Descanse em paz.</p></div>";
       } else if (limiteDias() < TOTAL) {
         destaque = '<div class="cartao destaque"><span class="rotulo acento">Você viveu os três encontros de hoje</span>' +
           "<h2>Hoje é o último dia da degustação</h2>" +
@@ -531,12 +513,6 @@
       (estado.demo && !apresentacao.ativa ? cartaoDemo() : "") + "</div>" + menu("inicio");
   }
 
-  function contagem(prox) {
-    var diff = minutos(horario(prox.momento)) - minutosAgora();
-    if (diff <= 0) return "agora";
-    var h = Math.floor(diff / 60), m = diff % 60;
-    return "faltam " + (h ? h + " h " : "") + m + " min";
-  }
 
   function cartaoDemo() {
     return '<div class="cartao pilha"><span class="rotulo acento">Degustação</span><h3>Você está vivendo os 3 primeiros dias</h3>' +
@@ -561,7 +537,7 @@
 
   /* ---------- Encontro ---------- */
   function renderEncontro(d, m) {
-    if (!aberto(d, m)) { aviso("Este encontro ainda não foi liberado."); ir("inicio"); return; }
+    if (!aberto(d, m)) { aviso("Este dia ainda não chegou."); ir("inicio"); return; }
     definirMomentoVisual(m);
     var mo = momento(m), dia = diaConteudo(d), enc = dia[m], chave = d + "-" + m;
     var nota = (estado.notas || {})[chave] || "", feito = concluido(d, m);
@@ -588,9 +564,9 @@
     }
     if (idx < 2) {
       var prox = MOMENTOS[idx + 1];
-      texto = aberto(d, prox.id) ? "O próximo encontro já está aberto: " + prox.nome + "." : "Próximo encontro às " + horario(prox.id) + ": " + prox.nome + ".";
+      texto = concluido(d, prox.id) ? "Você já viveu " + prox.nome + " hoje." : "Quando quiser, " + prox.nome + " já está esperando por você (lembrete às " + horario(prox.id) + ").";
     } else {
-      texto = d < limiteDias() ? "Amanhã, às " + horario("manha") + ": " + diaConteudo(d + 1).titulo + "." : "Você chegou ao fim desta etapa.";
+      texto = d < limiteDias() ? "Amanhã: " + diaConteudo(d + 1).titulo + ". Os encontros abrem à meia-noite." : "Você chegou ao fim desta etapa.";
     }
     return '<div class="feito-ok">' + ICONES.ok + "<h3>Encontro vivido</h3><p class=\"mudo\">" + esc(texto) + "</p>" +
       '<a class="btn suave" href="#inicio">Voltar para hoje</a></div>';
@@ -780,17 +756,14 @@
     }
   }
 
-  // Atualiza a contagem e libera encontros sem precisar recarregar.
+  // Libera o dia novo e atualiza as cores do momento sem precisar recarregar.
   var ultimaChave = "";
   setInterval(function () {
     if (!conteudo || !estado.configurado) return;
-    var chave = diaDeHoje() + "|" + MOMENTOS.map(function (m) { return aberto(diaDeHoje(), m.id) ? 1 : 0; }).join("");
-    var c = document.getElementById("contagem");
-    var prox = proximoEncontro();
-    if (c && prox) c.textContent = contagem(prox);
+    var chave = diaDeHoje() + "|" + momentoDoRelogio();
     if (ultimaChave && chave !== ultimaChave && rotaAtual() === "inicio") render();
     ultimaChave = chave;
-  }, 20000);
+  }, 30000);
 
   document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "visible" && conteudo && estado.configurado && rotaAtual() === "inicio") render();

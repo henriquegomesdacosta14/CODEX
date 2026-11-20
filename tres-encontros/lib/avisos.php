@@ -66,31 +66,3 @@ function te_jwt_vapid($endpoint, $chaves, $contato)
     return $entrada . '.' . te_b64url(te_der_para_bruto($der));
 }
 
-/**
- * Envia um aviso vazio para uma inscrição.
- * Retorna o código HTTP (201 = entregue; 404/410 = inscrição não existe mais).
- */
-function te_enviar_aviso($endpoint, $chaves, $contato)
-{
-    $jwt = te_jwt_vapid($endpoint, $chaves, $contato);
-    if ($jwt === '') {
-        return 0;
-    }
-    $ch = curl_init($endpoint);
-    curl_setopt_array($ch, array(
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => '',
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 15,
-        CURLOPT_HTTPHEADER => array(
-            'TTL: 3600',
-            'Urgency: normal',
-            'Content-Length: 0',
-            'Authorization: vapid t=' . $jwt . ', k=' . $chaves['publica'],
-        ),
-    ));
-    curl_exec($ch);
-    $status = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    return $status;
-}

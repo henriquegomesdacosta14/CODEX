@@ -16,4 +16,4 @@ Deus é um só, e as três Pessoas estão com você o tempo todo. Dividir o dia 
 
 Os dias 1 a 10 são para conhecer o Espírito Santo. Os dias 11 a 20, para conhecer Jesus. Os dias 21 a 30, para conhecer o Pai.
 
-Cada encontro é liberado no horário que você escolher. Se perder um, ele continua esperando por você. Só não dá para adiantar: a graça desta jornada é viver um dia de cada vez.
+Todos os dias, à meia-noite, os três encontros do dia ficam abertos, e você vive cada um quando puder. Nos horários que escolher, o celular te lembra. Se perder um, ele continua esperando por você. Só não dá para adiantar os dias: a graça desta jornada é viver um dia de cada vez.

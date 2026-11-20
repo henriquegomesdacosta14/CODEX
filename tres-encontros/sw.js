@@ -1,5 +1,5 @@
 /* Service worker do Três Encontros: funciona sem internet e mostra os avisos dos encontros. */
-var VERSAO = "te-v1";
+var VERSAO = "te-v2";
 var ARQUIVOS = ["./", "index.html", "app.css", "app.js", "manifest.webmanifest",
   "icones/icone.svg", "icones/icone-192.png", "icones/icone-512.png", "icones/apple-touch-icon.png"];
 var MOMENTOS = [

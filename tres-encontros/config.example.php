@@ -3,6 +3,14 @@
 // config.php não vai para o GitHub. Se não existir, a senha do site principal (public_html/config.php) é usada.
 
 return [
+    // Banco de dados MySQL (recomendado). Crie em hPanel → Bancos de Dados → MySQL e copie os dados aqui.
+    // Sem isso, o app usa um arquivo SQLite: funciona, mas é indicado só para os primeiros mil usuários.
+    // 'banco' => [
+    //     'dsn' => 'mysql:host=localhost;dbname=u123456789_tres;charset=utf8mb4',
+    //     'usuario' => 'u123456789_tres',
+    //     'senha' => 'senha-do-banco',
+    // ],
+
     // Senha da página admin.html. Se ficar vazia, vale a admin_password do site principal.
     // 'admin_password' => 'troque-esta-senha',
 

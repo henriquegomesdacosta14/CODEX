@@ -129,29 +129,3 @@ function te_ip()
     return isset($_SERVER['REMOTE_ADDR']) ? (string)$_SERVER['REMOTE_ADDR'] : 'desconhecido';
 }
 
-/** Limita tentativas por IP para dificultar adivinhar códigos. */
-function te_limitar($acao, $maximo, $janelaSegundos)
-{
-    $chave = $acao . '|' . hash('sha256', te_ip());
-    $agora = time();
-    $bloqueado = te_atualizar('tentativas', function (&$dados) use ($chave, $agora, $maximo, $janelaSegundos) {
-        foreach ($dados as $k => $lista) {
-            $dados[$k] = array_values(array_filter((array)$lista, function ($t) use ($agora, $janelaSegundos) {
-                return $t > $agora - $janelaSegundos;
-            }));
-            if (!$dados[$k]) {
-                unset($dados[$k]);
-            }
-        }
-        $lista = isset($dados[$chave]) ? $dados[$chave] : array();
-        if (count($lista) >= $maximo) {
-            return true;
-        }
-        $lista[] = $agora;
-        $dados[$chave] = $lista;
-        return false;
-    });
-    if ($bloqueado) {
-        te_erro('Muitas tentativas seguidas. Espere alguns minutos e tente de novo.', 429);
-    }
-}
