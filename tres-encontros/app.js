@@ -276,7 +276,8 @@
       '<span class="numeros" id="apRotulo">' + (apresentacao.dia > 30 ? "Depois do dia 30" : "Dia " + apresentacao.dia) + "</span>" +
       '<select id="apHora" aria-label="Hora simulada">' + opcoes.map(function (o) {
         return '<option value="' + o[0] + '"' + (apresentacao.hora === o[0] ? " selected" : "") + ">" + o[1] + "</option>";
-      }).join("") + "</select></div>";
+      }).join("") + "</select>" +
+      '<button class="link" data-acao="ver-primeiro-acesso" style="padding:4px 0">Ver o primeiro acesso</button></div>';
   }
 
   /* ---------- Entrada ---------- */
@@ -373,7 +374,7 @@
       '<p class="mudo">No horário que você marcou, chega um convite assim:</p>' + previaConvites(true) +
       blocoInstalacao() +
       '<p class="erro" id="erroAvisos" hidden></p>' +
-      '<button class="btn cheio" data-acao="ativar-avisos-inicio">' + ICONES.sino + " Ativar avisos</button>" +
+      '<button class="btn cheio" data-acao="ativar-avisos-inicio">' + ICONES.sino + " Ativar os convites</button>" +
       '<button class="btn secundario cheio" data-acao="concluir-config">Agora não</button></section>';
   }
 
@@ -534,6 +535,11 @@
       '<div class="pilha-g">' + destaque +
       '<section class="pilha" aria-labelledby="tHoje"><h3 id="tHoje">Os encontros de hoje</h3><div class="encontros">' +
       MOMENTOS.map(function (mm) { return cartaoEncontro(d, mm.id); }).join("") + "</div></section>" +
+      '<section class="pilha" aria-labelledby="tConvites"><div class="linha" style="justify-content:space-between"><h3 id="tConvites">Seus encontros marcados</h3>' +
+      '<a class="link" href="#ajustes">Mudar horários</a></div>' +
+      '<p class="mudo" style="font-size:14px">No horário marcado, você recebe um convite assim no celular:</p>' + previaConvites(false) +
+      (!estado.avisos && !estado.demo ? '<button class="btn suave" data-acao="ativar-avisos">' + ICONES.sino + " Ativar os convites</button>" : "") +
+      "</section>" +
       '<section class="progresso"><div class="linha" style="justify-content:space-between"><span class="rotulo">Sua jornada</span>' +
       '<span class="mudo numeros">' + total + " de 90 " + plural(total, "encontro vivido", "encontros vividos") + "</span></div>" +
       '<div class="barra"><i style="width:' + Math.round(total / 90 * 100) + '%"></i></div></section>' +
@@ -658,7 +664,7 @@
       camposHorarios() + '<button class="btn" type="submit">Salvar</button></form>' +
       '<section class="cartao grupo"><h2>Convites no celular</h2><p class="mudo">' + avisosTxt + "</p>" + previaConvites(false) + blocoInstalacao() +
       '<button class="btn suave" data-acao="testar-convite">Testar um convite agora</button>' +
-      (estado.demo ? "" : (estado.avisos ? '<button class="btn secundario" data-acao="desativar-avisos">Desligar avisos</button>' : '<button class="btn" data-acao="ativar-avisos">' + ICONES.sino + " Ativar avisos</button>")) + "</section>" +
+      (estado.demo ? "" : (estado.avisos ? '<button class="btn secundario" data-acao="desativar-avisos">Desligar os convites</button>' : '<button class="btn" data-acao="ativar-avisos">' + ICONES.sino + " Ativar os convites</button>")) + "</section>" +
       '<section class="cartao grupo"><h2>Seu acesso</h2><p class="mudo numeros">' + (estado.demo ? "Degustação de 3 dias." : "Código " + esc(estado.codigo) + ". Use o mesmo código para continuar em outro celular.") + "</p>" +
       (estado.demo ? botaoCompra("Quero os 30 dias") : "") +
       '<button class="btn secundario" data-acao="pedir-sair">Sair deste celular</button>' +
@@ -725,6 +731,7 @@
       case "sem-link": aviso("O link de compra ainda não foi configurado."); break;
       case "compartilhar": compartilhar(app._mensagem || ""); break;
       case "testar-convite": testarConvite(); break;
+      case "ver-primeiro-acesso": estado.configurado = false; tela.passo = 0; render(); window.scrollTo(0, 0); break;
     }
   });
 
