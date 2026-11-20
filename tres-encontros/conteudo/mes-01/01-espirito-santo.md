@@ -65,7 +65,7 @@ Depois de ressuscitar, Jesus apareceu aos discípulos, que estavam trancados num
 
 A presença do Espírito em você é um presente de Jesus. Ele não deixou os discípulos sozinhos com o medo, e não deixa você. A paz que Ele soprou naquela sala também está disponível no meio do seu dia.
 
-+ Irmão Lourenço | A Prática da Presença de Deus | Irmão Lourenço era cozinheiro num mosteiro do século 17. Ele aprendeu a conversar com Deus entre panelas e pratos sujos, com a mesma paz que tinha na capela. Para ele, qualquer tarefa feita por amor a Deus vira oração.
++ Horatio Spafford | hino Sou Feliz com Jesus | Horatio Spafford perdeu as quatro filhas num naufrágio. Ao passar de navio pelo lugar onde elas morreram, escreveu o hino que no Brasil cantamos como Sou Feliz com Jesus. É a paz que Jesus soprou sobre os discípulos: não a ausência de dor, mas a presença d’Ele no meio dela.
 
 ? Que porta eu tenho mantido trancada por medo?
 ! Respire fundo e devagar, e a cada respiração diga: “Jesus, eu recebo a Tua paz”.
@@ -175,7 +175,7 @@ Paulo confessa algo que todos sentimos: não sabemos orar como convém. Mas o Es
 
 Tem dias em que as palavras somem. A dor é grande demais, ou o cansaço é tanto que só sai um suspiro. Nessas horas, o Espírito ora por você e com você, e a oração chega ao Pai inteira, mesmo sem palavras.
 
-+ Jim Cymbala | Vento Fresco, Fogo Fresco | Jim Cymbala conta como uma igreja pequena e desanimada no Brooklyn, em Nova York, foi transformada quando passou a se reunir para orar de verdade, toda semana. A lição dele é direta: o Espírito se move onde o povo de Deus ora, e nenhuma estratégia substitui a oração.
++ Charles Spurgeon | sermão sobre Romanos 8:26 | Spurgeon pregou que um gemido sincero, que nem chega a virar palavra, pode ser uma oração mais profunda do que um discurso bonito, porque é o próprio Espírito que geme em nós. Deus entende o suspiro que você não consegue explicar.
 
 ? Eu deixo de orar quando não encontro as palavras certas?
 ! “Espírito Santo, ora comigo e por mim hoje. Ensina-me a orar.”
@@ -311,7 +311,7 @@ Depois de ser liberto, o homem de Gadara quis seguir Jesus. Mas Jesus disse: “
 
 Testemunhar não é discutir religião. É contar o que Jesus fez por você. Ninguém pode contestar a sua história, porque foi você quem viveu.
 
-+ Irmão André | O Contrabandista de Deus | Irmão André levava Bíblias escondidas para países fechados ao evangelho. Na fronteira, orava pedindo que Deus cegasse os olhos que normalmente veem. A história dele mostra que a ousadia cristã nasce da oração, não da falta de medo.
++ Nicky Cruz | Fuja, Nicky, Fuja | Nicky Cruz era líder de uma gangue violenta em Nova York. Depois de encontrar Jesus, a primeira coisa que fez foi contar a sua história, e ela correu o mundo. Como o homem de Gadara, ele não tinha um curso de teologia: tinha um antes e um depois.
 
 ? Se alguém me perguntasse hoje o que Jesus fez por mim, o que eu contaria?
 ! Conte para alguém, de forma natural, uma coisa que Deus fez na sua vida.
@@ -320,11 +320,11 @@ Testemunhar não é discutir religião. É contar o que Jesus fez por você. Nin
 
 > “Porque Deus não nos tem dado espírito de covardia, mas de poder, de amor e de moderação.” — 2 Timóteo 1:7
 
-Paulo lembra de onde vem a coragem, e de onde o medo não vem. Paulo escreveu isso a Timóteo, um jovem tímido que estava liderando uma igreja difícil.
+Paulo lembra de onde vem a coragem, e de onde o medo não vem. Ele escreveu isso a Timóteo, um jovem tímido que estava liderando uma igreja difícil.
 
 O medo pode até aparecer, mas ele não veio do Pai. Poder para agir, amor para agir do jeito certo e moderação para não agir no impulso: é isso que o Pai dá. Durma hoje sabendo que a coragem de amanhã já foi prometida.
 
-+ Corrie ten Boom | O Refúgio Secreto | Corrie ten Boom e a família esconderam judeus em casa durante a Segunda Guerra. Presa num campo de concentração, ela descobriu que a coragem não vem antes, vem na hora: o Pai dá a força quando precisamos, não antes.
++ Irmão André | O Contrabandista de Deus | Irmão André levava Bíblias escondidas para países fechados ao evangelho. Na fronteira, com o carro cheio, orava pedindo que Deus cegasse os olhos que normalmente veem. Ele não era destemido: tinha medo, mas tinha mais confiança no Pai do que medo.
 
 ? Em que decisão o medo tem falado mais alto do que Deus?
 ! “Pai, eu entrego os meus medos. Obrigado(a) porque o Teu Espírito é de poder, amor e moderação. Enche-me dele para amanhã. Amém.”
@@ -339,7 +339,7 @@ Paulo liga duas coisas: ser filho de Deus e ser guiado pelo Espírito. Ser guiad
 
 Muitas obras de amor começam com um leve toque no coração: “liga para fulano”, “pergunta se ela está bem”. O Espírito raramente grita. Quem treina o ouvido percebe esses toques, e quem obedece logo vê Deus agir.
 
-+ Benny Hinn | Bom Dia, Espírito Santo | O livro de Benny Hinn tem como subtítulo, em inglês, a ideia de aprender a reconhecer a voz do Espírito. A proposta é de relacionamento: quem conversa com o Espírito todos os dias começa a reconhecer a voz d’Ele, como reconhecemos a voz de alguém próximo antes mesmo de ver o rosto.
++ Benny Hinn | Bom Dia, Espírito Santo | Benny Hinn escreve que aprendeu a reconhecer a voz do Espírito do mesmo jeito que reconhecemos a voz de alguém querido: pela convivência. Quem conversa com o Espírito todos os dias passa a perceber os toques d’Ele no meio das pequenas decisões.
 
 ? Quantos toques do Espírito eu já deixei passar por achar que era só impressão minha?
 ! “Espírito Santo, mostra-me hoje uma pessoa que precisa de uma palavra minha, e dá-me coragem para obedecer.”

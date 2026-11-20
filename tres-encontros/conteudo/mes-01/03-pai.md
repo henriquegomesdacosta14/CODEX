@@ -33,7 +33,7 @@ Naquela época, um homem respeitado não corria em público. Esse pai correu. Je
 
 > “Vede que grande amor nos tem concedido o Pai, a ponto de sermos chamados filhos de Deus; e, de fato, somos filhos de Deus.” — 1 João 3:1
 
-João escreve como quem não consegue acreditar no tamanho desse amor. João faz questão de repetir: “de fato, somos”. Não é só um jeito bonito de falar. É a sua identidade real.
+João escreve como quem não consegue acreditar no tamanho desse amor. Ele faz questão de repetir: “de fato, somos”. Não é só um jeito bonito de falar. É a sua identidade real.
 
 O seu valor não vem do que você fez hoje, do quanto produziu ou acertou. Vem de quem te ama. Durma esta noite como filho(a), não como funcionário(a).
 
@@ -52,7 +52,7 @@ Ao prometer o Espírito, Jesus disse: “Não vos deixarei órfãos, voltarei pa
 
 As contas, o trabalho, a saúde e a família não estão só nas suas costas. O Espírito dá sabedoria para as decisões e paz no meio da incerteza.
 
-+ Billy Graham | O Espírito Santo | Billy Graham lembra que Consolador quer dizer alguém chamado para ficar ao lado. Quem tem o Espírito nunca enfrenta nada sozinho, nem as contas, nem a doença, nem a solidão.
++ Hudson Taylor | O Segredo Espiritual de Hudson Taylor | Hudson Taylor dizia que a obra de Deus, feita do jeito de Deus, nunca vai faltar o sustento de Deus. Ele foi para o interior da China sem garantia de salário, confiando que não estava sozinho nem desamparado. E não estava.
 
 ? Em que área eu tenho vivido como órfão(ã), carregando tudo sozinho(a)?
 ! “Espírito Santo, dá-me sabedoria para as decisões de hoje, principalmente sobre [trabalho, dinheiro, família].”
@@ -89,7 +89,7 @@ Não leve para a cama o que pode ficar nas mãos do Pai. Diga em voz alta, pelo 
 
 > “Para onde me ausentarei do teu Espírito? Para onde fugirei da tua face? Ainda lá me haverá de guiar a tua mão, e a tua destra me susterá.” — Salmo 139:7, 10
 
-Davi faz duas perguntas, e a resposta é a mesma: não há para onde fugir de Deus. Davi percebe que não existe lugar onde Deus não esteja: nem no alto, nem no fundo, nem do outro lado do mar. “Ainda lá me haverá de guiar a tua mão.”
+Davi faz duas perguntas, e a resposta é a mesma: não há para onde fugir de Deus. Ele percebe que não existe lugar onde Deus não esteja: nem no alto, nem no fundo, nem do outro lado do mar. “Ainda lá me haverá de guiar a tua mão.”
 
 Para quem foge, isso assusta. Para quem é filho, isso consola. Onde você estiver hoje, por mais sozinho(a) que se sinta, o Espírito está ali, guiando.
 
@@ -119,7 +119,7 @@ Agar, uma serva maltratada, fugiu para o deserto, grávida e sozinha. Ali o Anjo
 
 A primeira pessoa na Bíblia a dar um nome a Deus foi uma mulher que se sentia invisível. O Pai vê quem ninguém vê. Nada do que aconteceu hoje passou despercebido para Ele: o esforço, a lágrima escondida, a vitória pequena.
 
-+ Agostinho | Confissões | Agostinho confessa a Deus que o procurava fora, enquanto Ele estava dentro: Tu estavas comigo, e eu não estava contigo. O Pai que vê nunca tirou os olhos de nós, nem nos anos em que nós O ignoramos.
++ Corrie ten Boom | O Refúgio Secreto | No campo de concentração de Ravensbrück, Corrie e a irmã Betsie dormiam num barracão infestado de pulgas. Betsie agradeceu a Deus até pelas pulgas. Depois descobriram que, por causa delas, os guardas evitavam o lugar, e as duas puderam ler a Bíblia com as outras presas. Deus via e cuidava até ali.
 
 ? Onde eu tenho me sentido invisível? O que muda saber que o Pai me vê?
 ! “Pai, Tu és o Deus que me vê. Obrigado(a) por me encontrar até no deserto. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -355,7 +355,7 @@ Jesus nos ensina a pedir com ousadia, porque o Pai é bom. Às vezes a resposta 
 + Mark Batterson | O Fazedor de Círculos | Mark Batterson conta a antiga história de Honi, que desenhou um círculo no chão e disse que não sairia dali até Deus mandar chuva. O livro é um convite a orar com ousadia e insistência, como Jesus ensinou.
 
 ? Que pedido eu deixei de fazer por achar que Deus não se importaria?
-! Compartilhe hoje algo que você recebeu de Deus: um almoço, uma ajuda, um tempo, um item parado em casa.
+! Escreva um pedido que você deixou de fazer por vergonha ou por achar pequeno demais, e apresente ao Pai hoje, com a confiança de um filho.
 
 ## Noite · Tiago 1:17
 

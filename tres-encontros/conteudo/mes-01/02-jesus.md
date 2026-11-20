@@ -11,7 +11,7 @@ Paulo escreve que “ninguém pode dizer: Senhor Jesus!, senão pelo Espírito S
 
 Comece este novo bloco pedindo que o Espírito revele Jesus a você de um jeito novo. Talvez você já conheça as histórias. Agora o convite é conhecer a Pessoa por trás delas.
 
-+ John Stott | Batismo e Plenitude do Espírito Santo | John Stott ensinava que recebemos o Espírito uma vez, quando cremos, mas somos chamados a ser cheios d’Ele continuamente. E a prova de uma vida cheia do Espírito não é só o extraordinário: é o caráter de Cristo no dia a dia.
++ C. S. Lewis | Cristianismo Puro e Simples | C. S. Lewis argumenta que não dá para tratar Jesus só como um bom mestre: quem disse o que Ele disse ou estava enganado, ou estava mentindo, ou é de fato o Senhor. Paulo vai além: chamar Jesus de Senhor com a vida inteira só é possível pelo Espírito.
 
 ? Jesus é Senhor da minha vida inteira, ou só das partes que eu escolhi entregar?
 ! “Espírito Santo, revela Jesus para mim nestes dias. Quero que Ele seja Senhor de verdade na minha vida.”
@@ -175,7 +175,7 @@ Na sinagoga de Nazaré, Jesus leu as palavras de Isaías: “O Espírito do Senh
 
 A missão de Jesus foi cheia do Espírito, e o alvo dela eram pessoas feridas, presas e cansadas. O mesmo Espírito trabalha hoje onde dói: no corpo, na memória, nas emoções.
 
-+ Jack Deere | Surpreendido pelo Poder do Espírito | Jack Deere era professor de seminário e ensinava que os dons do Espírito tinham cessado. Estudando a Bíblia com honestidade, mudou de ideia e passou a ver Deus curar e falar hoje. Ele conta que foi a Escritura, e não uma experiência, que o convenceu.
++ Kathryn Kuhlman | Eu Creio em Milagres | Kathryn Kuhlman viu muitas pessoas serem curadas nos seus cultos, mas insistia que não tinha poder nenhum. Para ela, toda cura era obra do Espírito Santo, a mesma unção que estava sobre Jesus em Nazaré, e ela tinha medo de roubar a glória que é d’Ele.
 
 ? Que ferida eu escondo tão bem que nem eu mesmo(a) olho para ela?
 ! “Espírito Santo, toca na área da minha vida que precisa de cura. Eu abro essa porta para o Senhor hoje.”
@@ -283,7 +283,7 @@ Antes da cruz, Jesus orou ao Pai pelos discípulos: “Não peço que os tires d
 
 O Pai ouviu essa oração do Filho, e ela continua valendo sobre a sua vida. Você não está fora do mundo, mas está guardado(a) nas mãos do Pai.
 
-+ Dietrich Bonhoeffer | Vida em Comunhão | Bonhoeffer escreveu que não conseguimos condenar ou odiar alguém por quem oramos de verdade. A intercessão muda o rosto do outro diante de nós: passamos a vê-lo como alguém por quem Cristo morreu.
++ Martinho Lutero | hino Castelo Forte | Inspirado no Salmo 46, Lutero escreveu o hino Castelo Forte é Nosso Deus. Ele o cantava em tempos de ameaça e perseguição. É a resposta à oração de Jesus pelos discípulos: o Pai não nos tira do mundo, mas é a nossa fortaleza dentro dele.
 
 ? Do que eu preciso ser guardado(a) neste momento da minha vida?
 ! “Pai, obrigado(a) porque Jesus orou por mim. Guarda-me do mal, guarda a minha casa esta noite. Enche-me do Teu Espírito para amanhã. Amém.”
@@ -339,7 +339,7 @@ Paulo faz uma afirmação ousada sobre o Espírito que mora em você: o mesmo po
 
 O mesmo Espírito que tirou Jesus do túmulo mora em você. Isso significa que nenhuma área da sua vida está morta demais para Deus. Casamento, sonhos, fé, saúde: o poder da ressurreição está disponível.
 
-+ Kathryn Kuhlman | Eu Creio em Milagres | Kathryn Kuhlman viu muitas pessoas serem curadas nos seus cultos, mas insistia que ela não tinha poder nenhum. Para ela, tudo era obra do Espírito Santo, e ela tinha medo de roubar a glória que é d’Ele.
++ Jack Deere | Surpreendido pelo Poder do Espírito | Jack Deere era professor de seminário e ensinava que Deus não fazia mais milagres hoje. Estudando a Bíblia com honestidade, mudou de ideia e passou a ver Deus agir de novo. O mesmo Espírito que ressuscitou Jesus não se aposentou.
 
 ? Que área da minha vida eu já dei como morta, mas Deus pode ressuscitar?
 ! “Espírito Santo, traz vida nova para [a área que parece morta]. Eu creio no poder da ressurreição.”
@@ -365,7 +365,7 @@ Jesus se humilhou até a morte de cruz. “Pelo que também Deus o exaltou sobre
 
 O Pai honrou a obediência do Filho. O caminho de Jesus, humildade primeiro e glória depois, também é o caminho de quem O segue.
 
-+ C. S. Lewis | Cristianismo Puro e Simples | C. S. Lewis argumenta que não dá para tratar Jesus só como um bom mestre. Quem disse o que Ele disse ou era um mentiroso, ou um louco, ou é de fato Senhor. Lewis conclui que Ele é o Senhor, como o Pai declarou ao exaltá-Lo.
++ Timothy Keller | A Liberdade do Esquecimento de Si | Tim Keller, a partir de uma ideia de C. S. Lewis, explica que a humildade do evangelho não é pensar menos de si mesmo, mas pensar menos em si mesmo. Foi o caminho de Jesus: Ele desceu sem precisar provar nada, e o Pai O exaltou.
 
 ? Onde Deus tem me chamado a descer, em vez de subir?
 ! “Pai, eu Te adoro porque exaltaste Jesus acima de tudo. Que Ele seja Senhor na minha vida. Dá-me o Teu Espírito para amanhã. Amém.”
