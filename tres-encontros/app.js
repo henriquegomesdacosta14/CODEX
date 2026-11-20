@@ -555,6 +555,8 @@
       (enc.referencia !== enc.versiculo.referencia ? '<p class="leia">' + ICONES.livro + " Leia na sua Bíblia: " + esc(enc.referencia) + "</p>" : "") + "</figure>" +
       '<section class="pilha"><span class="rotulo acento">Reflexão</span>' +
       '<div class="reflexao' + (/^[A-Za-zÀ-ÿ]/.test(enc.texto[0]) ? " capitular" : "") + '">' + enc.texto.map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") + "</div></section>" +
+      (enc.inspiracao ? '<aside class="voz"><span class="rotulo acento">Na voz de quem caminhou</span><p>' + esc(enc.inspiracao.texto) + "</p>" +
+        '<span class="autor">' + esc(enc.inspiracao.autor) + " · <i>" + esc(enc.inspiracao.livro) + "</i></span></aside>" : "") +
       '<div class="ornamento" aria-hidden="true"><i></i><i></i><i></i></div>' +
       '<section class="cartao pergunta"><span class="rotulo acento">Para refletir</span><p class="q">' + esc(enc.pergunta) + "</p>" +
       '<textarea class="notas" id="nota" data-chave="' + chave + '" placeholder="Escreva aqui o que vier ao seu coração. Só você vê.">' + esc(nota) + "</textarea>" +

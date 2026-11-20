@@ -10,6 +10,7 @@ Formato dos arquivos .md:
   ## Manhã · Referência       (Manhã, Almoço ou Noite; a referência é a passagem para ler)
   > “Texto do versículo” — Referência do versículo   (versículo em destaque)
   parágrafos de reflexão...
+  + Autor | Livro | ideia do livro, com suas palavras   (opcional: "Na voz de quem caminhou")
   ? pergunta para refletir
   ! prática do dia, atitude ou oração
 
@@ -78,6 +79,11 @@ def dias(arquivos):
                 if not v:
                     sys.exit(f"{onde}: versículo fora do formato > “texto” — Referência")
                 momento["versiculo"] = {"texto": v[1].strip(), "referencia": v[2].strip()}
+            elif linha.startswith("+ "):
+                partes = [x.strip() for x in linha[2:].split("|", 2)]
+                if len(partes) != 3:
+                    sys.exit(f"{onde}: use + Autor | Livro | texto")
+                momento["inspiracao"] = {"autor": partes[0], "livro": partes[1], "texto": partes[2]}
             elif linha.startswith("? "):
                 momento["pergunta"] = linha[2:].strip()
             elif linha.startswith("! "):

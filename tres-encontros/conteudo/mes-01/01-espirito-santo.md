@@ -11,6 +11,8 @@ Na última noite com os discípulos, Jesus prometeu “outro Consolador”, que 
 
 Isso muda a forma de começar o dia. Você não acorda sozinho(a). Antes do celular, das contas e das tarefas, Alguém já está com você e quer caminhar junto. Uma pessoa a gente cumprimenta, escuta e conhece aos poucos. É assim que esta jornada começa.
 
++ Benny Hinn | Bom Dia, Espírito Santo | Benny Hinn conta que, depois de um encontro marcante com Deus, passou a cumprimentar o Espírito Santo todas as manhãs, como quem cumprimenta um amigo que dormiu na mesma casa. Daí veio o título do livro. A ideia central é simples e transforma: o Espírito quer ser conhecido, ouvido e convidado para a conversa, não apenas lembrado nos cultos.
+
 ? Até hoje, eu me relacionei com o Espírito Santo como uma Pessoa ou como uma força distante?
 ! “Bom dia, Espírito Santo. Eu quero Te conhecer de verdade. Caminha comigo hoje.”
 
@@ -45,6 +47,8 @@ O melhor presente do Pai não é uma coisa, é Ele mesmo, pelo Seu Espírito. E 
 Paulo lembra aos coríntios que o corpo deles é santuário do Espírito. No Antigo Testamento, a presença de Deus habitava no templo de Jerusalém. Agora, o templo é você. Deus não visita só aos domingos: Ele mora em quem crê.
 
 Isso dá valor ao seu corpo, às suas escolhas e aos lugares por onde você anda. Onde você for hoje, Ele vai junto: no ônibus, no escritório, na cozinha. Cada lugar pode virar um lugar de encontro com Deus.
+
++ Francis Chan | O Deus Esquecido | Francis Chan chama atenção para uma frase de Jesus que costuma passar despercebida: “convém-vos que eu vá” (João 16:7). Para os discípulos, era melhor ter o Espírito dentro do que Jesus ao lado. Chan pergunta se nós realmente acreditamos nisso, ou se vivemos como se o Espírito fosse um detalhe da fé.
 
 ? Se o meu corpo é casa de Deus, o que eu tenho deixado entrar nessa casa?
 ! “Espírito Santo, que o meu corpo, a minha casa e as minhas conversas sejam lugares onde o Senhor se sinta bem-vindo.”
@@ -81,6 +85,8 @@ Jesus disse que o Espírito “convencerá o mundo do pecado, da justiça e do j
 
 Existe uma diferença importante: o inimigo acusa para afastar você de Deus; o Espírito convence para trazer você de volta. A acusação diz “você não presta”. O Espírito diz “isso não combina com quem você é, volte”. Hoje, preste atenção nessa voz.
 
++ A. W. Tozer | escritos sobre o Espírito Santo | Tozer insistia que o Espírito é santo antes de ser poderoso. Para ele, quem quer ser cheio do Espírito precisa desejar isso de verdade e estar disposto a deixar que Ele assuma o controle. O convencimento do Espírito não é um incômodo a evitar: é o primeiro sinal de que Ele está trabalhando.
+
 ? Que voz tem falado mais alto em mim: a que acusa ou a que chama de volta?
 ! “Espírito Santo, mostra-me o que precisa mudar em mim, e dá-me um coração disposto a obedecer.”
 
@@ -115,6 +121,8 @@ O Pai não quer que você durma carregando culpa. Ele quer limpar, renovar e dev
 Jesus prometeu que o Espírito nos ensinaria e nos faria lembrar das Suas palavras. Quando você abre a Bíblia, não lê sozinho(a). O Autor está ao seu lado.
 
 Já aconteceu de um versículo que você leu muitas vezes, de repente, “acender”? É o Espírito ensinando. E Ele também faz lembrar: no meio de uma situação difícil, traz à mente a Palavra certa. Para isso, é preciso ter guardado a Palavra antes.
+
++ Andrew Murray | O Espírito de Cristo | Andrew Murray ensinava que o Espírito não veio apenas para nos dar informações sobre Jesus, mas para tornar Jesus vivo dentro de nós. Ler a Bíblia com o Espírito é deixar que Cristo, aos poucos, se forme no nosso jeito de pensar, falar e reagir.
 
 ? Quanto da Palavra está guardado em mim para o Espírito me lembrar na hora difícil?
 ! “Espírito Santo, abre o meu entendimento. Traz à minha mente a Palavra certa na hora certa.”
@@ -151,6 +159,8 @@ Paulo confessa algo que todos sentimos: não sabemos orar como convém. Mas o Es
 
 Tem dias em que as palavras somem. A dor é grande demais, ou o cansaço é tanto que só sai um suspiro. Nessas horas, o Espírito ora por você e com você, e a oração chega ao Pai inteira, mesmo sem palavras.
 
++ Jim Cymbala | Vento Fresco, Fogo Fresco | Jim Cymbala conta como uma igreja pequena e desanimada no Brooklyn, em Nova York, foi transformada quando passou a se reunir para orar de verdade, toda semana. A lição dele é direta: o Espírito se move onde o povo de Deus ora, e nenhuma estratégia substitui a oração.
+
 ? Eu deixo de orar quando não encontro as palavras certas?
 ! “Espírito Santo, ora comigo e por mim hoje. Ensina-me a orar.”
 
@@ -185,6 +195,8 @@ O quarto, antes de dormir, é um ótimo lugar para isso. Sem ninguém olhando, v
 Repare na lista: são nove virtudes, todas ligadas ao mesmo Espírito. Paulo diz “fruto”, no singular. Não é um cardápio para escolher o preferido. É um só caráter, o de Jesus, crescendo em nós.
 
 Fruto não nasce de esforço, nasce de ligação. Uma árvore não faz força para dar laranja; ela dá porque está viva e ligada à raiz. Quanto mais tempo com o Espírito, mais o fruto aparece, às vezes antes de você perceber.
+
++ R. T. Kendall | The Sensitivity of the Spirit | R. T. Kendall lembra que o Espírito desceu sobre Jesus em forma de pomba, uma ave sensível, que se afasta com facilidade. Ele relaciona isso a Efésios 4:30-32: amargura, ira e gritaria entristecem o Espírito. O fruto do Espírito cresce num coração manso, onde a pomba se sente em casa.
 
 ? Qual parte desse fruto as pessoas da minha casa diriam que ainda está verde em mim?
 ! “Espírito Santo, faz crescer em mim a parte do fruto que está mais fraca: [paciência, mansidão, alegria...].”
@@ -221,6 +233,8 @@ Paulo garante que o Espírito dá algo a cada pessoa, para o bem de todos. Ningu
 
 Os dons não são troféus para exibir, são ferramentas para servir. Pode ser ensinar, acolher, orar, organizar, consolar, cozinhar, cantar, ouvir. O Espírito distribui como quer, e nenhum dom é pequeno quando é usado por amor.
 
++ David Yonggi Cho | O Espírito Santo, Meu Companheiro | David Yonggi Cho chamava o Espírito Santo de seu sócio principal no ministério. Ele se via como o sócio menor: reconhecia a presença do Espírito, dava as boas-vindas a Ele e dependia d’Ele antes de pregar ou decidir. Os dons e a capacidade vêm d’Ele; a nossa parte é trabalhar junto.
+
 ? Que dom as pessoas costumam reconhecer em mim, e eu ainda não coloquei a serviço de Deus?
 ! “Espírito Santo, mostra-me os dons que o Senhor colocou em mim e onde eu posso usá-los hoje.”
 
@@ -255,6 +269,8 @@ Talvez você sinta que não tem capacidade para o que Deus está pedindo. Ótimo
 Os discípulos estavam sendo ameaçados. Em vez de pedir que o problema sumisse, oraram: “Concede aos teus servos que anunciem com toda a intrepidez a tua palavra”. O lugar tremeu, “todos ficaram cheios do Espírito Santo e, com intrepidez, anunciavam a palavra de Deus”.
 
 O Espírito não tira todos os medos do caminho, mas dá coragem para atravessá-los. Pedro, que tinha negado Jesus diante de uma empregada, agora falava diante das autoridades. O que mudou foi o Espírito.
+
++ Francis Chan | O Deus Esquecido | Francis Chan provoca: se a sua vida pode ser explicada sem o Espírito Santo, talvez você esteja vivendo só com as próprias forças. Ele convida a dar passos de fé que só fazem sentido se Deus agir: falar, servir, perdoar, arriscar. A ousadia nasce de depender do Espírito.
 
 ? Que medo tem calado a minha boca quando eu deveria falar de Jesus?
 ! “Espírito Santo, enche-me de ousadia hoje. Que o medo não decida por mim.”
@@ -291,6 +307,8 @@ Paulo liga duas coisas: ser filho de Deus e ser guiado pelo Espírito. Ser guiad
 
 Muitas obras de amor começam com um leve toque no coração: “liga para fulano”, “pergunta se ela está bem”. O Espírito raramente grita. Quem treina o ouvido percebe esses toques, e quem obedece logo vê Deus agir.
 
++ Benny Hinn | Bom Dia, Espírito Santo | O livro de Benny Hinn tem como subtítulo, em inglês, a ideia de aprender a reconhecer a voz do Espírito. A proposta é de relacionamento: quem conversa com o Espírito todos os dias começa a reconhecer a voz d’Ele, como reconhecemos a voz de alguém próximo antes mesmo de ver o rosto.
+
 ? Quantos toques do Espírito eu já deixei passar por achar que era só impressão minha?
 ! “Espírito Santo, mostra-me hoje uma pessoa que precisa de uma palavra minha, e dá-me coragem para obedecer.”
 
@@ -325,6 +343,8 @@ O Pai não promete que você vai entender tudo. Promete endireitar o caminho de 
 Jesus disse que o Espírito “não falará por si mesmo” e que “ele me glorificará, porque há de receber do que é meu e vo-lo há de anunciar”. O Espírito Santo é como um holofote: Ele não aponta para si, aponta para Jesus.
 
 Por isso, a marca de uma vida cheia do Espírito não é só emoção ou experiências, é amar mais a Jesus. Tudo o que vimos nestes dez dias, o ensino, a oração, o fruto, os dons e a ousadia, tinha esse destino: levar você até Ele.
+
++ Vozes que concordam | Hinn, Chan, Cho, Tozer, Murray, Cymbala e Kendall | Autores de tradições bem diferentes, pentecostais, reformados e de santidade, concordam em pontos essenciais: o Espírito Santo é uma Pessoa, é Deus, quer comunhão diária e sempre aponta para Jesus. Ninguém deles ensinou a buscar o Espírito como um fim em si mesmo. Buscá-Lo é o caminho para amar mais a Cristo.
 
 ? Depois destes dez dias, eu amo mais a Jesus, ou só sei mais sobre Ele?
 ! “Espírito Santo, mostra-me Jesus. Faz com que eu O ame mais do que ontem.”

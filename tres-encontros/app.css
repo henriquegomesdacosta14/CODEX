@@ -248,6 +248,10 @@ body[data-momento="noite"] .erro, :root[data-theme="dark"] .erro { color: #FF9A8
 .palavra figcaption { font-weight: 700; font-size: 14px; letter-spacing: .06em; color: var(--accent); }
 .palavra figcaption::before { content: "— "; }
 .palavra .leia { display: inline-flex; justify-self: center; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); padding-top: 10px; border-top: 1px solid var(--line); }
+.voz { display: grid; gap: 10px; padding: 20px; border-radius: var(--raio); background: var(--soft); }
+.voz p { font-family: var(--f-leitura); font-size: 17px; line-height: 1.7; }
+.voz .autor { font-size: 14px; font-weight: 700; color: var(--accent); }
+.voz .autor i { font-weight: 500; }
 .ornamento { display: flex; justify-content: center; gap: 10px; }
 .ornamento i { width: 7px; height: 7px; border-radius: 50%; background: #E89A5B; }
 .ornamento i:nth-child(2) { background: #E3B23C; }
